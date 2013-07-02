@@ -1,4 +1,14 @@
 GIT
+  remote: git@github.com:TuftsUniversity/tuftsification-hydra.git
+  revision: 9cf81912cd4a0038cff9811620c6ec33b4e0484f
+  specs:
+    tuftsification-hydra (0.0.2)
+      active-fedora (~> 6.3.0)
+      chronic
+      rails (~> 3.2.13)
+      titleize
+
+GIT
   remote: https://github.com/projecthydra/om.git
   revision: 10929f7b27fdc4e76c6e4e6f45959f9b6b2e078b
   branch: fix_serializing_nil
@@ -10,15 +20,6 @@ GIT
       mediashelf-loggable
       nokogiri (>= 1.4.2)
       solrizer (~> 3.1.0)
-
-PATH
-  remote: /Users/mkorcy01/Documents/workspace/tuftsification-hydra
-  specs:
-    tuftsification-hydra (0.0.2)
-      active-fedora (~> 6.3.0)
-      chronic
-      rails (~> 3.2.13)
-      titleize
 
 GEM
   remote: http://rubygems.org/
