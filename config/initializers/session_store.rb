@@ -1,6 +1,6 @@
 # Be sure to restart your server when you modify this file.
 
-SouthAsianDigitalLibrary::Application.config.session_store :cookie_store, key: '_south_asian_digital_library_session'
+TDL::Application.config.session_store :cookie_store, key: '_south_asian_digital_library_session'
 
 # Use the database for sessions instead of the cookie-based default,
 # which shouldn't be used to store highly confidential information

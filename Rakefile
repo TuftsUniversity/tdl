@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-SouthAsianDigitalLibrary::Application.load_tasks
+TDL::Application.load_tasks
