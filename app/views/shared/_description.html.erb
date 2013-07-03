@@ -1,0 +1,3 @@
+<% unless metadata[:descriptions].empty? %>
+    <p><%= raw Tufts::MetadataMethods.read_more_or_less(metadata[:descriptions].first.text, 400) %></p>
+<% end %>

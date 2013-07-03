@@ -1,0 +1,9 @@
+<ul class="thumbnails">
+  <li class="span6">
+    <a class="thumbnail" href="<%= render_image_viewer_path(params[:id]) %>">
+      <%= showImage(params[:id]) %>
+    </a>
+    <br>
+    <p><%= render_image_viewer_link(params[:id]) %></p>
+  </li>
+</ul>

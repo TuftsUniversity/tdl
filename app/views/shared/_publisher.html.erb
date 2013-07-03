@@ -1,0 +1,6 @@
+<% unless metadata[:publishers].empty? %>
+    <dd>Publisher</dd>
+    <% metadata[:publishers].each do |publisher| %>
+        <dt><%= raw publisher.text %></dt>
+    <% end %>
+<% end %>

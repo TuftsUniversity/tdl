@@ -1,0 +1,30 @@
+<% javascript_includes << "audio/audio_player.js" %>
+<% javascript_includes << "audio/transcript_scroller.js" %>
+<% javascript_includes << "audio/tabs.js" %>
+<% stylesheet_links << "audio/audio_player.css" %>
+<% stylesheet_links << "audio/audio.css" %>
+
+
+<% metadata = Tufts::ModelMethods.get_metadata(@document_fedora) %>
+
+
+<div class="row">
+  <div class="span12">
+    <%= render :partial => 'shared/header_elements', :locals => {:metadata => metadata} %>
+  </div>
+  <!-- span12 -->
+</div>  <!-- row -->
+
+<hr>
+
+<div class="row">
+  <div class="span6">
+    <%= raw Tufts::AudioMethods.show_audio_player(params[:id], false) %>
+    <br>
+  </div>
+  <!-- span6 -->
+  <div class="span6">
+    <%= render :partial => 'shared/metadata_pane', :locals => {:metadata => metadata} %>
+  </div>
+  <!-- span6 -->
+</div>  <!-- row -->

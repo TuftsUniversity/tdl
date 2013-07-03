@@ -1,0 +1,6 @@
+<% unless metadata[:sources].empty? %>
+    <dd>Source</dd>
+    <% metadata[:sources].each do |source| %>
+        <dt><%= raw source.text %></dt>
+    <% end %>
+<% end %>

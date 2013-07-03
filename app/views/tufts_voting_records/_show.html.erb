@@ -1,0 +1,29 @@
+<!--
+   Everything in the template within but not including the div class=content
+   goes in the _show.html.erb partial
+
+   Bootstrap Grid system: http://twitter.github.com/bootstrap/scaffolding.html
+   Bootstrap Base CSS: http://twitter.github.com/bootstrap/base-css.html
+   Elections Records Landing Page Spec : https://wikis.uit.tufts.edu/confluence/display/DCAProjects/Election+Records+landing+page+spec
+-->
+
+<div class="row">
+  <div class="span12">
+    <h2><%= show_title() %></h2>
+  </div>
+</div>
+
+<hr>
+
+<div class="row">
+  <div class="span6">
+    <br>
+    <center><img alt="" src="/assets/img/elections.png"></center>
+  </div>
+  <div class="span6">
+    <div class="tooltip-demo well "><p>View voting record:</p>
+      <h5><a href="<%= show_elections_link( params[:id]) %>"><%= show_title() %></a> <i class="icon-arrow-right margintoparrow"> </i></h5>
+      <strong>A New Nation Votes</strong> is a searchable collection of election returns from the earliest years of American democracy. The data were compiled by Philip Lampi, and are made available online by The American Antiquarian Society and Tufts University Digital Collections and Archives, with funding from the National Endowment for the Humanities. The election records have a dedicated portal which allows you to narrow your search by candidate, office, year, or state.
+    </div>
+  </div>
+</div>

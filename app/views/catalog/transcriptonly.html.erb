@@ -1,0 +1,39 @@
+<% stylesheet_links << "audio/audio.css" %>
+
+<%
+    metadata = Tufts::ModelMethods.get_metadata(@document_fedora)
+
+    @page_title = metadata[:titles].first.text + " - " + application_name
+%>
+
+
+  <div class="row">
+    <div class="span12">
+<%  metadata[:titles].each do |title| %>
+      <h2><%= raw title.text %></h2>
+<%  end %>
+<%  metadata[:creators].each do |creator| %>
+      <%= raw creator.text %><br>
+<%  end %>
+<%  unless metadata[:dates].nil? || metadata[:dates].empty? %>
+<%    metadata[:dates].each do |date| %>
+      <%= raw date.text %><br>
+<%    end %>
+<%  else %>
+<%    metadata[:temporals].each do |temporal| %>
+      <%= raw temporal.text %><br>
+<%    end %>
+<%  end %>
+    </div>  <!-- span12 -->
+  </div>  <!-- row -->
+
+  <hr>
+
+  <div class="row">
+    <div class="span8 offset2">
+      <b>Interview Participants</b><br>
+      <%= raw Tufts::AudioMethods.show_participants(@document_fedora) %>
+      <br>
+      <%= raw Tufts::AudioMethods.show_transcript(@document_fedora, false) %>
+    </div>  <!-- span8 offset2 -->
+  </div>  <!-- row --> 

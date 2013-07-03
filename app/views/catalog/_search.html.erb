@@ -1,0 +1,23 @@
+<% @page_title = "Basic Search - #{application_name}" %>
+
+  <div class="row-fluid">
+    <%= render :partial => 'facet_nav' %>
+    <div class="span9">
+      <h1>Search</h1>
+      <br/>
+
+      <div class="tabbable">
+        <ul class="nav nav-tabs">
+          <li class="active"><a href="/search">Basic Search</a></li>
+          <li><a href="/advanced">Advanced Search</a></li>
+        </ul>
+      </div>  <!-- class="tabbable" -->
+
+      <%= render :partial => 'shared/search_form' %>
+
+      <div class="tooltip-demo well span5">
+        <%= render :partial => 'dca_text/search_tips' %>
+      </div>
+
+    </div>
+  </div>

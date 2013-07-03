@@ -1,0 +1,6 @@
+<% unless metadata[:temporals].empty? %>
+    <dd>Temporal</dd>
+    <% metadata[:temporals].each do |temporal| %>
+        <dt><%= raw temporal.text %></dt>
+    <% end %>
+<% end %>

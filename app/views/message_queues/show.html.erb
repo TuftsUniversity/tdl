@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @message_queue.name %>
+</p>
+
+<p>
+  <b>Last heartbeat:</b>
+  <%= @message_queue.last_heartbeat   %>
+</p>
+
+<p>
+  <b>Last ingest:</b>
+  <%= @message_queue.last_ingest %>
+</p>
+
+<p>
+  <b>Last modify:</b>
+  <%= @message_queue.last_modify %>
+</p>
+
+<p>
+  <b>Last purge:</b>
+  <%= @message_queue.last_purge %>
+</p>
+
+<p>
+  <b>Last pid ingested:</b>
+  <%= @message_queue.last_pid_ingested %>
+</p>
+
+<p>
+  <b>Last pid purged:</b>
+  <%= @message_queue.last_pid_purged %>
+</p>
+
+<p>
+  <b>Last pid modified:</b>
+  <%= @message_queue.last_pid_modified %>
+</p>
+
+
+<%= link_to 'Edit', edit_message_queue_path(@message_queue) %> |
+<%= link_to 'Back', message_queues_path %>

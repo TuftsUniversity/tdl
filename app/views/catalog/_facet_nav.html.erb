@@ -1,0 +1,13 @@
+<% sidebar_items << capture do %>
+  <%= render :partial=>'/catalog/facets' %>
+<% end %>
+<!-- LEFT COLUMN FOR FACETS -->
+         <div class="span3">
+           <br>
+           <%- if @current_controller == "advanced" || has_search_parameters? == true -%>
+             <p><h6>Limit by:</h6></p>
+           <%- else -%>
+             <p><h6>Browse by:</h6></p>
+           <%- end -%>
+           <%= sidebar_items.join('').html_safe %>
+         </div>

@@ -1,0 +1,10 @@
+<%= form_tag catalog_index_path, :class => "form-horizontal", :method => :get do %>
+    <i class="icon-search"></i>  <%= text_field_tag :q, params[:q], :class => "q input-medium",:placeholder=>"Search for" %>
+    <% unless search_fields.empty? %>
+        <%= select_tag(:search_field, options_for_select(search_fields, h(params[:search_field])), :title => "Targeted search options", :class => "span2") %>
+    <% end %>
+    <button type="submit" class="btn">Search</button>&nbsp;
+    <% unless "search" == @current_action %>
+        <%= link_to 'Advanced Search', params.merge(:controller => "advanced", :action => "index"), :class => "advanced_search" %>
+    <% end %>
+<% end %>

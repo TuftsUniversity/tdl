@@ -1,0 +1,76 @@
+<% if false %>
+    <div class="facet_extended_list">
+
+      <% sidebar_items << capture do %>
+          <p><%= link_back_to_catalog %></p>
+      <% end %>
+
+      <div class="facet_pagination top">
+        <%= render :partial => 'facet_pagination' %>
+      </div>
+
+      <h3><%= facet_field_labels[params[:id]] %></h3>
+
+      <ul class="facet_extended_list">
+        <% @pagination.items.each do |item| %>
+            <li>
+              <% if facet_in_params?(params[:id], item.value) %>
+                  <%= render_selected_facet_value(params[:id], item) %>
+              <% else %>
+                  <%= render_facet_value(params[:id], item) %>
+              <% end -%>
+            </li>
+        <% end %>
+      </ul>
+
+      <div class="facet_pagination bottom">
+        <%= render :partial => 'facet_pagination' %>
+      </div>
+    </div>
+<% end %>
+<% if true %>
+<% sidebar_items << capture do %>
+  <p><%= link_back_to_catalog %></p>
+<% end %>
+<div class="row-fluid">
+  <div class="span12">
+  </div>
+  <!-- nested row LEFT -->
+  <div class="row-fluid">
+    <div class="span2">  &nbsp;
+    </div>
+    <!-- nested Fluid RIGHT -->
+    <div class="row-fluid">
+      <div class="span9">
+        <br>
+
+        <h2><%= facet_field_labels[params[:id]] %></h2>
+
+        <div class="facet_pagination top">
+          <%= render :partial => 'facet_pagination' %>
+        </div>
+
+        <ul class="facet_extended_list">
+                <% @pagination.items.each do |item| %>
+                    <li>
+                      <% if facet_in_params?(params[:id], item.value) %>
+                          <%= render_selected_facet_value(params[:id], item) %>
+                      <% else %>
+                          <%= render_facet_value(params[:id], item) %>
+                      <% end -%>
+                    </li>
+                <% end %>
+              </ul>
+        <% if false %>
+        <div class="prev_next_links">
+          <span class="disabled ui-state-active prev_page">« Previous</span> |
+          <a href="/catalog/facet/names_facet?catalog_facet.offset=20" class="next_page">Next »</a></div>
+        <% end %>
+        <div class="facet_pagination bottom">
+          <%= render :partial => 'facet_pagination' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

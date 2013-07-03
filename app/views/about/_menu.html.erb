@@ -1,0 +1,30 @@
+<h6> About </h6>
+<ul class="nav nav-tabs nav-stacked">
+  <% current_url =  request.env['PATH_INFO'] %>
+  <li <%= current_url == "/about/index" ? "class=active_orange" : "" %>><a href="/about/index">About Us</a></li>
+  <li <%= current_url == "/contact" ? "class=active_orange" : "" %>><a href="/contact">Contact DCA</a></li>
+  <li <%= current_url == "/about/privacy.html" ? "class=active_orange" : "" %>><a href="/about/privacy.html">Privacy Policy</a></li>
+</ul>
+
+<h6>Featured Exhibits and Collections</h6>
+<ul class="nav nav-tabs nav-stacked">
+  <li  <%= current_url == "/about/tufts_local_history" ? "class=active_orange" : "" %>><a href="/about/tufts_local_history">Tufts and Local History</a></li>
+  <li  <%= current_url == "/about/e_scholarship" ? "class=active_orange" : "" %>><a href="/about/e_scholarship">E Scholarship</a></li>
+  <li  <%= current_url == "/about/murrow_collection" ? "class=active_orange" : "" %>>
+    <a href="/about/murrow_collection">Edward R. Murrow Collection</a></li>
+  <li <%= current_url == "/about/wriston_collection" ? "class=active_orange" : "" %>>
+    <a href="/about/wriston_collection">Walter B. Wriston Collection</a></li>
+  <li  <%= current_url == "/about/a_new_nation_votes" ? "class=active_orange" : "" %>>
+    <a href="/about/a_new_nation_votes">A New Nation Votes</a></li>
+  <li  <%= current_url == "/about/dagomba_dance_drumming" ? "class=active_orange" : "" %>>
+    <a href="/about/dagomba_dance_drumming">Dagomba Dance Drumming</a></li>
+  <li>
+</ul>
+
+
+<h6> Help</h6>
+<ul class="nav nav-tabs nav-stacked">
+  <li <%= current_url == "/about/finding_aids" ? "class=active_orange" : "" %>><a href="/about/finding_aids">Learn More About Finding Aids</a></li>
+</ul>
+
+

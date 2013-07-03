@@ -1,0 +1,22 @@
+<div class="tooltip-demo well">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="noborder">
+    <tr>
+      <td width="50">ID:</td>
+      <td><%= params[:id] %></td>
+    </tr>
+    <tr>
+      <td>To Cite:</td>
+      <td><a href="http://DCA.tufts.edu/copyright-and-citations">DCA Citation Guide</a></td>
+    </tr>
+    <% unless metadata[:rights].empty? %>
+        <tr>
+          <td>Usage:</td>
+          <% metadata[:rights].each do |rights| %>
+              <td><a href="<%= raw rights.text %>">Detailed Rights</a></td>
+          <% end %>
+        </tr>
+    <% end %>
+
+
+  </table>
+</div>

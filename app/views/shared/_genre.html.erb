@@ -1,0 +1,6 @@
+<% unless metadata[:genres].empty? %>
+    <dd>Genre</dd>
+    <% metadata[:genres].each do |genre| %>
+        <dt><%= raw genre.text %></dt>
+    <% end %>
+<% end %>

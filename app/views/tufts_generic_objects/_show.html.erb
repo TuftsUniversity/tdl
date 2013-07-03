@@ -1,0 +1,26 @@
+<!-- LEFT SIDE FOR OBJECT TITLE -->
+<% metadata = Tufts::ModelMethods.get_metadata(@document_fedora) %>
+
+<div class="row">
+  <div class="span12">
+    <%= render :partial => 'shared/header_elements', :locals => {:metadata => metadata} %>
+  </div>
+  <!-- span12 -->
+</div>  <!-- row -->
+
+<hr>
+<div class="row">
+  <div class="span6">
+    <%= render :partial => 'tufts_generic_objects/object_pane', :locals=> {:metadata => metadata} %>
+
+  </div>
+
+
+  <div class="span6">
+    <%= render :partial => 'shared/metadata_pane', :locals => {:metadata => metadata} %>
+  </div>
+
+
+</div>
+
+

@@ -1,0 +1,6 @@
+<% unless metadata[:formats].empty? %>
+    <dd>Format</dd>
+    <% metadata[:formats].each do |format| %>
+        <dt><%= raw format.text %></dt>
+    <% end %>
+<% end %>

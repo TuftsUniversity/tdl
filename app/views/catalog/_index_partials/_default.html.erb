@@ -1,0 +1,41 @@
+<tr>
+  <td class="number_td"><%= @result_no += 1 %></td>
+  <td class="title_td">
+    <span class="table_title">
+    <% unless document[:title_t].nil? %>
+     <%= link_to document[:title_t][0], "/catalog/" + document[:id]  %>
+    <% end %>
+    </span>
+  </td>
+  <td class="creator_td">
+    <% unless document[:creator_t].nil?
+       document[:creator_t].each { |creator| %>
+     <%= creator %><br/>
+    <%}
+     end%>
+  </td>
+  <td class="date_td">
+    <%
+       valid_date_string = document[:pub_date_i]
+       # since this is an int field we're storing no dates as 0, which makes for ugly display
+       # best way to handle this seems to be dealing with it here.
+       if valid_date_string.to_s == "0"
+         valid_date_string = "n.d."
+       end
+
+    %>
+    <%#= valid_date.strftime("%b %d, %Y")  %>
+    <%= valid_date_string  %>
+  </td>
+  <% if (!document[:type2_t].nil? && document[:type2_t].first.downcase == 'image') || ((!document[:type2_t].nil? && document[:type2_t].first.downcase == 'text') && (!document[:format2_t].nil? && document[:format2_t].first.downcase[/image/])) %>
+      <td class="thumbnail_td" align="center">
+        <ul class="thumbnails">
+          <li class="nothumbnailmargin">
+            <%= link_to image_tag("/file_assets/thumb/"+document[:id] , :alt=>document[:title],:class=>"thumbnailwidth"), "/catalog/" + document[:id],:class=>"thumbnail" %>
+          </li>
+        </ul>
+      </td>
+  <% else %>
+      <td class="thumbnail_td">&nbsp;</td>
+  <% end %>
+</tr>

@@ -1,0 +1,75 @@
+<% javascript_includes << ['custom', {:plugin=>:hydra_repository, :media=>"all"}] %>
+<% javascript_includes << ["catalog/show", {:plugin=>:hydra_repository, :media=>"all"}] %>
+<%
+   title = Tufts::RCRMethods.title(@document_fedora)
+   dates = Tufts::RCRMethods.dates(@document_fedora)
+%>
+        <div class="row">
+          <div class="span12">
+            <h2><%= title + ((dates.nil? || dates.empty?) ? "" : (", " + dates)) %></h2>
+          </div>  <!-- span12 -->
+        </div>  <!-- row -->
+
+        <hr>
+
+        <div class="row">
+          <div class="span6 offset1">
+            <p><%= Tufts::RCRMethods.abstract(@document_fedora)%></p>
+            <h4>History of <%= title %></h4>
+<% Tufts::RCRMethods.history(@document_fedora).each do |paragraph| %>
+            <p><%= paragraph %></p>
+<% end %>
+<% Tufts::RCRMethods.structure_or_genealogy_p(@document_fedora).each do |paragraph| %>
+            <p><%= paragraph %></p>
+<% end %>
+            <ul>
+<% Tufts::RCRMethods.structure_or_genealogy_items(@document_fedora).each do |item| %>
+              <li><%= item %></li>
+<% end %>
+            </ul>
+          </div>  <!-- span6 offset1 -->
+
+          <div class="span4 offset1">
+            <div class="tooltip-demo well">
+              <dl>
+                <dd><span class="browntext">Collections</span></dd>
+                <ul>
+<%
+   collection_array = Tufts::RCRMethods.collections(@document_fedora)
+   collection_array.each do |collection|
+         pid = 'tufts:UA069.001.DO.' + collection[:pid]
+         ingested = Tufts::PidMethods.ingested?(pid)
+         anchor_tag = ingested ? '<a href="/catalog/' + pid + '">' : ''
+         anchor_end_tag = ingested ? '</a>' : ''
+%>
+                  <li><%= raw anchor_tag %><%= collection[:name] %><%= raw anchor_end_tag %></li>
+<% end %>
+                </ul>
+              </dl>
+
+              <dl>
+                <dd><span class="browntext">Relationships</span></dd>
+<%
+   relationship_hash = Tufts::RCRMethods.relationships(@document_fedora)
+   roles = relationship_hash.keys
+   roles.each do |role|
+%>
+                <%= role %>:
+                <ul>
+<%
+     relationships = relationship_hash.fetch(role, [])
+
+     relationships.each do |relationship|
+         pid = 'tufts:' + relationship[:pid]
+         ingested = Tufts::PidMethods.ingested?(pid)
+         anchor_tag = ingested ? '<a href="/catalog/' + pid + '">' : ''
+         anchor_end_tag = ingested ? '</a>' : ''
+%>
+                  <li><%= raw anchor_tag %><%= relationship[:name] %> (<%= relationship[:from_date] %>-<%= relationship[:to_date] %>)<%= raw anchor_end_tag %></li>
+<%   end %>
+                </ul>
+<% end %>
+              </dl>
+            </div>  <!-- tooltip-demo well -->
+          </div>  <!-- span4 offset1 -->
+        </div>  <!-- row -->

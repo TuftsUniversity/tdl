@@ -1,0 +1,14 @@
+<%= render :partial => 'shared/description', :locals => {:metadata => metadata} %>
+<dl>
+  <!-- in collection -->
+  <!-- illustration appears in -->
+  <%= get_collection_link_for_object() %>
+  <%= get_appears_in_text() %>
+  <%= render :partial => 'shared/subjects', :locals => {:metadata => metadata} %>
+  <%= render :partial => 'shared/genre', :locals => {:metadata => metadata} %>
+  <%= render :partial => 'shared/citation', :locals => {:metadata => metadata} %>
+  <%= render :partial => 'shared/original_publication', :locals => {:metadata => metadata} %>
+
+</dl>
+<%= render :partial => 'shared/metadata_well', :locals => {:metadata => metadata} %>
+<!-- tooltip-demo well -->

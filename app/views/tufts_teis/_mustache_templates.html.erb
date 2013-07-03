@@ -1,0 +1,57 @@
+<script id="image_overlay_template" type="text/template">
+  <div class="modal-header">
+    &nbsp;
+    <button class="close" data-dismiss="modal">&times;</button>
+  </div>
+  <div class="modal-body">
+    <style>
+    #imgDiv {
+        width : {{width}}px
+        height: {{height}}px
+        overflow: auto
+    }
+    </style>
+    <div id="imgDiv">
+        <img class="centerimage" src="{{image_url}}" width="{{height}}" height="{{width}}">
+    </div>
+    <div class="pull-right"><h6><a href="{{item_link}}">go to image entry <i class="icon-share"></i></a></h6></div>
+    {{item_title}}<br>
+    {{item_date}}<br>
+    {{item_description}}
+  </div>
+</script>
+
+<script id="gallery_overlay_template" type="text/template">
+  <div class="modal-header">
+    <span class="title_container">
+    <h3 class="dialog_title">{{title}}</h3>
+    <button class="close_button" data-dismiss="modal">&times;</button>
+    </span>
+  </div>
+  <div class="modal-body">
+    <ul class="thumbnails  ">
+      {{#figures}}
+      <li class="span2 thumb_item">
+        <div class="thumbnail thumbnail_with_caption">
+          <a data-pid="{{pid}}" href="#myImageOverlay" class="thumbnail" ><img src="/file_assets/thumb/{{pid}}" alt="{{caption}}"></a>
+
+          <div class="caption_oneline ">
+            <a rel="tooltip" data-placement="bottom" data-original-title="{{full_title}}" data-pid="{{pid}}" href="#myImageOverlay" class="gallery_thumbnail">{{caption}}</a>
+
+          </div>
+        </div>
+      </li>
+      {{/figures}}
+    </ul>
+  </div>
+  <div class="facet_pagination bottom">
+    <div class="prev_next_links">
+      <% if false %>
+        <span class="disabled ui-state-active prev_page">« Previous</span> |
+      <% end %>
+      <a href="#" class="pagination prev_page">« Previous</a> |
+      <a href="#" class="pagination next_page">Next »</a></div>
+
+  </div>
+</script>
+

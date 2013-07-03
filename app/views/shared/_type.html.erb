@@ -1,0 +1,6 @@
+<% unless metadata[:types].empty? %>
+    <dd>Type</dd>
+    <% metadata[:types].each do |type| %>
+        <dt><%= raw type.text %></dt>
+    <% end %>
+<% end %>

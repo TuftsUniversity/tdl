@@ -1,0 +1,39 @@
+<%# This view is overridden to change the alt attribute to be a title in the link_to below in order to conform to the HTML5 validity standard.  This should ultimately be fixed in Blacklight.  -%>
+<%- # local params:
+    # label 
+    # value
+    # options =>
+    #   :remove => url for a remove constraint link
+    #   :classes => array of classes to add to container span
+    options ||= {}
+    options[:escape_label] = true unless options.has_key?(:escape_label)
+    options[:escape_value] = true unless options.has_key?(:escape_value)
+-%>
+
+
+<%- if label.blank? -%>
+    <% label = "Keywords" %>
+<%- end -%>
+
+<% accessible_remove_label = "Remove constraint #{options[:escape_value] ? h(value) : value}: #{options[:escape_value] ? h(value) : value}"
+%>
+
+<li class="active">
+  <%  # This works but maybe it would be better to override the behavior of
+      # the blacklight_advanced_search gem's render_constraints_filters() method,
+      # which is called by catalog/_constraints.html.erb.
+      # Or to override catalog_index_path() in a helper.  Or something.
+      remove_facet_url = options[:remove]
+
+      if @current_controller == "advanced"
+        # change /catalog to /advanced in the url.
+        remove_facet_url.sub!(catalog_index_path, url_for(:controller=>"advanced", :action=>"index"))
+      end
+  %>
+
+  <%= link_to remove_facet_url, :class => 'btnRemove imgReplace', :title => 'accessible_remove_label' do
+        link_label =  (options[:escape_label] ? h(label) : label) + "&nbsp;&gt;&nbsp;".html_safe + (options[:escape_value] ? h(value) : value) + "<span class='pill_divider'>|</span> x".html_safe
+      end
+  %>
+</li>
+

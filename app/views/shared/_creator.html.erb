@@ -1,0 +1,6 @@
+<% unless metadata[:creators].empty? %>
+    <dd>Creator</dd>
+    <% metadata[:creators].each do |creator| %>
+        <dt><%= raw creator.text %></dt>
+    <% end %>
+<% end %>

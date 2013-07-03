@@ -1,0 +1,44 @@
+<%-
+    chapter = params[:chapter]
+    chapter_list_index = 0
+
+    if chapter_list[chapter_list_index].include? 'front'
+      chapter_list_index = 1
+    end
+
+    unless chapter.nil?
+      chapter_list_index = chapter_list.index(params[:chapter])
+    end
+
+    begin
+        prev_url = '/catalog/tei/' + params[:id] + '/chapter/' + chapter_list[chapter_list_index - 1]
+    rescue TypeError => e
+        prev_url = "#"
+    end
+
+    begin
+        next_url = '/catalog/tei/' + params[:id] + '/chapter/' + chapter_list[chapter_list_index + 1]
+    rescue TypeError => e
+        next_url = "#"
+    end
+-%>
+<div class="pull-right">
+  <a href="<%=(chapter_list_index == 0) ? '#' : prev_url %>">
+    <button class="btn btn-mini <%= (chapter_list_index == 0) ? 'disabled ' :'' %>prev_page"><i class=" icon-chevron-left"></i></button>
+  </a>
+  <a href="<%=(chapter_list_index == (chapter_list.length - 1)) ? '#' : next_url %>">
+    <button class="btn btn-mini next_page <%=chapter_list_index == (chapter_list.length - 1) ? 'disabled ' :'' %>"><i class=" icon-chevron-right"></i></button>
+  </a>
+</div>
+
+
+<%= raw Tufts::TeiMethods.show_tei(@document_fedora,params[:chapter]) %>
+
+<div class="pull-right">
+  <a href="<%=(chapter_list_index == 0) ? '#' : prev_url %>">
+    <button class="btn btn-mini <%= (chapter_list_index == 0) ? 'disabled ' :'' %>prev_page"><i class=" icon-chevron-left"></i></button>
+  </a>
+  <a href="<%=(chapter_list_index == (chapter_list.length - 1)) ? '#' : next_url %>">
+    <button class="btn btn-mini next_page <%=chapter_list_index == (chapter_list.length - 1) ? 'disabled ' :'' %>"><i class=" icon-chevron-right"></i></button>
+  </a>
+</div>

@@ -1,0 +1,112 @@
+<% if @pagination.has_previous? || @pagination.has_next? %>
+    <div class="prev_next_links">
+      <% if @pagination.has_previous? -%>
+          <%= link_to('« Previous', catalog_facet_path(@pagination.params_for_previous_url(params)), :class => :prev_page) %>
+          <script>
+              $("#more_facets_modal .prev_page").on("click", function (e) {
+                  e.preventDefault();
+                  var url = $("#more_facets_modal .prev_page").attr("href");
+                  $.ajax({
+                      url:url,
+                      dataType:"html",
+                      success:function (resp, status, xhr) {
+                          if (xhr.status != 0) {
+
+                              $("#more_facets_modal .modal-body").html(resp);
+                              $("#more_facets_modal .modal-body h2").hide();
+
+
+                          } else {
+                              //stupid jquery calling this 'success', it's
+                              //network unavailable.
+                              //self._displayFailure(url, xhr, status);
+                              alert("fail");
+                          }
+                      },
+                      error:function (xhr, msg) {
+                          alert('false');
+                      }
+                  });
+              });
+
+          </script>
+      <% else -%>
+          <span class="disabled ui-state-active prev_page">« Previous</span>
+      <% end -%>
+|
+      <% if @pagination.has_next? -%>
+          <%= link_to('Next »', catalog_facet_path(@pagination.params_for_next_url(params)), :class => :next_page) %>
+          <script>
+              $("#more_facets_modal .next_page").on("click", function (e) {
+                  e.preventDefault();
+                  var url = $("#more_facets_modal .next_page").attr("href");
+                  $.ajax({
+                      url:url,
+                      dataType:"html",
+                      success:function (resp, status, xhr) {
+                          if (xhr.status != 0) {
+
+                              $("#more_facets_modal .modal-body").html(resp);
+                              $("#more_facets_modal .modal-body h2").hide();
+
+
+                          } else {
+                              //stupid jquery calling this 'success', it's
+                              //network unavailable.
+                              //self._displayFailure(url, xhr, status);
+                              alert("fail");
+                          }
+                      },
+                      error:function (xhr, msg) {
+                          alert('false');
+                      }
+                  });
+              });
+
+          </script>
+      <% else -%>
+          <span class="disabled ui-state-active next_page">Next »</span>
+      <% end -%>
+
+    </div>
+<% end %>
+
+<div class="sort_options">
+  <% if @pagination.sort == 'index' -%>
+      <span class="disabled az">A-Z Sort</span>&nbsp;|&nbsp;<%= link_to_unless(@pagination.sort == 'count', "Numerical Sort",
+                                                                              @pagination.params_for_resort_url('count', params), :class => "sort_change numeric") %>
+  <% elsif @pagination.sort == 'count' -%>
+      <%= link_to("A-Z Sort", @pagination.params_for_resort_url('index', params),
+                  :class => "sort_change az") %>&nbsp;|&nbsp;<span class="disabled numeric">Numerical Sort</span>
+  <% end -%>
+  <script>
+            $("#more_facets_modal .sort_change").on("click", function (e) {
+                e.preventDefault();
+                var url = $(this).attr("href");
+                $.ajax({
+                    url:url,
+                    dataType:"html",
+                    success:function (resp, status, xhr) {
+                        if (xhr.status != 0) {
+
+                            $("#more_facets_modal .modal-body").html(resp);
+                            $("#more_facets_modal .modal-body h2").hide();
+
+
+                        } else {
+                            //stupid jquery calling this 'success', it's
+                            //network unavailable.
+                            //self._displayFailure(url, xhr, status);
+                            alert("fail");
+                        }
+                    },
+                    error:function (xhr, msg) {
+                        alert('false');
+                    }
+                });
+            });
+
+        </script>
+</div>
+
+

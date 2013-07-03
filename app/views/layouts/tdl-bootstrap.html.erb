@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title><%= h(@page_title || application_name) %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Le styles -->
+  <link href="/assets/css/bootstrap.css" rel="stylesheet">
+
+  <link href="/assets/css/tdl-bootstrap-overrides.css" rel="stylesheet">
+  <link href="/assets/css/facets.css" rel="stylesheet">
+  <script src="/assets/js/jquery.js"></script>
+  <script src="/javascripts/blacklight/blacklight.js"></script>
+  <script src="/javascripts/read_more_or_less.js"></script>
+
+  <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <!-- Le fav and touch icons -->
+  <!-- Le fav and touch icons -->
+  <style type="text/css">
+          /* Override some defaults */
+      html, body {
+          background: rgb(206, 220, 231); /* Old browsers */
+          background: -moz-radial-gradient(center, ellipse cover, rgba(206, 220, 231, 1) 0%, rgba(89, 106, 114, 1) 100%); /* FF3.6+ */
+          background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, rgba(206, 220, 231, 1)), color-stop(100%, rgba(89, 106, 114, 1))); /* Chrome,Safari4+ */
+          background: -webkit-radial-gradient(center, ellipse cover, rgba(206, 220, 231, 1) 0%, rgba(89, 106, 114, 1) 100%); /* Chrome10+,Safari5.1+ */
+          background: -o-radial-gradient(center, ellipse cover, rgba(206, 220, 231, 1) 0%, rgba(89, 106, 114, 1) 100%); /* Opera 12+ */
+          background: -ms-radial-gradient(center, ellipse cover, rgba(206, 220, 231, 1) 0%, rgba(89, 106, 114, 1) 100%); /* IE10+ */
+          background: radial-gradient(center, ellipse cover, rgba(206, 220, 231, 1) 0%, rgba(89, 106, 114, 1) 100%); /* W3C */
+          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#cedce7', endColorstr = '#596a72', GradientType = 1); /* IE6-9 fallback on horizontal gradient */
+      }
+
+      .container > .content {
+          background-color: #fff;
+          padding: 10px 20px 40px 20px;
+          margin-top: 0px;
+          margin-bottom: 0px;
+          min-height: 400px;
+      }
+          /*margin-right: 10px;
+    margin-left: 10px;/*
+            -webkit-border-radius: 0 0 6px 6px;
+            -moz-border-radius: 0 0 6px 6px;
+             border-radius: 0 0 6px 6px;
+            -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+            -moz-box-shadow: 0 1px 2px rgba(0,0,0,.15);
+            box-shadow: 0 1px 2px rgba(0,0,0,.15);
+          }
+    /* @media (min-width: 499px) and (max-width: 799px) {
+    {.container > .content {
+        background-color: #FFFFFF;
+        border-bottom-left-radius: 6px;
+        border-bottom-right-radius: 6px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+        margin-bottom: 0;
+        margin-left: -20px;
+        margin-right: -20px;
+        margin-top: -20px;
+        padding-bottom: 20px;
+        padding-left: 40px;
+        padding-right: 20px;
+        padding-top: 10px;
+    }
+    }	   */
+  </style>
+  <link rel="shortcut icon" href="/assets/ico/favicon.ico">
+  <%= raw(render_head_content) %>
+  <%= analytics_init if (Rails.env.production? || Rails.env.tdldev?) %>
+</head>
+<body data-spy="scroll" data-target=".subnav" data-offset="50">
+
+<div class="blueline"></div>
+<!-- Navbar
+================================================== -->
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <!--   <a class="brand" href="./index.html">Tufts Digital Library</a> -->
+      <div class="nav-collapse">
+        <ul class="nav">
+          <li
+          <%- if "search" == @current_action -%> class="active"
+          <%- end -%>><%= link_to "Search", '/search' %></li>
+          <li
+          <%- if "about" == @current_action -%> class="active"
+          <%- end -%>><%= link_to "About", about_path() %></li>
+          <li
+          <%- if "contact" == @current_action -%> class="active"
+          <%- end -%>><%= link_to "Contact", contact_path() %></li>
+          <li
+          <%- if "index" == @current_action -%> class="active"
+          <%- end -%>><%= link_to "Home", catalog_path('/') %></li>
+
+
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- <%= render :partial => '/user_util_links' %>      -->
+</div>
+
+<!-- HEADER -->
+<div class="headerbox">
+
+  <div class="page-header">
+
+    <%= link_to(image_tag('/assets/img/tuftsdigitallibrarylogosmall.png', :alt => "Tufts Digital Library logo"), catalog_path('/'), :class => "work") %>
+    <%- if "show" == @current_action || "eadoverview" == @current_action || "eadinternal" == @current_action || "transcriptonly" == @current_action -%>
+        <button href="#comment_modal" data-toggle="modal" class="btn btn-blue pull-right" style="margin-top:10px; margin-right:10px;"> Comments about this page?
+          <i class="icon-comment icon-white"></i></button>
+    <%- end -%>
+
+  </div>
+</div>
+
+<%= render :partial => 'shared/subnav' %>
+
+<div class="container">
+  <div class="content">
+    <%= render :partial => '/flash_msg' %>
+
+    <%= yield %>
+  </div>
+  <%= render :partial => 'shared/footer' %>
+
+  <!-Image Overlay Modal-->
+
+  <div class="modal fade modal_650wide modal-level2" tabindex="-1" id="myImageOverlay"></div>
+  <!-Image Gallery Modal-->
+
+  <div class="modal modal_fixed_height fade modal_800wide modal-level1" tabindex="-1" id="myImageGallery"></div>
+  <!-End Gallery Modal -->
+</div>
+<!-- /container -->
+<!--comment modal-->
+
+<div class="modal fade" id="comment_modal">
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">×</button>
+    <h3>Send Comment<%= ("show" == @current_action || "eadoverview" == @current_action || "eadinternal" == @current_action || "transcriptonly" == @current_action) ? " about " + show_title().to_s().strip! : "" %></h3>
+  </div>
+
+
+  <div class="modal-body">
+
+    <form class="form-inline comment_form" action="javascript:submitFeedback(<%= raw ("show" == @current_action || "eadoverview" == @current_action || "eadinternal" == @current_action || "transcriptonly" == @current_action) ? "'http://#{request.host}:#{request.port}#{request.fullpath}'" : "''" %>, '<%= form_authenticity_token %>');">
+
+      <fieldset>
+
+        <div class="control-group">
+          <label class="control-label" for="inputComment">Comment</label>
+
+          <div class="controls">
+            <textarea class="input-xlarge" id="inputComment" rows="3"></textarea>
+          </div>
+        </div>
+
+
+        <div class="control-group">
+          <label for="inputEmail" class="control-label">Email Address (optional):</label>
+
+          <div class="controls">
+            <input type="text" placeholder="" id="inputEmail" class="input-xlarge"/>
+
+            <p class="help-block"></p>
+          </div>
+        </div>
+
+
+        <div class="pull-right" style="margin-right: 16px">
+          <button class="btn btn-primary" type="submit">Send</button>
+          <button class="btn" data-dismiss="modal">Cancel</button>
+        </div>
+      </fieldset>
+    </form>
+
+
+  </div>
+</div>
+
+<div class="modal fade" id="more_facets_modal">
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">×</button>
+    <h3>More Facets</h3>
+  </div>
+  <div class="modal-body">
+
+    <form class="form-inline comment_form" action="javascript:submitFeedback(<%= raw ("show" == @current_action || "eadoverview" == @current_action || "eadinternal" == @current_action || "transcriptonly" == @current_action) ? "'http://#{request.host}:#{request.port}#{request.fullpath}'" : "''" %>, '<%= form_authenticity_token %>');">
+
+      <fieldset>
+
+        <div class="control-group">
+          <label class="control-label" for="inputComment">Comment</label>
+
+          <div class="controls">
+            <textarea class="input-xlarge" id="inputComment" rows="3"></textarea>
+          </div>
+        </div>
+
+
+        <div class="control-group">
+          <label for="inputEmail" class="control-label">Email Address (optional):</label>
+
+          <div class="controls">
+            <input type="text" placeholder="" id="inputEmail" class="input-xlarge"/>
+
+            <p class="help-block"></p>
+          </div>
+        </div>
+
+
+        <div class="pull-right" style="margin-right: 16px">
+          <button class="btn btn-primary" type="submit">Send</button>
+          <button class="btn" data-dismiss="modal">Cancel</button>
+        </div>
+      </fieldset>
+    </form>
+
+
+  </div>
+</div>   <!--end modal -->
+
+
+
+<script type="text/javascript">
+  //if js is enabled rewrite the more_facets links to be inline modals.
+//    $('.more_facets_link').attr('href','#more_facets_modal');
+
+    $('.toggle:not(.toggle-close):lt(1)').addClass('toggle-open');//.parents('li').children('ul').hide();
+    $('.menutop:not(.toggle-close):lt(1)').addClass('toggle-open');//.parents('li').children('ul').hide();
+    $('.toggle:not(.toggle-close):gt(0)').addClass('toggle-closed');//.parents('li').children('ul').hide();
+    $('.menutop:not(.toggle-close):gt(0)').addClass('toggle-closed');//.parents('li').children('ul').hide();
+    $('.toggle:not(.toggle-close):gt(0)').parents('li').children('ul').hide();
+    $('#menu').find('.toggle_icon:lt(1)').empty('').append('&ndash;');
+
+    if ($.browser.msie) {
+        $('#menu ul.navmenu li:last-child .menutop').css('border-bottom', '1px solid #CCC');
+    }
+
+    $('.toggle,.menutop').click(function () {
+        var facet_header = $(this);
+        if (facet_header.hasClass('toggle-open')) {
+            facet_header.closest('.menutop').removeClass('menutop-open').addClass('menutop-closed');
+            facet_header.removeClass('toggle-open').addClass('toggle-closed').parents('li').children('ul').slideUp(250);
+            facet_header.parent().find('.toggle_icon').empty('').append('+');
+        }
+        else {
+            facet_header.closest('.menutop').removeClass('menutop-closed').addClass('menutop-open');
+            facet_header.removeClass('toggle-closed').addClass('toggle-open').parents('li').children('ul').slideDown(250);
+            facet_header.parent().find('.toggle_icon').empty('').append('&ndash;');
+        }
+    })
+
+</script>
+
+
+<!-- Le javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<script src="/assets/js/google-code-prettify/prettify.js"></script>
+<script src="/assets/js/bootstrap-transition.js"></script>
+<script src="/assets/js/bootstrap-alert.js"></script>
+<script src="/assets/js/bootstrap-modal.js"></script>
+<script src="/assets/js/bootstrap-dropdown.js"></script>
+<script src="/assets/js/bootstrap-scrollspy.js"></script>
+<script src="/assets/js/bootstrap-tab.js"></script>
+<script src="/assets/js/bootstrap-tooltip.js"></script>
+<script src="/assets/js/bootstrap-popover.js"></script>
+<script src="/assets/js/bootstrap-button.js"></script>
+<script src="/assets/js/bootstrap-collapse.js"></script>
+<script src="/assets/js/bootstrap-carousel.js"></script>
+<script src="/assets/js/bootstrap-typeahead.js"></script>
+<script src="/assets/js/application.js"></script>
+<script src="/javascripts/feedback.js"></script>
+</body>
+</html>

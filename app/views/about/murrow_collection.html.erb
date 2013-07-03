@@ -1,0 +1,52 @@
+<%-
+@page_title = "The Edward R. Murrow Papers, ca 1913-1985"
+-%>
+<!-- LEFT SIDE/ FOR FLUID COLUMN TITLE ROW -->
+<div class="row-fluid">
+  <div class="span12">
+  </div>
+
+  <!-- nested row LEFT -->
+  <div class="row-fluid">
+
+    <div class="span3">
+      <%= render :partial => 'about/menu' %>
+    </div>
+
+
+    <!-- nested Fluid RIGHT -->
+    <div class="row">
+      <div class="span8">
+        <h2><%= @page_title%></h2>
+
+        <p>
+
+        <div id="static_thumbnail">
+          <ul class="thumbnails ">
+            <li class="span3">
+              <div class="thumbnail">
+                <a href="/catalog/tufts:UA069.001.DO.MS025"><img src="/assets/img/youngmurrow.jpg" alt="Young Edward R. Murrow on the telephone"></a>
+
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        The Edward R. Murrow Papers, ca 1913-1985, housed at the Digital Collections and Archives, Tufts University, is
+        the world's largest collection of Edward R. Murrow material. Dating largely from 1934 to 1965, the 55 linear
+        feet of documents include correspondence, personal materials, work and activities-related files, and over 320
+        photographs. The papers also include about 1700 books, memorabilia as well as audiovisual material.</p>
+        <p>
+          You can read more about
+          Edward R. Murrow at <a href="http://dca.lib.tufts.edu/features/murrow/exhibit/">The Life and Work of Edward R. Murrow: an Archives Exhibit</a>. You can read
+          more about both the digitized and non-digitized materials from the collection by reading <a href="/catalog/ead/tufts:UA069.001.DO.MS025">the finding aid</a>. Or
+          you can dive right into the <a href="/catalog?f[collection_facet][]=Edward+R.+Murrow%2C+Papers%2C+1927-65">digitized materials from the collection</a>, where we have <a href="/catalog?f[collection_facet][]=Edward+R.+Murrow%2C+Papers%2C+1927-65&f[object_type_facet][]=Images&search_field=all_fields&utf8=%E2%9C%93">331 images</a> and <a href="/catalog?utf8=%E2%9C%93&per_page=25&utf8=%E2%9C%93&keyword=&title=%22this+I+believe%22&author=&collection=&year_start=&year_end=&description=&organization=&people=&place=&topic=&search_field=advanced&commit=Search">574 transcribed audio recordings from episodes of <cite>This I
+          Believe</cite></a>.</p>
+
+        <p><strong>These digitized recordings of This I Believe were made possible by the generous support of Iron Mountain Entertainment Services and the National Park Service's Save America’s Treasures Grant Program.</strong></p>
+        <p>
+          For more information, or for access to non-digitized materials, <a href="/contact">contact DCA</a>.</p>
+      </div>
+    </div>
+  </div>
+</div>

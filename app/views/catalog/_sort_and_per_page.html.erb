@@ -1,0 +1,81 @@
+<% javascript_includes << "search_controls.js" %>
+
+<% unless @response.response['numFound'] < 2 %>
+
+    <%= form_tag catalog_index_path, :method => :get, :class => 'sort', :id => "sort_form" do %>
+        <%= label_tag 'sort', 'Sort by' %>
+        <%= select_tag(:sort, options_for_select(sort_fields, h(params[:sort])), {:class=>"",:onchange => 'this.form.submit()'}) %>
+        <%# Removed omit keys %>
+
+        <%= search_as_hidden_fields(:omit_keys => [:page,:per_page, :sort]) %>
+
+        <%= submit_tag 'sort results' %>
+    <% end %>
+    <%= form_tag catalog_index_path, :method => :get, :id => 'perpage_form', :class => 'per_page' do %>
+        <%= select_tag(:per_page, options_for_select(['25', '50', '100'], h(params[:per_page])), :title => "Number of results to display per page", :onchange => 'this.form.submit()') %>
+        per page
+
+
+        <%= search_as_hidden_fields(:omit_keys => [:page,:per_page, :sort]) %>
+
+        <%= submit_tag 'update' %>
+    <% end %>
+
+<% end %>
+<div class="pull-right" style="margin-bottom: 2px">
+
+  <div id="perpage_toggle" class="btn-group pull-right">
+    <button id="perpage_button" class="btn  btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+
+
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="perpage_option" href="#">25</a></li>
+      <li><a class="perpage_option" href="#">50</a></li>
+      <li><a class="perpage_option" href="#">100</a></li>
+    </ul>
+  </div>
+  <div id="sort_toggle" class="btn-group pull-right">
+    &nbsp;<button id="sort_button" class="btn  btn-mini dropdown-toggle" data-toggle="dropdown" href="#">
+      Sort by relevance <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li><a class="sort_option" href="#">Relevance</a></li>
+      <li><a class="sort_option" href="#">Title</a></li>
+      <li><a class="sort_option" href="#">Creator</a></li>
+      <li><a class="sort_option" href="#">Date</a></li>
+    </ul>
+  </div>
+
+</div>
+<script>
+    $('#perpage_form').hide();
+    $('#sort_form').hide();
+    $('#perpage_toggle').show();
+    $('#sort_toggle').show();
+
+
+    var sort_fields = <%= raw sort_fields.to_json.gsub("</", "<\\/") %>;
+    var sort_controls = new SortAndPerPageControls(sort_fields);
+
+    $('.perpage_option').on('click', function () {
+        sort_controls.perpage_count = $(this).text();
+        sort_controls.updatePerPageButton();
+        $('#perpage_form').submit();
+    });
+
+    $('.sort_option').on('click', function (e) {
+        sort_controls.sort_col = $(this).text();
+
+
+        if (sort_controls.sort_col == "Date")
+            sort_controls.sort_direction = "desc";
+        else
+            sort_controls.sort_direction = "asc";
+
+        sort_controls.updateSortButton(e);
+        $('#sort_form').submit();
+
+    });
+
+</script>

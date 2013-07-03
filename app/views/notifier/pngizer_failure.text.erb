@@ -1,0 +1,7 @@
+The daemon pngizerd has experienced an error<%= @params[:pid] != nil ? ' for ' + @params[:pid] : '' %>.
+
+pngizerd will attempt to recover from the error.
+
+Please see tdl_hydra_head/log/pngizer.log on stage-dl.lib.tufts.edu for details.
+
+If the log doesn't show that pngizerd restarted automatically, please restart pngizerd on stage-dl.lib.tufts.edu as hydradm using tdl_hydra_head/utils/restart_pngizerd.sh.  This is usually all that you will have to do;  pngizerd will re-run for all objects that failed.

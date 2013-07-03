@@ -1,0 +1,109 @@
+<% @page_title = application_name + " Search Results" %>
+<% extra_head_content << render_opensearch_response_metadata.html_safe %>
+
+<!-- LEFT SIDE/ FOR FLUID COLUMN TITLE ROW -->
+<div class="row-fluid">
+  <div class="span12">
+  </div>
+
+  <!-- nested row LEFT -->
+  <div class="row-fluid">
+
+    <%= render :partial => 'facet_nav' %>
+    <!-- nested Fluid RIGHT -->
+    <div class="row-fluid">
+      <!-- MAIN CONTENT AREA -->
+      <!-- commenting out did you mean because we haven't implemented -->
+      <%#=  render :partial => 'did_you_mean' %>
+
+      <div class="span9">
+        <br/>
+
+        <h2><%= @response.total %> Result<%= @response.total == 1 ? "" : "s" %></h2>
+        <% if false %>
+            <%= render_pagination_info @response, :entry_name => 'item' %>
+            l
+            <%= link_to "start over", catalog_index_path, :id => "startOverLink" %>
+        <% end %>
+        <%= render 'constraints', :localized_params => params %>
+        <br>
+        <% if false %>
+
+
+            <%= render 'results_pagination' %>
+        <% end %>
+        <table class="table">
+          <thead>
+          <tr class="table_options">
+            <td colspan="5">
+              <div class="pull-left">
+                <%
+                   per_page = @response.rows
+                   current_page = (@response.start / per_page).ceil + 1
+                   num_pages = (@response.total / per_page.to_f).ceil
+                %>
+
+                <button id="prev_btn" onclick="if (!$('#prev_btn').hasClass('disabled')) { location.href='<%= url_for(params.merge(:page => current_page - 1)) %>'}" class="btn btn-mini <%= current_page == 1 ? "disabled" : "" %> prev_page">«</button>
+
+                Page <%= current_page %> of <%= num_pages %>
+
+                <button id="next_btn" onclick="if (!$('#next_btn').hasClass('disabled')) { location.href='<%= url_for(params.merge(:page => current_page + 1)) %>'}" class="btn btn-mini <%= current_page == num_pages ? "disabled" : "" %> next_page">
+                  »
+                </button>
+
+              </div>
+              <%= render 'sort_and_per_page' %>
+            </td>
+
+          </tr>
+          <tr class="table_header">
+            <td class="number_td">&nbsp;</td>
+            <td class="title_td active"><a class="sortable_header" data-sort="none" href="#"> Title <img id="title_header" src="assets/img/arrow_both.gif"></a></td>
+            <td class="creator_td"><a class="sortable_header" data-sort="none" href="#">Creator <img id="creator_header" src="assets/img/arrow_both.gif"> </a></td>
+
+            <td class="date_td"><a class="sortable_header" data-sort="none" href="#">Date <img id="date_header" src="assets/img/arrow_both.gif"></a></td>
+            <td class="thumbnail_td" align="left">&nbsp; </td>
+          </tr>
+          </thead>
+          <%= render :partial => 'document_list', :response => 'rsolr_response' %>
+        </table>
+
+
+        <%= render 'results_pagination' %>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+
+    $('.sortable_header').on('click', function (e) {
+        //get the current sort state of the column.
+        sort_controls.sort_col = $(this).text().trim();
+        var sort_direction = $(this).data('sort');
+        switch (sort_direction)
+        {
+            case "none":
+                sort_controls.sort_direction = "asc";
+                break;
+            case "asc":
+                sort_controls.sort_direction = "desc";
+                break;
+            case "desc":
+                sort_controls.sort_direction = "asc";
+                break;
+        }
+
+        sort_controls.updateSortButton();
+        $('#sort_form').submit();
+
+
+    });
+
+
+
+</script>
+
+
+
+
+

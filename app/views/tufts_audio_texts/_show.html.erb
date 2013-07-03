@@ -1,0 +1,51 @@
+<% javascript_includes << "audio/audio_player.js" %>
+<% javascript_includes << "audio/transcript_scroller.js" %>
+<% javascript_includes << "audio/tabs.js" %>
+<% stylesheet_links << "audio/audio_player.css" %>
+<% stylesheet_links << "audio/audio.css" %>
+
+
+<% metadata = Tufts::ModelMethods.get_metadata(@document_fedora) %>
+
+
+  <div class="row">
+    <div class="span12">
+      <%= render :partial => 'shared/header_elements', :locals => {:metadata => metadata} %>
+    </div>  <!-- span12 -->
+  </div>  <!-- row -->
+
+  <hr>
+
+  <div class="row">
+    <div class="span6">
+      <%= raw Tufts::AudioMethods.show_audio_player(params[:id], true) %><br>
+      <br>
+      <div class="participant_div">
+        <b>Interview Participants</b><br>
+        <%= raw Tufts::AudioMethods.show_participants(@document_fedora) %>
+      </div>  <!-- participant_div -->
+    </div>  <!-- span6 -->
+
+    <div class="span6">
+      <div class="tabbable">
+        <ul class="nav nav-tabs">
+          <li <%= raw params[:tab] != "2" ? " class=\"active\"" : "" %>><a id="tab1" href="/catalog/<%= params[:id] %>?tab=1">Information</a></li>
+          <li <%= raw params[:tab] == "2" ? " class=\"active\"" : "" %>><a id="tab2" href="/catalog/<%= params[:id] %>?tab=2">Transcript</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-pane<%= params[:tab] != "2" ? " active" : "" %>" id="1">
+            <%= render :partial => 'shared/metadata_pane', :locals => {:metadata => metadata} %>
+          </div>  <!-- tab-pane 1 -->
+
+          <div class="tab-pane<%= params[:tab] == "2" ? " active" : "" %>" id="2">
+            <a href="/catalog/transcriptonly/<%= params[:id] %>" class="pull-right"><h6>view transcript only <i class="icon-share"></i></h6></a>
+            <br>
+            <div class="transcriptbox">
+              <%= raw Tufts::AudioMethods.show_transcript(@document_fedora, true) %>
+            </div>  <!-- transcriptbox -->
+          </div>  <!-- tab-pane 2 -->
+        </div>  <!-- tab-content -->
+      </div>  <!-- tabbable -->
+    </div>  <!-- span6 -->
+  </div>  <!-- row --> 

@@ -1,0 +1,9 @@
+<ul class="thumbnails">
+  <li class="span6 centertext">
+    <% metadata[:titles].each do |title| %>
+        <div class="bookcover2"><%= raw title.text %></div>
+    <% end %>
+    <br>
+    <p><%= render_tei_viewer_link(params[:id]) %></p>
+  </li>
+</ul>

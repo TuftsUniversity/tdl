@@ -1,0 +1,81 @@
+<%-
+@page_title = "Contact DCA"
+-%>
+<!-- LEFT SIDE/ FOR FLUID COLUMN TITLE ROW -->
+<div class="row-fluid">
+  <div class="span12">
+  </div>
+
+  <!-- nested row LEFT -->
+  <div class="row-fluid">
+
+    <div class="span3">
+      <%= render :partial => 'about/menu'%>
+    </div>
+
+    <!-- nested Fluid RIGHT -->
+    <div class="row">
+      <div class="span7">
+      <h2>Contact DCA</h2>
+  <p>The Tufts Digital Library welcomes and encourages your
+          questions, comments, and feedback. Your input is important to us
+          and contributes to the development of the TDL. Please contact us
+          in any of the following ways.</p>
+          
+         <h3>By feedback form:</h3>
+
+        <% unless @errors.empty? %>
+            <strong>Please fix the following form errors:</strong>
+            <ul class="errors">
+              <% @errors.each do |msg| %>
+                  <li><%= msg %></li>
+              <% end %>
+            </ul>
+        <% end %>
+
+        <%= form_tag do %>
+            <fieldset>
+              <%= label_tag 'Your Name' %> <%= text_field_tag :name, params[:name] %>
+              <%= label_tag 'Your Email' %> <%= text_field_tag :email, params[:email] %>
+              <%= label_tag 'Your Message' %> <%= text_area_tag :message, params[:message] %>
+              <%#= show_simple_captcha(:image_style => 'random', :label => "Enter the characters you see into the text field") %>
+              <%= label_tag '' %><%= submit_tag 'Send!' %>
+            </fieldset>
+        <% end %>
+          <h3>By mail, phone, or email:</h3>
+          
+          <p>Tufts Digital Library<br />
+          c/o Digital Collections and Archives<br />
+          Tisch Library Building<br />
+          35 Professors Row<br />
+          Medford, MA 02155<br />
+          dl_feedback&#x0040;elist.tufts.edu<br />
+          Phone: 617.627.3737</p>
+          
+        <div id="static_thumbnail">
+           <div>
+              <a href="/catalog/tufts:UA009.011.029.00009"><img src="/file_assets/tufts:UA009.011.029.00009" alt="Boy Writing, Eliot-Pearson Department of Child Development" width="250px"></a>
+           </div>
+        </div>
+
+ 
+
+      </div>
+
+      <div class="span9">
+
+
+      </div>
+
+
+      <br/>
+    </div>
+    <div class="row">
+      <div class="span7 offset3">
+
+
+      </div>
+    </div>
+  </div>
+
+</div>

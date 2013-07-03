@@ -1,0 +1,45 @@
+<div class="row">
+  <%-
+      # Add year_start and year_end params back so that nav-pills for them appear properly.
+      # TODO: THIS NEEDS TO BE FIXED
+      ##rack_req = @_env['rack.request.query_hash']
+      ##localized_params['year_start'] = rack_req['year_start']
+      ##localized_params['year_end'] = rack_req['year_end']
+
+      unless (localized_params[:q].nil? || localized_params[:q].length() == 0) && 
+             (localized_params[:keyword].nil? || localized_params[:keyword].length() == 0) && 
+             (localized_params[:title].nil? || localized_params[:title].length() == 0) && 
+             (localized_params[:author].nil? || localized_params[:author].length() == 0) && 
+             (localized_params[:collection].nil? || localized_params[:collection].length() == 0) && 
+             (localized_params[:year_start].nil? || localized_params[:year_start].length() == 0) && 
+             (localized_params[:year_end].nil? || localized_params[:year_end].length() == 0) && 
+             (localized_params[:description].nil? || localized_params[:description].length() == 0) && 
+             (localized_params[:organization].nil? || localized_params[:organization].length() == 0) && 
+             (localized_params[:people].nil? || localized_params[:people].length() == 0) && 
+             (localized_params[:place].nil? || localized_params[:place].length() == 0) && 
+             (localized_params[:topic].nil? || localized_params[:topic].length() == 0)
+   -%>
+
+  <div class="span2" style="text-align: right;">
+    <h6>You searched for:</h6>
+  </div>
+  <div class="span7">
+
+    <ul class="nav nav-pills">
+      <%= raw render_constraints_query(localized_params) %>
+    </ul>
+
+  </div>
+  <%- end -%>
+  <%- unless localized_params[:f].nil? -%>
+  <div class="span2" style="text-align: right;">
+    <h6>Limited to:</h6>
+  </div>
+  <div class="span7">
+    <ul class="nav nav-pills">
+      <%= render_constraints_filters(localized_params) %>
+    </ul>
+  </div>
+  <%- end -%>
+
+</div>

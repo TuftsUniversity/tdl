@@ -1,0 +1,41 @@
+<div class="subnav">
+  <% if ("index" == @current_action && "advanced" != @current_controller) || "about" == @current_action || "contact" == @current_action %>
+    <%= render :partial =>"shared/search_bar" %>
+  <% elsif "eadoverview" == @current_action %>
+    <div class="span6" style="padding-top: 5px;">
+      <a href="<%= Tufts::EADMethods.collection_url(@document_fedora) %>"><i class="icon-arrow-left"></i>&nbsp;Collection Home</a>
+    </div>
+    <div class="span6 pull-right download_links" style="display: none;">    <!-- display: none; for now until pdfs become available -->
+      <a href="/file_assets/pdf/<%= params[:id] %>"><i class="icon-file"/></i>&nbsp;Download Collection Guide (PDF)</a>
+    </div>
+  <% elsif "eadinternal" == @current_action %>
+    <div class="span12" style="padding-top: 5px;">
+      <a href="<%= Tufts::EADMethods.finding_aid_url(@document_fedora) %>"><i class="icon-arrow-left"></i>&nbsp;<%= @collection_title %></a> > <%= @series_full_title %>
+    </div>
+  <% elsif "teireader" == @current_action %>
+    <div class="span12" style="padding-top: 5px;">
+      <a href="/catalog/<%= params[:id] %>"><i class="icon-arrow-left"></i>&nbsp;Back to Book Home</a>
+    </div>
+  <% elsif "transcriptonly" == @current_action %>
+    <div class="span6" style="padding-top: 5px;">
+      <a href="/catalog/<%= params[:id] %>"><i class="icon-arrow-left"></i>&nbsp;Back to Audio Player</a>
+    </div>
+    <div class="span6 pull-right download_links">
+      <a href="/file_assets/<%= params[:id] %>"><i class="icon-headphones"/></i>&nbsp;Download Audio File</a>&nbsp;&nbsp;<a href="/file_assets/transcript/<%= params[:id] %>"><i class="icon-file"/></i>&nbsp;Download Transcript</a>
+    </div>
+  <% elsif "facet" == @current_action %>
+    <div class="span5" style="padding-top: 5px;">
+    <% if refered_from_our_site? %>
+      <a href="<%= request.env["HTTP_REFERER"]%>"><i class="icon-arrow-left"></i>&nbsp;Back</a>
+    <% end %>
+    </div>
+  <% elsif !@document.nil? %>
+    <% format = document_partial_name(@document) %>
+    <div class="span5" style="padding-top: 5px;">
+      <% if refered_from_our_site? %>
+        <i class="icon-arrow-left"></i>&nbsp;<%= link_back_to_catalog(:label=>'Back to Search Results') %>
+      <% end %>
+    </div>
+    <%= render :partial=>"#{format}/subnav"%>
+  <% end %>
+</div>

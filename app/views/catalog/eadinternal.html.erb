@@ -1,0 +1,172 @@
+<% javascript_includes << "ead/floating_table_of_contents.js" %>
+<% javascript_includes << "ead/expand_collapse.js" %>
+<% stylesheet_links << "ead/ead.css" %>
+
+
+<%
+    series, series_level = Tufts::EADMethods.get_series(@document_fedora, @item_id)
+    series_title, series_physdesc, series_scopecontents = Tufts::EADMethods.get_series_info(series)
+    series_items = Tufts::EADMethods.get_series_items(series)
+    series_access_and_use = Tufts::EADMethods.get_series_access_and_use(series)
+
+    # @collection_title and @series_full_title are also used in the _subnav.html.erb partial
+    @collection_title = Tufts::EADMethods.title(@document_fedora)
+    @series_full_title = "Series " + series_level + ": " + series_title
+    @page_title = @series_full_title + " - " + application_name
+%>
+
+
+<div class="row">
+  <div class="span12">
+    <h2><%= series_title %></h2>
+  </div>
+</div>
+
+<hr>
+
+<div class="row" id="outermost">
+  <div class="span3" id="floating_table_of_contents_column">
+    <div class="EAD_TOC" id="floating_table_of_contents">
+      <h6>On this page:</h6>
+      <ul class="nav nav-tabs nav-stacked" style="margin: 0px;">
+        <li><a href="#series_overview">Series Overview</a></li>
+<%  if !series_items.empty? %>
+        <li><a href="#detailed_contents_list">Detailed Contents List</a></li>
+<%  end %>
+<%  if !series_access_and_use.empty? %>
+        <li><a href="#access_and_use">Access and Use</a></li>
+<%  end %>
+      </ul>
+    </div>
+    <div>  <!-- placeholder div to maintain containing column width when TOC becomes fixed -->
+      &nbsp;
+    </div>
+  </div>
+
+  <div class="span6" id="series_overview">
+    <p>
+      This series is part of <a href="<%= Tufts::EADMethods.collection_url(@document_fedora)%>"><%= @collection_title %></a>
+      <br>
+      <%= series_physdesc %>
+    </p>
+
+<%  series_scopecontents.each do |paragraph| %>
+    <p><%= raw paragraph %></p>
+<%  end %>
+  </div>
+
+  <div class="span3 ">
+    <div class="tooltip-demo well">
+      <a href="/catalog?f[collection_id_facet][]=<%= params[:id] %>"><h5>View Online Materials <i class="icon-arrow-right margintoparrow"></i></h5></a>
+      <p><a href="/contact">Contact DCA</a> to view materials that are not online.</p>
+    </div>
+  </div>
+
+  <div class="span9 offset3">
+    <h4 id="detailed_contents_list">Detailed Contents List</h4>
+    <br> 
+    <table id="theTable" cellpadding="0" cellspacing="0" class="table" width="679px" style="border:0">
+      <thead>
+        <tr class="table_options">
+          <td colspan="5">
+            <div class="left" style="margin-bottom: 2px">
+              <button class="btn btn-mini" onclick="displayAll(true)">expand all folders</button>
+              <button class="btn btn-mini" onclick="displayAll(false)">close all folders</button>
+            </div>
+          </td>
+        </tr>
+
+        <tr class="table_header">
+          <td class="collapse_td">&nbsp;</td>
+          <td class="active" valign="bottom">Title</td>
+          <td class="locator_td" valign="bottom">&nbsp;</a></td>
+          <td class="id_td" align="left" valign="bottom">&nbsp;</td>
+          <td class="availableonline_td" align="center" valign="bottom">Available Online</td>
+        </tr>
+      </thead>
+
+<%
+    row = 2
+    series_items.each do |series_item|
+      row_s = row.to_s
+      item_title, item_paragraphs, item_labels, item_values, page, thumbnail, next_level_items = Tufts::EADMethods.get_series_item_info(series_item)
+      is_folder = !next_level_items.nil? && !next_level_items.empty?
+      expand_collapse = (is_folder ? "<a href=\"javascript:toggleDisplay('#img" + row_s + "', " + (row + 1).to_s + ", " + (row + next_level_items.size).to_s + ");\"><img class=\"folderRowToggler\" id=\"img" + row_s + "\" src=\"/assets/img/button_collapse.png\" width=\"11\" height=\"11\" alt=\"collapse\" /></a>" : "&nbsp;")
+%>
+      <tr class="folderRow">
+        <td class="collapse_td"><%= raw expand_collapse %></td>
+        <td<%= raw (is_folder ? " class=\"ead_table_title\"" : "") %>><%= raw (is_folder ? "<a href=\"javascript:toggleDisplay('#img" + row_s + "', " + (row + 1).to_s + ", " + (row + next_level_items.size).to_s + ");\">" + item_title + "</a>" : item_title) %>
+<%    if is_folder %>
+          <br><span class="smalltext">There might be additional items in this folder.  <a href="/contact">Contact DCA.</a></span>
+<%    end %>
+<%    item_paragraphs.each do |item_paragraph| %>
+          <br><%= raw item_paragraph %>
+<%    end %>
+        </td>
+        <td class="smalltext locator_td"><%= raw item_labels %></td>
+        <td class="smalltext id_td" align="left"><%= raw item_values %></td>
+<%
+      if thumbnail.nil? || thumbnail.empty?
+        if page.nil? || page.empty?
+%>
+        <td class="availableonline_td" align="center">&nbsp</td>
+<%      else %>
+        <td class="availableonline_td" align="center"><i class="icon-ok"></i></td>
+<%
+        end
+      else
+%>
+        <td class="thumbnail_td" align="center">
+          <ul class="thumbnails">
+            <li class="nothumbnailmargin">
+              <a href="/catalog/<%= page %>" class="thumbnail"><img class="thumbnailwidth" src="/file_assets/thumb/<%= thumbnail %>" /></a>
+            </li>
+          </ul>
+        </td>
+<%    end %>
+      </tr>
+<%
+      next_level_items.each do |next_level_item|
+        item_title, item_paragraphs, item_labels, item_values, page, thumbnail = Tufts::EADMethods.get_series_item_info(next_level_item)
+%>
+      <tr>
+        <td class="collapse_td">&nbsp;</td>
+        <td class="table_title indent"><%= raw item_title %>
+<%      item_paragraphs.each do |item_paragraph| %>
+          <br><%= raw item_paragraph %>
+<%      end %>
+        </td>
+        <td class="smalltext locator_td"><%= raw item_labels %></td>
+        <td class="smalltext id_td" align="left"><%= raw item_values %></td>
+<%      if thumbnail.nil? || thumbnail.empty? %>
+        <td class="thumbnail_td" align="center">&nbsp</td>
+<%      else %>
+        <td class="thumbnail_td" align="center">
+          <ul class="thumbnails">
+            <li class="nothumbnailmargin">
+              <a href="/catalog/<%= page %>" class="thumbnail"><img class="thumbnailwidth" src="/file_assets/thumb/<%= thumbnail %>" /></a>
+            </li>
+          </ul>
+        </td>
+<%      end %>
+      </tr>
+<%
+        row += 1
+      end
+      row += 1
+    end
+%>
+    </table>
+
+<%  if !series_access_and_use.empty? %>
+    <h4 id="access_and_use">Access and Use</h4>
+<%    series_access_and_use.each do |paragraph| %>
+    <p><%= raw paragraph %></p>
+<%
+      end
+    end
+%>
+
+    <br>
+  </div>
+</div>
