@@ -1,0 +1,60 @@
+@charset "UTF-8";
+/*Modified by Tufts University ESTS*/
+	
+	body{background:#CCC;}
+	
+	#menu {text-align:left;}
+	/*Toggle Area*/
+	#menu .toggle {float:right;width:9px; padding:5px; cursor:pointer; border-top:1px solid white; border-left:1px solid #E0E0E0; color:#999;}
+	#menu ul.navmenu li:first-child .toggle{border-width:0 0 0 1px;}
+	
+	/*Menu Setup*/
+	#menu ul{padding:0; margin:0; width:180px;}
+	#menu ul ul{border:1px solid #CCC;overflow:hidden;}
+	#menu ul.navmenu li {margin:0; list-style:none;float:left;}
+	#menu ul.navmenu li li {float:none;}
+	/*Links*/
+	#menu ul.navmenu a, #menu ul.navmenu a:visited {text-decoration:none; padding:5px; display:block; color:#0755AC;}
+	#menu ul.navmenu ul.submenu a:hover{background:#c4e0f5; color:#333;}
+	/*Heading Outer div*/
+	#menu ul.navmenu .menutop{border:1px solid #CCC; border-width:0 1px; overflow:hidden; width:180px; background:#F9F9F9; }
+	/*Header Links*/
+	#menu ul.navmenu .menutop a{width:150px;float:left;margin:0 0 1px 0; border-top:1px solid white; color:#000;}
+	/*Header Link Hover*/
+	#menu ul.navmenu .menutop a:hover{color:#333;}
+ 
+	/*Removes white border for the first header*/
+	#menu ul.navmenu li:first-child .menutop a {border-width:0px;}
+	
+	/*Single Menu Width Fix*/
+	#menu ul.navmenu .menusingle a{width:170px;}
+	
+	/*Border Radius and Special Border Width*/
+	#menu ul.navmenu li:first-child .menutop{border-width:1px 1px 0 1px; -moz-border-radius:5px 5px 0 0;-webkit-border-top-left-radius:5px;-webkit-border-top-right-radius:5px;}
+	#menu ul.navmenu li:last-child .menutop{border-width:0px 1px 1px 1px; -moz-border-radius:0 0 5px 5px; -webkit-border-bottom-left-radius:5px;-webkit-border-bottom-right-radius:5px;}
+	#menu ul.navmenu li:last-child ul.submenu{-moz-border-radius:0 0 5px 5px;-webkit-border-bottom-left-radius:5px;-webkit-border-bottom-right-radius:5px;}
+	#menu ul.navmenu li:last-child .menutop-open{-moz-border-radius:0;-webkit-border-radius:0px; border-width:0 1px;}
+
+
+
+.numbercount{color:#666;}
+.checklist input[type="checkbox"]{margin-left: -15px; }
+ /*extended lists*/
+.prev_next_links{
+	text-align:center;}
+	
+.sort_change {text-decoration:underline;}
+.sort_options{font-size:11px; padding-right: 5px;text-align:right;}
+.close_window{float:right;  width:9px;  padding-left:5px; cursor:pointer; border-left:1px solid #E0E0E0; color:#999; height:25px;}
+.close_window a {color:#999; vertical-align:middle;}
+
+.selected
+{
+    padding: 5px;
+    display: block;
+    color: #666;
+}
+
+.facet_pagination.top .prev_next_links {display: none;}
+
+.facet_pagination.bottom .sort_options {display: none;}
