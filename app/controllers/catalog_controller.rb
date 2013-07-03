@@ -5,17 +5,27 @@ class CatalogController < ApplicationController
 
   include Blacklight::Catalog
   include Hydra::Controller::ControllerBehavior
+  include Tufts::Catalog
+
+  #before filters..
+  before_filter :instantiate_controller_and_action_names
+
   # These before_filters apply the hydra access controls
-  before_filter :enforce_show_permissions, :only=>:show
+
+  #### TDL is not currently enforcing permissions #####
+  #before_filter :enforce_show_permissions, :only=>:show
+  #### /TDL is not currently enforcing permissions #####
+
   # This applies appropriate access controls to all solr queries
-  CatalogController.solr_search_params_logic += [:add_access_controls_to_solr_params]
+#  CatalogController.solr_search_params_logic += [:add_access_controls_to_solr_params]
   # This filters out objects that you want to exclude from search results, like FileAssets
   CatalogController.solr_search_params_logic += [:exclude_unwanted_models]
 
 
   configure_blacklight do |config|
     config.default_solr_params = { 
-      :qt => 'search',
+       :qt => 'search',
+       :qf => 'id creator_tesim title_tesim subject_tesim description_tesim identifier_tesim alternative_tesim contributor_tesim abstract_tesim toc_tesim publisher_tesim source_tesim date_tesim date_created_tesim date_copyrighted_tesim date_submitted_tesim date_accepted_tesim date_issued_tesim date_available_tesim date_modified_tesim language_tesim type_tesim format_tesim extent_tesim medium_tesim persname_tesim corpname_tesim geogname_tesim genre_tesim provenance_tesim rights_tesim access_rights_tesim rights_holder_tesim license_tesim replaces_tesim isReplacedBy_tesim hasFormat_tesim isFormatOf_tesim hasPart_tesim isPartOf_tesim accrualPolicy_tesim audience_tesim references_tesim spatial_tesim bibliographic_citation_tesim temporal_tesim funder_tesim resolution_tesim bitdepth_tesim colorspace_tesim filesize_tesim steward_tesim name_tesim comment_tesim retentionPeriod_tesim displays_ssi embargo_tesim status_tesim startDate_tesim expDate_tesim qrStatus_tesim rejectionReason_tesim note_tesim read_access_group_tim',
       :rows => 10 
     }
 
@@ -47,13 +57,10 @@ class CatalogController < ApplicationController
     #
     # :show may be set to false if you don't want the facet to be drawn in the 
     # facet bar
-    config.add_facet_field solr_name('object_type', :facetable), :label => 'Format' 
-    config.add_facet_field solr_name('pub_date', :facetable), :label => 'Publication Year' 
-    config.add_facet_field solr_name('subject_topic', :facetable), :label => 'Topic', :limit => 20 
-    config.add_facet_field solr_name('language', :facetable), :label => 'Language', :limit => true 
-    config.add_facet_field solr_name('lc1_letter', :facetable), :label => 'Call Number' 
-    config.add_facet_field solr_name('subject_geo', :facetable), :label => 'Region' 
-    config.add_facet_field solr_name('subject_era', :facetable), :label => 'Era'  
+    config.add_facet_field solr_name('names', :facetable), :label => 'Names', :limit => 7
+    config.add_facet_field solr_name('year', :facetable), :label => 'Year', :limit => 7
+    config.add_facet_field solr_name('subject', :facetable), :label => 'Subject', :limit => 7
+    config.add_facet_field solr_name('object_type', :facetable), :label => 'Format', :limit => 7
 
     # Have BL send all facet field names to Solr, which has been the default
     # previously. Simply remove these lines if you'd rather use Solr request
@@ -164,7 +171,5 @@ class CatalogController < ApplicationController
     # mean") suggestion is offered.
     config.spell_max = 5
   end
-
-
 
 end 
