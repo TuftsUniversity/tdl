@@ -9,6 +9,8 @@ gem 'tuftsification-hydra', :git => 'git@github.com:TuftsUniversity/tuftsificati
 gem "active-fedora", "~> 6.3.0"
 gem 'om', git: 'https://github.com/projecthydra/om.git', branch: 'fix_serializing_nil'
 
+gem "blacklight_advanced_search"
+
 # We will assume that you're using sqlite3 for testing/demo,
 # but in a production setup you probably want to use a real sql database like mysql or postgres
 gem 'sqlite3'
