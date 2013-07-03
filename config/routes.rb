@@ -1,10 +1,26 @@
-SouthAsianDigitalLibrary::Application.routes.draw do
+ALLOW_DOTS ||= /[a-zA-Z0-9_.:]+/
+
+TDL::Application.routes.draw do
   root :to => "catalog#index"
 
   Blacklight.add_routes(self)
-  HydraHead.add_routes(self)
+    resources :catalog, :only => [:show, :update], :constraints => { :id => ALLOW_DOTS, :format => false }
+    Blacklight::Routes.new(self, {}).catalog
+    resources :unpublished, :only => :index
+    # This is from Blacklight::Routes#solr_document, but with the constraints added which allows periods in the id
+    resources :solr_document,  :path => 'catalog', :controller => 'catalog', :only => [:show, :update]
+    resources :downloads, :only =>[:show], :constraints => { :id => ALLOW_DOTS
+   }
+   resources :bookmarks, :path => 'catalog'
+   resources :search_history, :path => 'search_history', :only => [:index,:show]
+
+    HydraHead.add_routes(self)
+  match "/about" => "about#index"
+  match "/contact" => "contact#show"
+  match "/about/:action" => "about"
 
   devise_for :users
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
