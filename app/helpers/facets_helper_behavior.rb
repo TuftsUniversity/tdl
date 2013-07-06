@@ -1,5 +1,4 @@
 module Blacklight::FacetsHelperBehavior
-  include Blacklight::FacetsHelperBehavior
 
 
   # Removing the [remove] link from the default selected facet display
