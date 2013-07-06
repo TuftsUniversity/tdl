@@ -29,6 +29,7 @@ end
 group :development, :test do
    gem 'rspec-rails'
    gem 'jettywrapper'
+   gem 'pry'
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]
