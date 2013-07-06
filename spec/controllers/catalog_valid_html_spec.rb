@@ -56,5 +56,13 @@ describe CatalogController do
     
     
   end #Document pages
+
+  describe "Result Page" do
+
+    it "Should have valid html when in Search Results" do
+      get(:index, :q => 'history')
+    	document_check(response.body)
+    end
+  end
   
 end
