@@ -32,6 +32,7 @@ end
 
 
 describe CatalogController do
+  render_views
   describe "Home Page" do
     
     it "Should have Valid HTML when not logged in" do
@@ -60,7 +61,7 @@ describe CatalogController do
   describe "Result Page" do
 
     it "Should have valid html when in Search Results" do
-      get(:index, :q => 'history')
+      get(:index, {"utf8"=>"✓", "q"=>"test", "search_field"=>"all_fields"})
     	document_check(response.body)
     end
   end
