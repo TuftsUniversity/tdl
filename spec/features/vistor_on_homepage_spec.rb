@@ -1,6 +1,5 @@
 require 'spec_helper'
 feature 'Visitor goes to homepage' do
-  include TestHelpers
   scenario 'home page loads without error' do
        visit root_path
        page.status_code.should be 200 
