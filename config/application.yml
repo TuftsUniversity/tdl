@@ -1,0 +1,54 @@
+# config/application.yml
+defaults: &defaults
+  pdf_pages:
+    page_location: "#{Rails.root}/pdf_pages"
+  png_pages:
+    page_location: "#{Rails.root}/pdf_pages"
+  pngizer_failure_address: "brian.goodmon@tufts.edu"
+  tdl_feedback_address: "brian.goodmon@tufts.edu"
+  tdl_feedback_subject: "TDL Content Feedback"
+  local_object_store: "#{Rails.root}/local_object_store"
+  trim_bucket_url: "http://bucket01.lib.tufts.edu"
+  processing_url: "http://processing01.lib.tufts.edu:8080"
+  repository_url: "http://repository01.lib.tufts.edu:8080"
+development:
+  <<: *defaults
+  neat_setting: 800
+  processing_url: "SKIP"
+  repository_url: "http://localhost:8983/"
+tdldev:
+  <<: *defaults
+  pdf_pages:
+    page_location: "/tdr"
+  local_object_store: "/tdr"
+  processing_url: "http://dev-processing01.lib.tufts.edu:8080"
+  repository_url: "http://dev-repository01.lib.tufts.edu:8080"
+stage:
+  <<: *defaults
+  pdf_pages:
+    page_location: "/tdr"
+  png_pages:
+    page_location: "/tdr"
+  pngizer_failure_address: "dldev@elist.tufts.edu"
+  local_object_store: "/tdr"
+  processing_url: "http://stage-processing01.lib.tufts.edu:8080"
+  repository_url: "http://stage-repository01.lib.tufts.edu:8080"
+test:
+  <<: *defaults
+  pdf_pages:
+    page_location: "/tdr"
+  png_pages:
+    page_location: "/tdr"
+  local_object_store: "/tdr"
+  processing_url: "http://stage-processing01.lib.tufts.edu:8080"
+  repository_url: "http://stage-repository01.lib.tufts.edu:8080"
+production:
+  <<: *defaults
+  pdf_pages:
+    page_location: "/tdr"
+  png_pages:
+    page_location: "/tdr"
+  tdl_feedback_address: "dl_feedback@elist.tufts.edu"
+  local_object_store: "/tdr"
+  processing_url: "http://processing01.lib.tufts.edu:8080"
+  repository_url: "http://repository01.lib.tufts.edu:8080"
