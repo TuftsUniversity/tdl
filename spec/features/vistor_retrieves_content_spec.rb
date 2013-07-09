@@ -33,58 +33,67 @@ feature 'Visitor goes directly to a catalog pid' do
 #tufts_UA069.001.DO.UA001.foxml.xml
 #tufts_UA069.001.DO.UA015.foxml.xml
 #tufts_UA069.001.DO.UP029.foxml.xml
-#tufts_UA069.005.DO.00001.foxml.xml
-#tufts_UA069.005.DO.00002.foxml.xml
-#tufts_UA069.005.DO.00015.foxml.xml
-#tufts_UA069.005.DO.00020.foxml.xml
-#tufts_UA069.005.DO.00026.foxml.xml
-#tufts_UA069.005.DO.00090.foxml.xml
-#tufts_UA069.005.DO.00094.foxml.xml
-#tufts_UA069.005.DO.00239.foxml.xml
-#tufts_UA069.005.DO.00272.foxml.xml
+
+
+  scenario 'user loads Here and There at Tufts' do
+    visit '/catalog/tufts:UA069.005.DO.00094'
+    #checking table of contents
+    page.should have_content 'Frontispiece'
+  end
+  scenario 'user loads A Failure of Management' do
+    visit '/catalog/tufts:UA069.005.DO.00239'
+    page.should have_content 'This document was created from the article, "A Failure of Management" by Walter B. Wriston for the 1995 edition of "Sternbusiness." The original article is located in MS134.003.028.00013.'
+  end
+
+  scenario 'user loads A Long View of the Short Run: An Address and opens book' do
+    visit '/catalog/tufts:UA069.005.DO.00272'
+    page.should have_content "/catalog/tufts:UA069.005.DO.00272"
+    click 'View Book'
+    page.status_code.should be 200
+  end
 
   scenario 'user loads tei' do
-      visit '/catalog/tufts:UA069.005.DO.00339'
-      page.should have_content "Acceptance Speech for the Citation of Merit Award"
+    visit '/catalog/tufts:UA069.005.DO.00339'
+    page.should have_content "Acceptance Speech for the Citation of Merit Award"
   end
 
   scenario 'user loads image' do
-      visit '/catalog/tufts:UP022.001.001.00001.00005'
-      page.should have_content "Illustration of the Festival at the Dedication of Tufts College on August 22, 1855"
+    visit '/catalog/tufts:UP022.001.001.00001.00005'
+    page.should have_content "Illustration of the Festival at the Dedication of Tufts College on August 22, 1855"
   end
 
   scenario 'user loads image and goes to request hi res version' do
-      visit '/catalog/tufts:UP022.001.001.00001.00005'
-      click 'Request High-resolution'
-      page.status_code.should be 200
+    visit '/catalog/tufts:UP022.001.001.00001.00005'
+    click 'Request High-resolution'
+    page.status_code.should be 200
   end
 
   scenario 'user loads image and tries to download image' do
-      visit '/catalog/tufts:UP022.001.001.00001.00005'
-      click 'Download Image'
-      page.status_code.should be 200
+    visit '/catalog/tufts:UP022.001.001.00001.00005'
+    click 'Download Image'
+    page.status_code.should be 200
   end
 
   scenario 'user loads advanced image viewer' do
-      visit '/imageviewer/tufts:UP022.001.001.00001.00005#page/1/mode/1up'
-      page.status_code.should be 200
+    visit '/imageviewer/tufts:UP022.001.001.00001.00005#page/1/mode/1up'
+    page.status_code.should be 200
   end
 
   scenario 'user loads tufts daily' do
-      visit '/catalog/tufts:UP029.003.003.00012'
-      page.should have_content "Tufts Daily, March 1"
+    visit '/catalog/tufts:UP029.003.003.00012'
+    page.should have_content "Tufts Daily, March 1"
   end
   scenario 'user loads tufts daily' do
-      visit '/catalog/tufts:UP029.020.031.00108'
-      page.should have_content "Tufts Daily, November 29"
+    visit '/catalog/tufts:UP029.020.031.00108'
+    page.should have_content "Tufts Daily, November 29"
   end
   scenario 'user loads tufts daily' do
-      visit '/catalog/tufts:UP029.003.003.00014'
-      page.should have_content "Tufts Daily, March 3"
+    visit '/catalog/tufts:UP029.003.003.00014'
+    page.should have_content "Tufts Daily, March 3"
   end
   scenario 'user wildlife pathology image' do
-      visit '/catalog/tufts:WP0001'
-      page.should have_content "Example Wildlife Pathology entry"
+    visit '/catalog/tufts:WP0001'
+    page.should have_content "Example Wildlife Pathology entry"
   end
 
 end
