@@ -3,6 +3,8 @@ ALLOW_DOTS ||= /[a-zA-Z0-9_.:]+/
 TDL::Application.routes.draw do
   root :to => "catalog#index"
 
+  match '/imageviewer/:id', :to => 'imageviewer#show', :constraints => {:id => /.*/}, :as =>'imageviewer'
+
   Blacklight.add_routes(self)
     resources :catalog, :only => [:show, :update], :constraints => { :id => ALLOW_DOTS, :format => false }
     Blacklight::Routes.new(self, {}).catalog
