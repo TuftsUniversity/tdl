@@ -9,8 +9,21 @@ class CatalogController < ApplicationController
 
   #before filters..
   before_filter :instantiate_controller_and_action_names
-
+  before_filter :load_fedora_document, :only=>[:show, :edit, :teireader, :eadoverview, :eadinternal, :transcriptonly]
   # These before_filters apply the hydra access controls
+
+
+  # Use params[:id] to load an object from Fedora.  Inspects the object for known models and mixes in any of those models' behaviors.
+  # Sets @document_fedora with the loaded object
+  # Sets @file_assets with file objects that are children of the loaded object
+  def load_fedora_document
+    @document_fedora = ActiveFedora::Base.find(params[:id], :cast=>true)
+    unless @document_fedora.class.include?(Hydra::ModelMethods)
+      @document_fedora.class.send :include, Hydra::ModelMethods
+    end
+
+    #@file_assets = @document_fedora.parts(:response_format=>:solr)
+  end
 
   #### TDL is not currently enforcing permissions #####
   #before_filter :enforce_show_permissions, :only=>:show
