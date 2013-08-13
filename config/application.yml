@@ -7,7 +7,7 @@ defaults: &defaults
   pngizer_failure_address: "brian.goodmon@tufts.edu"
   tdl_feedback_address: "brian.goodmon@tufts.edu"
   tdl_feedback_subject: "TDL Content Feedback"
-  local_object_store: "#{Rails.root}/local_object_store"
+  object_store_root: <%= Gem.loaded_specs['tuftsification-hydra'].full_gem_path + "/local_object_store" %>
   trim_bucket_url: "http://bucket01.lib.tufts.edu"
   processing_url: "http://processing01.lib.tufts.edu:8080"
   repository_url: "http://repository01.lib.tufts.edu:8080"
@@ -20,7 +20,7 @@ tdldev:
   <<: *defaults
   pdf_pages:
     page_location: "/tdr"
-  local_object_store: "/tdr"
+  object_store_root: "/tdr"
   processing_url: "http://dev-processing01.lib.tufts.edu:8080"
   repository_url: "http://dev-repository01.lib.tufts.edu:8080"
 stage:
@@ -30,7 +30,7 @@ stage:
   png_pages:
     page_location: "/tdr"
   pngizer_failure_address: "dldev@elist.tufts.edu"
-  local_object_store: "/tdr"
+  object_store_root: "/tdr"
   processing_url: "http://stage-processing01.lib.tufts.edu:8080"
   repository_url: "http://stage-repository01.lib.tufts.edu:8080"
 test:
@@ -39,7 +39,7 @@ test:
     page_location: "/tdr"
   png_pages:
     page_location: "/tdr"
-  local_object_store: "/tdr"
+  object_store_root: "/tdr"
   processing_url: "http://stage-processing01.lib.tufts.edu:8080"
   repository_url: "http://stage-repository01.lib.tufts.edu:8080"
 production:
@@ -49,6 +49,6 @@ production:
   png_pages:
     page_location: "/tdr"
   tdl_feedback_address: "dl_feedback@elist.tufts.edu"
-  local_object_store: "/tdr"
+  object_store_root: "/tdr"
   processing_url: "http://processing01.lib.tufts.edu:8080"
   repository_url: "http://repository01.lib.tufts.edu:8080"
