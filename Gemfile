@@ -31,6 +31,7 @@ group :development, :test do
    gem 'jettywrapper'
    gem 'pry'
    gem 'capybara'
+   gem 'simplecov'
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]

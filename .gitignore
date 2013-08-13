@@ -15,3 +15,6 @@
 /tmp
 jetty
 .idea
+
+#Ignore simplecov code coverage output
+coverage
