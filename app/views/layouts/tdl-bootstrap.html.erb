@@ -145,7 +145,7 @@
 <div class="modal fade" id="comment_modal">
   <div class="modal-header">
     <button class="close" data-dismiss="modal">×</button>
-    <h3>Send Comment<%= ("show" == @current_action || "eadoverview" == @current_action || "eadinternal" == @current_action || "transcriptonly" == @current_action) ? " about " + show_title().to_s().strip! : "" %></h3>
+    <h3>Send Comment<%= ("show" == @current_action || "eadoverview" == @current_action || "eadinternal" == @current_action || "transcriptonly" == @current_action) ? " about " + show_title().to_s() : "" %></h3>
   </div>
 
 
