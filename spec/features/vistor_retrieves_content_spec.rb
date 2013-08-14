@@ -60,6 +60,7 @@ feature 'Visitor goes directly to a catalog pid' do
   scenario 'user loads image' do
     visit '/catalog/tufts:UP022.001.001.00001.00005'
     page.should have_content "Illustration of the Festival at the Dedication of Tufts College on August 22, 1855"
+    page.should have_xpath "//img[@src=\"/file_assets/tufts:UP022.001.001.00001.00005\"]"
   end
 
   scenario 'user loads image and goes to request hi res version' do
