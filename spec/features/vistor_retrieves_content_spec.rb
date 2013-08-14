@@ -78,8 +78,8 @@ end
 
   scenario 'user loads image and goes to request hi res version' do
     visit '/catalog/tufts:UP022.001.001.00001.00005'
-    click_link 'Request High-resolution'
-    page.status_code.should be 200
+    href = "http://sites.tufts.edu/dca/research-help/image-requests/"
+    page.should have_selector "a[href='#{href}']", text: "Request High-resolution"
   end
 
   scenario 'user loads image and tries to download image' do
