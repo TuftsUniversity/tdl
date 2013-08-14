@@ -1,4 +1,6 @@
 require 'spec_helper'
+
+
 feature 'Visitor goes directly to a catalog pid' do
 
   include TestHelpers
@@ -42,7 +44,7 @@ feature 'Visitor goes directly to a catalog pid' do
 
   scenario 'user is on Alliance for Progress fletcher thesis, and clicks through to see the parent collection' do
     visit '/catalog/tufts:UA015.012.DO.00104'
-    click 'Fletcher School of Law and Diplomacy records, 1923-2003'
+    click_link 'Fletcher School of Law and Diplomacy records, 1923-2003'
     page.status_code.should be 200
 end
 
@@ -59,7 +61,7 @@ end
   scenario 'user loads A Long View of the Short Run: An Address and opens book' do
     visit '/catalog/tufts:UA069.005.DO.00272'
     page.should have_content "/catalog/tufts:UA069.005.DO.00272"
-    click 'View Book'
+    click_link 'View Book'
     page.status_code.should be 200
   end
 
@@ -76,13 +78,13 @@ end
 
   scenario 'user loads image and goes to request hi res version' do
     visit '/catalog/tufts:UP022.001.001.00001.00005'
-    click 'Request High-resolution'
+    click_link 'Request High-resolution'
     page.status_code.should be 200
   end
 
   scenario 'user loads image and tries to download image' do
     visit '/catalog/tufts:UP022.001.001.00001.00005'
-    click 'Download Image'
+    click_link 'Download Image'
     page.status_code.should be 200
   end
 
