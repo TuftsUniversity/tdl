@@ -3,6 +3,22 @@ include Tufts::MetadataMethods
 
 module ApplicationHelper
 
+
+  def showImage(pid)
+      result = "<img alt=\"\" src=\"" + file_asset_path(pid) + "\"/>"
+
+      return raw(result)
+  end
+
+  def render_image_viewer_path(pid)
+    imageviewer_path(pid) +"#page/1/mode/1up"
+  end
+
+  def render_image_viewer_link(pid)
+    result = "<a href=\"" + render_image_viewer_path(pid) + "\"><h6>open in viewer <i class=\"icon-share\"></i></h6></a>"
+    return raw(result)
+  end
+
   def http_referer_uri
     request.env["HTTP_REFERER"] && URI.parse(request.env["HTTP_REFERER"])
   end

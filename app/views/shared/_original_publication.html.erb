@@ -1,6 +1,6 @@
 <% unless metadata[:citations].empty? %>
     <dd>Original publication</dd>
     <% metadata[:citations].each do |citation| %>
-        <dt><%= raw citation.text %></dt>
+        <dt><%= raw citation %></dt>
     <% end %>
 <% end %>

@@ -1,5 +1,5 @@
 <% metadata[:titles].each do |title| %>
-    <h2><%= raw title.text %></h2>
+    <h2><%= raw title %></h2>
 <% end %>
 <% metadata[:creators].each do |creator| %>
     <%= raw creator.text %>
@@ -12,7 +12,7 @@
     <% end %>
 <% else %>
     <% metadata[:temporals].each do |temporal| %>
-        <%= raw temporal.text %>
+        <%= raw temporal %>
         <br>
     <% end %>
 <% end %>

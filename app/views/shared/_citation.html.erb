@@ -1,6 +1,6 @@
 <% unless metadata[:citable_urls].empty? %>
     <dd>Permanent URL</dd>
     <% metadata[:citable_urls].each do |citable_url| %>
-        <dt><%= raw citable_url.text %></dt>
+        <dt><%= raw citable_url %></dt>
     <% end %>
 <% end %>
