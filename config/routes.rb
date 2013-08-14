@@ -32,8 +32,10 @@ TDL::Application.routes.draw do
    match '/file_assets/ogg/:id', :to => 'local_file_assets#showOGG', :constraints => {:id => /.*/}, :as =>'file_asset'
    match '/local_file_assets/:id', :to => 'local_file_assets#show', :constraints => {:id => /.*/}, :as =>'file_asset'
    match '/file_assets/:id', :to => 'local_file_assets#show', :constraints => {:id => /.*/}, :as =>'file_asset'
-  match '/pdf_pages/:id/metadata', :to => 'pdf_pages#dimensions', :constraints => {:id => /.*/}, :as =>'pdf_page'
-  match '/pdf_pages/:id/:pageNumber', :to => 'pdf_pages#show', :constraints => {:id => /.*/, :pageNumber => /.*/}, :as =>'pdf_page'
+   match '/pdf_pages/:id/metadata', :to => 'pdf_pages#dimensions', :constraints => {:id => /.*/}, :as =>'pdf_page'
+   match '/pdf_pages/:id/:pageNumber', :to => 'pdf_pages#show', :constraints => {:id => /.*/, :pageNumber => /.*/}, :as =>'pdf_page'
+   match '/catalog/tei/:id/chapter/:chapter', :to => 'catalog#teireader', :constraints => {:id => /.*/,:chapter => /.*/}, :as =>'teireader'
+   match '/catalog/tei/:id', :to => 'catalog#teireader', :constraints => {:id => /.*/}, :as =>'teireader'
 
   devise_for :users
 
