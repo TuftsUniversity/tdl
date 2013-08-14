@@ -2,12 +2,12 @@
     <h2><%= raw title %></h2>
 <% end %>
 <% metadata[:creators].each do |creator| %>
-    <%= raw creator.text %>
+    <%= raw creator %>
     <br>
 <% end %>
 <% unless metadata[:dates].nil? || metadata[:dates].empty? %>
     <% metadata[:dates].each do |date| %>
-        <%= raw date.text %>
+        <%= raw date %>
         <br>
     <% end %>
 <% else %>
