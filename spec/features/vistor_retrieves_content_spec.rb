@@ -60,7 +60,7 @@ end
 
   scenario 'user loads A Long View of the Short Run: An Address and opens book' do
     visit '/catalog/tufts:UA069.005.DO.00272'
-    page.should have_content "/catalog/tufts:UA069.005.DO.00272"
+    page.should have_content "The document was created from the speech,"
     click_link 'View Book'
     page.status_code.should be 200
   end
