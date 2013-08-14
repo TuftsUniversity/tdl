@@ -35,6 +35,17 @@ feature 'Visitor goes directly to a catalog pid' do
 #tufts_UA069.001.DO.UP029.foxml.xml
 
 
+  scenario 'user loads Alliance for Progress fletcher thesis, and sees that it is in the collection: Fletcher School of Law and Diplomacy records, 1923-2003' do
+    visit '/catalog/tufts:UA015.012.DO.00104'
+    page.should have_content 'Fletcher School of Law and Diplomacy records, 1923-2003'
+  end
+
+  scenario 'user is on Alliance for Progress fletcher thesis, and clicks through to see the parent collection' do
+    visit '/catalog/tufts:UA015.012.DO.00104'
+    click 'Fletcher School of Law and Diplomacy records, 1923-2003'
+    page.status_code.should be 200
+end
+
   scenario 'user loads Here and There at Tufts' do
     visit '/catalog/tufts:UA069.005.DO.00094'
     #checking table of contents
