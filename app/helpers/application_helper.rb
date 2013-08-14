@@ -33,6 +33,15 @@ module ApplicationHelper
     return raw(result)
   end
 
+  def render_tei_viewer_link(pid)
+    result = "<a href=\"" + render_tei_viewer_path(pid) + "\"><h6>View Book <i class=\"icon-share\"></i></h6></a>"
+    return raw(result)
+  end
+
+  def render_tei_viewer_path(pid)
+    "/catalog/tei/" + pid
+  end
+
   def http_referer_uri
     request.env["HTTP_REFERER"] && URI.parse(request.env["HTTP_REFERER"])
   end
