@@ -11,7 +11,7 @@ defaults: &defaults
   trim_bucket_url: "http://bucket01.lib.tufts.edu"
   processing_url: "http://processing01.lib.tufts.edu:8080"
   repository_url: "http://repository01.lib.tufts.edu:8080"
-development:
+development: &development
   <<: *defaults
   neat_setting: 800
   processing_url: "SKIP"
@@ -34,14 +34,7 @@ stage:
   processing_url: "http://stage-processing01.lib.tufts.edu:8080"
   repository_url: "http://stage-repository01.lib.tufts.edu:8080"
 test:
-  <<: *defaults
-  pdf_pages:
-    page_location: "/tdr"
-  png_pages:
-    page_location: "/tdr"
-  object_store_root: "/tdr"
-  processing_url: "http://stage-processing01.lib.tufts.edu:8080"
-  repository_url: "http://stage-repository01.lib.tufts.edu:8080"
+  <<: *development
 production:
   <<: *defaults
   pdf_pages:
