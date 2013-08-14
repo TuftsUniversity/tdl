@@ -1,0 +1,65 @@
+# The default namespace maps to the default namespace for generating rels_ext from solr
+:default_namespace: info:fedora/fedora-system:def/relations-external#
+
+# namespace mappings--- 
+# you can add specific mappings for your institution by providing the following:
+#   namespace_uri:
+#     :relationship_symbol: relationship_identifier
+# 
+# For example, if you have the following element in your rels_ext:
+#  
+#  <oai:itemID>oai:example.edu:changeme:500</oai:itemID>
+# 
+# With the last two lines of this file uncommented, the relationships hash of your object will include:
+#   :oai_item_id => ["info:fedora/oai:example.edu:changeme:500"]
+#
+:predicate_mapping:
+  info:fedora/fedora-system:def/relations-external#: 
+    :conforms_to: conformsTo
+    :has_annotation: hasAnnotation
+    :has_collection_member: hasCollectionMember
+    :has_constituent: hasConstituent
+    :has_dependent: hasDependent
+    :has_derivation: hasDerivation
+    :has_description: hasDescription
+    :has_equivalent: hasEquivalent
+    :has_metadata: hasMetadata
+    :has_member: hasMember
+    :has_model: hasModel
+    :has_part: hasPart
+    :has_subset: hasSubset
+    :is_annotation_of: isAnnotationOf
+    :is_constituent_of: isConstituentOf
+    :is_dependent_of: isDependentOf
+    :is_derivation_of: isDerivationOf
+    :is_description_of: isDescriptionOf
+    :is_member_of: isMemberOf
+    :is_member_of_collection: isMemberOfCollection
+    :is_metadata_for: isMetadataFor
+    :is_part_of: isPartOf
+    :is_subset_of: isSubsetOf
+    :is_topic_of: isTopicOf
+    :created_by: createdBy
+  info:fedora/fedora-system:def/model#:
+    :has_model: hasModel
+  http://www.openarchives.org/OAI/2.0/: 
+    :oai_item_id: itemID
+  http://dca.lib.tufts.edu/ontology/rcr#:
+    :reports_to: reportsTo
+    :has_report: hasReport
+    :is_part_of: isPartOf
+    :is_part_of_legacy: isPartof
+    :has_part: hasPart
+    :is_member_of: isMemberOf
+    :has_member: hasMember
+    :is_preceded_by: isPrecededBy
+    :is_followed_by: isFollowedBy
+    :is_associated_with: isAssociatedWith
+    :is_child_of: isChildOf
+    :is_parent_of: isParentOf
+    :is_parent_of_case: isParentof
+    :is_cousin_of: isCousinOf
+    :is_sibling_of: isSiblingOf
+    :is_spouse_of: isSpouseOf
+    :is_grandchild_of: isGrandchildOf
+    :is_grandparent_of: isGrandparentOf
