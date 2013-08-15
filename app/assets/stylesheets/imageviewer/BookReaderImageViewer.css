@@ -1,0 +1,48 @@
+/*
+ * Custom overrides for BookReader Demo.
+ */
+
+/* Hide print and embed functionality */
+
+div#BookReader {
+ top: 0px;
+ left: 0px;
+ right: 0px;
+}
+#BRreturn
+{
+    display:none;
+}
+
+.BRicon.share {
+    display: none;
+
+}
+
+#overview_link {
+
+}
+
+.BRicon.play {
+    display: none;
+
+}
+.BRicon.info {
+    display: none;
+}
+
+.BRicon {
+    display: block;
+    float: right;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    margin: 0;
+    vertical-align: middle;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    background-image: url(/images/BookReader/BRicons.png);
+    background-repeat: no-repeat;
+}
+
