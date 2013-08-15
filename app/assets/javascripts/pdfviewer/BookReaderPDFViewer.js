@@ -16,8 +16,9 @@ br.getPageWidth = function (index) {
         $.ajax({
             type:'GET',
             url:'/pdf_pages/' + pid + '/metadata',
+            datatype:'json',
             success:function (image_data) {
-                br_width = $.parseJSON(image_data).page_width;
+                br_width = image_data.page_width;
 
             },
             failure:function (obj) {
@@ -39,8 +40,9 @@ br.getPageHeight = function (index) {
         $.ajax({
             type:'GET',
             url:'/pdf_pages/' + pid + '/metadata',
+            datatype:'json',
             success:function (image_data) {
-                br_height = $.parseJSON(image_data).page_height;
+                br_height = image_data.page_height;
 
             },
             data:{},
@@ -277,8 +279,9 @@ var pid = bookReaderDiv.data('pid');
 $.ajax({
     type:'GET',
     url:'/pdf_pages/' + pid + '/metadata',
+    datatype:'json',
     success:function (image_data) {
-        br.numLeafs = $.parseJSON(image_data).page_count;
+        br.numLeafs = image_data.page_count;
 
     },
     data:{},
