@@ -42,7 +42,7 @@ div#BookReader {
     border: none;
     cursor: pointer;
     background-color: transparent;
-    background-image: url(/images/BookReader/BRicons.png);
+    background-image: url(/assets/BookReader/BRicons.png);
     background-repeat: no-repeat;
 }
 
