@@ -1,0 +1,3 @@
+<div class="span6 pull-right download_links">
+  <a href="/file_assets/<%= params[:id] %>"><i class="icon-film"/></i>&nbsp;Download Video File</a><% if !@document_fedora.datastreams["ARCHIVAL_XML"].dsLocation.nil? %>&nbsp;&nbsp;<a href="/file_assets/transcript/<%= params[:id] %>"><i class="icon-file"/></i>&nbsp;Download Transcript</a><% end %>
+</div>

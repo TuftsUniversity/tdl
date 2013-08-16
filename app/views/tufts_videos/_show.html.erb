@@ -1,0 +1,67 @@
+<% javascript_includes << "media_player/media_player.js" %>
+<% javascript_includes << "media_player/transcript_scroller.js" %>
+<% javascript_includes << "media_player/tabs.js" %>
+<% stylesheet_links << "media_player/media_player.css" %>
+<% stylesheet_links << "media_player/transcript.css" %>
+
+
+<%
+  metadata = Tufts::ModelMethods.get_metadata(@document_fedora) 
+  hasTranscript = !@document_fedora.datastreams["ARCHIVAL_XML"].dsLocation.nil?
+%>
+
+
+  <div class="row">
+    <div class="span12">
+      <%= render :partial => 'shared/header_elements', :locals => {:metadata => metadata} %>
+    </div>  <!-- span12 -->
+  </div>  <!-- row -->
+
+  <hr>
+
+  <div class="row">
+    <div class="span6">
+      <%= raw Tufts::MediaPlayerMethods.show_video_player(params[:id], hasTranscript) %><br>
+<%
+   if hasTranscript
+     participants = Tufts::MediaPlayerMethods.show_participants(@document_fedora)
+     if participants.length > 0
+%>
+      <br>
+      <div class="participant_div">
+        <b>Participants</b><br>
+        <%= raw participants %>
+      </div>  <!-- participant_div -->
+<%
+     end
+   end
+%>
+    </div>  <!-- span6 -->
+
+    <div class="span6">
+    <% if hasTranscript %>
+      <div class="tabbable">
+        <ul class="nav nav-tabs">
+          <li <%= raw params[:tab] != "2" ? " class=\"active\"" : "" %>><a id="tab1" href="/catalog/<%= params[:id] %>?tab=1">Information</a></li>
+          <li <%= raw params[:tab] == "2" ? " class=\"active\"" : "" %>><a id="tab2" href="/catalog/<%= params[:id] %>?tab=2">Transcript</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-pane<%= params[:tab] != "2" ? " active" : "" %>" id="1">
+            <%= render :partial => 'shared/metadata_pane', :locals => {:metadata => metadata} %>
+          </div>  <!-- tab-pane 1 -->
+
+          <div class="tab-pane<%= params[:tab] == "2" ? " active" : "" %>" id="2">
+            <a href="/catalog/transcriptonly/<%= params[:id] %>" class="pull-right"><h6>view transcript only <i class="icon-share"></i></h6></a>
+            <br>
+            <div class="transcript_box">
+              <%= raw Tufts::MediaPlayerMethods.show_transcript(@document_fedora, true) %>
+            </div>  <!-- transcript_box -->
+          </div>  <!-- tab-pane 2 -->
+        </div>  <!-- tab-content -->
+      </div>  <!-- tabbable -->
+    <% else %>
+      <%= render :partial => 'shared/metadata_pane', :locals => {:metadata => metadata} %>
+    <% end %>
+    </div>  <!-- span6 -->
+  </div>  <!-- row --> 
