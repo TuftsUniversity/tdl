@@ -1,8 +1,8 @@
-<% javascript_includes << "audio/audio_player.js" %>
-<% javascript_includes << "audio/transcript_scroller.js" %>
-<% javascript_includes << "audio/tabs.js" %>
-<% stylesheet_links << "audio/audio_player.css" %>
-<% stylesheet_links << "audio/audio.css" %>
+<% javascript_includes << "media_player/media_player.js" %>
+<% javascript_includes << "media_player/transcript_scroller.js" %>
+<% javascript_includes << "media_player/tabs.js" %>
+<% stylesheet_links << "media_player/media_player.css" %>
+<% stylesheet_links << "media_player/transcript.css" %>
 
 
 <% metadata = Tufts::ModelMethods.get_metadata(@document_fedora) %>
@@ -18,11 +18,11 @@
 
   <div class="row">
     <div class="span6">
-      <%= raw Tufts::AudioMethods.show_audio_player(params[:id], true) %><br>
+      <%= raw Tufts::MediaPlayerMethods.show_audio_player(params[:id], true) %><br>
       <br>
       <div class="participant_div">
         <b>Interview Participants</b><br>
-        <%= raw Tufts::AudioMethods.show_participants(@document_fedora) %>
+        <%= raw Tufts::MediaPlayerMethods.show_participants(@document_fedora) %>
       </div>  <!-- participant_div -->
     </div>  <!-- span6 -->
 
@@ -42,7 +42,7 @@
             <a href="/catalog/transcriptonly/<%= params[:id] %>" class="pull-right"><h6>view transcript only <i class="icon-share"></i></h6></a>
             <br>
             <div class="transcriptbox">
-              <%= raw Tufts::AudioMethods.show_transcript(@document_fedora, true) %>
+              <%= raw Tufts::MediaPlayerMethods.show_transcript(@document_fedora, true) %>
             </div>  <!-- transcriptbox -->
           </div>  <!-- tab-pane 2 -->
         </div>  <!-- tab-content -->

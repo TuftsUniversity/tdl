@@ -93,6 +93,13 @@ end
     page.status_code.should be 200
   end
 
+  scenario 'user loads oral history' do
+    visit '/catalog/tufts:MS124.001.001.00002'
+    page.should have_content 'Lost Theaters of Somerville: Edward Ciampa Interview'
+    page.should have_content "you call them the Loony Tunes"
+    page.should have_content "Adrienne Effron, interviewer (female)"
+  end
+
   scenario 'user loads tufts daily' do
     visit '/catalog/tufts:UP029.003.003.00012'
     page.should have_content "Tufts Daily, March 1"
