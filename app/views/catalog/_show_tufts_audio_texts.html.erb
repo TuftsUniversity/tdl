@@ -18,11 +18,11 @@
 
   <div class="row">
     <div class="span6">
-      <%= raw Tufts::AudioMethods.show_audio_player(params[:id], true) %><br>
+      <%= raw Tufts::MediaPlayerMethods.show_audio_player(params[:id], true) %><br>
       <br>
       <div class="participant_div">
         <b>Interview Participants</b><br>
-        <%= raw Tufts::AudioMethods.show_participants(@document_fedora) %>
+        <%= raw Tufts::MediaPlayerMethods.show_participants(@document_fedora) %>
       </div>  <!-- participant_div -->
     </div>  <!-- span6 -->
 
@@ -42,7 +42,7 @@
             <a href="/catalog/transcriptonly/<%= params[:id] %>" class="pull-right"><h6>view transcript only <i class="icon-share"></i></h6></a>
             <br>
             <div class="transcriptbox">
-              <%= raw Tufts::AudioMethods.show_transcript(@document_fedora, true) %>
+              <%= raw Tufts::MediaPlayerMethods.show_transcript(@document_fedora, true) %>
             </div>  <!-- transcriptbox -->
           </div>  <!-- tab-pane 2 -->
         </div>  <!-- tab-content -->
