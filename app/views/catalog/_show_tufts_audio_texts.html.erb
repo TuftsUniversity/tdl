@@ -19,11 +19,16 @@
   <div class="row">
     <div class="span6">
       <%= raw Tufts::MediaPlayerMethods.show_audio_player(params[:id], true) %><br>
-      <br>
-      <div class="participant_div">
-        <b>Interview Participants</b><br>
-        <%= raw Tufts::MediaPlayerMethods.show_participants(@document_fedora) %>
-      </div>  <!-- participant_div -->
+      <%
+         participants = Tufts::MediaPlayerMethods.show_participants(@document_fedora)
+         if participants.length > 0
+      %>
+            <br>
+            <div class="participant_div">
+              <b>Participants</b><br>
+              <%= raw participants %>
+            </div>  <!-- participant_div -->
+      <% end %>
     </div>  <!-- span6 -->
 
     <div class="span6">
