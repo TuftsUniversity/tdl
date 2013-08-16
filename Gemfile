@@ -3,11 +3,8 @@ ruby '2.0.0'
 #ruby-gemset=hydra6
 gem 'rails', '3.2.13'
 
-gem 'blacklight'
-gem 'hydra-head', '~> 6.0.0'
-gem 'tuftsification-hydra', :git => 'git@github.com:TuftsUniversity/tuftsification-hydra.git'
-gem "active-fedora", "~> 6.4.0"
-gem 'om', '~>3.0.0'
+gem 'hydra', require: 'hydra6'
+gem 'tuftsification-hydra', :path => '/opt/tdl/tuftsification-hydra' #:git => 'git@github.com:TuftsUniversity/tuftsification-hydra.git'
 
 gem "blacklight_advanced_search"
 gem 'chronic' # for lib/tufts/model_methods.rb
