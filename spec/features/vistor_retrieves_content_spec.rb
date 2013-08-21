@@ -36,7 +36,7 @@ feature 'Visitor goes directly to a catalog pid' do
 #tufts_UA069.001.DO.UA015.foxml.xml
 #tufts_UA069.001.DO.UP029.foxml.xml
 
-
+  #Note that for this object, the images required for the viewer are not in the reference set
   scenario 'user loads Alliance for Progress fletcher thesis, and sees that it is in the collection: Fletcher School of Law and Diplomacy records, 1923-2003' do
     visit '/catalog/tufts:UA015.012.DO.00104'
     page.should have_content 'Fletcher School of Law and Diplomacy records, 1923-2003'
@@ -46,6 +46,9 @@ feature 'Visitor goes directly to a catalog pid' do
     visit '/catalog/tufts:UA015.012.DO.00104'
     click_link 'Fletcher School of Law and Diplomacy records, 1923-2003'
     page.status_code.should be 200
+    page.should have_content "58.25 Linear feet"
+    page.should have_link "View Finding Aid"
+    page.should have_link "View Online Materials"
 end
 
   scenario 'user loads Here and There at Tufts' do
