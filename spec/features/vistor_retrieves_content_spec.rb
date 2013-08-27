@@ -101,6 +101,12 @@ end
     page.status_code.should be 200
   end
 
+  scenario 'user loads drumming audio' do
+    visit '/catalog/tufts:MS122.002.021.00084'
+    page.should have_content 'Baamaaya Baamaaya lead lunga drum language audio'
+    page.should have_link "African drumming"
+  end
+
   scenario 'user loads oral history' do
     visit '/catalog/tufts:MS124.001.001.00002'
     page.should have_content 'Lost Theaters of Somerville: Edward Ciampa Interview'
