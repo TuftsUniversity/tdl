@@ -52,6 +52,8 @@ feature 'Visitor goes directly to a catalog pid' do
     click_link 'View Finding Aid'
     page.should have_content "Russell Miller in his research for Light on the Hill"
     page.should have_link "General subject files, 1923-96 1923-96"
+    click_link 'General subject files, 1923-96 1923-96'
+    page.should have_content "Clippings, 1948-81"
 end
 
   scenario 'user loads Here and There at Tufts' do
