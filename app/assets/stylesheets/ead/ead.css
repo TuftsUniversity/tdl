@@ -16,3 +16,15 @@
   font-size: 14px;
   font-weight: normal;
 }
+
+.ead_folder_title a {
+  color: #000000;
+}
+
+.ead_item_title {
+  color: #000000;
+}
+
+.ead_item_title a {
+  color: #0755AC;
+}
