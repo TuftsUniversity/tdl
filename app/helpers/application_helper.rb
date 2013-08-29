@@ -44,15 +44,17 @@ module ApplicationHelper
 
   #http://ap.rubyonrails.org/classes/ActionController/Streaming.html#M000045
   def showGenericObjects(pid)
-    generic_content = get_values_from_datastream(@document_fedora, "GENERIC-CONTENT", [:item])
+    generic_content = @document_fedora.datastreams["GENERIC-CONTENT"].find_by_terms(:item)
     result = ""
-    generic_content.each_with_index do |page, index|
+    generic_content.each_with_index do |node, index|
+      nodeElements={}
+      node.elements.each do |element|
+       nodeElements[element.name]=element.text
+      end
       result+="<tr class=\"manifestRow\">"
-      file_name = get_values_from_datastream(@document_fedora, "GENERIC-CONTENT", [:item, :fileName])[index]
       link = '/file_assets/generic/' + pid + "/" + String(index)
-      mime_type = get_values_from_datastream(@document_fedora, "GENERIC-CONTENT", [:item, :mimeType])[index]
-      result+="<td class=\"nameCol\"><a class=\"manifestLink\" href=\"#{link}\">#{file_name}</a></td>"
-      result+="<td class=\"mimeCol\">#{mime_type}</td>"
+      result+="<td class=\"nameCol\"><a class=\"manifestLink\" href=\"#{link}\">#{nodeElements['fileName']}</a></td>"
+      result+="<td class=\"mimeCol\">#{nodeElements['mimeType']}</td>"
       result+="</tr>"
     end
     return raw(result)
