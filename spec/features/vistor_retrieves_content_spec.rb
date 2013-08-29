@@ -132,7 +132,7 @@ end
   end
   scenario 'user loads generic object' do
     visit '/catalog/tufts:MS115.003.001.00002'
-    page.should have_content "Electrion records candidate name authority records, zipped"
+    page.should have_content "Election records candidate name authority records, zipped"
     page.should have_content "Philip Lampi"
     page.should have_content "application/zip"
   end
