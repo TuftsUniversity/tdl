@@ -130,5 +130,11 @@ end
     visit '/catalog/tufts:WP0001'
     page.should have_content "Example Wildlife Pathology entry"
   end
+  scenario 'user loads generic object' do
+    visit '/catalog/tufts:MS115.003.001.00002'
+    page.should have_content "Electrion records candidate name authority records, zipped"
+    page.should have_content "Philip Lampi"
+    page.should have_content "application/zip"
+  end
 
 end
