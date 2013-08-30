@@ -137,4 +137,10 @@ end
     page.should have_content "application/zip"
   end
 
+  scenario 'user loads image text' do
+    visit '/catalog/tufts:sample001'
+    page.should have_content "Example HTML entry"
+    page.should have_content "Goodmon, Brian"
+    page.should have_link "Identifying Organs by Color"
+  end
 end
