@@ -36,7 +36,7 @@ feature 'Visitor goes directly to a catalog pid' do
 #tufts_UA069.001.DO.UA015.foxml.xml
 #tufts_UA069.001.DO.UP029.foxml.xml
 
-
+  #Note that for this object, the images required for the viewer are not in the reference set
   scenario 'user loads Alliance for Progress fletcher thesis, and sees that it is in the collection: Fletcher School of Law and Diplomacy records, 1923-2003' do
     visit '/catalog/tufts:UA015.012.DO.00104'
     page.should have_content 'Fletcher School of Law and Diplomacy records, 1923-2003'
@@ -46,6 +46,14 @@ feature 'Visitor goes directly to a catalog pid' do
     visit '/catalog/tufts:UA015.012.DO.00104'
     click_link 'Fletcher School of Law and Diplomacy records, 1923-2003'
     page.status_code.should be 200
+    page.should have_content "58.25 Linear feet"
+    page.should have_link "View Finding Aid"
+    page.should have_link "View Online Materials"
+    click_link 'View Finding Aid'
+    page.should have_content "Russell Miller in his research for Light on the Hill"
+    page.should have_link "General subject files, 1923-96 1923-96"
+    click_link 'General subject files, 1923-96 1923-96'
+    page.should have_content "Clippings, 1948-81"
 end
 
   scenario 'user loads Here and There at Tufts' do
@@ -93,6 +101,12 @@ end
     page.status_code.should be 200
   end
 
+  scenario 'user loads drumming audio' do
+    visit '/catalog/tufts:MS122.002.021.00084'
+    page.should have_content 'Baamaaya Baamaaya lead lunga drum language audio'
+    page.should have_link "African drumming"
+  end
+
   scenario 'user loads oral history' do
     visit '/catalog/tufts:MS124.001.001.00002'
     page.should have_content 'Lost Theaters of Somerville: Edward Ciampa Interview'
@@ -116,5 +130,17 @@ end
     visit '/catalog/tufts:WP0001'
     page.should have_content "Example Wildlife Pathology entry"
   end
+  scenario 'user loads generic object' do
+    visit '/catalog/tufts:MS115.003.001.00002'
+    page.should have_content "Election records candidate name authority records, zipped"
+    page.should have_content "Philip Lampi"
+    page.should have_content "application/zip"
+  end
 
+  scenario 'user loads image text' do
+    visit '/catalog/tufts:sample001'
+    page.should have_content "Example HTML entry"
+    page.should have_content "Goodmon, Brian"
+    page.should have_link "Identifying Organs by Color"
+  end
 end

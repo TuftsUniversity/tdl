@@ -42,6 +42,24 @@ module ApplicationHelper
     "/catalog/tei/" + pid
   end
 
+  #http://ap.rubyonrails.org/classes/ActionController/Streaming.html#M000045
+  def showGenericObjects(pid)
+    generic_content = @document_fedora.datastreams["GENERIC-CONTENT"].find_by_terms(:item)
+    result = ""
+    generic_content.each_with_index do |node, index|
+      nodeElements={}
+      node.elements.each do |element|
+       nodeElements[element.name]=element.text
+      end
+      result+="<tr class=\"manifestRow\">"
+      link = '/file_assets/generic/' + pid + "/" + String(index)
+      result+="<td class=\"nameCol\"><a class=\"manifestLink\" href=\"#{link}\">#{nodeElements['fileName']}</a></td>"
+      result+="<td class=\"mimeCol\">#{nodeElements['mimeType']}</td>"
+      result+="</tr>"
+    end
+    return raw(result)
+  end
+
   def http_referer_uri
     request.env["HTTP_REFERER"] && URI.parse(request.env["HTTP_REFERER"])
   end

@@ -95,7 +95,7 @@
 %>
       <tr class="folderRow">
         <td class="collapse_td"><%= raw expand_collapse %></td>
-        <td<%= raw (is_folder ? " class=\"ead_table_title\"" : "") %>><%= raw (is_folder ? "<a href=\"javascript:toggleDisplay('#img" + row_s + "', " + (row + 1).to_s + ", " + (row + next_level_items.size).to_s + ");\">" + item_title + "</a>" : item_title) %>
+        <td<%= raw (is_folder ? " class=\"ead_folder_title\"" : "") %>><%= raw (is_folder ? "<a href=\"javascript:toggleDisplay('#img" + row_s + "', " + (row + 1).to_s + ", " + (row + next_level_items.size).to_s + ");\">" + item_title + "</a>" : item_title) %>
 <%    if is_folder %>
           <br><span class="smalltext">There might be additional items in this folder.  <a href="/contact">Contact DCA.</a></span>
 <%    end %>
@@ -131,7 +131,7 @@
 %>
       <tr>
         <td class="collapse_td">&nbsp;</td>
-        <td class="table_title indent"><%= raw item_title %>
+        <td class="ead_item_title indent"><%= raw item_title %>
 <%      item_paragraphs.each do |item_paragraph| %>
           <br><%= raw item_paragraph %>
 <%      end %>

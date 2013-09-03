@@ -1,0 +1,30 @@
+.EAD_TOC {
+  position: relative;
+  top: 0px;
+  left: 0px;
+}
+
+/* EAD_H5 and EAD_H6 override styles set elsewhere to style the headers as desired for the EAD pages. */
+
+.EAD_H5 {
+  font-weight: 500;
+  color: #333333;
+}
+
+.EAD_H6 {
+  text-transform: none;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.ead_folder_title a {
+  color: #000000;
+}
+
+.ead_item_title {
+  color: #000000;
+}
+
+.ead_item_title a {
+  color: #0755AC;
+}

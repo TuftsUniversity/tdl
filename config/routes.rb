@@ -37,6 +37,8 @@ TDL::Application.routes.draw do
    match '/pdf_pages/:id/:pageNumber', :to => 'pdf_pages#show', :constraints => {:id => /.*/, :pageNumber => /.*/}, :as =>'pdf_page'
    match '/catalog/tei/:id/chapter/:chapter', :to => 'catalog#teireader', :constraints => {:id => /.*/,:chapter => /.*/}, :as =>'teireader'
    match '/catalog/tei/:id', :to => 'catalog#teireader', :constraints => {:id => /.*/}, :as =>'teireader'
+   match '/catalog/ead/:id/:item_id', :to => 'catalog#eadinternal', :constraints => {:id => /.*/, :item_id => /.*/}, :as =>'eadinternal'
+   match '/catalog/ead/:id', :to => 'catalog#eadoverview', :constraints => {:id => /.*/}, :as =>'eadoverview'
 
   devise_for :users
 

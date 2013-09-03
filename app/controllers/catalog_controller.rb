@@ -45,6 +45,10 @@ class CatalogController < ApplicationController
     #@file_assets = @document_fedora.parts(:response_format=>:solr)
   end
 
+  def eadinternal
+    @item_id = params[:item_id]
+  end
+
   #### TDL is not currently enforcing permissions #####
   #before_filter :enforce_show_permissions, :only=>:show
   #### /TDL is not currently enforcing permissions #####
