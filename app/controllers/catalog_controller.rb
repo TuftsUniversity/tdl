@@ -11,6 +11,26 @@ class CatalogController < ApplicationController
   before_filter :instantiate_controller_and_action_names
   before_filter :load_fedora_document, :only=>[:show, :edit, :teireader, :eadoverview, :eadinternal, :transcriptonly]
   # These before_filters apply the hydra access controls
+  # This filters out embargo'd objects
+  CatalogController.solr_search_params_logic += [:exclude_embargo_objects]
+
+  #This makes tdl aware of DCA-Admin displays tag
+  CatalogController.solr_search_params_logic += [:add_dca_admin_displays_awareness]
+
+  # This filters out objects that you want to exclude from search results.  By default it only excludes FileAssets
+  # @param solr_parameters the current solr parameters
+  # @param user_parameters the current user-subitted parameters
+  def exclude_embargo_objects(solr_parameters, user_parameters)
+
+    solr_parameters[:fq] ||= []
+    solr_parameters[:fq] << "-embargo_dtsi:[NOW TO *]"
+   # solr_parameters[:fq] << "-has_model_s:\"info:fedora/afmodel:FileAsset\""
+  end
+
+  def add_dca_admin_displays_awareness(solr_parameters, user_parameters)
+    solr_parameters[:fq] ||= []
+    solr_parameters[:fq] << "(-displays_ssi:[* TO *] AND *:*) OR displays_ssi:dl"
+  end
 
 
   # Use params[:id] to load an object from Fedora.  Inspects the object for known models and mixes in any of those models' behaviors.
