@@ -138,7 +138,12 @@ end
     page.should have_content "Philip Lampi"
     page.should have_content "application/zip"
   end
-
+  scenario 'user loads record context record Bouve Boston School of Phys Ed' do
+    visit '/catalog/tufts:RCR00613'
+    page.should have_content "Bouvé-Boston School of Physical Therapy and Physical Education, 1942-1964"
+    page.should have_content "Department of Occupational Therapy (1942-1964)"
+    page.should have_content "Athletic Association, PE Club, PT Club, Dance Group, and Swim Club"
+  end
   scenario 'user loads image text' do
     visit '/catalog/tufts:sample001'
     page.should have_content "Example HTML entry"
