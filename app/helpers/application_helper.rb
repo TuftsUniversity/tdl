@@ -59,6 +59,17 @@ module ApplicationHelper
     end
     return raw(result)
   end
+  def show_streets_link(pid)
+    urn = pid.gsub("tufts:","")
+#puts "#{urn}"
+    del_index = urn.index(".")
+#puts "#{del_index}"
+    col = urn[0..(del_index-1)];
+#jputs "#{col}"
+    urn = "tufts:central:dca:" + col + ":" + urn
+    return "http://bcd.lib.tufts.edu/view_text.jsp?urn=" + urn
+  end
+
 
   def http_referer_uri
     request.env["HTTP_REFERER"] && URI.parse(request.env["HTTP_REFERER"])
