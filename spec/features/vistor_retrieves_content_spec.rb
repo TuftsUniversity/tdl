@@ -150,4 +150,9 @@ end
     page.should have_content "Goodmon, Brian"
     page.should have_link "Identifying Organs by Color"
   end
+  scenario 'user loads fragmented tei The Boston Directory' do
+    visit '/catalog/tufts:UA069.005.DO.00002'
+    page.should have_content "people of Boston between 1845-1898"
+    page.should have_xpath "//img[@src='/assets/img/boston_streets.png']"
+  end
 end
