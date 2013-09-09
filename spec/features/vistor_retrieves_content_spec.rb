@@ -155,4 +155,11 @@ end
     page.should have_content "people of Boston between 1845-1898"
     page.should have_xpath "//img[@src='/assets/img/boston_streets.png']"
   end
+  scenario 'users loads Sample Dance Video' do
+    visit '/catalog/tufts:sample007'
+    page.should have_content "Sample Dance Video 400 x 300"
+    page.should have_content "Unknown Tufts University Student"
+    page.should have_link "Dance"
+    page.should have_link "Download Video File"
+  end
 end
