@@ -1,0 +1,44 @@
+h1.site_title {background: transparent url('/assets/images/tdl/logo.png') no-repeat top left; margin: 2em 0px 0px 1em; height: 40px; width: 120px;}
+
+input#submit {
+  margin-top:5px;
+  margin-bottom:-9px;
+  height: 26px;
+}
+
+.metadata_row {
+  display: table-row;
+  width: 100%;
+}
+
+.metadata_label {
+  display: table-cell;
+  width: 100px;
+  color: darkgray;
+  font-weight: normal;
+  vertical-align: top;
+  padding-right: 2em;
+  padding-top: .25em;
+  padding-bottom: .25em;
+}
+
+.metadata_values {
+  display: table;
+  width: 100%;
+  padding-top: .25em;
+  padding-bottom: .25em;
+}
+
+.metadata_value {
+  display: table-row;
+  width: 100%;
+}
+
+#metadatapane dd {
+  margin-top: 1em;
+  font-weight: bolder;
+}
+
+#metadatapane dt {
+  margin-bottom: 0em;
+}
