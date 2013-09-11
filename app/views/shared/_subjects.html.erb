@@ -1,5 +1,5 @@
 <% unless metadata[:subjects].empty? %>
-    <dd>Subject</dd>
+    <dd>Subjects</dd>
     <% metadata[:subjects].each do |subject| %>
         <dt><%= link_to((raw subject), "/catalog?f[subject_facet][]="+ (raw subject)) %></dt>
     <% end %>
