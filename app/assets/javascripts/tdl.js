@@ -27,7 +27,7 @@ $(document).ready(function () {
     setPage();
 
 
-    Blacklight.do_more_facets_behavior = function () {
+/*   Blacklight.do_more_facets_behavior = function () {
 
         $("a.more_facets_link").each(function () {
             //my own thing!
@@ -66,8 +66,8 @@ $(document).ready(function () {
 
         });
     };
-
-    Blacklight.do_more_facets_behavior();
+    */
+//   Blacklight.do_more_facets_behavior();
 
 });
 
