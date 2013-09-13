@@ -69,6 +69,9 @@ module ApplicationHelper
     urn = "tufts:central:dca:" + col + ":" + urn
     return "http://bcd.lib.tufts.edu/view_text.jsp?urn=" + urn
   end
+  def show_elections_link(pid)
+    return "http://elections.lib.tufts.edu/catalog/" + pid
+  end
 
 
   def http_referer_uri
