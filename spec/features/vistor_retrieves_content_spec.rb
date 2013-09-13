@@ -162,4 +162,10 @@ end
     page.should have_link "Dance"
     page.should have_link "Download Video File"
   end
+  scenario 'user loads voting record' do
+    visit '/catalog/tufts:me.uscongress3.second.1825'
+    page.should have_content "searchable collection of election returns from the earliest years of American democracy"
+    page.should have_link "Maine 1825 U.S. House of Representatives, District 3, Ballot 2"
+    page.should have_xpath "//img[@src='/assets/img/elections.png']"
+  end
 end
