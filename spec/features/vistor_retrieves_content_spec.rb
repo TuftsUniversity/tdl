@@ -131,6 +131,10 @@ end
   scenario 'user wildlife pathology image' do
     visit '/catalog/tufts:WP0001'
     page.should have_content "Example Wildlife Pathology entry"
+    page.should have_content "Example WP object"
+    page.should have_content "Made up WP object."
+    page.should have_link "Grafton Campus"
+    page.should have_content "Goodmon, Brian"
   end
   scenario 'user loads generic object' do
     visit '/catalog/tufts:MS115.003.001.00002'
