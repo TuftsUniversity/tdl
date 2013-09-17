@@ -18,6 +18,7 @@ TDL::Application.routes.draw do
    resources :search_history, :path => 'search_history', :only => [:index,:show]
 
     HydraHead.add_routes(self)
+   match '/search', :to => 'catalog#search', :constraints => {:id => /.*/}, :as =>'catalog'
    match "/about" => "about#index"
    match "/contact" => "contact#show"
    match "/about/:action" => "about"
