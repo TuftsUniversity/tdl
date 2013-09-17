@@ -52,4 +52,10 @@ feature 'Visitor goes to homepage' do
       click_link "American Antiquarian Society"
       page.should have_content "Names > American Antiquarian Society"
   end
+
+  scenario 'user click on search' do
+    visit root_path
+    click_link "Search"
+    page.should have_content "search for a title or a specific"
+  end
 end
