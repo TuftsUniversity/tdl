@@ -3,12 +3,12 @@
     year_end_label = ""
     year_end_input = ""
 
-    BlacklightAdvancedSearch.search_field_list.each do |field_def|
+    search_fields_for_advanced_search.each do |key, field_def|
       if field_def[:key] == "year_start"
-        year_start_label = label_tag(field_def[:key], "#{field_def[:display_label]}")
+        year_start_label = label_tag(field_def[:key], "#{field_def[:label]}")
         year_start_input = number_field_tag(field_def[:key], label_tag_default_for(field_def[:key]), {:min => 1400, :max => Time.now.year, :class => 'input-mini form-inline'})
       elsif field_def[:key] == "year_end"
-        year_end_label = label_tag(field_def[:key], "#{field_def[:display_label]}")
+        year_end_label = label_tag(field_def[:key], "#{field_def[:label]}")
         year_end_input = number_field_tag(field_def[:key], label_tag_default_for(field_def[:key]), {:min => 1400, :max => Time.now.year, :class => 'input-mini form-inline'})
 -%>
         <div class="control-group form-inline">
@@ -21,7 +21,7 @@
         <p></p>
 <%-   else -%>
         <div class="advanced_search_field">
-            <%= label_tag(field_def[:key], "#{field_def[:display_label]}") %>
+            <%= label_tag(field_def[:key], "#{field_def[:label]}") %>
             <%= text_field_tag(field_def[:key], label_tag_default_for(field_def[:key])) %>
         </div>
 <%-   end

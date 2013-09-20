@@ -9,7 +9,7 @@
   </div>        
   
   <div class="pull-right" style="margin-right: 80px">
-    <%= hidden_field_tag(:search_field, BlacklightAdvancedSearch.config[:url_key]) %>
+    <%= hidden_field_tag(:search_field, blacklight_config.advanced_search[:url_key]) %>
     <%= submit_tag 'Search', :class=>'btn btn-primary', :id=>'advanced_search' %>
     <%= link_to "Clear form", {:controller => "advanced", :action => "index"}, :class =>"btn" %>
   </div>
