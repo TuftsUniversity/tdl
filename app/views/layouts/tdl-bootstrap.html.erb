@@ -111,7 +111,7 @@
 
   <div class="page-header">
 
-    <%= link_to(image_tag('/assets/img/tuftsdigitallibrarylogosmall.png', :alt => "Tufts Digital Library logo"), catalog_path('/'), :class => "work") %>
+    <%= link_to(image_tag('/assets/img/tuftsdigitallibrarylogosmall.png', :alt => "Tufts Digital Library logo"), '/', :class => "work") %>
     <%- if "show" == @current_action || "eadoverview" == @current_action || "eadinternal" == @current_action || "transcriptonly" == @current_action -%>
         <button href="#comment_modal" data-toggle="modal" class="btn btn-blue pull-right" style="margin-top:10px; margin-right:10px;"> Comments about this page?
           <i class="icon-comment icon-white"></i></button>
