@@ -172,7 +172,7 @@ class CatalogController < ApplicationController
     # solr request handler? The one set in config[:default_solr_parameters][:qt],
     # since we aren't specifying it otherwise. 
     
-    config.add_search_field 'all_fields', :label => 'All Fields'
+    config.add_search_field 'all_fields', :label => 'Keyword'
     
 
     # Now we see how to over-ride Solr request handler defaults, in this
@@ -195,23 +195,73 @@ class CatalogController < ApplicationController
     
     config.add_search_field('author') do |field|
       field.solr_parameters = { :'spellcheck.dictionary' => 'author' }
+      field.label = 'Creator/Author'
       field.solr_local_parameters = { 
         :qf => '$author_qf',
         :pf => '$author_pf'
       }
     end
-    
-    # Specifying a :qt only to show it's possible, and so our internal automated
-    # tests can test it. In this case it's the same as 
-    # config[:default_solr_parameters][:qt], so isn't actually neccesary. 
+
     config.add_search_field('subject') do |field|
-      field.solr_parameters = { :'spellcheck.dictionary' => 'subject' }
-      field.qt = 'search'
-      field.solr_local_parameters = { 
-        :qf => '$subject_qf',
-        :pf => '$subject_pf'
+      field.include_in_advanced_search = false
+      field.solr_local_parameters = {
+            :qf => "$subject_qf",
+            :pf => "$subject_pf"
+        }
+    end
+
+    config.add_search_field('collection') do |field|
+      field.include_in_simple_select = false
+      field.solr_parameters = { :'spellcheck.dictionary' => 'collection' }
+      field.solr_local_parameters = {
+        :qf => '$collection_qf',
+        :pf => '$collection_pf'
       }
     end
+
+    config.add_search_field('description') do |field|
+      field.include_in_simple_select = false
+      field.solr_local_parameters = {
+            :pf => "$description_pf",
+            :qf => "$description_qf"
+        }
+    end
+
+    config.add_search_field('organization') do |field|
+      field.include_in_simple_select = false
+      field.label = 'Organizations'
+      field.solr_local_parameters = {
+          :pf => "$organization_pf",
+          :qf => "$organization_qf"
+      }
+    end
+
+    config.add_search_field('people') do |field|
+      field.include_in_simple_select = false
+      field.solr_local_parameters = {
+            :pf => "$person_pf",
+            :qf => "$person_qf"
+        }
+    end
+
+    config.add_search_field('place') do |field|
+      field.include_in_simple_select = false
+      field.label = 'Places'
+        field.solr_local_parameters = {
+            :pf => "$place_pf",
+            :qf => "$place_qf"
+        }
+    end
+
+    config.add_search_field('topic') do |field|
+      field.include_in_simple_select = false
+      field.label = 'Topics'
+        field.solr_local_parameters = {
+            :pf => "$topic_pf",
+            :qf => "$topic_qf"
+        }
+    end
+
 
     # "sort results by" select (pulldown)
     # label in pulldown is followed by the name of the SOLR field to sort by and
