@@ -17,6 +17,11 @@ class CatalogController < ApplicationController
   #This makes tdl aware of DCA-Admin displays tag
   CatalogController.solr_search_params_logic += [:add_dca_admin_displays_awareness]
 
+    def facet
+      @pagination = get_facet_pagination(params[:id], params)
+      render :layout => false
+    end 
+
   # This filters out objects that you want to exclude from search results.  By default it only excludes FileAssets
   # @param solr_parameters the current solr parameters
   # @param user_parameters the current user-subitted parameters

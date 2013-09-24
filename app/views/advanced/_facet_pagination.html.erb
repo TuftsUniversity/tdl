@@ -1,7 +1,10 @@
 <% if @pagination.has_previous? || @pagination.has_next? %>
     <div class="prev_next_links">
+      <%= link_to_previous_page @pagination, raw(t('views.pagination.previous')), :params => params, :param_name => Blacklight::Solr::FacetPaginator.request_keys[:page], :class => 'prev_page' do %>
+          <span class="disabled ui-state-active prev_page"><%= raw(t('views.pagination.previous')) %></span>
+      <% end %>
+
       <% if @pagination.has_previous? -%>
-          <%= link_to('« Previous', @pagination.params_for_previous_url(params), :class => 'prev_page') %>
           <script>
               $("#more_facets_modal .prev_page").on("click", function (e) {
                   e.preventDefault();
@@ -29,12 +32,13 @@
                   });
               });
           </script>
-      <% else -%>
-          <span class="disabled ui-state-active prev_page">« Previous</span>
       <% end -%>
 |
+      <%= link_to_next_page @pagination, raw(t('views.pagination.next')), :params => params, :param_name => Blacklight::Solr::FacetPaginator.request_keys[:page], :class => 'next_page' do %>
+          <span class="disabled ui-state-active next_page"><%= raw(t('views.pagination.next')) %></span>
+      <% end %>
+
       <% if @pagination.has_next? -%>
-          <%= link_to('Next »', @pagination.params_for_next_url(params), :class => 'next_page') %>
           <script>
               $("#more_facets_modal .next_page").on("click", function (e) {
                   e.preventDefault();
@@ -62,8 +66,6 @@
                   });
               });
           </script>
-      <% else -%>
-          <span class="disabled ui-state-active next_page">Next »</span>
       <% end -%>
     </div>
 <% end %>
