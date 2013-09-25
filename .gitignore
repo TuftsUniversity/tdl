@@ -15,6 +15,7 @@
 /tmp
 jetty
 .idea
+*.swp
 
 #Ignore simplecov code coverage output
 coverage
