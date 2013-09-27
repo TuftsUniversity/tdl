@@ -50,8 +50,12 @@
        <str name="author_pf">
        </str>
        <str name="title_qf">
+         title_tim^50000
+         title_tesim^5000
        </str>
        <str name="title_pf">
+         title_tim^50000
+         title_tesim^5000
        </str>
        <str name="subject_qf">
        </str>
