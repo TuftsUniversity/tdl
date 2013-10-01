@@ -6,7 +6,8 @@ gem 'rails', '3.2.13'
 gem 'hydra', require: 'hydra6'
 gem 'tuftsification-hydra', :git => 'git@github.com:TuftsUniversity/tuftsification-hydra.git'
 
-gem "blacklight_advanced_search"
+#Pointing at our fork of blacklight_advanced_search until https://github.com/projectblacklight/blacklight_advanced_search/pull/10 is merged
+gem "blacklight_advanced_search", :git => 'git://github.com/whumph/blacklight_advanced_search'
 gem 'chronic' # for lib/tufts/model_methods.rb
 gem 'titleize' # for lib/tufts/model_methods.rb
 gem 'settingslogic' # for settings
@@ -29,6 +30,7 @@ group :development, :test do
    gem 'pry'
    gem 'capybara'
    gem 'simplecov'
+   gem 'launchy'
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]

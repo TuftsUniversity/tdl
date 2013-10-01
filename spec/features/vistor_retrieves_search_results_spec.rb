@@ -25,7 +25,6 @@ feature 'Visitor goes to homepage and does a search' do
 
   scenario 'user searches for author basic' do
       visit root_path
-      save_and_open_page
       select 'Creator/Author', :from=> 'search_field'
       fill_in 'q', :with=>'Lewis'
       click_button 'Search'
