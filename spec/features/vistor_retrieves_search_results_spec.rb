@@ -23,4 +23,14 @@ feature 'Visitor goes to homepage and does a search' do
       page.should have_content "Adrienne Effron"
   end
 
+  scenario 'user searches for author basic' do
+      visit root_path
+      save_and_open_page
+      select 'Creator/Author', :from=> 'search_field'
+      fill_in 'q', :with=>'Lewis'
+      click_button 'Search'
+      page.should have_content "1 Result"
+      page.should have_content "You searched for:"
+      page.should have_content "Here and There at Tufts"
+  end
 end
