@@ -32,4 +32,13 @@ feature 'Visitor goes to homepage and does a search' do
       page.should have_content "You searched for:"
       page.should have_content "Here and There at Tufts"
   end
+  scenario 'user searches for subject basic' do
+      visit root_path
+      select 'Subject', :from=> 'search_field'
+      fill_in 'q', :with=>'Hamilton'
+      click_button 'Search'
+      page.should have_content "1 Result"
+      page.should have_content "You searched for:"
+      page.should have_content "Portraits of President Hamilton"
+  end
 end

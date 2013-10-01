@@ -62,8 +62,24 @@
          title_tesim^5000
        </str>
        <str name="subject_qf">
+         subject_topic_tim^2000
+         subject_tesim^50
+         corpname_tesim^50
+         corpname_tim^500
+         persname_tim^500
+         geogname_tim^500
+         persname_tesim^50
+         geogname_tesim^50
        </str>
        <str name="subject_pf">
+         subject_topic_tim^2000
+         subject_tesim^50
+         corpname_tesim^50
+         corpname_tim^500
+         persname_tim^500
+         geogname_tim^500
+         persname_tesim^50
+         geogname_tesim^50
        </str>
        
        <str name="fl">
