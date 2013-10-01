@@ -46,8 +46,12 @@
         </str>
 
        <str name="author_qf">
+         author_si^200
+         creator_tesim^20
        </str>
        <str name="author_pf">
+         author_si^200
+         creator_tesim^20
        </str>
        <str name="title_qf">
          title_tim^50000
