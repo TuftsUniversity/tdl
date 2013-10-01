@@ -114,17 +114,17 @@ end
     page.should have_content "Adrienne Effron, interviewer (female)"
   end
 
-  scenario 'user loads tufts daily' do
+  scenario 'user loads tufts daily 1' do
     visit '/catalog/tufts:UP029.003.003.00012'
     page.should have_content "Tufts Daily, March 1"
     page.should have_content "1982"
     page.should have_link "The Tufts Daily, 1980-2008"
   end
-  scenario 'user loads tufts daily' do
+  scenario 'user loads tufts daily 2' do
     visit '/catalog/tufts:UP029.020.031.00108'
     page.should have_content "Tufts Daily, November 29"
   end
-  scenario 'user loads tufts daily' do
+  scenario 'user loads tufts daily 3' do
     visit '/catalog/tufts:UP029.003.003.00014'
     page.should have_content "Tufts Daily, March 3"
   end
