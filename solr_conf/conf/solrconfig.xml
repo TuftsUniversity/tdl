@@ -81,6 +81,52 @@
          persname_tesim^50
          geogname_tesim^50
        </str>
+        <str name="collection_qf">
+          collection_id_sim^5000
+          collection_title_tesim^50
+        </str>
+        <str name="collection_pf">
+          collection_id_sim^5000
+          collection_title_sim^50
+        </str>
+        <str name="description_qf">
+           description_tesim^50
+        </str>
+        <str name="description_pf">
+          description_tesim^50
+        </str>
+        <str name="organization_qf">
+          corpname_tesim^50
+          corpname_tim^500
+        </str>
+        <str name="organization_pf">
+          corpname_tesim^50
+          corpname_tim^500
+        </str>
+        <str name="place_qf">
+          geogname_tesim^500
+          geogname_tim^50
+        </str>
+        <str name="place_pf">
+          geogname_tesim^500
+          geogname_tim^50
+        </str>
+        <str name="person_qf">
+          persname_tesim^500
+          persname_tim^50
+        </str>
+        <str name="person_pf">
+          persname_tesim^500
+          persname_tim^50
+        </str>
+        <str name="topic_pf">
+          subject_topic_tim^2000
+          subject_tesim^50
+        </str>
+        <str name="topic_qf">
+          subject_topic_tim^2000
+          subject_tesim^50
+        </str>
        
        <str name="fl">
          *, 
