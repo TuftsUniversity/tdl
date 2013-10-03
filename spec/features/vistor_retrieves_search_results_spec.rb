@@ -41,4 +41,15 @@ feature 'Visitor goes to homepage and does a search' do
       page.should have_content "You searched for:"
       page.should have_content "Portraits of President Hamilton"
   end
+  scenario 'user searches for collection advanced' do
+      visit root_path
+      click_link 'Advanced Search'
+      within("div#advanced_search") do
+        find_field('collection', :type=> 'text').set('boston')
+      end
+      click_button 'advanced_search'
+      page.should have_content "3 Results"
+      page.should have_content "You searched for:"
+      page.should have_content "Acceptance Speech for the Citation of Merit Award"
+  end
 end
