@@ -63,7 +63,7 @@ SortAndPerPageControls.prototype.updateSortButton = function (e) {
                 $('#date_header').attr('src', "assets/img/arrow_both.gif").parent().data('sort', 'none');
             });
             break;
-        case "title_sort":
+        case "title_si":
         case "Title":
             this.updateSortText('title');
 
@@ -82,7 +82,7 @@ SortAndPerPageControls.prototype.updateSortButton = function (e) {
                 $('#date_header').attr('src', "assets/img/arrow_both.gif").parent().data('sort', 'none');
             });
             break;
-        case "author_sort":
+        case "author_si":
         case "Creator":
             this.updateSortText('creator');
             if (this.sort_direction == undefined || this.sort_direction == "asc") {
@@ -100,7 +100,7 @@ SortAndPerPageControls.prototype.updateSortButton = function (e) {
                 $('#date_header').attr('src', "assets/img/arrow_both.gif").parent().data('sort', 'none');
             });
             break;
-        case "pub_date_sort":
+        case "pub_date_isi":
         case "Date":
             this.updateSortText('date');
             if (this.sort_direction == undefined || this.sort_direction == "asc") {
