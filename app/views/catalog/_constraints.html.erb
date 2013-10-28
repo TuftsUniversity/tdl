@@ -2,9 +2,9 @@
   <%-
       # Add year_start and year_end params back so that nav-pills for them appear properly.
       # TODO: THIS NEEDS TO BE FIXED
-      ##rack_req = @_env['rack.request.query_hash']
-      ##localized_params['year_start'] = rack_req['year_start']
-      ##localized_params['year_end'] = rack_req['year_end']
+      rack_req = request.env['rack.request.query_hash']
+      localized_params['year_start'] = rack_req['year_start']
+      localized_params['year_end'] = rack_req['year_end']
 
       unless (localized_params[:q].nil? || localized_params[:q].length() == 0) && 
              (localized_params[:keyword].nil? || localized_params[:keyword].length() == 0) && 

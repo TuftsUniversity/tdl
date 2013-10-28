@@ -11,6 +11,10 @@ class CatalogController < ApplicationController
   before_filter :instantiate_controller_and_action_names
   before_filter :load_fedora_document, :only=>[:show, :edit, :teireader, :eadoverview, :eadinternal, :transcriptonly]
   # These before_filters apply the hydra access controls
+
+  # This changes the begin year and end year params of an advanced search into a proper range parameter for solr
+  CatalogController.solr_search_params_logic += [:add_advanced_search_range_param]
+
   # This filters out embargo'd objects
   CatalogController.solr_search_params_logic += [:exclude_embargo_objects]
 
@@ -71,6 +75,26 @@ class CatalogController < ApplicationController
     @item_id = params[:item_id]
   end
 
+  def add_advanced_search_range_param(solr_params, req_params)
+    year_start = req_params[:year_start]
+    year_end = req_params[:year_end]
+    year_start_requested = !(year_start.nil? || year_start.empty?)
+    year_end_requested = !(year_end.nil? || year_end.empty?)
+
+    if (year_start_requested || year_end_requested)
+      # add the properly formatted date range to the parameters that will be passed to solr for the search
+      year_range = "pub_date_isi:[" + (year_start_requested ? year_start : "*") + " TO " + (year_end_requested ? year_end : "*") + "]"
+      solr_params[:fq] ||= []
+      solr_params[:fq] << year_range
+
+      # and remove year_start and year_end so that they will NOT be used in the search;  they will have to be added
+      # back after the search so that their nav-pills will appear on the results page (see
+      # config/initializers/blacklight_advanced_search_override.rb and app/views/catalog/_constraints.html.erb).
+      req_params[:year_start] = ""
+      req_params[:year_end] = ""
+    end
+  end
+
   #### TDL is not currently enforcing permissions #####
   #before_filter :enforce_show_permissions, :only=>:show
   #### /TDL is not currently enforcing permissions #####
@@ -84,7 +108,6 @@ class CatalogController < ApplicationController
   configure_blacklight do |config|
     config.default_solr_params = { 
        :qt => 'search',
-       :qf => 'id creator_tesim title_tesim subject_tesim description_tesim identifier_tesim alternative_tesim contributor_tesim abstract_tesim toc_tesim publisher_tesim source_tesim date_tesim date_created_tesim date_copyrighted_tesim date_submitted_tesim date_accepted_tesim date_issued_tesim date_available_tesim date_modified_tesim language_tesim type_tesim format_tesim extent_tesim medium_tesim persname_tesim corpname_tesim geogname_tesim genre_tesim provenance_tesim rights_tesim access_rights_tesim rights_holder_tesim license_tesim replaces_tesim isReplacedBy_tesim hasFormat_tesim isFormatOf_tesim hasPart_tesim isPartOf_tesim accrualPolicy_tesim audience_tesim references_tesim spatial_tesim bibliographic_citation_tesim temporal_tesim funder_tesim resolution_tesim bitdepth_tesim colorspace_tesim filesize_tesim steward_tesim name_tesim comment_tesim retentionPeriod_tesim displays_ssi embargo_tesim status_tesim startDate_tesim expDate_tesim qrStatus_tesim rejectionReason_tesim note_tesim read_access_group_tim',
       :rows => 10 
     }
 
@@ -266,6 +289,24 @@ class CatalogController < ApplicationController
             :qf => "$topic_qf"
         }
     end
+
+  config.add_search_field('year_start') do |field|
+    field.include_in_simple_select = false
+    field.label = 'Year Start'
+    field.solr_local_parameters = {
+      :pf => "$year_start_pf",
+      :qf => "$year_start_qf"
+    }
+  end
+
+  config.add_search_field('year_end') do |field|
+    field.include_in_simple_select = false
+    field.label = 'Year End'
+    field.solr_local_parameters = {
+      :pf => "$year_end_pf",
+      :qf => "$year_end_qf"
+    }
+  end
 
 
     # "sort results by" select (pulldown)
