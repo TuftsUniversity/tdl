@@ -112,6 +112,8 @@ end
     page.should have_content 'Lost Theaters of Somerville: Edward Ciampa Interview'
     page.should have_content "you call them the Loony Tunes"
     page.should have_content "Adrienne Effron, interviewer (female)"
+    find(:xpath, '//*[@id="2"]/a').click
+    page.should have_content "Back to Audio Player"
   end
 
   scenario 'user loads tufts daily 1' do
