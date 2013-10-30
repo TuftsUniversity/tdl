@@ -244,6 +244,13 @@
         $('#menu ul.navmenu li:last-child .menutop').css('border-bottom', '1px solid #CCC');
     }
 
+    if (($.browser.msie && $.browser.version == '10.0') || $.browser.opera) {
+        $('#myImageOverlay').removeClass('fade');
+        $('#myImageGallery').removeClass('fade');
+        $('#comment_modal').removeClass('fade');
+        $('#more_facets_modal').removeClass('fade');
+    }
+
     $('.toggle,.menutop').click(function () {
         var facet_header = $(this);
         if (facet_header.hasClass('toggle-open')) {
