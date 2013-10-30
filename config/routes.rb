@@ -20,6 +20,7 @@ TDL::Application.routes.draw do
     HydraHead.add_routes(self)
    match '/search', :to => 'catalog#search', :constraints => {:id => /.*/}, :as =>'catalog'
    match '/catalog/facet/:id', :to => 'catalog#facet', :constraints => {:id => /.*/}, :as =>'catalog'
+   match '/catalog/transcriptonly/:id', :to => 'catalog#transcriptonly', :constraints => {:id => /.*/}, :as =>'transcriptonly'
    match '/advanced/facet/:id', :to => 'advanced#facet', :constraints => {:id => /.*/}, :as =>'advanced'
    match "/about" => "about#index"
    match "/contact" => "contact#show"
