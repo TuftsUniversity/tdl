@@ -52,4 +52,17 @@ feature 'Visitor goes to homepage and does a search' do
       page.should have_content "You searched for:"
       page.should have_content "Acceptance Speech for the Citation of Merit Award"
   end
+
+  scenario 'user searches by dates advanced' do
+      visit root_path
+      click_link 'Advanced Search'
+      within ("div#advanced_search") do
+        find_field('year_start', :type=> 'number').set('1980')
+        find_field('year_end', :type=> 'number').set('1982')
+      end
+      click_button 'advanced_search'
+      page.should have_content "2 Results"
+      page.should have_content "Year Start"
+      page.should have_content "Tufts Daily, March 1"
+  end
 end
