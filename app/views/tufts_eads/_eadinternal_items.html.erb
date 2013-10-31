@@ -1,0 +1,80 @@
+<%
+    series_items.each do |series_item|
+      this_row_s = @row_count.to_s
+      @row_count += 1
+
+      item_title, item_paragraphs, item_labels, item_values, page, thumbnail, next_level_items = Tufts::EADMethods.get_series_item_info(series_item)
+#     item_title = "-" + indentation_level.to_s + "-" + (@row_count - 1).to_s + "- " + item_title # to show indentation level and row number for debugging
+      is_top_level = indentation_level == 0
+      is_folder = !next_level_items.nil? && !next_level_items.empty?
+      # The classes .ead_folder_title and .ead_item_title exist so that styles could be added for them if it becomes necessary in the future.
+      row_class = " class=\"" + (is_folder ? "ead_folder_title" : "ead_item_title") + " ead_indent" + indentation_level.to_s + "\""
+
+      if is_folder
+        next_row = @row_count
+        next_level_items_rows = render(:partial => 'tufts_eads/eadinternal_items', :locals => {:series_items => next_level_items, :indentation_level => indentation_level + 1})
+        last_row = @row_count - 1 # After the recursive invocation of this view partial, @row_count points at the next row to be output;  we want to toggle the expand/close state up through one row less than that.
+        child_count = @row_count - next_row # total number of children/grandchildren/etc of this folder
+        toggle_action = raw("javascript:toggleDisplay('#img" + this_row_s + "', " + next_row.to_s + ", " + last_row.to_s + ");")
+        expand_collapse = "<img class=\"folderRowToggler\" onclick=\"" + toggle_action + "\" id=\"img" + this_row_s + "\" data-child-count=\"" + child_count.to_s + "\" src=\"/assets/img/button_collapse.png\" width=\"11\" height=\"11\" alt=\"collapse\" role=\"button\" tabindex=\"" + this_row_s + "\" onkeydown=\"if (event.keyCode==13 || event.keyCode==32) " + toggle_action + "\">"
+        item_title = "<span onclick=\"" + toggle_action + "\">" + item_title + "</span>"
+      else
+        expand_collapse = "&nbsp;"
+      end
+%>
+      <tr<%= raw(is_top_level ? " class=\"topLevelRow\"" : "") %>>
+        <td class="collapse_td"><%= raw(expand_collapse) %></td>
+        <td<%= raw(row_class) %>><%= raw(item_title) %>
+<%
+      if is_folder
+%>
+          <br><span class="smalltext">There might be additional items in this folder.  <a href="/contact">Contact DCA.</a></span>
+<%
+      end
+      # NOTE - the following percent/right-angle-bracket and left-angle-bracket/percent should not be necessary, but they are!
+      # If you delete them this view partial will not compile;  you'll get an "unexpected kEND" syntax error on the previous line of code.
+      # I have absolutely no idea why this is so.
+%>
+<%
+      item_paragraphs.each do |item_paragraph|
+%>
+          <br><%= raw(item_paragraph) %>
+<%
+      end
+%>
+        </td>
+        <td class="smalltext locator_td"><%= raw(item_labels) %></td>
+        <td class="smalltext id_td" align="left"><%= raw(item_values) %></td>
+<%
+      if thumbnail.nil? || thumbnail.empty?
+        if page.nil? || page.empty?
+%>
+        <td class="availableonline_td" align="center">&nbsp;</td>
+<%
+        else
+%>
+        <td class="availableonline_td" align="center"><i class="icon-ok"></i></td>
+<%
+        end
+      else
+%>
+        <td class="thumbnail_td" align="center">
+          <ul class="thumbnails">
+            <li class="nothumbnailmargin">
+              <a href="/catalog/<%= raw(page) %>" class="thumbnail"><img class="thumbnailwidth" src="/file_assets/thumb/<%= raw(thumbnail) %>"></a>
+            </li>
+          </ul>
+        </td>
+<%
+      end
+%>
+      </tr>
+
+<%
+      if is_folder
+%>
+<%= raw(next_level_items_rows) %>
+<%
+      end
+    end
+%>

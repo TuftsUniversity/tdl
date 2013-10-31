@@ -70,8 +70,8 @@
         <tr class="table_options">
           <td colspan="5">
             <div class="left" style="margin-bottom: 2px">
-              <button class="btn btn-mini" onclick="displayAll(true)">expand all folders</button>
-              <button class="btn btn-mini" onclick="displayAll(false)">close all folders</button>
+              <button class="btn btn-mini" onclick="displayAll(true)" tabindex="0">expand all folders</button>
+              <button class="btn btn-mini" onclick="displayAll(false)" tabindex="1">close all folders</button>
             </div>
           </td>
         </tr>
@@ -85,77 +85,11 @@
         </tr>
       </thead>
 
-<%
-    row = 2
-    series_items.each do |series_item|
-      row_s = row.to_s
-      item_title, item_paragraphs, item_labels, item_values, page, thumbnail, next_level_items = Tufts::EADMethods.get_series_item_info(series_item)
-      is_folder = !next_level_items.nil? && !next_level_items.empty?
-      expand_collapse = (is_folder ? "<a href=\"javascript:toggleDisplay('#img" + row_s + "', " + (row + 1).to_s + ", " + (row + next_level_items.size).to_s + ");\"><img class=\"folderRowToggler\" id=\"img" + row_s + "\" src=\"/assets/img/button_collapse.png\" width=\"11\" height=\"11\" alt=\"collapse\" /></a>" : "&nbsp;")
+<% @row_count = 2
+   indentation_level = 0;
 %>
-      <tr class="folderRow">
-        <td class="collapse_td"><%= raw expand_collapse %></td>
-        <td<%= raw (is_folder ? " class=\"ead_folder_title\"" : "") %>><%= raw (is_folder ? "<a href=\"javascript:toggleDisplay('#img" + row_s + "', " + (row + 1).to_s + ", " + (row + next_level_items.size).to_s + ");\">" + item_title + "</a>" : item_title) %>
-<%    if is_folder %>
-          <br><span class="smalltext">There might be additional items in this folder.  <a href="/contact">Contact DCA.</a></span>
-<%    end %>
-<%    item_paragraphs.each do |item_paragraph| %>
-          <br><%= raw item_paragraph %>
-<%    end %>
-        </td>
-        <td class="smalltext locator_td"><%= raw item_labels %></td>
-        <td class="smalltext id_td" align="left"><%= raw item_values %></td>
-<%
-      if thumbnail.nil? || thumbnail.empty?
-        if page.nil? || page.empty?
-%>
-        <td class="availableonline_td" align="center">&nbsp</td>
-<%      else %>
-        <td class="availableonline_td" align="center"><i class="icon-ok"></i></td>
-<%
-        end
-      else
-%>
-        <td class="thumbnail_td" align="center">
-          <ul class="thumbnails">
-            <li class="nothumbnailmargin">
-              <a href="/catalog/<%= page %>" class="thumbnail"><img class="thumbnailwidth" src="/file_assets/thumb/<%= thumbnail %>" /></a>
-            </li>
-          </ul>
-        </td>
-<%    end %>
-      </tr>
-<%
-      next_level_items.each do |next_level_item|
-        item_title, item_paragraphs, item_labels, item_values, page, thumbnail = Tufts::EADMethods.get_series_item_info(next_level_item)
-%>
-      <tr>
-        <td class="collapse_td">&nbsp;</td>
-        <td class="ead_item_title indent"><%= raw item_title %>
-<%      item_paragraphs.each do |item_paragraph| %>
-          <br><%= raw item_paragraph %>
-<%      end %>
-        </td>
-        <td class="smalltext locator_td"><%= raw item_labels %></td>
-        <td class="smalltext id_td" align="left"><%= raw item_values %></td>
-<%      if thumbnail.nil? || thumbnail.empty? %>
-        <td class="thumbnail_td" align="center">&nbsp</td>
-<%      else %>
-        <td class="thumbnail_td" align="center">
-          <ul class="thumbnails">
-            <li class="nothumbnailmargin">
-              <a href="/catalog/<%= page %>" class="thumbnail"><img class="thumbnailwidth" src="/file_assets/thumb/<%= thumbnail %>" /></a>
-            </li>
-          </ul>
-        </td>
-<%      end %>
-      </tr>
-<%
-        row += 1
-      end
-      row += 1
-    end
-%>
+<%= render :partial => 'tufts_eads/eadinternal_items', :locals => {:series_items => series_items, :indentation_level => indentation_level} %>
+
     </table>
 
 <%  if !series_access_and_use.empty? %>

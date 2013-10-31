@@ -17,14 +17,54 @@
   font-weight: normal;
 }
 
-.ead_folder_title a {
-  color: #000000;
+.table .ead_indent0 {
+  padding-left: 1em;
 }
 
-.ead_item_title {
-  color: #000000;
+.table .ead_indent1 {
+  padding-left: 3em;
 }
 
-.ead_item_title a {
-  color: #0755AC;
+.table .ead_indent2 {
+  padding-left: 7em;
+}
+
+.table .ead_indent3 {
+  padding-left: 10em;
+}
+
+.table .ead_indent4 {
+  padding-left: 13em;
+}
+
+.table .ead_indent5 {
+  padding-left: 16em;
+}
+
+.table .ead_indent6 {
+  padding-left: 19em;
+}
+
+.table .ead_indent7 {
+  padding-left: 22em;
+}
+
+.table .ead_indent8 {
+  padding-left: 25em;
+}
+
+.table .ead_indent9 {
+  padding-left: 28em;
+}
+
+.table .ead_indent10 {
+  padding-left: 31em;
+}
+
+.table .ead_indent11 {
+  padding-left: 34em;
+}
+
+.table .ead_indent12 {
+  padding-left: 37em;
 }

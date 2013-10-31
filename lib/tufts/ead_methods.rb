@@ -389,6 +389,8 @@ module Tufts
       series.element_children.each do |series_child|
         child_name = series_child.name
 
+				# The series could be a <c01 level="series"> with c02 children, or
+				# it could be a <c02 level="subseries"> with c03 children.
         if child_name == "c02" || child_name == "c03"
           result << series_child
         end
@@ -418,7 +420,11 @@ module Tufts
           daogrp = item_child
         elsif item_child.name == "scopecontent"
           scopecontent = item_child
-        elsif item_child.name == "c03" || item_child.name == "c04"
+        elsif item_child.name == "c03" || item_child.name == "c04" ||
+              item_child.name == "c05" || item_child.name == "c06" ||
+              item_child.name == "c07" || item_child.name == "c08" ||
+              item_child.name == "c09" || item_child.name == "c10" ||
+              item_child.name == "c11" || item_child.name == "c12"
           next_level_items << item_child
         end
       end
