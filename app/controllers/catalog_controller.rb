@@ -52,7 +52,7 @@ class CatalogController < ApplicationController
 
   def add_dca_admin_displays_awareness(solr_parameters, user_parameters)
     solr_parameters[:fq] ||= []
-    solr_parameters[:fq] << "(-displays_ssi:[* TO *] AND *:*) OR displays_ssi:dl"
+    solr_parameters[:fq] << "(-displays_tesim:[* TO *] AND *:*) OR displays_tesim:dl"
   end
 
 
