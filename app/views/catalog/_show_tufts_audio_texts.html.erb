@@ -46,9 +46,9 @@
           <div class="tab-pane<%= params[:tab] == "2" ? " active" : "" %>" id="2">
             <a href="/catalog/transcriptonly/<%= params[:id] %>" class="pull-right"><h6>view transcript only <i class="icon-share"></i></h6></a>
             <br>
-            <div class="transcriptbox">
+            <div class="transcript_box">
               <%= raw Tufts::MediaPlayerMethods.show_transcript(@document_fedora, true) %>
-            </div>  <!-- transcriptbox -->
+            </div>  <!-- transcript_box -->
           </div>  <!-- tab-pane 2 -->
         </div>  <!-- tab-content -->
       </div>  <!-- tabbable -->
