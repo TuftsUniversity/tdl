@@ -22,6 +22,7 @@ namespace :solrizer do
       puts "Fedora Solr URL: #{ActiveFedora.solr_config[:url]}"
 CSV.foreach(ENV['INDEX_LIST']) do |row|
           pid = row[0]
+        puts "indexing #{pid}"
         ActiveFedora::Base.find(pid,cast: true).update_index
       end 
       puts "Solrizer task complete."
