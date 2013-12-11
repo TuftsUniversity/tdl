@@ -19,3 +19,6 @@ jetty
 
 #Ignore simplecov code coverage output
 coverage
+
+public/assets
+utils/
