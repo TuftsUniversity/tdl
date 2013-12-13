@@ -10,6 +10,7 @@ class CatalogController < ApplicationController
   #before filters..
   before_filter :instantiate_controller_and_action_names
   before_filter :load_fedora_document, :only=>[:show, :edit, :teireader, :eadoverview, :eadinternal, :transcriptonly]
+  before_filter :enforce_show_permissions, :only=>:show
   # These before_filters apply the hydra access controls
 
   # This changes the begin year and end year params of an advanced search into a proper range parameter for solr
@@ -26,19 +27,32 @@ class CatalogController < ApplicationController
       render :layout => false
     end 
 
+  # Controller "before" filter for enforcing access controls on show actions
+  # @param [Hash] opts (optional, not currently used)
+  def enforce_show_permissions(opts={})
+        if @document_fedora.datastreams["DCA-ADMIN"].under_embargo?
+          # check for depositor raise "#{@document["depositor_t"].first} --- #{user_key}"
+          ### Assuming we're using devise and have only one authentication key
+          #unless current_user && user_key == @permissions_solr_document["depositor_t"].first
+            flash[:notice] = "This item is under embargo.  You do not have sufficient access privileges to read this document."
+            redirect_to(:action=>'index', :q=>nil, :f=>nil) and return false
+         # end
+        end
+  end
+
   # This filters out objects that you want to exclude from search results.  By default it only excludes FileAssets
   # @param solr_parameters the current solr parameters
   # @param user_parameters the current user-subitted parameters
   def exclude_embargo_objects(solr_parameters, user_parameters)
 
     solr_parameters[:fq] ||= []
-    solr_parameters[:fq] << "-embargo_dtsi:[NOW TO *]"
+    solr_parameters[:fq] << "-embargo_dtsim:[NOW TO *]"
    # solr_parameters[:fq] << "-has_model_s:\"info:fedora/afmodel:FileAsset\""
   end
 
   def add_dca_admin_displays_awareness(solr_parameters, user_parameters)
     solr_parameters[:fq] ||= []
-    solr_parameters[:fq] << "(-displays_ssi:[* TO *] AND *:*) OR displays_ssi:dl"
+    solr_parameters[:fq] << "(-displays_tesim:[* TO *] AND *:*) OR displays_tesim:dl"
   end
 
 
