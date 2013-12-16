@@ -60,6 +60,7 @@ end
     visit '/catalog/tufts:UA069.005.DO.00094'
     #checking table of contents
     page.should have_content 'Frontispiece'
+    page.should have_title "Here and There at Tufts - Tufts Digital Library"
   end
   scenario 'user loads A Failure of Management' do
     visit '/catalog/tufts:UA069.005.DO.00239'

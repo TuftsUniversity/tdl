@@ -8,6 +8,7 @@ feature 'Visitor goes to homepage and does a search' do
       fill_in 'q', :with=>'elections'
       click_button 'Search'
       page.should have_content "3 Results"
+      page.should have_title "Tufts Digital Library Search Results"
   end
 
   scenario 'user searches for title advanced' do
