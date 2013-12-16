@@ -1,6 +1,6 @@
 <%-
   begin
-    doc_title = (document_show_html_title.nil? || document_show_html_title.empty?) ? @document[:id] : document_show_html_title.first
+    doc_title = (document_show_html_title.nil? || document_show_html_title.empty?) ? @document[:id] : document_show_html_title
     @page_title = "#{doc_title} - #{application_name}"
   rescue NoMethodError => e
     raise ActionController::RoutingError.new('Not Found')
