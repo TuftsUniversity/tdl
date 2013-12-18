@@ -5,6 +5,11 @@ feature 'Visitor goes to homepage' do
        page.status_code.should be 200 
   end
 
+  scenario 'home page has correct title' do
+      visit root_path
+      page.should have_title 'Tufts Digital Library'
+  end
+
   scenario 'user clicks on Murrow collection overview' do
       visit root_path
       click_link "Edward R. Murrow collection"

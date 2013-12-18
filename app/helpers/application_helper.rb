@@ -3,6 +3,10 @@ include Tufts::MetadataMethods
 
 module ApplicationHelper
 
+  def application_name
+        'Tufts Digital Library'
+  end 
+
   def showPdfImage(pid)
     result = "<img alt=\"\" src=\"/pdf_pages/" + pid + "/0\"/>"
 

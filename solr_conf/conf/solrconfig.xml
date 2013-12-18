@@ -37,6 +37,7 @@
        -->
         <str name="qf">
           id
+          all_text_timv
           creator_tesim
           title_tesim
           subject_tesim
