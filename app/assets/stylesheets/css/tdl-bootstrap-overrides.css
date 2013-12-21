@@ -1437,3 +1437,15 @@ IMG.thumbnailwidth{
     width: 100%;
     height: 8px;
 }
+
+/* Fix for asset pipeline location of these glyphs wouldn't be a problem I don't think if we used the rails
+ * package for this 
+ * http://codedecoder.wordpress.com/2013/04/12/background-image-url-img-glyphicons-halflings-png-not-found-loading-with-asset-pipelin/
+ */
+[class^="icon-"],
+[class*=" icon-"] {
+background-image: url(glyphicons-halflings.png);
+}
+.icon-white {
+background-image: url(glyphicons-halflings-white.png);
+}
