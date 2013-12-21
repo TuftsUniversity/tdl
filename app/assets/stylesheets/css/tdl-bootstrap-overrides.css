@@ -1301,7 +1301,7 @@ ul .sublist{margin-left: 10px}
 		}
 		
 		.bookcover2{
-			background:url(../img/bookcover2.png) no-repeat;
+			background:url(/assets/img/bookcover2.png) no-repeat;
  		font-size:15px;
 		font-weight: bold;
 		height: 215px;
