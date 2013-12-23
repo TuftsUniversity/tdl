@@ -225,7 +225,7 @@ BookReader.prototype.drawLeafsOnePage = function () {
 }
 
 BookReader.prototype._getTransparentPageURI = function () {
-    return '/images/tdl/Transparent.gif'
+    return '/assets/tdl/Transparent.gif'
 }
 // This function returns the left and right indices for the user-visible
 // spread that contains the given index.  The return values may be
