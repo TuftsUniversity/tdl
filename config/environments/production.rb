@@ -46,7 +46,7 @@ TDL::Application.configure do
   # config.action_controller.asset_host = "http://assets.example.com"
 
   # Precompile additional assets (application.js, application.css, and all non-JS/CSS are already added)
-  config.assets.precompile += %w( tuftsification.js tuftsification.css tei.js pdfviewer/BookReaderPDFViewer.js BookReader.css tei/tei.css ead/ead.css ead.js )
+  config.assets.precompile += %w( tuftsification.js tuftsification.css tei.js pdfviewer/BookReaderPDFViewer.js bookreader/BookReader.css bookreader/bookreader_custom.css tei/tei.css ead/ead.css ead.js imageviewer/BookReaderImageViewer.css bookreader.js advancedimageviewer/BookReaderImageViewer.js)
 
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false

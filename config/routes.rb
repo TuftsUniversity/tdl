@@ -43,7 +43,8 @@ TDL::Application.routes.draw do
    match '/catalog/tei/:id', :to => 'catalog#teireader', :constraints => {:id => /.*/}, :as =>'teireader'
    match '/catalog/ead/:id/:item_id', :to => 'catalog#eadinternal', :constraints => {:id => /.*/, :item_id => /.*/}, :as =>'eadinternal'
    match '/catalog/ead/:id', :to => 'catalog#eadoverview', :constraints => {:id => /.*/}, :as =>'eadoverview'
-
+   match "feedback", :to => "feedback#show"    
+   match "feedback/complete", :to => "feedback#complete"
   devise_for :users
 
 
