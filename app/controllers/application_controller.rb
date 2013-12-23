@@ -7,20 +7,7 @@ class ApplicationController < ActionController::Base
   #layout 'blacklight'
   layout 'tdl-bootstrap'
 
-  before_filter :add_remove_js_css, :add_my_own_assets
   rescue_from ActiveFedora::ObjectNotFoundError, :with => :error_generic
-
-  def add_remove_js_css
-    # javascript_includes.map{|js_links| js_links.delete("accordion") if js_links.include?({:plugin=>:blacklight})}
-    #    stylesheet_links << ["mycss",{:media=>"all"}]
-  end
-
-  def add_my_own_assets
-    stylesheet_links << "tdl"
-
-    # You can do something similar with javascript files too:
-    javascript_includes << "tdl"
-  end
 
   def error_generic
 
