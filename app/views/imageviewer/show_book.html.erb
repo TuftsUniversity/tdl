@@ -12,7 +12,7 @@
     <script type="text/javascript">
         <!--
             $(document).ready(function() {
-                $('a.logo').closest('span').append('<div class="overview_link"><%= render_back_to_overview_link %><div>');
+                $('a.logo').closest('span').append('<div class="overview_link"><%= render_back_to_overview_link(params[:id]) %><div>');
             });
          // -->
     </script>
