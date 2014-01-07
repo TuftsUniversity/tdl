@@ -51,6 +51,13 @@
             <br>
             <div class="transcript_box">
               <%= raw Tufts::MediaPlayerMethods.show_transcript(@document_fedora, true) %>
+              <script>
+                  $('.transcript_chunk_link').on("click", function (e) {
+                      e.preventDefault()
+                      var t = $(e.currentTarget).data('time')
+                      jumpPlayerTo(t);
+                  });
+              </script>
             </div>  <!-- transcript_box -->
           </div>  <!-- tab-pane 2 -->
         </div>  <!-- tab-content -->
