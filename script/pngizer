@@ -1,0 +1,241 @@
+#!/usr/bin/env ruby
+
+#  to run manually for a single pid:
+#    script/pngizer --hydra_home /home/hydradm/tdl_hydra_head --pid tufts:UP029.032.064.00045
+#  logging output will go to the console
+#
+#  to run as a daemon that waits for activemq messages upon ingest events:
+#    utils/start_pngizerd.sh
+#  logging output will go to log/pngizer.log
+#
+#  to check status of pngizerd:
+#    script/pngizerd status
+#  If the status is "running", but with a process id that doesn't exist (as shown by the ps command),
+#  this means that pngizerd was not stopped cleanly and you should delete the file /tmp/pngizer.pid.
+#
+#  to stop pngizerd:
+#    utils/stop_pngizerd.sh
+#
+#  pngizer and pngizerd should be run on stage-dl, not on production dl.tufts.edu
+#
+#  When run on dev-dl, the readme.txt, book_meta.json and .png files will be written to the
+#  pdf_pages folder under tdl_hydra_head instead of to /tdr so that testing on dev-dl will not
+#  affect the production files.
+
+require 'rubygems'
+require 'optparse'
+require 'stomp'
+require 'RMagick'
+require 'date'
+
+options = {}
+
+def convert_to_png(pid)
+  success = false
+
+  unless pid.nil?
+    begin
+      file_asset = ActiveFedora::Base.find(pid)
+
+      if file_asset.nil?
+        @logger.fatal('Can\'t find ' + pid + '.')
+      else
+        unless file_asset.datastreams.include?('Archival.pdf')
+          @logger.info(pid + ' does not have an Archival.pdf datastream.')
+        else
+          pdf_url = file_asset.datastreams['Archival.pdf'].dsLocation
+          pdf_path = convert_url_to_local_path(pdf_url)
+          @logger.info('Reading ' + pdf_path + '.')
+
+          pdf_pages = Magick::Image.read(pdf_path){self.density = '150x150'}
+          page_count = pdf_pages.length
+          page_width = pdf_pages[0].columns
+          page_height = pdf_pages[0].rows
+          @logger.info('Found ' + page_count.to_s + ' pages (' + page_width.to_s + ' x ' + page_height.to_s + ').')
+
+          meta_path = convert_url_to_meta_path(pdf_url, '', pid)
+          meta_path_dir = File.dirname(meta_path)
+          FileUtils.mkdir_p(meta_path_dir)
+
+          json = '{"page_width":"' + page_width.to_s + '","page_height":"' + page_height.to_s + '","page_count":"' + page_count.to_s + '"}'
+          @logger.info('Writing ' + json + ' to ' + meta_path + '.')
+          File.open(meta_path, 'w'){|file| file.puts(json)}
+
+          readme_path = meta_path_dir + '/readme.txt'
+          readme = 'Created by pngizer from source: ' + pdf_path
+          @logger.info('Writing ' + readme + ' to ' + readme_path + '.')
+          File.open(readme_path, 'w'){|file| file.puts(readme)}
+
+          page_number = 0
+
+          pdf_pages.each do |pdf_page|
+            png_path = convert_url_to_png_path(pdf_url, page_number, pid)
+            @logger.info('Writing ' + png_path + '.')
+
+            pdf_page.write(png_path){self.quality = 100}
+            pdf_page.destroy!  # this is important - without it RMagick can occasionally be left in a state that causes subsequent failures
+            pdf_pages[page_number] = nil
+
+            page_number += 1
+          end
+        end
+
+        @logger.info('Successfully completed ' + pid + '.')
+        success = true
+      end
+    rescue Magick::ImageMagickError => ex
+      @logger.error($PROGRAM_NAME + ' ImageMagick error: ' + ex.message)
+    rescue SystemCallError => ex
+      @logger.error($PROGRAM_NAME + ' I/O error: ' + ex.message)
+    rescue StandardError => ex
+      @logger.error($PROGRAM_NAME + ' error: ' + ex.message)
+    end
+  end
+
+  return success
+end
+
+optparse = OptionParser.new do |opts|
+  opts.banner = 'Usage: pngizer [options]'
+
+  options[:hydra_home] = nil
+  opts.on('--hydra_home PATH', 'Load the Hydra instance at this path') do |hydra_home|
+    if File.exist?(File.join(hydra_home, 'config', 'environment.rb'))
+      options[:hydra_home] = hydra_home
+    else
+      puts("#{hydra_home} does not appear to be a valid rails home")
+      exit
+    end
+  end
+
+  options[:port] = 61613
+  opts.on('-p', '--port NUM', 'Stomp port') do |port|
+    options[:port] = port
+  end
+
+  options[:host] = 'localhost'
+  opts.on('-o', '--host HOSTNAME', 'Host to connect to') do |host|
+    options[:host] = host
+  end
+
+  options[:user] = ''
+  opts.on('-u', '--user USERNAME', 'User name for stomp listener') do |user|
+    options[:user] = user
+  end
+
+  options[:password] = ''
+  opts.on('-w', '--password PASSWORD', 'Password for stomp listener') do |password|
+    options[:password] = password
+  end
+
+  options[:destination] = '/topic/post.index.update'
+  opts.on('-d', '--destination TOPIC', 'Topic to listen to') do |destination|
+    options[:destination] = destination
+  end
+
+  options[:pid] = ''
+  opts.on('-P', '--pid PID', 'run immediately for a single pid') do |pid|
+    options[:pid] = pid
+  end
+
+  opts.on('-h', '--help', 'Display this screen') do
+    puts(opts)
+    exit
+  end
+end
+
+optparse.parse!()
+
+@hydra_home = options[:hydra_home]
+
+if @hydra_home
+  Dir.chdir(@hydra_home)
+  require File.join(@hydra_home, 'config', 'environment.rb')
+else
+  puts('The --hydra_home PATH option is mandatory. Please provide the path to the root of a valid Hydra instance.')
+  exit 1
+end
+
+begin
+  include TuftsFileAssetsHelper
+  include TuftsPdfPagesHelper
+
+  pid = options[:pid]
+
+  unless pid.eql?('')
+    # A single pid was specified, so convert its pdf to pngs
+
+    @logger = Logger.new(STDOUT)
+    convert_to_png(pid)
+  else
+    # No pid was specified, so listen to ActiveMQ for events of interest
+
+    log_file = File.open(File.join(@hydra_home, 'log', 'pngizer.log'), 'a')
+    log_file.sync = true # causes each log message to be flushed immediately
+    @logger = Logger.new(log_file)
+    @logger.info("\nStarting #{$PROGRAM_NAME}...")
+
+    @port = options[:port]
+    @host = options[:host]
+    @user = options[:user]
+    @password = options[:password]
+    @reliable = true
+    @clientid = 'pngizer_client'
+    @destination = options[:destination]
+
+    @logger.info("Connecting to stomp://#{@host}:#{@port} as #{@user}")
+    @conn = Stomp::Connection.open(@user, @password, @host, @port, @reliable, 5, {'client-id' => @clientid})
+
+    @logger.info("Subscribing to #{@destination}")
+    @conn.subscribe(@destination, {'activemq.subscriptionName' => @clientid, :ack => 'client'})
+
+    count = 0
+    success = true
+
+    # Let pngizer finish after failure;  if running via pngizerd, the :monitor=>true option passed toDaemons.run()
+    # will cause pngizer to be restarted.  Sometimes after converting a huge pdf (for example tufts:UA005.008.066.00001
+    # with 152 pages) RMagick fails on subsequent converts and this is the only known way to recover.
+
+    while success
+      @msg = @conn.receive()
+
+      #since the messages are reracked they're wrapped with an additional header from the resend 
+      pid = @msg.headers['pid'] 
+      method = @msg.headers['methodName'] 
+
+      unless pid.nil?  or !method.eql?('ingest')
+        count += 1
+        current_time = DateTime.now()
+
+        @logger.info("\n" + count.to_s + ' ' + current_time.strftime("%m/%d/%Y %H:%M:%S") + ' ' + @msg.headers.inspect)
+
+        success = convert_to_png(pid)
+
+        if success
+          st = ActiveRecord::Base.connection.raw_connection.prepare("update message_queues set last_ingest=\""+Time.now.to_s+"\" where name=\"post.index.update\"")
+          st.execute
+          st.close
+          st = ActiveRecord::Base.connection.raw_connection.prepare("update message_queues set last_pid_ingested=\""+pid+"\" where name=\"post.index.update\"")
+          st.execute
+          st.close
+        end
+      end
+
+      @logger.info "#{@msg.body}"
+
+      if @msg.body == "heartbeat the topic"
+        st = ActiveRecord::Base.connection.raw_connection.prepare("update message_queues set last_heartbeat=\""+Time.now.to_s+"\" where name=\"post.index.update\"")
+        st.execute
+        st.close
+      end
+
+      if success
+        @conn.ack(@msg.headers['message-id'])
+      else
+        Notifier.pngizer_failure({:pid => pid})
+      end
+    end
+  end
+rescue StandardError => ex
+  @logger.fatal($PROGRAM_NAME + ': ' + ex.message)
+end
