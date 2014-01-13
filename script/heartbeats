@@ -1,0 +1,96 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'optparse'
+require 'stomp'
+
+options = {}
+
+optparse = OptionParser.new do |opts|
+  opts.banner = 'Usage: heartbeats [options]'
+
+  options[:hydra_home] = nil
+  opts.on('--hydra_home PATH', 'Load the Hydra instance at this path') do |hydra_home|
+    if File.exist?(File.join(hydra_home, 'config', 'environment.rb'))
+      options[:hydra_home] = hydra_home
+    else
+      puts("#{hydra_home} does not appear to be a valid rails home")
+      exit
+    end
+  end
+
+  options[:port] = 61613
+  opts.on('-p', '--port NUM', 'Stomp port') do |port|
+    options[:port] = port
+  end
+
+  options[:host] = 'localhost'
+  opts.on('-o', '--host HOSTNAME', 'Host to connect to') do |host|
+    options[:host] = host
+  end
+
+  options[:user] = ''
+  opts.on('-u', '--user USERNAME', 'User name for stomp listener') do |user|
+    options[:user] = user
+  end
+
+  options[:password] = ''
+  opts.on('-w', '--password PASSWORD', 'Password for stomp listener') do |password|
+    options[:password] = password
+  end
+
+  options[:destination] = '/topic/fedora.apim.update'
+  opts.on('-d', '--destination TOPIC', 'Topic to listen to') do |destination|
+    options[:destination] = destination
+  end
+
+  options[:pid] = ''
+  opts.on('-P', '--pid PID', 'run immediately for a single pid') do |pid|
+    options[:pid] = pid
+  end
+
+  opts.on('-h', '--help', 'Display this screen') do
+    puts(opts)
+    exit
+  end
+end
+
+optparse.parse!()
+
+@hydra_home = options[:hydra_home]
+
+if @hydra_home
+  Dir.chdir(@hydra_home)
+  require File.join(@hydra_home, 'config', 'environment.rb')
+else
+  puts('The --hydra_home PATH option is mandatory. Please provide the path to the root of a valid Hydra instance.')
+  exit 1
+end
+
+begin
+    # No pid was specified, so listen to ActiveMQ for events of interest
+
+    log_file = File.open(File.join(@hydra_home, 'log', 'heartbeats.log'), 'a')
+    log_file.sync = true # causes each log message to be flushed immediately
+    @logger = Logger.new(log_file)
+    @logger.info("\nStarting #{$PROGRAM_NAME}...")
+
+    @port = options[:port]
+    @host = options[:host]
+    @user = options[:user]
+    @password = options[:password]
+    @reliable = true
+    @clientid = 'pnclient'
+    @destination = options[:destination]
+
+    @logger.info("Connecting to stomp://#{@host}:#{@port} as #{@user}")
+    @conn = Stomp::Connection.open(@user, @password, @host, @port, @reliable, 5, {'client-id' => @clientid})
+
+    while true
+	@conn.publish @destination, "heartbeat the topic",{:persistent => false}
+        sleep 200
+    end
+rescue StandardError => ex
+  @conn.disconnect
+  @logger.fatal($PROGRAM_NAME + ': ' + ex.message)
+end
