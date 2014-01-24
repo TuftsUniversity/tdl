@@ -9,9 +9,5 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require 'css/bootstrap'
- *= require 'css/facets.css'
- *= require 'tdl'
- *= require 'blacklight_advanced_search'
- *= require 'css/tdl-bootstrap-overrides'
+ *= require 'tuftsification-hydra'
 */

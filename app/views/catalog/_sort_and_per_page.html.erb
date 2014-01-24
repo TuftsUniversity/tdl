@@ -1,5 +1,3 @@
-<% javascript_includes << "search_controls.js" %>
-
 <% unless @response.response['numFound'] < 2 %>
 
     <%= form_tag catalog_index_path, :method => :get, :class => 'sort', :id => "sort_form" do %>

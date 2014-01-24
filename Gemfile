@@ -4,10 +4,10 @@ ruby '2.0.0'
 gem 'rails', '3.2.13'
 
 gem 'hydra', require: 'hydra6'
-gem 'tuftsification-hydra', :git => 'git@github.com:TuftsUniversity/tuftsification-hydra.git'
-
+#gem 'tuftsification-hydra', :git => 'git@github.com:TuftsUniversity/tuftsification-hydra.git'
+gem  'tuftsification-hydra', :path => '/home/hydradm/tuftsification-hydra'
 #Pointing at our fork of blacklight_advanced_search until https://github.com/projectblacklight/blacklight_advanced_search/pull/10 is merged
-gem "blacklight_advanced_search", :git => 'git://github.com/whumph/blacklight_advanced_search'
+gem "blacklight_advanced_search", :git => 'https://github.com/whumph/blacklight_advanced_search'
 gem 'chronic' # for lib/tufts/model_methods.rb
 gem 'titleize' # for lib/tufts/model_methods.rb
 gem 'settingslogic' # for settings
@@ -18,8 +18,10 @@ gem 'sqlite3'
 # Rails uses asset pipeline.  You will need these gems for used your assets in development.
 # However, you won't need them in production because they will be precompiled.
 group :assets do
+   gem 'therubyracer'
    gem 'sass-rails', '~> 3.2.3'
    gem 'jquery-rails'
+   gem 'uglifier'
 end
 
 # You will probably want to use these to run the tests you write for your hyd   ra head
@@ -37,3 +39,6 @@ gem "unicode", :platforms => [:mri_18, :mri_19]
 gem "devise"
 gem "devise-guests", "~> 0.3"
 gem "bootstrap-sass"
+gem 'mysql2'
+gem 'activerecord-mysql-adapter'
+gem 'google-analytics-rails'

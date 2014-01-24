@@ -3,17 +3,12 @@
 <head>
     <title>bookreader demo</title>
 
-    <%= stylesheet_link_tag 'bookreader/BookReader.css' %>
+    <%= stylesheet_link_tag '/assets/bookreader/BookReader.css' %>
     <!-- Custom CSS overrides -->
     <%= stylesheet_link_tag 'bookreader/bookreader_custom.css' %>
     <%= stylesheet_link_tag 'imageviewer/BookReaderImageViewer.css' %>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <%= javascript_include_tag "bookreader/jquery-ui-1.8.5.custom.min" %>
-    <%= javascript_include_tag 'bookreader/dragscrollable' %>
-    <%= javascript_include_tag 'bookreader/jquery.colorbox-min' %>
-    <%= javascript_include_tag 'bookreader/jquery.ui.ipad' %>
-    <%= javascript_include_tag 'bookreader/jquery.bt.min' %>
-    <%= javascript_include_tag 'bookreader/BookReader.js' %>
+    <%= javascript_include_tag "bookreader.js" %>
 </head>
 <body style="background-color: #939598;">
 <%= yield %>

@@ -122,7 +122,7 @@ class CatalogController < ApplicationController
   configure_blacklight do |config|
     config.default_solr_params = { 
        :qt => 'search',
-      :rows => 10 
+      :rows => 25
     }
 
     # solr field configuration for search results/index views
