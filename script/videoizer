@@ -1,0 +1,262 @@
+#!/usr/bin/env ruby
+
+require 'rubygems'
+require 'optparse'
+require 'stomp'
+require 'date'
+
+options = {}
+
+def execute_command(command)
+@logger.info('Command is ' + command + '.')
+  success = false
+  error_msg = ''
+
+	Open3.popen3(command) { |stdin, stdout, stderr, wait_thread|
+		stdin.close
+		stdout.close
+		error_msg = stderr.read
+		stderr.close
+
+    success = !wait_thread.nil? && wait_thread.value.success?
+	}
+
+  unless success
+    @logger.error($PROGRAM_NAME + ": ffmpeg error on command \n" + command + "\n" + error_msg)
+  end
+
+  return success
+end
+
+def convert_video(pid)
+  success = true
+
+  unless pid.nil?
+    begin
+      file_asset = ActiveFedora::Base.find(pid)
+
+      if file_asset.nil?
+        @logger.fatal('Can\'t find ' + pid + '.')
+      else
+        unless file_asset.datastreams.include?('Archival.video')
+          @logger.info(pid + ' does not have an Archival.video datastream.')
+        else
+          # This code will be changed to create these three datastreams but
+          # for now it's an error if they don't exist.
+					unless file_asset.datastreams.include?('Access.mp4')
+						@logger.info(pid + ' does not have an Access.mp4 datastream.')
+						success = false
+					end
+
+					unless file_asset.datastreams.include?('Access.webm')
+						@logger.info(pid + ' does not have an Access.webm datastream.')
+						success = false
+					end
+
+					unless file_asset.datastreams.include?('Thumbnail.png')
+						@logger.info(pid + ' does not have a Thumbnail.png datastream.')
+						success = false
+					end
+
+					if success
+						ffmpeg_path = 'ffmpeg'
+						video_url = file_asset.datastreams['Archival.video'].dsLocation
+						video_path = convert_url_to_local_path(video_url)
+
+						mp4_url = file_asset.datastreams['Access.mp4'].dsLocation
+						mp4_path = convert_url_to_local_path(mp4_url)
+						mp4_folder = File.dirname(mp4_path)
+						FileUtils.mkdir_p(mp4_folder)
+						@logger.info('Converting ' + video_path + ' to ' + mp4_path + '.')
+						options = '-vcodec libx264 -pix_fmt yuv420p -vprofile high -preset fast -b:v 500k -maxrate 500k -bufsize 1000k -vf scale=400:trunc\(ow/a/2\)*2 -threads 0 -acodec libvo_aacenc -b:a 128k'
+						command = "#{ffmpeg_path} -y -i \"#{video_path}\" #{options} #{mp4_path}"
+
+						unless execute_command(command)
+								success = false
+						end
+
+						webm_url = file_asset.datastreams['Access.webm'].dsLocation
+						webm_path = convert_url_to_local_path(webm_url)
+						webm_folder = File.dirname(webm_path)
+						FileUtils.mkdir_p(webm_folder)
+						@logger.info('Converting ' + video_path + ' to ' + webm_path + '.')
+						options = '-vcodec libvpx -quality good -cpu-used 5 -b:v 500k -maxrate 500k -bufsize 1000k -vf scale=400:trunc\(ow/a/2\)*2 -threads 0 -acodec libvorbis -f webm'
+						command = "#{ffmpeg_path} -y -i \"#{video_path}\" #{options} #{webm_path}"
+
+						unless execute_command(command)
+								success = false
+						end
+
+						thumb_url = file_asset.datastreams['Thumbnail.png'].dsLocation
+						thumb_path = convert_url_to_local_path(thumb_url)
+						thumb_folder = File.dirname(thumb_path)
+						FileUtils.mkdir_p(thumb_folder)
+						@logger.info('Converting ' + video_path + ' to ' + thumb_path + '.')
+						options = '-ss 20 -vframes 1 -r 1 -vf scale=60:trunc\(ow/a/2\)*2 -f image2'
+						command = "#{ffmpeg_path} -y -i \"#{video_path}\" #{options} #{thumb_path}"
+
+						unless execute_command(command)
+								success = false
+						end
+					end
+        end
+      end
+    rescue SystemCallError => ex
+      @logger.error($PROGRAM_NAME + ' I/O error: ' + ex.message)
+      success = false
+    rescue StandardError => ex
+      @logger.error($PROGRAM_NAME + ' error: ' + ex.message)
+      success = false
+    end
+  end
+
+  if success
+    @logger.info('Successfully completed ' + pid + '.')
+  end
+
+  return success
+end
+
+optparse = OptionParser.new do |opts|
+  opts.banner = 'Usage: videoizer [options]'
+
+  options[:hydra_home] = nil
+  opts.on('--hydra_home PATH', 'Load the Hydra instance at this path') do |hydra_home|
+    if File.exist?(File.join(hydra_home, 'config', 'environment.rb'))
+      options[:hydra_home] = hydra_home
+    else
+      puts("#{hydra_home} does not appear to be a valid rails home")
+      exit
+    end
+  end
+
+  options[:port] = 61613
+  opts.on('-p', '--port NUM', 'Stomp port') do |port|
+    options[:port] = port
+  end
+
+  options[:host] = 'localhost'
+  opts.on('-o', '--host HOSTNAME', 'Host to connect to') do |host|
+    options[:host] = host
+  end
+
+  options[:user] = ''
+  opts.on('-u', '--user USERNAME', 'User name for stomp listener') do |user|
+    options[:user] = user
+  end
+
+  options[:password] = ''
+  opts.on('-w', '--password PASSWORD', 'Password for stomp listener') do |password|
+    options[:password] = password
+  end
+
+  options[:destination] = '/topic/post.index.update'
+  opts.on('-d', '--destination TOPIC', 'Topic to listen to') do |destination|
+    options[:destination] = destination
+  end
+
+  options[:pid] = ''
+  opts.on('-P', '--pid PID', 'run immediately for a single pid') do |pid|
+    options[:pid] = pid
+  end
+
+  opts.on('-h', '--help', 'Display this screen') do
+    puts(opts)
+    exit
+  end
+end
+
+optparse.parse!()
+
+@hydra_home = options[:hydra_home]
+
+if @hydra_home
+  Dir.chdir(@hydra_home)
+  require File.join(@hydra_home, 'config', 'environment.rb')
+else
+  puts('The --hydra_home PATH option is mandatory. Please provide the path to the root of a valid Hydra instance.')
+  exit 1
+end
+
+begin
+  include TuftsFileAssetsHelper
+#  include TuftsVideoHelper
+
+  pid = options[:pid]
+
+  unless pid.eql?('')
+    # A single pid was specified, so convert its video
+
+    @logger = Logger.new(STDOUT)
+    convert_video(pid)
+  else
+    # No pid was specified, so listen to ActiveMQ for events of interest
+
+    log_file = File.open(File.join(@hydra_home, 'log', 'videoizer.log'), 'a')
+    log_file.sync = true # causes each log message to be flushed immediately
+    @logger = Logger.new(log_file)
+    @logger.info("\nStarting #{$PROGRAM_NAME}...")
+
+    @port = options[:port]
+    @host = options[:host]
+    @user = options[:user]
+    @password = options[:password]
+    @reliable = true
+    @clientid = 'videoizer_client'
+    @destination = options[:destination]
+
+    @logger.info("Connecting to stomp://#{@host}:#{@port} as #{@user}")
+    @conn = Stomp::Connection.open(@user, @password, @host, @port, @reliable, 5, {'client-id' => @clientid})
+
+    @logger.info("Subscribing to #{@destination}")
+    @conn.subscribe(@destination, {'activemq.subscriptionName' => @clientid, :ack => 'client'})
+
+    count = 0
+
+    # As opposed to pngizer, there is no reason to let videoizer die after a failure, so this loop is infinite.
+
+    while true
+      success = true
+      @msg = @conn.receive()
+
+      #since the messages are reracked they're wrapped with an additional header from the resend 
+      pid = @msg.headers['pid'] 
+      method = @msg.headers['methodName'] 
+
+      unless pid.nil?  or !method.eql?('ingest')
+        count += 1
+        current_time = DateTime.now()
+
+        @logger.info("\n" + count.to_s + ' ' + current_time.strftime("%m/%d/%Y %H:%M:%S") + ' ' + @msg.headers.inspect)
+
+        success = convert_video(pid)
+
+        if success
+          st = ActiveRecord::Base.connection.raw_connection.prepare("update message_queues set last_ingest=\"" + Time.now.to_s + "\" where name=\"post.index.update\"")
+          st.execute
+          st.close
+
+          st = ActiveRecord::Base.connection.raw_connection.prepare("update message_queues set last_pid_ingested=\"" + pid + "\" where name=\"post.index.update\"")
+          st.execute
+          st.close
+        end
+      end
+
+      @logger.info "#{@msg.body}"
+
+      if @msg.body == "heartbeat the topic"
+        st = ActiveRecord::Base.connection.raw_connection.prepare("update message_queues set last_heartbeat=\"" + Time.now.to_s + "\" where name=\"post.index.update\"")
+        st.execute
+        st.close
+      end
+
+      if success
+        @conn.ack(@msg.headers['message-id'])
+      else
+        Notifier.videoizer_failure({:pid => pid})
+      end
+    end
+  end
+rescue StandardError => ex
+  @logger.fatal($PROGRAM_NAME + ': ' + ex.message)
+end
