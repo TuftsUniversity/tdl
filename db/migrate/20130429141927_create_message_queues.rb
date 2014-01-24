@@ -1,4 +1,3 @@
-require 'app/models/message_queue'
 class CreateMessageQueues < ActiveRecord::Migration
   def self.up
     create_table :message_queues do |t|
