@@ -22,11 +22,6 @@ class CatalogController < ApplicationController
   #This makes tdl aware of DCA-Admin displays tag
   CatalogController.solr_search_params_logic += [:add_dca_admin_displays_awareness]
 
-    def facet
-      @pagination = get_facet_pagination(params[:id], params)
-      render :layout => false
-    end 
-
   # Controller "before" filter for enforcing access controls on show actions
   # @param [Hash] opts (optional, not currently used)
   def enforce_show_permissions(opts={})
