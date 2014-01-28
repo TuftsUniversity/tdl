@@ -28,7 +28,9 @@ $(document).ready(function () {
 
 
         $("a.more_facets_link").each(function () {
-            //my own thing!
+            var link = $(this).attr("href")
+            $(this).attr("href", link + ".js")
+
             $(this).on('click', function (e) {
                 e.preventDefault();
                 $("#more_facets_modal .modal-body").html('');
@@ -55,7 +57,7 @@ $(document).ready(function () {
                         }
                     },
                     error:function (xhr, msg) {
-                        alert('false');
+                        alert('false ' +xhr);
                     }
                 });
 
