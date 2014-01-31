@@ -1,11 +1,12 @@
 source 'http://rubygems.org'
 ruby '2.0.0'
 #ruby-gemset=hydra6
-gem 'rails', '3.2.13'
+gem 'rails', '3.2.16'
 
-gem 'hydra', require: 'hydra6'
-#gem 'tuftsification-hydra', :git => 'git@github.com:TuftsUniversity/tuftsification-hydra.git'
-gem  'tuftsification-hydra', :path => '/home/hydradm/tuftsification-hydra'
+gem 'hydra', '6.1.0', require: 'hydra6'
+gem 'tuftsification-hydra', :git => 'git@github.com:TuftsUniversity/tuftsification-hydra.git'
+gem 'solrizer', :path => '/home/hydradm/tdl_solrizer'
+#gem  'tuftsification-hydra', :path => '/home/hydradm/tuftsification-hydra'
 #Pointing at our fork of blacklight_advanced_search until https://github.com/projectblacklight/blacklight_advanced_search/pull/10 is merged
 gem "blacklight_advanced_search", :git => 'https://github.com/whumph/blacklight_advanced_search'
 gem 'chronic' # for lib/tufts/model_methods.rb
