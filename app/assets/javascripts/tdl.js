@@ -38,7 +38,7 @@ $(document).ready(function () {
 
                 $.ajax({
                     url:url,
-                    dataType:"html",
+                    dataType:"script",
                     success:function (resp, status, xhr) {
                         if (xhr.status != 0) {
 
