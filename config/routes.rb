@@ -6,9 +6,10 @@ TDL::Application.routes.draw do
   match '/imageviewer/:id', :to => 'imageviewer#show', :constraints => {:id => /.*/}, :as =>'imageviewer'
   match '/bookreader/:id', :to => 'imageviewer#show_book', :constraints => {:id => /.*/}, :as =>'bookreader'
 
-  Blacklight.add_routes(self)
+  #Blacklight.add_routes(self)
     resources :catalog, :only => [:show, :update], :constraints => { :id => ALLOW_DOTS, :format => false }
     Blacklight::Routes.new(self, {}).catalog
+    Blacklight::Routes.new(self, {}).search_history
     resources :unpublished, :only => :index
     # This is from Blacklight::Routes#solr_document, but with the constraints added which allows periods in the id
     resources :solr_document,  :path => 'catalog', :controller => 'catalog', :only => [:show, :update]
@@ -45,8 +46,7 @@ TDL::Application.routes.draw do
    match '/catalog/ead/:id', :to => 'catalog#eadoverview', :constraints => {:id => /.*/}, :as =>'eadoverview'
    match "feedback", :to => "feedback#show"    
    match "feedback/complete", :to => "feedback#complete"
-  devise_for :users
-
+   devise_for :users
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
