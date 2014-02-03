@@ -22,6 +22,19 @@ ActiveRecord::Schema.define(:version => 20130606144762) do
     t.string   "user_type"
   end
 
+  create_table "message_queues", :force => true do |t|
+    t.string   "name"
+    t.string   "last_heartbeat"
+    t.string   "last_ingest"
+    t.string   "last_modify"
+    t.string   "last_purge"
+    t.string   "last_pid_ingested"
+    t.string   "last_pid_purged"
+    t.string   "last_pid_modified"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
   create_table "searches", :force => true do |t|
     t.text     "query_params"
     t.integer  "user_id"
