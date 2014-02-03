@@ -10,9 +10,9 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require 'bookreader/jquery-ui-1.8.5.custom.min.js'
-//= require 'bookreader/dragscrollable.js'
-//= require 'bookreader/jquery.colorbox-min.js'
-//= require 'bookreader/jquery.ui.ipad.js'
-//= require 'bookreader/jquery.bt.min.js'
-//= require 'bookreader/BookReader.js'
+//= require 'BookReader/jquery-ui-1.8.5.custom.min.js'
+//= require 'BookReader/dragscrollable.js'
+//= require 'BookReader/jquery.colorbox-min.js'
+//= require 'BookReader/jquery.ui.ipad.js'
+//= require 'BookReader/jquery.bt.min.js'
+//= require 'BookReader/BookReader.js'

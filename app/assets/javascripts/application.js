@@ -31,4 +31,4 @@
 //= require 'bootstrap-carousel'
 //= require 'bootstrap-typeahead'
 //= require 'feedback'
-//= require 'tdl'
+//= require 'tdl_customizations.js'
