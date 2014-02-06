@@ -28,10 +28,10 @@ feature 'Visitor goes to homepage' do
       page.should have_content "The Tufts Digital Library has a growing collection of scholarship by faculty, students, and staff."
   end
 
-  scenario 'user clicks on Walter B. Wriston collection' do
+  scenario 'user clicks on Historical New England Medical Center Archives collection' do
       visit root_path
-      click_link "Walter B. Wriston collection"
-      page.should have_content "provides access to hundreds of articles, speeches, photographs, and other resources from Wriston’s prolific career"
+      click_link "Historical New England Medical Center Archives"
+      page.should have_content "As of July 2013, DCA is preserving the historical New England Medical Center (NEMC) Archives for the Tufts Medical Center located in Boston, MA"
   end
 
   scenario 'user clicks on A New Nation Votes' do
