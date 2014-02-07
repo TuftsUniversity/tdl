@@ -35,6 +35,7 @@ group :development, :test do
    gem 'capybara'
    gem 'simplecov'
    gem 'launchy'
+   gem 'ci_reporter'
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]
