@@ -1,0 +1,9 @@
+language: ruby
+rvm:
+  - 2.0.0
+notifications:
+  email:
+    - mkorcy@gmail.com
+env:
+  global:
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
