@@ -48,6 +48,9 @@ TDL::Application.routes.draw do
    match "feedback/complete", :to => "feedback#complete"
    devise_for :users
 
+   mount Hydra::RoleManagement::Engine => '/'
+   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
