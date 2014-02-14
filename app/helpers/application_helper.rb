@@ -4,7 +4,7 @@ include Tufts::MetadataMethods
 module ApplicationHelper
 
   def application_name
-        'Tufts Digital Library'
+        'TDL Dark Archive'
   end 
 
   def showPdfImage(pid)
