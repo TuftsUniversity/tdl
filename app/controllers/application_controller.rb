@@ -9,11 +9,17 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActiveFedora::ObjectNotFoundError, :with => :error_generic
 
+  rescue_from Hydra::AccessDenied, CanCan::AccessDenied do |exception|
+    render(file: "public/401", status: :unauthorized, layout: nil)
+  end
+
+  rescue_from DeviseLdapAuthenticatable::LdapException, Net::LDAP::LdapError do |exception|
+    render :text => exception, :status => 500
+  end
+
   def error_generic
-
-      flash[:notice] = "The object you have reached does not exist. If you have questions, you can <a href='/contact'>contact DCA</a>"
+      flash[:retrieval] = "The object you have reached does not exist. If you have questions, you can <a href='/contact'>contact DCA</a>"
       redirect_to root_path
-
   end
 
   protect_from_forgery

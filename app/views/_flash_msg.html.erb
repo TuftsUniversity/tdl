@@ -1,12 +1,14 @@
-<% [:notice, :error, :alert].each do |type| %>
+<% [:notice, :error, :alert, :retrieval].each do |type| %>
   <% if flash[type] %>
-  <div class="alert alert-error">
+          <div class="alert alert-error">
             <a class="close" data-dismiss="alert">×</a>
-            <h4 class="alert-heading"><%= (type.to_s == 'notice' ? 'Error retrieving object' : type.to_s) %></h4>
-                <%= raw flash[type] %>
-            </div>
+            <% if (type.to_s == 'retrieval') %>
+              <h4 class="alert-heading">Error retrieving object</h4>
+            <% end %>
+            <%= raw flash[type] %>
+          </div>
     <%if false %>        
-    <div class="ui-state-<%= type == :error ? 'error' : 'highlight' %> ui-corner-all <%= type.to_s %>"><%= flash[type].to_html %></div>
+          <div class="ui-state-<%= type == :error ? 'error' : 'highlight' %> ui-corner-all <%= type.to_s %>"><%= flash[type].to_html %></div>
     <% end %>
   <% end %>
 <% end %>

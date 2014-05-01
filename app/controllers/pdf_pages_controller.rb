@@ -8,7 +8,7 @@ class PdfPagesController < CatalogController
     @file_asset = FileAsset.find(params[:id])
     if (@file_asset.nil?)
       logger.warn("No such file asset: " + params[:id])
-      flash[:notice]= "No such file asset."
+      flash[:retrieval]= "No such file asset."
       redirect_to(:action => 'index', :q => nil, :f => nil)
     else
       # get containing object for this FileAsset
@@ -35,7 +35,7 @@ class PdfPagesController < CatalogController
     @file_asset = FileAsset.find(params[:id])
     if (@file_asset.nil?)
       logger.warn("No such file asset: " + params[:id])
-      flash[:notice]= "No such file asset."
+      flash[:retrieval]= "No such file asset."
       redirect_to(:action => 'index', :q => nil, :f => nil)
     else
       # get containing object for this FileAsset

@@ -90,13 +90,13 @@
           <li
           <%- if "index" == @current_action -%> class="active"
           <%- end -%>><%= link_to("Home", '/catalog') %></li>
-
-
+          <li
+          <%- if !defined?(@current_action) -%> class="active"
+          <%- end -%>><%= render :partial => '/user_util_links' %></li>
         </ul>
       </div>
     </div>
   </div>
-  <!-- <%= render :partial => '/user_util_links' %>      -->
 </div>
 
 <!-- HEADER -->

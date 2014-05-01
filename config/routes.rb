@@ -28,6 +28,7 @@ TDL::Application.routes.draw do
    match "/about/:action" => "about"
    match '/file_assets/medium/:id', :to => 'local_file_assets#showMedium', :constraints => {:id => /.*/}, :as =>'file_asset'
    match '/file_assets/advanced/:id', :to => 'local_file_assets#showAdvanced', :constraints => {:id => /.*/}, :as =>'file_asset'
+   match '/file_assets/archival/:id', :to => 'local_file_assets#showArchival', :constraints => {:id => /.*/}, :as =>'file_asset'
    match '/file_assets/thumb/:id', :to => 'local_file_assets#showThumb', :constraints => {:id => /.*/}, :as =>'file_asset'
    match '/file_assets/transcript/:id', :to => 'local_file_assets#showTranscript', :constraints => {:id => /.*/}, :as =>'file_asset'
    match '/file_assets/rcr/:id', :to => 'local_file_assets#showRCR', :constraints => {:id => /.*/}, :as =>'file_asset'
@@ -47,6 +48,9 @@ TDL::Application.routes.draw do
    match "feedback", :to => "feedback#show"    
    match "feedback/complete", :to => "feedback#complete"
    devise_for :users
+
+   mount Hydra::RoleManagement::Engine => '/'
+   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

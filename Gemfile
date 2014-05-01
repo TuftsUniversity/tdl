@@ -46,3 +46,7 @@ gem "bootstrap-sass"
 gem 'mysql2'
 gem 'activerecord-mysql-adapter'
 gem 'google-analytics-rails'
+
+gem 'hydra-role-management', '0.1.0'
+gem 'devise_ldap_authenticatable', '0.8.1'
+gem "rails_admin"
