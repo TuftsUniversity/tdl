@@ -69,7 +69,7 @@
 </head>
 <body data-spy="scroll" data-target=".subnav" data-offset="50">
 
-<div class="blueline"></div>
+<div class="<%= (Rails.application.config.dark_archive ? 'brownline' : 'blueline') %>"></div>
 <!-- Navbar
 ================================================== -->
 <div class="navbar">
@@ -101,7 +101,11 @@
 
   <div class="page-header">
 
-    <%= link_to(image_tag('/assets/img/tuftsdigitallibrarylogosmall.png', :alt => "Tufts Digital Library logo"), '/', :class => "work") %>
+    <%- if Rails.application.config.dark_archive -%>
+        <%= link_to(image_tag('/assets/img/tdldarkarchivelogosmall.png', :alt => "TDL Dark Archive logo"), '/', :class => "work") %>
+    <%- else -%>
+        <%= link_to(image_tag('/assets/img/tuftsdigitallibrarylogosmall.png', :alt => "Tufts Digital Library logo"), '/', :class => "work") %>
+    <%- end -%>
     <%- if "show" == @current_action || "eadoverview" == @current_action || "eadinternal" == @current_action || "transcriptonly" == @current_action -%>
         <button href="#comment_modal" data-toggle="modal" class="btn btn-blue pull-right" style="margin-top:10px; margin-right:10px;"> Comments about this page?
           <i class="icon-comment icon-white"></i></button>

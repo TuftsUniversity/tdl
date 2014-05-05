@@ -7,7 +7,7 @@ RailsAdmin.config do |config|
   ################  Global configuration  ################
 
   # Set the admin name here (optional second array element will appear in red). For example:
-  config.main_app_name = ['Tufts Digital Library']  # for DA ['TDL Dark Archive']
+  config.main_app_name = (Rails.application.config.dark_archive ? ['TDL Dark Archive'] : ['Tufts Digital Library'])
   # or for a more dynamic name:
   # config.main_app_name = Proc.new { |controller| [Rails.application.engine_name.titleize, controller.params['action'].titleize] }
 
