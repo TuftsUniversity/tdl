@@ -25,7 +25,7 @@ class CatalogController < ApplicationController
   # Controller "before" filter for enforcing access controls on show actions
   # @param [Hash] opts (optional, not currently used)
   def enforce_show_permissions(opts={})
-        if @document_fedora.datastreams["DCA-ADMIN"].under_embargo?
+        if @document_fedora.datastreams["DCA-ADMIN"].under_embargo? || (@document_fedora.datastreams["DCA-META"].source.length > 0 && @document_fedora.datastreams["DCA-META"].source[0] == "MS205") || (@document_fedora.datastreams["DCA-META"].source.length > 0 && @document_fedora.datastreams["DCA-META"].source[0] == "MS201")
           # check for depositor raise "#{@document["depositor_t"].first} --- #{user_key}"
           ### Assuming we're using devise and have only one authentication key
           #unless current_user && user_key == @permissions_solr_document["depositor_t"].first
