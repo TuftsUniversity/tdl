@@ -4,7 +4,7 @@ include Tufts::MetadataMethods
 module ApplicationHelper
 
   def application_name
-        'Tufts Digital Library'
+    (Rails.application.config.dark_archive ? 'TDL Dark Archive' : 'Tufts Digital Library')
   end 
 
   def showPdfImage(pid)
@@ -88,8 +88,8 @@ module ApplicationHelper
     end 
   end 
 
-  def render_back_to_overview_link
-    link_to('Back to overview', catalog_url)
+  def render_back_to_overview_link(pid)
+    link_to('Back to overview', "/catalog/#{pid}")
 
   end
 

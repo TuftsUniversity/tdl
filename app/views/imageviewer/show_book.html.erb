@@ -7,12 +7,12 @@
             The BookReader requires JavaScript to be enabled. Please check that your browser supports JavaScript and that it is enabled in the browser settings.  You can also try one of the <a href="http://www.archive.org/details/goodytwoshoes00newyiala"> other formats of the book</a>.
         </p>
         </noscript>
-        <%= javascript_include_tag 'pdfviewer/BookReaderPDFViewer.js' %>
+        <%= javascript_include_tag '/assets/pdfviewer/BookReaderPDFViewer.js' %>
     </div>
     <script type="text/javascript">
         <!--
             $(document).ready(function() {
-                $('a.logo').closest('span').append('<div class="overview_link"><%= render_back_to_overview_link %><div>');
+                $('a.logo').closest('span').append('<div class="overview_link"><%= render_back_to_overview_link(params[:id]) %><div>');
             });
          // -->
     </script>

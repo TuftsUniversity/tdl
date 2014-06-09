@@ -1,15 +1,17 @@
-<!-- BLUE FOOTER -->      
-<div class="blue-footer">
+<!-- <%= (Rails.application.config.dark_archive ? 'BROWN' : 'BLUE') %> FOOTER -->      
+<div class="<%= (Rails.application.config.dark_archive ? 'brown-footer' : 'blue-footer') %>">
 <div class="row">
 <div class="span6">
 <a href="http://www.tufts.edu" title="Tufts.edu" target="_new">
 <img src="/assets/img/tuftsuniversity.png" alt="Go to tufts.edu" width="173" height="61" border="0"></a>
 </div> 
 <div class="row pull-right">
-<div class="span2"><span style="color:#ffffff;line-height:150%;">&copy; 2012 Tufts University</span>
-    
-      </div>
+<div class="span2">
+<span style="color:#ffffff;line-height:150%;">&copy; 2014 Tufts University</span>
+<br>
+<%#= render :partial => '/user_util_links' %>
+</div>
 </div>
 
 </div><!-- /row -->
-</div><!-- /blue-footer -->
+</div><!-- /<%= (Rails.application.config.dark_archive ? 'brown-footer' : 'blue-footer') %> -->

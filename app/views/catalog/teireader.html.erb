@@ -1,9 +1,9 @@
 <!-- LEFT SIDE FOR OBJECT TITLE -->
-<% stylesheet_links << "tei/tei.css" %>
+<% javascript_includes <<  "tei.js" %>
+<% stylesheet_links <<  "/assets/tei/tei.css" %>
+
 <% metadata = Tufts::ModelMethods.get_metadata(@document_fedora) %>
 <% toc_results, chapter_list = Tufts::TeiMethods.get_toc(@document_fedora) %>
-<% javascript_includes << "mustache/mustache.js" %>
-<% javascript_includes << "tei/tei.js" %>
 
 
 <div class="row">

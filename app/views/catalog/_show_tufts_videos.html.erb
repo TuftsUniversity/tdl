@@ -1,10 +1,5 @@
-<% javascript_includes << "media_player/media_player.js" %>
-<% javascript_includes << "media_player/transcript_scroller.js" %>
-<% javascript_includes << "media_player/tabs.js" %>
-<% stylesheet_links << "media_player/media_player.css" %>
-<% stylesheet_links << "media_player/transcript.css" %>
-
-
+<% stylesheet_links <<  "tuftsification.css" %>
+<% javascript_includes <<  "tuftsification.js" %>
 <%
   metadata = Tufts::ModelMethods.get_metadata(@document_fedora) 
   hasTranscript = !@document_fedora.datastreams["ARCHIVAL_XML"].dsLocation.nil?
@@ -56,6 +51,13 @@
             <br>
             <div class="transcript_box">
               <%= raw Tufts::MediaPlayerMethods.show_transcript(@document_fedora, true) %>
+              <script>
+                  $('.transcript_chunk_link').on("click", function (e) {
+                      e.preventDefault()
+                      var t = $(e.currentTarget).data('time')
+                      jumpPlayerTo(t);
+                  });
+              </script>
             </div>  <!-- transcript_box -->
           </div>  <!-- tab-pane 2 -->
         </div>  <!-- tab-content -->

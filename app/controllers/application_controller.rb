@@ -7,26 +7,34 @@ class ApplicationController < ActionController::Base
   #layout 'blacklight'
   layout 'tdl-bootstrap'
 
-  before_filter :add_remove_js_css, :add_my_own_assets
   rescue_from ActiveFedora::ObjectNotFoundError, :with => :error_generic
 
-  def add_remove_js_css
-    # javascript_includes.map{|js_links| js_links.delete("accordion") if js_links.include?({:plugin=>:blacklight})}
-    #    stylesheet_links << ["mycss",{:media=>"all"}]
+  if Rails.application.config.dark_archive
+    before_filter :authenticate_user!
+    before_filter :check_role!
   end
 
-  def add_my_own_assets
-    stylesheet_links << "tdl"
+  rescue_from Hydra::AccessDenied, CanCan::AccessDenied do |exception|
+    render(file: "public/401", status: :unauthorized, layout: nil)
+  end
 
-    # You can do something similar with javascript files too:
-    javascript_includes << "tdl"
+  rescue_from DeviseLdapAuthenticatable::LdapException, Net::LDAP::LdapError do |exception|
+    render :text => exception, :status => 500
+  end
+
+  def check_role!
+    unless devise_controller? or rails_admin_controller? or current_user.nil? or current_user.has_role? :archivist
+      render(file: "public/401", status: :unauthorized, layout: nil)
+    end
+  end
+
+  def rails_admin_controller?
+    return false
   end
 
   def error_generic
-
-      flash[:notice] = "The object you have reached does not exist. If you have questions, you can <a href='/contact'>contact DCA</a>"
+      flash[:retrieval] = "The object you have reached does not exist. If you have questions, you can <a href='/contact'>contact DCA</a>"
       redirect_to root_path
-
   end
 
   protect_from_forgery

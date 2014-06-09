@@ -22,19 +22,14 @@ class CatalogController < ApplicationController
   #This makes tdl aware of DCA-Admin displays tag
   CatalogController.solr_search_params_logic += [:add_dca_admin_displays_awareness]
 
-    def facet
-      @pagination = get_facet_pagination(params[:id], params)
-      render :layout => false
-    end 
-
   # Controller "before" filter for enforcing access controls on show actions
   # @param [Hash] opts (optional, not currently used)
   def enforce_show_permissions(opts={})
-        if @document_fedora.datastreams["DCA-ADMIN"].under_embargo?
+        if @document_fedora.datastreams["DCA-ADMIN"].under_embargo? || (@document_fedora.datastreams["DCA-META"].source.length > 0 && @document_fedora.datastreams["DCA-META"].source[0] == "MS205") || (@document_fedora.datastreams["DCA-META"].source.length > 0 && @document_fedora.datastreams["DCA-META"].source[0] == "MS201")
           # check for depositor raise "#{@document["depositor_t"].first} --- #{user_key}"
           ### Assuming we're using devise and have only one authentication key
           #unless current_user && user_key == @permissions_solr_document["depositor_t"].first
-            flash[:notice] = "This item is under embargo.  You do not have sufficient access privileges to read this document."
+            flash[:retrieval] = "This item is under embargo.  You do not have sufficient access privileges to read this document."
             redirect_to(:action=>'index', :q=>nil, :f=>nil) and return false
          # end
         end
@@ -47,6 +42,8 @@ class CatalogController < ApplicationController
 
     solr_parameters[:fq] ||= []
     solr_parameters[:fq] << "-embargo_dtsim:[NOW TO *]"
+    solr_parameters[:fq] << "-source_tesim:MS205"
+    solr_parameters[:fq] << "-source_tesim:MS201"
    # solr_parameters[:fq] << "-has_model_s:\"info:fedora/afmodel:FileAsset\""
   end
 
@@ -122,7 +119,7 @@ class CatalogController < ApplicationController
   configure_blacklight do |config|
     config.default_solr_params = { 
        :qt => 'search',
-      :rows => 10 
+      :rows => 25
     }
 
     # solr field configuration for search results/index views

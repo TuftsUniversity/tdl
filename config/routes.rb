@@ -6,9 +6,10 @@ TDL::Application.routes.draw do
   match '/imageviewer/:id', :to => 'imageviewer#show', :constraints => {:id => /.*/}, :as =>'imageviewer'
   match '/bookreader/:id', :to => 'imageviewer#show_book', :constraints => {:id => /.*/}, :as =>'bookreader'
 
-  Blacklight.add_routes(self)
+  #Blacklight.add_routes(self)
     resources :catalog, :only => [:show, :update], :constraints => { :id => ALLOW_DOTS, :format => false }
     Blacklight::Routes.new(self, {}).catalog
+    Blacklight::Routes.new(self, {}).search_history
     resources :unpublished, :only => :index
     # This is from Blacklight::Routes#solr_document, but with the constraints added which allows periods in the id
     resources :solr_document,  :path => 'catalog', :controller => 'catalog', :only => [:show, :update]
@@ -27,6 +28,7 @@ TDL::Application.routes.draw do
    match "/about/:action" => "about"
    match '/file_assets/medium/:id', :to => 'local_file_assets#showMedium', :constraints => {:id => /.*/}, :as =>'file_asset'
    match '/file_assets/advanced/:id', :to => 'local_file_assets#showAdvanced', :constraints => {:id => /.*/}, :as =>'file_asset'
+   match '/file_assets/archival/:id', :to => 'local_file_assets#showArchival', :constraints => {:id => /.*/}, :as =>'file_asset'
    match '/file_assets/thumb/:id', :to => 'local_file_assets#showThumb', :constraints => {:id => /.*/}, :as =>'file_asset'
    match '/file_assets/transcript/:id', :to => 'local_file_assets#showTranscript', :constraints => {:id => /.*/}, :as =>'file_asset'
    match '/file_assets/rcr/:id', :to => 'local_file_assets#showRCR', :constraints => {:id => /.*/}, :as =>'file_asset'
@@ -43,9 +45,12 @@ TDL::Application.routes.draw do
    match '/catalog/tei/:id', :to => 'catalog#teireader', :constraints => {:id => /.*/}, :as =>'teireader'
    match '/catalog/ead/:id/:item_id', :to => 'catalog#eadinternal', :constraints => {:id => /.*/, :item_id => /.*/}, :as =>'eadinternal'
    match '/catalog/ead/:id', :to => 'catalog#eadoverview', :constraints => {:id => /.*/}, :as =>'eadoverview'
+   match "feedback", :to => "feedback#show"    
+   match "feedback/complete", :to => "feedback#complete"
+   devise_for :users
 
-  devise_for :users
-
+   mount Hydra::RoleManagement::Engine => '/'
+   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

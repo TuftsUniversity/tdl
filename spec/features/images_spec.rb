@@ -2,12 +2,6 @@ require "spec_helper"
 feature  'images that should load but do not, in part because some static pages load images out of the dl, something to keep an eye on.' do
   include TestHelpers
 
-  scenario 'Walter B. Wriston collection image loads' do
-      visit root_path
-      click_link "Walter B. Wriston collection"
-      active_link?("#{Capybara.app_host}:#{Capybara.server_port.to_s}/file_assets/tufts:MS134.006.035.00004").should be
-   end
-
   scenario 'escholarship image loads' do
       visit root_path
       click_link "E-scholarship"

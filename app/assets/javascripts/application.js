@@ -10,12 +10,25 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require jquery
-//= require 'blacklight_advanced_search'
-
-
-//= require jquery_ujs
-//
 // Required by Blacklight
-//= require blacklight/blacklight
-//= require_tree .
+//= require 'js/jquery'
+//= require 'search_controls'
+//= require 'blacklight_advanced_search'
+//= require 'js/google-code-prettify/prettify.js'
+//= require 'bootstrap-transition'
+//= require 'bootstrap-alert'
+//= require 'bootstrap-modal'
+//= require 'bootstrap-dropdown'
+//= require 'bootstrap-scrollspy'
+//= require 'bootstrap-tab'
+//= require 'bootstrap-carousel'  
+//= require 'bootstrap-dropdown'
+//= require 'bootstrap-tab'
+//= require 'bootstrap-tooltip'
+//= require 'bootstrap-popover'
+//= require 'bootstrap-button'
+//= require 'bootstrap-collapse'
+//= require 'bootstrap-carousel'
+//= require 'bootstrap-typeahead'
+//= require 'feedback'
+//= require 'tdl_customizations.js'

@@ -3,11 +3,11 @@ feature 'Visitor goes to homepage and does a search' do
 
   include TestHelpers
 
-  scenario 'user searches for elections get 3 results' do
+  scenario 'user searches for elections get 7 results' do
       visit root_path
       fill_in 'q', :with=>'elections'
       click_button 'Search'
-      page.should have_content "3 Results"
+      page.should have_content "7 Results"
       page.should have_title "Tufts Digital Library Search Results"
   end
 

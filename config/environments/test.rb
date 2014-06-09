@@ -34,4 +34,7 @@ TDL::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  # Enable/disable Dark Archive behavior
+  config.dark_archive = false;
 end
