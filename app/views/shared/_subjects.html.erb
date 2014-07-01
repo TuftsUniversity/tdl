@@ -1,6 +1,7 @@
 <% unless metadata[:subjects].empty? %>
     <dd>Subjects</dd>
     <% metadata[:subjects].each do |subject| %>
-        <dt><%= link_to((raw subject), "/catalog?f[subject_sim][]="+ (raw subject)) %></dt>
+        <dt><%= link_to((raw subject), "/?&all_fields=&author=&collection=&description=&organization=&people=&place=&search_field=advanced&title=&utf8=✓&year_end=&year_start=&topic="+ (raw subject)) %></dt>
+                                         
     <% end %>
 <% end %>
