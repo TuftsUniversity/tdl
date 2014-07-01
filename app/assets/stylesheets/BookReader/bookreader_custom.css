@@ -1,6 +1,10 @@
 @charset "UTF-8";
 /* CSS Document */
 
+.BRpageimage {
+  background-color: #fff;
+}
+
 #BRtoolbar {
    
     background-color: #fff;
