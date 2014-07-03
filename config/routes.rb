@@ -2,7 +2,7 @@ ALLOW_DOTS ||= /[a-zA-Z0-9_.:]+/
 
 TDL::Application.routes.draw do
   root :to => "catalog#index"
-
+ resources :message_queues
   match '/imageviewer/:id', :to => 'imageviewer#show', :constraints => {:id => /.*/}, :as =>'imageviewer'
   match '/bookreader/:id', :to => 'imageviewer#show_book', :constraints => {:id => /.*/}, :as =>'bookreader'
 
