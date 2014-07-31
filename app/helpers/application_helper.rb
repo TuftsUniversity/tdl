@@ -1,11 +1,8 @@
 include Tufts::ModelMethods
 include Tufts::MetadataMethods
+include Tufts::DarkArchiveMethods
 
 module ApplicationHelper
-
-  def application_name
-    (Rails.application.config.dark_archive ? 'TDL Dark Archive' : 'Tufts Digital Library')
-  end 
 
   def showPdfImage(pid)
     result = "<img alt=\"\" src=\"/pdf_pages/" + pid + "/0\"/>"
@@ -63,6 +60,7 @@ module ApplicationHelper
     end
     return raw(result)
   end
+
   def show_streets_link(pid)
     urn = pid.gsub("tufts:","")
 #puts "#{urn}"
@@ -73,10 +71,10 @@ module ApplicationHelper
     urn = "tufts:central:dca:" + col + ":" + urn
     return "http://bcd.lib.tufts.edu/view_text.jsp?urn=" + urn
   end
+
   def show_elections_link(pid)
     return "http://elections.lib.tufts.edu/catalog/" + pid
   end
-
 
   def http_referer_uri
     request.env["HTTP_REFERER"] && URI.parse(request.env["HTTP_REFERER"])
@@ -92,7 +90,5 @@ module ApplicationHelper
     link_to('Back to overview', "/catalog/#{pid}")
 
   end
-
-
 
 end
