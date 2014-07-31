@@ -42,6 +42,8 @@ class CatalogController < ApplicationController
 
     solr_parameters[:fq] ||= []
     solr_parameters[:fq] << "-embargo_dtsim:[NOW TO *]"
+#    solr_parameters[:fq] << "-source_tesim:MS205"
+#    solr_parameters[:fq] << "-source_tesim:MS201"
    # solr_parameters[:fq] << "-has_model_s:\"info:fedora/afmodel:FileAsset\""
   end
 
