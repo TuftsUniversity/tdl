@@ -36,5 +36,5 @@ TDL::Application.configure do
   config.assets.debug = true
 
   # Enable/disable Dark Archive behavior
-  config.dark_archive = false;
+  config.dark_archive = false
 end
