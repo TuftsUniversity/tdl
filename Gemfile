@@ -7,6 +7,8 @@ gem 'hydra', '6.1.0', require: 'hydra6'
 gem 'tuftsification-hydra', :git => 'https://github.com/TuftsUniversity/tuftsification-hydra'
 #gem 'solrizer', :path => '/home/hydradm/tdl_solrizer'
 gem 'solrizer', :git => 'https://github.com/TuftsUniversity/tdl_solrizer'
+#gem 'solrizer', :path => '/home/hydradm/tdl_solrizer'
+#
 #gem  'tuftsification-hydra', :path => '/home/hydradm/tuftsification-hydra'
 #Pointing at our fork of blacklight_advanced_search until https://github.com/projectblacklight/blacklight_advanced_search/pull/10 is merged
 gem "blacklight_advanced_search", :git => 'https://github.com/whumph/blacklight_advanced_search'
@@ -50,3 +52,4 @@ gem 'google-analytics-rails'
 gem 'hydra-role-management', '0.1.0'
 gem 'devise_ldap_authenticatable', '0.8.1'
 gem "rails_admin"
+gem "is_it_working"
