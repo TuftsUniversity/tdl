@@ -47,5 +47,5 @@ TDL::Application.configure do
  GA.tracker = "UA-38431398-2"
 
   # Enable/disable Dark Archive behavior
-  config.dark_archive = false;
+  config.dark_archive = false
 end

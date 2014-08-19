@@ -1,5 +1,6 @@
 # RailsAdmin config file. Generated on July 11, 2013 14:00
 # See github.com/sferik/rails_admin for more informations
+include Tufts::DarkArchiveMethods
 
 RailsAdmin.config do |config|
 
@@ -7,7 +8,7 @@ RailsAdmin.config do |config|
   ################  Global configuration  ################
 
   # Set the admin name here (optional second array element will appear in red). For example:
-  config.main_app_name = (Rails.application.config.dark_archive ? ['TDL Dark Archive'] : ['Tufts Digital Library'])
+  config.main_app_name = application_name
   # or for a more dynamic name:
   # config.main_app_name = Proc.new { |controller| [Rails.application.engine_name.titleize, controller.params['action'].titleize] }
 

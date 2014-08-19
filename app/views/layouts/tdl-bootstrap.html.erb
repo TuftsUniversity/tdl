@@ -69,7 +69,7 @@
 </head>
 <body data-spy="scroll" data-target=".subnav" data-offset="50">
 
-<div class="<%= (Rails.application.config.dark_archive ? 'brownline' : 'blueline') %>"></div>
+<div class="<%= dark_class %> blueline"></div>
 <!-- Navbar
 ================================================== -->
 <div class="navbar">
@@ -81,12 +81,14 @@
           <li
           <%- if "search" == @current_action -%> class="active"
           <%- end -%>><%= link_to "Search", '/search' %></li>
+          <%- unless is_dark_archive -%>
           <li
           <%- if "about" == @current_action -%> class="active"
           <%- end -%>><%= link_to "About", about_path() %></li>
           <li
           <%- if "contact" == @current_action -%> class="active"
           <%- end -%>><%= link_to "Contact", contact_path() %></li>
+          <%- end -%>
           <li
           <%- if "index" == @current_action -%> class="active"
           <%- end -%>><%= link_to("Home", '/catalog') %></li>
@@ -101,11 +103,7 @@
 
   <div class="page-header">
 
-    <%- if Rails.application.config.dark_archive -%>
-        <%= link_to(image_tag('/assets/img/tdldarkarchivelogosmall.png', :alt => "TDL Dark Archive logo"), '/', :class => "work") %>
-    <%- else -%>
-        <%= link_to(image_tag('/assets/img/tuftsdigitallibrarylogosmall.png', :alt => "Tufts Digital Library logo"), '/', :class => "work") %>
-    <%- end -%>
+        <%= link_to(image_tag("#{application_logo}", :alt => "#{application_name} logo"), '/', :class => "work") %>
     <%- if "show" == @current_action || "eadoverview" == @current_action || "eadinternal" == @current_action || "transcriptonly" == @current_action -%>
         <button href="#comment_modal" data-toggle="modal" class="btn btn-blue pull-right" style="margin-top:10px; margin-right:10px;"> Comments about this page?
           <i class="icon-comment icon-white"></i></button>

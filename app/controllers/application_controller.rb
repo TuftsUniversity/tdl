@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActiveFedora::ObjectNotFoundError, :with => :error_generic
 
-  if Rails.application.config.dark_archive
+  if is_dark_archive
     before_filter :authenticate_user!
     before_filter :check_role!
   end

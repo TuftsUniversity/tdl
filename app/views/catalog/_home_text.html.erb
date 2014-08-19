@@ -11,10 +11,10 @@
     <div class="row-fluid">
       <!-- MAIN CONTENT AREA -->
       <div class="span9 offset3">
-        <%= render :partial => 'dca_text/welcome' %>
+        <%= render :partial => "dca_text/welcome#{dark_suffix}" %>
 
         <div class="span9">
-          <%= render :partial => "dca_text/collections" %>
+          <%= render :partial => "dca_text/collections#{dark_suffix}" %>
         </div>
         <div class="pull-right">
           <!--
@@ -28,7 +28,7 @@
 
           <h4>Availability</h4>
 
-          <p>Upgrades to the Tufts Digital Library are scheduled for Thursdays 9-9:30 AM. The digital library may not be
+          <p>Upgrades to the <%= application_name %> are scheduled for Thursdays 9-9:30 AM. The <%= application_name %> may not be
             available during this time.</p>
 
         </div>
