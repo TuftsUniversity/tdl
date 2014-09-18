@@ -16,6 +16,7 @@ class User < ActiveRecord::Base
   #devise :database_authenticatable, :registerable,
   #       :recoverable, :rememberable, :trackable, :validatable
   devise :ldap_authenticatable, :trackable
+  devise :timeoutable, :timeout_in => 60.minutes
 
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :email, :password, :password_confirmation, :remember_me
