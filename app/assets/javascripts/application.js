@@ -32,4 +32,3 @@
 //= require 'bootstrap-typeahead'
 //= require 'feedback'
 //= require 'tdl_customizations.js'
-//= require 'tuftsification.js'
