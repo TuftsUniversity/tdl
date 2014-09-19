@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
 
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :email, :password, :password_confirmation, :remember_me
-  attr_accessible :username, :password
+  attr_accessible :username, :password, :password_confirmation, :role_ids
 
   # Method added by Blacklight; Blacklight uses #to_s on your
   # user class to get a user-displayable login/identifier for
