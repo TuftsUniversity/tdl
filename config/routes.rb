@@ -19,8 +19,11 @@ TDL::Application.routes.draw do
    resources :search_history, :path => 'search_history', :only => [:index,:show]
 
     HydraHead.add_routes(self)
-   match '/search', :to => 'catalog#search', :constraints => {:id => /.*/}, :as =>'catalog'
-   match '/catalog/facet/:id', :to => 'catalog#facet', :constraints => {:id => /.*/}, :as =>'catalog'
+
+  ele = {:object_type_sim => ['Generic Objects'], :names_sim => ['American Antiquarian Society']}
+   match '/election_datasets', :to => 'catalog#index', :f => ele, :q=>'', :search_field=>'all_fields'
+   match '/search', :to => 'catalog#search', :constraints => {:id => /.*/}
+   match '/catalog/facet/:id', :to => 'catalog#facet', :constraints => {:id => /.*/}
    match '/catalog/transcriptonly/:id', :to => 'catalog#transcriptonly', :constraints => {:id => /.*/}, :as =>'transcriptonly'
    match '/advanced/facet/:id', :to => 'advanced#facet', :constraints => {:id => /.*/}, :as =>'advanced'
    match "/about" => "about#index"
@@ -103,7 +106,7 @@ TDL::Application.routes.draw do
   # just remember to delete public/index.html.
   # root :to => 'welcome#index'
 
-  # See how all your routes lay out with "rake routes"
+  # See how all your routing lay out with "rake routing"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
   # Note: This route will make all actions in every controller accessible via GET requests.
