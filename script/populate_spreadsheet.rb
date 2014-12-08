@@ -21,35 +21,6 @@ def test_dca_admin object
 end
 
 options = {}
-# Authorizes with OAuth and gets an access token.
-client = Google::APIClient.new
-auth = client.authorization
-auth.client_id = "719962928916-rug01epoed7j3k4kvdjbbl5o46gg5k1f.apps.googleusercontent.com"
-auth.client_secret = "ze82kcl1Iky_7c5JTb9z7F8i"
-auth.scope =
-    "https://www.googleapis.com/auth/drive " +
-        "https://docs.google.com/feeds/ " +
-        "https://docs.googleusercontent.com/ " +
-        "https://spreadsheets.google.com/feeds/"
-auth.redirect_uri = "urn:ietf:wg:oauth:2.0:oob"
-print("1. Open this page:\n%s\n\n" % auth.authorization_uri)
-print("2. Enter the authorization code shown in the page: ")
-auth.code = $stdin.gets.chomp
-auth.fetch_access_token!
-access_token = auth.access_token
-system'clear'
-print "Save your access token\n\n"
-print access_token
-print "\nSave your refresh token\n\n"
-print auth.refresh_token
-# Creates a session.
-session = GoogleDrive.login_with_oauth(access_token)
-
-ws = session.spreadsheet_by_key("1redjOUBPBny8HIKfGlXRlQ5IjdjuzDQFHhvLaMjI654").worksheets[0]
-
-# Gets content of A2 cell.
-#p ws[2, 1]  #==> "hoge"
-
 optparse = OptionParser.new do |opts|
   opts.banner = 'Usage: populate spreadsheet [options]'
 
@@ -62,9 +33,44 @@ optparse = OptionParser.new do |opts|
       exit
     end #end else
   end #end hydra_home
+  opts.on('--dry-run','Dry Run') do |dry|
+    options[:dry_run] = dry
+  end
 end #end_opts
-
 optparse.parse!()
+
+# Authorizes with OAuth and gets an access token.
+unless options[:dry_run]
+  client = Google::APIClient.new
+  auth = client.authorization
+  auth.client_id = "719962928916-rug01epoed7j3k4kvdjbbl5o46gg5k1f.apps.googleusercontent.com"
+  auth.client_secret = "ze82kcl1Iky_7c5JTb9z7F8i"
+  auth.scope =
+      "https://www.googleapis.com/auth/drive " +
+          "https://docs.google.com/feeds/ " +
+          "https://docs.googleusercontent.com/ " +
+          "https://spreadsheets.google.com/feeds/"
+  auth.redirect_uri = "urn:ietf:wg:oauth:2.0:oob"
+  print("1. Open this page:\n%s\n\n" % auth.authorization_uri)
+  print("2. Enter the authorization code shown in the page: ")
+  auth.code = $stdin.gets.chomp
+  auth.fetch_access_token!
+  access_token = auth.access_token
+  system'clear'
+  print "Save your access token\n\n"
+  print access_token
+  print "\nSave your refresh token\n\n"
+  print auth.refresh_token
+  # Creates a session.
+  session = GoogleDrive.login_with_oauth(access_token)
+
+  ws = session.spreadsheet_by_key("1redjOUBPBny8HIKfGlXRlQ5IjdjuzDQFHhvLaMjI654").worksheets[0]
+
+  # Gets content of A2 cell.
+  #p ws[2, 1]  #==> "hoge"
+end
+
+
 
 @hydra_home = options[:hydra_home]
 
@@ -79,11 +85,15 @@ end
 objects = ActiveFedora::Base.all
 
 objects.each_with_index do |object, index|
-  ws[index+2, 1] = object.pid
-  ws[index+2,2] = object.state
-  ws[index+2,3] = test_dca_admin object
+
+    ws[index+2, 1] = object.pid unless options[:dry_run]
+    ws[index+2,2] = object.state unless options[:dry_run]
+    dca_admin_status = test_dca_admin object
+    ws[index+2,3] = dca_admin_status unless options[:dry_run]
+    puts "#{object.pid} has state #{object.state} and #{dca_admin_status}"
 end
-ws.save
+ws.save unless options[:dry_run]
+
 
 
 
