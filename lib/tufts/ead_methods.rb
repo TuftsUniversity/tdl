@@ -389,8 +389,8 @@ module Tufts
       series.element_children.each do |series_child|
         child_name = series_child.name
 
-				# The series could be a <c01 level="series"> with c02 children, or
-				# it could be a <c02 level="subseries"> with c03 children.
+        # The series could be a <c01 level="series"> with c02 children, or
+        # it could be a <c02 level="subseries"> with c03 children.
         if child_name == "c02" || child_name == "c03"
           result << series_child
         end
@@ -409,6 +409,12 @@ module Tufts
       did = nil
       daogrp = nil
       scopecontent = nil
+      unittitle = nil
+      unitdate = nil
+      physloc = nil
+      page = nil
+      thumbnail = nil
+      available_online = false;
 
       item_id = item.attribute("id")
       item_type = item.attribute("level")
@@ -430,13 +436,6 @@ module Tufts
       end
 
       if !did.nil?
-        unittitle = nil
-        unitdate = nil
-        physdesc = nil
-        physloc = nil
-        page = nil
-        thumbnail = nil
-
         did.element_children.each do |did_child|
           if did_child.name == "unittitle"
             unittitle = did_child.children.first.text
@@ -450,47 +449,45 @@ module Tufts
             end
           elsif did_child.name == "unitdate"
             unitdate = did_child.text
-#         elsif did_child.name == "physdesc"
-#           physdesc = did_child.text
           elsif did_child.name == "physloc"
             physloc = did_child.text
           end
         end
+      end
 
-        if !daogrp.nil?
-          daogrp.element_children.each do |daogrp_child|
-            if daogrp_child.name == "daoloc"
-              daoloc_label = daogrp_child.attribute("label")
-              daoloc_href = daogrp_child.attribute("href")
-              daoloc_audience = daogrp_child.attribute("audience")
+      if !daogrp.nil?
+        daogrp.element_children.each do |daogrp_child|
+          if daogrp_child.name == "daoloc"
+            daoloc_label = daogrp_child.attribute("label")
+            daoloc_href = daogrp_child.attribute("href")
+            daoloc_audience = daogrp_child.attribute("audience")
 
-              if !daoloc_audience.nil? && daoloc_audience.text == "internal"
-                # an audience="internal" attribute in a daoloc tag means this item is in the Dark Archive;
-                # leave page and thumbnail = nil so that values will not be returned for them
-                # and so that the href will not be included in title.  Set physloc to the dark
-                # archive message.
-                physloc = "Dark Archive; <a href=""/contact"">contact DCA</a>"
-              elsif !daoloc_label.nil? && !daoloc_href.nil?
-                daoloc_label_text = daoloc_label.text
-                daoloc_href_text = daoloc_href.text
+            if !daoloc_audience.nil? && daoloc_audience.text == "internal"
+              # an audience="internal" attribute in a daoloc tag means this item is in the Dark Archive;
+              # leave page and thumbnail = nil so that values will not be returned for them
+              # and so that the href will not be included in title.  Set physloc to the dark
+              # archive message.
+              physloc = "Dark Archive; <a href=""/contact"">contact DCA</a>"
+            elsif !daoloc_label.nil? && !daoloc_href.nil?
+              daoloc_label_text = daoloc_label.text
+              daoloc_href_text = daoloc_href.text
 
-                if daoloc_label_text == "page"
-                  page = daoloc_href_text
-                elsif daoloc_label_text == "thumbnail"
-                  thumbnail = daoloc_href_text
-                end
+              if daoloc_label_text == "page"
+                page = daoloc_href_text
+              elsif daoloc_label_text == "thumbnail"
+                thumbnail = daoloc_href_text
               end
             end
           end
         end
+      end
 
-        available_online = !page.nil? && !page.empty? && Tufts::PidMethods.ingested?(page)
-        title = (available_online ? "<a href=\"/catalog/" + page + "\">" : "") + (unittitle.nil? ? "" : unittitle) + (unitdate.nil? || (!unittitle.nil? && unittitle.end_with?(unitdate))? "" : " " + unitdate) + (available_online ? "</a>" : "")
+      available_online = !page.nil? && !page.empty? && Tufts::PidMethods.ingested?(page)
+      title = (available_online ? "<a href=\"/catalog/" + page + "\">" : "") + (unittitle.nil? ? "" : unittitle) + (unitdate.nil? || (!unittitle.nil? && unittitle.end_with?(unitdate))? "" : " " + unitdate) + (available_online ? "</a>" : "")
 
-        if !physloc.nil?
-          labels = "Location:"
-          values = physloc
-        end
+      if !physloc.nil?
+        labels = "Location:"
+        values = physloc
       end
 
       if !item_id.nil?
@@ -522,7 +519,7 @@ module Tufts
 
       paragraphs = get_scopecontent_paragraphs(scopecontent)
 
-      return title, paragraphs, labels, values, page, thumbnail, next_level_items
+      return title, paragraphs, labels, values, page, thumbnail, available_online, next_level_items
     end
 
 

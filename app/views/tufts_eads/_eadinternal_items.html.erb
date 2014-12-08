@@ -3,7 +3,7 @@
       this_row_s = @row_count.to_s
       @row_count += 1
 
-      item_title, item_paragraphs, item_labels, item_values, page, thumbnail, next_level_items = Tufts::EADMethods.get_series_item_info(series_item)
+      item_title, item_paragraphs, item_labels, item_values, page, thumbnail, available_online, next_level_items = Tufts::EADMethods.get_series_item_info(series_item)
 #     item_title = "-" + indentation_level.to_s + "-" + (@row_count - 1).to_s + "- " + item_title # to show indentation level and row number for debugging
       is_top_level = indentation_level == 0
       is_folder = !next_level_items.nil? && !next_level_items.empty?
@@ -46,17 +46,16 @@
         <td class="smalltext locator_td"><%= raw(item_labels) %></td>
         <td class="smalltext id_td" align="left"><%= raw(item_values) %></td>
 <%
-      if thumbnail.nil? || thumbnail.empty?
-        if page.nil? || page.empty?
+      unless available_online
 %>
         <td class="availableonline_td" align="center">&nbsp;</td>
 <%
-        else
+      else
+      	if thumbnail.nil? || thumbnail.empty?
 %>
         <td class="availableonline_td" align="center"><i class="icon-ok"></i></td>
 <%
-        end
-      else
+        else
 %>
         <td class="thumbnail_td" align="center">
           <ul class="thumbnails">
@@ -66,6 +65,7 @@
           </ul>
         </td>
 <%
+        end
       end
 %>
       </tr>
