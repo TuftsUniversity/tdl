@@ -89,7 +89,6 @@ objects.each_with_index do |object, index|
 
     ws[index+2, 1] = object.pid unless options[:dry_run]
     ws[index+2,2] = object.state unless options[:dry_run]
-    puts "#{object.pid} has state #{object.state}"
     begin
       dca_admin_status = test_dca_admin object
       ws[index+2,3] = dca_admin_status unless options[:dry_run]
