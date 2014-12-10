@@ -211,22 +211,22 @@ begin
 
         success = convert_to_png(pid)
 
-        if success
-          st = ActiveRecord::Base.connection.raw_connection.prepare("update message_queues set last_ingest=\""+Time.now.to_s+"\" where name=\"post.index.update\"")
-          st.execute
-          st.close
-          st = ActiveRecord::Base.connection.raw_connection.prepare("update message_queues set last_pid_ingested=\""+pid+"\" where name=\"post.index.update\"")
-          st.execute
-          st.close
-        end
+#        if success
+#          st = ActiveRecord::Base.connection.raw_connection.prepare("update message_queues set last_ingest=\""+Time.now.to_s+"\" where name=\"post.index.update\"")
+#          st.execute
+#          st.close
+#          st = ActiveRecord::Base.connection.raw_connection.prepare("update message_queues set last_pid_ingested=\""+pid+"\" where name=\"post.index.update\"")
+#          st.execute
+#          st.close
+#        end
       end
 
       @logger.info "#{@msg.body}"
 
       if @msg.body == "heartbeat the topic"
-        st = ActiveRecord::Base.connection.raw_connection.prepare("update message_queues set last_heartbeat=\""+Time.now.to_s+"\" where name=\"post.index.update\"")
-        st.execute
-        st.close
+#        st = ActiveRecord::Base.connection.raw_connection.prepare("update message_queues set last_heartbeat=\""+Time.now.to_s+"\" where name=\"post.index.update\"")
+#        st.execute
+#        st.close
       end
 
       if success
