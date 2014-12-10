@@ -3,7 +3,7 @@ ruby '2.0.0'
 #ruby-gemset=hydra6
 gem 'rails', '3.2.16'
 
-gem 'hydra', '6.1.0', require: 'hydra6'
+gem 'hydra', '6.1.0'
 gem 'tuftsification-hydra', :git => 'https://github.com/TuftsUniversity/tuftsification-hydra'
 #gem 'solrizer', :path => '/home/hydradm/tdl_solrizer'
 gem 'solrizer', :git => 'https://github.com/TuftsUniversity/tdl_solrizer'
@@ -53,3 +53,7 @@ gem 'hydra-role-management', '0.1.0'
 gem 'devise_ldap_authenticatable', '0.8.1'
 gem "rails_admin"
 gem "is_it_working"
+
+group :data_inspection do
+  gem "google_drive"
+end
