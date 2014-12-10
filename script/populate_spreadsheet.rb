@@ -4,6 +4,7 @@ require "google/api_client"
 require "google_drive"
 require "active_fedora"
 require 'optparse'
+require 'rubydora'
 
 def test_dca_admin object
   # example of a GOOD admin stream
@@ -88,9 +89,18 @@ objects.each_with_index do |object, index|
 
     ws[index+2, 1] = object.pid unless options[:dry_run]
     ws[index+2,2] = object.state unless options[:dry_run]
-    dca_admin_status = test_dca_admin object
-    ws[index+2,3] = dca_admin_status unless options[:dry_run]
-    puts "#{object.pid} has state #{object.state} and #{dca_admin_status}"
+    puts "#{object.pid} has state #{object.state}"
+    begin
+      dca_admin_status = test_dca_admin object
+      ws[index+2,3] = dca_admin_status unless options[:dry_run]
+      puts "#{object.pid} has state #{object.state} and #{dca_admin_status}"
+    rescue NoMethodError 
+       ws[index+2,3] = "No AF Model"  unless options[:dry_run]
+       puts "#{object.pid} has state #{object.state} and model not recognized"
+    rescue Rubydora::FedoraInvalidRequest
+       ws[index+2,3] = "Bad Datastream"  unless options[:dry_run]
+       puts "#{object.pid} has state #{object.state} and datastream unreachable in fedora"
+    end
 end
 ws.save unless options[:dry_run]
 
