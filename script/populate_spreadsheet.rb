@@ -5,6 +5,7 @@ require "google_drive"
 require "active_fedora"
 require 'optparse'
 require 'rubydora'
+require 'csv'
 
 def test_dca_admin object
   # example of a GOOD admin stream
@@ -34,11 +35,24 @@ optparse = OptionParser.new do |opts|
       exit
     end #end else
   end #end hydra_home
+
   opts.on('--dry-run','Dry Run') do |dry|
     options[:dry_run] = dry
   end
+
+  opts.on('-n', '--sourcename NAME', 'Source PIDs File') do |v|
+    if File.exist?(v)
+      options[:source_name] = v
+    else
+      puts("#{v} does not appear to be a valid file of pids")
+      exit
+    end
+  end
+
 end #end_opts
 optparse.parse!()
+raise OptionParser::MissingArgument if options[:source_name].nil?
+
 
 # Authorizes with OAuth and gets an access token.
 unless options[:dry_run]
@@ -83,10 +97,15 @@ else
   exit 1
 end
 
-objects = ActiveFedora::Base.all
+objects = CSV.read(options[:source_name])
 
-objects.each_with_index do |object, index|
+#objects = ActiveFedora::Base.all
 
+
+objects.each_with_index do |row, index|
+    pid = row[0]
+    next if pid.nil?
+    object = TuftsBase.find(pid, :cast => false)
     ws[index+2, 1] = object.pid unless options[:dry_run]
     ws[index+2,2] = object.state unless options[:dry_run]
     begin
