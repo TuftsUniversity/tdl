@@ -103,7 +103,8 @@ end
 objects = CSV.read(options[:source_name])
 
 #objects = ActiveFedora::Base.all
-
+csv_out = nil
+csv_out = CSV.open('state_of_objects.csv', 'w') if options[:dry_run] == 'true'
 
 objects.each_with_index do |row, index|
     pid = row[0]
@@ -115,18 +116,30 @@ objects.each_with_index do |row, index|
       ws[index+2,2] = object.state unless options[:dry_run] == 'true'
       dca_admin_status = test_dca_admin object
       ws[index+2,3] = dca_admin_status unless options[:dry_run] == 'true'
+      if options[:dry_run] == 'true'
+        csv_out << [object.pid,object.state,test_dca_admin(object)]
+      end
       puts "#{object.pid} has state #{object.state} and #{dca_admin_status}"
     rescue NoMethodError 
        ws[index+2, 1] = pid unless options[:dry_run] == 'true'
        ws[index+2,3] = "No AF Model"  unless options[:dry_run] == 'true'
+       if options[:dry_run] == 'true'
+         csv_out << [pid,'','No AF Model']
+       end
        puts "#{object.pid} has state #{object.state} and model not recognized"
     rescue Rubydora::FedoraInvalidRequest
        ws[index+2, 1] = pid unless options[:dry_run] == 'true'
        ws[index+2,3] = "Bad Datastream"  unless options[:dry_run] == 'true'
+       if options[:dry_run] == 'true'
+         csv_out << [pid,'','Bad Datastream']
+       end
        puts "#{object.pid} has state #{object.state} and datastream unreachable in fedora"
     rescue ActiveFedora::ObjectNotFoundError
        ws[index+2, 1] = pid unless options[:dry_run] == 'true'
        ws[index+2,3] = "Object is in MIRA but not TDL"  unless options[:dry_run] == 'true'
+       if options[:dry_run] == 'true'
+         csv_out << [pid,'','Object is in MIRA but not TDL']
+       end
        puts "#{pid} is in MIRA but not in TDL, need to handle elsewhere or index in TDL"
     end
     unless options[:dry_run] == 'true'
