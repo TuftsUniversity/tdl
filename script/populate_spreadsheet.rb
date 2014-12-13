@@ -142,9 +142,15 @@ objects.each_with_index do |row, index|
        end
        puts "#{pid} is in MIRA but not in TDL, need to handle elsewhere or index in TDL"
     end
-    unless options[:dry_run] == 'true'
+    if options[:dry_run] == 'true'
+      csv_out.flush
+    else
       ws.save if index % 50 == 0
     end
+end
+
+if options[:dry_run] == 'true'
+  csv_out.close
 end
 
 
