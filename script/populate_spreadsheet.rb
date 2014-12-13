@@ -27,20 +27,22 @@ optparse = OptionParser.new do |opts|
   opts.banner = 'Usage: populate spreadsheet [options]'
 
   options[:hydra_home] = nil
-  opts.on('--hydra_home PATH', 'Load the Hydra instance at this path') do |hydra_home|
-    if File.exist?(File.join(hydra_home, 'config', 'environment.rb'))
-      options[:hydra_home] = hydra_home
+  opts.on('-h PATH', '--hydra_home PATH', 'Load the Hydra instance at this path') do |v|
+    if File.exist?(File.join(v, 'config', 'environment.rb'))
+      options[:hydra_home] = v
     else
-      puts("#{hydra_home} does not appear to be a valid rails home")
+      puts("#{v} does not appear to be a valid rails home")
       exit
     end #end else
   end #end hydra_home
 
-  opts.on('--dry-run','Dry Run') do |dry|
-    options[:dry_run] = dry
+
+  options[:dry_run] = 'false'
+  opts.on('-d dry', '--dry-run dry', 'Dry Run') do |dry|
+    options[:dry_run] = dry.to_s
   end
 
-  opts.on('-n', '--sourcename NAME', 'Source PIDs File') do |v|
+  opts.on('-n NAME', '--sourcename NAME', 'Source PIDs File') do |v|
     if File.exist?(v)
       options[:source_name] = v
     else
@@ -55,7 +57,8 @@ raise OptionParser::MissingArgument if options[:source_name].nil?
 
 
 # Authorizes with OAuth and gets an access token.
-unless options[:dry_run]
+p "#{options[:dry_run]}"
+unless options[:dry_run] == 'true'
   client = Google::APIClient.new
   auth = client.authorization
   auth.client_id = "719962928916-rug01epoed7j3k4kvdjbbl5o46gg5k1f.apps.googleusercontent.com"
@@ -105,22 +108,31 @@ objects = CSV.read(options[:source_name])
 objects.each_with_index do |row, index|
     pid = row[0]
     next if pid.nil?
-    object = TuftsBase.find(pid, :cast => false)
-    ws[index+2, 1] = object.pid unless options[:dry_run]
-    ws[index+2,2] = object.state unless options[:dry_run]
+
     begin
+      object = TuftsBase.find(pid, :cast => false)
+      ws[index+2, 1] = object.pid unless options[:dry_run] == 'true'
+      ws[index+2,2] = object.state unless options[:dry_run] == 'true'
       dca_admin_status = test_dca_admin object
-      ws[index+2,3] = dca_admin_status unless options[:dry_run]
+      ws[index+2,3] = dca_admin_status unless options[:dry_run] == 'true'
       puts "#{object.pid} has state #{object.state} and #{dca_admin_status}"
     rescue NoMethodError 
-       ws[index+2,3] = "No AF Model"  unless options[:dry_run]
+       ws[index+2, 1] = pid unless options[:dry_run] == 'true'
+       ws[index+2,3] = "No AF Model"  unless options[:dry_run] == 'true'
        puts "#{object.pid} has state #{object.state} and model not recognized"
     rescue Rubydora::FedoraInvalidRequest
-       ws[index+2,3] = "Bad Datastream"  unless options[:dry_run]
+       ws[index+2, 1] = pid unless options[:dry_run] == 'true'
+       ws[index+2,3] = "Bad Datastream"  unless options[:dry_run] == 'true'
        puts "#{object.pid} has state #{object.state} and datastream unreachable in fedora"
+    rescue ActiveFedora::ObjectNotFoundError
+       ws[index+2, 1] = pid unless options[:dry_run] == 'true'
+       ws[index+2,3] = "Object is in MIRA but not TDL"  unless options[:dry_run] == 'true'
+       puts "#{pid} is in MIRA but not in TDL, need to handle elsewhere or index in TDL"
+    end
+    unless options[:dry_run] == 'true'
+      ws.save if index % 50 == 0
     end
 end
-ws.save unless options[:dry_run]
 
 
 
