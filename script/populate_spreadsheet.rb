@@ -14,7 +14,9 @@ def test_dca_admin object
   # <admin xmlns="http://nils.lib.tufts.edu/dcaadmin/" xmlns:ac="http://purl.org/dc/dcmitype/">
   # example of a bad admin stream from a really old object
   # <dca_admin:admin xmlns:admin="http://nils.lib.tufts.edu/admin/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dca_admin="http://nils.lib.tufts.edu/dca_admin/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xlink="http://www.w3.org/TR/xlink"/>
-  if object.datastreams['DCA-ADMIN'].ng_xml.to_s[/<admin xmlns:local=\"http:\/\/nils.lib.tufts.edu\/dcaadmin\/\" xmlns:ac=\"http:\/\/purl.org\/dc\/dcmitype\/\">/]
+  if object.datastreams['DCA-ADMIN'].ng_xml.to_s[/<admin xmlns=\"http:\/\/nils.lib.tufts.edu\/dcaadmin\/\" xmlns:ac=\"http:\/\/purl.org\/dc\/dcmitype\/\">/]
+    "Namespacing"
+  elsif object.datastreams['DCA-ADMIN'].ng_xml.to_s[/<admin xmlns:local=\"http:\/\/nils.lib.tufts.edu\/dcaadmin\/\" xmlns:ac=\"http:\/\/purl.org\/dc\/dcmitype\/\">/]
     "Up to Date"
   else
     "Needs Updating"
@@ -151,7 +153,6 @@ end
 
 if options[:dry_run] == 'true'
   csv_out.close
-end
 
 
 
