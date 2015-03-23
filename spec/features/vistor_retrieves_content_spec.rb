@@ -131,14 +131,6 @@ end
     visit '/catalog/tufts:UP029.003.003.00014'
     page.should have_content "Tufts Daily, March 3"
   end
-  scenario 'user wildlife pathology image' do
-    visit '/catalog/tufts:WP0001'
-    page.should have_content "Example Wildlife Pathology entry"
-    page.should have_content "Example WP object"
-    page.should have_content "Made up WP object."
-    page.should have_link "Grafton Campus"
-    page.should have_content "Goodmon, Brian"
-  end
   scenario 'user loads generic object' do
     visit '/catalog/tufts:MS115.003.001.00002'
     page.should have_content "Election records candidate name authority records, zipped"
@@ -150,17 +142,6 @@ end
     page.should have_content "Bouvé-Boston School of Physical Therapy and Physical Education, 1942-1964"
     page.should have_content "Department of Occupational Therapy (1942-1964)"
     page.should have_content "Athletic Association, PE Club, PT Club, Dance Group, and Swim Club"
-  end
-  scenario 'user loads image text' do
-    visit '/catalog/tufts:sample001'
-    page.should have_content "Example HTML entry"
-    page.should have_content "Goodmon, Brian"
-    page.should have_link "Identifying Organs by Color"
-  end
-  scenario 'user loads fragmented tei The Boston Directory' do
-    visit '/catalog/tufts:UA069.005.DO.00002'
-    page.should have_content "people of Boston between 1845-1898"
-    page.should have_xpath "//img[@src='/assets/img/boston_streets.png']"
   end
   scenario 'users loads Sample Dance Video' do
     visit '/catalog/tufts:sample007'
