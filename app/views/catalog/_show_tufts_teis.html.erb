@@ -1,3 +1,9 @@
+<% if ['tufts:UA069.005.DO.00002','tufts:UA069.005.DO.00021','tufts:UA069.005.DO.00017','tufts:UA069.005.DO.00018','tufts:UA069.005.DO.00019','tufts:UA069.005.DO.00012','tufts:UA069.005.DO.00015','tufts:UA069.005.DO.00005'].include? @document_fedora.pid %>
+
+<%= render :partial => 'catalog/show_tufts_tei_fragmenteds' %>
+
+<% else %>
+
 <!-- LEFT SIDE FOR OBJECT TITLE -->
 <% javascript_includes <<  "tei.js" %>
 <% stylesheet_links <<  "/assets/tei/tei.css" %>
@@ -29,4 +35,4 @@
 </div>
 <%= render :partial => 'tufts_teis/mustache_templates' %>
 
-
+<% end %>
