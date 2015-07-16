@@ -25,6 +25,10 @@ class CatalogController < ApplicationController
   # Controller "before" filter for enforcing access controls on show actions
   # @param [Hash] opts (optional, not currently used)
   def enforce_show_permissions(opts={})
+        unless @document_fedora.datastreams["DCA-ADMIN"].displays.include? "dl"
+            flash[:retrieval] = "This item is not available for viewing in the TDL."
+            redirect_to(:action=>'index', :q=>nil, :f=>nil) and return false
+        end
         if @document_fedora.datastreams["DCA-ADMIN"].under_embargo?
           # check for depositor raise "#{@document["depositor_t"].first} --- #{user_key}"
           ### Assuming we're using devise and have only one authentication key
@@ -49,7 +53,9 @@ class CatalogController < ApplicationController
 
   def add_dca_admin_displays_awareness(solr_parameters, user_parameters)
     solr_parameters[:fq] ||= []
-    solr_parameters[:fq] << "(-displays_tesim:[* TO *] AND *:*) OR displays_tesim:dl"
+#    solr_parameters[:fq] << "(-displays_tesim:[* TO *] AND *:*) OR displays_tesim:dl"
+    solr_parameters[:fq] << "displays_tesim:dl"
+#    solr_parameters[:fq] << "-source_tesim:Artifact"
   end
 
 
