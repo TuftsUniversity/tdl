@@ -23,7 +23,7 @@ TDL::Application.routes.draw do
   ele = {:object_type_sim => ['Generic Objects'], :names_sim => ['American Antiquarian Society']}
    match '/election_datasets', :to => 'catalog#index', :f => ele, :q=>'', :search_field=>'all_fields'
    match '/search', :to => 'catalog#search', :constraints => {:id => /.*/}
-   match '/catalog/facet/:id', :to => 'catalog#facet', :constraints => {:id => /.*/}
+   match '/catalog/facet/:id', :to => 'catalog#facet', :constraints => {:id => ALLOW_DOTS}
    match '/catalog/transcriptonly/:id', :to => 'catalog#transcriptonly', :constraints => {:id => /.*/}, :as =>'transcriptonly'
    match '/advanced/facet/:id', :to => 'advanced#facet', :constraints => {:id => /.*/}, :as =>'advanced'
    match "/about" => "about#index"
