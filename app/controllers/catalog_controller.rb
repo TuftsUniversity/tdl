@@ -14,51 +14,50 @@ class CatalogController < ApplicationController
   # These before_filters apply the hydra access controls
 
   # This changes the begin year and end year params of an advanced search into a proper range parameter for solr
-  CatalogController.solr_search_params_logic += [:add_advanced_search_range_param]
-
   # This filters out embargo'd objects
-  CatalogController.solr_search_params_logic += [:exclude_embargo_objects]
-
   #This makes tdl aware of DCA-Admin displays tag
-  CatalogController.solr_search_params_logic += [:add_dca_admin_displays_awareness]
+  CatalogController.solr_search_params_logic += [:add_advanced_search_range_param, :exclude_embargo_objects, :add_dca_admin_displays_awareness,:exclude_drafts]
 
   # Controller "before" filter for enforcing access controls on show actions
   # @param [Hash] opts (optional, not currently used)
   def enforce_show_permissions(opts={})
-        unless @document_fedora.datastreams["DCA-ADMIN"].displays.include? "dl"
-            flash[:retrieval] = "This item is not available for viewing in the TDL."
-            redirect_to(:action=>'index', :q=>nil, :f=>nil) and return false
-        end
-        if @document_fedora.datastreams["DCA-ADMIN"].under_embargo?
-          # check for depositor raise "#{@document["depositor_t"].first} --- #{user_key}"
-          ### Assuming we're using devise and have only one authentication key
-          #unless current_user && user_key == @permissions_solr_document["depositor_t"].first
-            flash[:retrieval] = "This item is under embargo.  You do not have sufficient access privileges to read this document."
-            redirect_to(:action=>'index', :q=>nil, :f=>nil) and return false
-         # end
-        end
+    unless @document_fedora.datastreams["DCA-ADMIN"].displays.include? "dl"
+      flash[:retrieval] = "This item is not available for viewing in the TDL."
+      redirect_to(:action=>'index', :q=>nil, :f=>nil) and return false
+    end
+    if @document_fedora.datastreams["DCA-ADMIN"].under_embargo?
+      # check for depositor raise "#{@document["depositor_t"].first} --- #{user_key}"
+      ### Assuming we're using devise and have only one authentication key
+      #unless current_user && user_key == @permissions_solr_document["depositor_t"].first
+      flash[:retrieval] = "This item is under embargo.  You do not have sufficient access privileges to read this document."
+      redirect_to(:action=>'index', :q=>nil, :f=>nil) and return false
+    end
+    id = params[:id]
+    unless id.nil?
+      if (id[/^draft/])
+        flash[:alert] = "Draft objects are not available in TDL."
+        redirect_to(:action=>'index', :q=>nil, :f=>nil) and return false
+      end
+    end
   end
 
   # This filters out objects that you want to exclude from search results.  By default it only excludes FileAssets
   # @param solr_parameters the current solr parameters
   # @param user_parameters the current user-subitted parameters
   def exclude_embargo_objects(solr_parameters, user_parameters)
-
     solr_parameters[:fq] ||= []
     solr_parameters[:fq] << "-embargo_dtsim:[NOW TO *]"
-#    solr_parameters[:fq] << "-source_tesim:MS205"
-#    solr_parameters[:fq] << "-source_tesim:MS201"
-   # solr_parameters[:fq] << "-has_model_s:\"info:fedora/afmodel:FileAsset\""
   end
 
   def add_dca_admin_displays_awareness(solr_parameters, user_parameters)
     solr_parameters[:fq] ||= []
-#    solr_parameters[:fq] << "(-displays_tesim:[* TO *] AND *:*) OR displays_tesim:dl"
     solr_parameters[:fq] << "displays_tesim:dl"
-#    solr_parameters[:fq] << "-source_tesim:Artifact"
   end
 
-
+  def exclude_drafts(solr_parameters,user_parameters)
+    solr_parameters[:fq] ||= []
+    solr_parameters[:fq] << "-id:draft*"
+  end
   # Use params[:id] to load an object from Fedora.  Inspects the object for known models and mixes in any of those models' behaviors.
   # Sets @document_fedora with the loaded object
   # Sets @file_assets with file objects that are children of the loaded object
