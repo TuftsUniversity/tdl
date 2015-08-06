@@ -35,7 +35,7 @@ class CatalogController < ApplicationController
     id = params[:id]
     unless id.nil?
       if (id[/^draft/])
-        flash[:alert] = "Draft objects are not available in TDL."
+        flash[:alert] = "Draft objects are only available to library and DCA staff."
         redirect_to(:action=>'index', :q=>nil, :f=>nil) and return false
       end
     end
