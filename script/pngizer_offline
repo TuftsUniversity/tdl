@@ -1,0 +1,106 @@
+#!/usr/bin/env ruby
+
+#  Sometimes pngizer running on tdl-stage-02 will seem to hang when converting a very
+#  large PDF.  Our theory is to blame it on the old version of ghostscript that's there.
+#  Our solution is to download the PDF to a local machine and process it there, then
+#  copy the pngs and two metadata files back to the server.  This script does the
+#  conversions and creates the metadata files.
+#
+#  To run manually for a single pdf file:
+#    pngizer_offline -f foobar.archival.pdf
+#  creates folder foobar containing pngs, book_meta.json, readme.txt
+#  logging output will go to the console
+
+require 'rubygems'
+require 'optparse'
+require 'RMagick'
+require 'date'
+require 'fileutils'
+
+options = {}
+
+def convert_to_png(filename)
+  success = false
+
+  unless filename.nil?
+    begin
+      puts('Reading ' + filename + '.')
+
+      pdf_pages = Magick::Image.read(filename){self.density = '150x150'}
+      page_count = pdf_pages.length
+      page_width = pdf_pages[0].columns
+      page_height = pdf_pages[0].rows
+      puts('Found ' + page_count.to_s + ' pages (' + page_width.to_s + ' x ' + page_height.to_s + ').')
+
+      pngs_dir = filename.split('.')[0]   # everything to the left of the first .
+      pid = pngs_dir.split('/')[-1]       # and of that, everything to the right of the last /
+      FileUtils.mkdir_p(pngs_dir)
+      FileUtils.chmod(0755, pngs_dir)
+
+      json_path = pngs_dir + '/book_meta.json'
+
+      json = '{"page_width":"' + page_width.to_s + '","page_height":"' + page_height.to_s + '","page_count":"' + page_count.to_s + '"}'
+      puts('Writing ' + json + ' to ' + json_path + '.')
+      File.open(json_path, 'w'){|file| file.puts(json)}
+      FileUtils.chmod(0666, json_path)
+
+      readme_path = pngs_dir + '/readme.txt'
+      readme = 'Created by pngizer_offline from source: ' + filename
+      puts('Writing ' + readme + ' to ' + readme_path + '.')
+      File.open(readme_path, 'w'){|file| file.puts(readme)}
+      FileUtils.chmod(0666, readme_path)
+
+      page_number = 0
+
+      pdf_pages.each do |pdf_page|
+        png_path = pngs_dir + '/' + pid + '-' + page_number.to_s + '.png'
+        puts('Writing ' + png_path + '.')
+
+        pdf_page.write(png_path){self.quality = 100}
+        FileUtils.chmod(0666, png_path)
+
+        pdf_page.destroy!  # this is important - without it RMagick can occasionally be left in a state that causes subsequent failures
+        pdf_pages[page_number] = nil
+
+        page_number += 1
+      end
+
+      puts('Successfully completed ' + filename + '.')
+      success = true
+    rescue Magick::ImageMagickError => ex
+      puts($PROGRAM_NAME + ' ImageMagick error: ' + ex.message)
+      raise(ex)
+    rescue SystemCallError => ex
+      puts($PROGRAM_NAME + ' I/O error: ' + ex.message)
+      raise(ex)
+    rescue StandardError => ex
+      puts($PROGRAM_NAME + ' error: ' + ex.message)
+      raise(ex)
+    end
+  end
+
+  return success
+end
+
+optparse = OptionParser.new do |opts|
+  opts.banner = 'Usage: pngizer_offline [options]'
+
+  options[:filename] = nil
+  opts.on('-f', '--filename FILENAME', 'Filename') do |filename|
+    if File.exist?(filename)
+      options[:filename] = filename
+    else
+      puts("#{filename} does not exist")
+      exit 1
+    end
+  end
+end
+
+optparse.parse!()
+
+unless options[:filename]
+  puts('The -f FILENAME option is mandatory.')
+  exit 1
+end
+
+convert_to_png(options[:filename])
