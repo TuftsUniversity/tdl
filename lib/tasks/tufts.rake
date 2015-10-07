@@ -22,6 +22,7 @@ namespace :tufts_dca do
 
     require 'jettywrapper'
     Jettywrapper.unzip
+    Rake::Task["jetty:config"].invoke
     jetty_params = Jettywrapper.load_config #.merge({:jetty_home => File.expand_path(File.join(Rails.root, 'jetty'))})
 
     error = nil
@@ -29,10 +30,8 @@ namespace :tufts_dca do
       sleep(90)
       Rake::Task["tufts:fixtures:refresh"].invoke
       Rake::Task["jetty:config"].invoke
-      Rake::Task['ci:setup:rspec'].invoke
-          Rake::Task['spec'].invoke
-  #        Rake::Task['ci:setup:cucumber'].invoke
-  #        Rake::Task['features'].invoke
+#      Rake::Task['ci:setup:rspec'].invoke
+      Rake::Task['spec'].invoke
     end
     raise "test failures: #{error}" if error
   end
