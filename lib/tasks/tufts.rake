@@ -28,6 +28,7 @@ namespace :tufts_dca do
     error = Jettywrapper.wrap(jetty_params) do
       sleep(90)
       Rake::Task["tufts:fixtures:refresh"].invoke
+      Rake::Task["jetty:config"].invoke
       Rake::Task['ci:setup:rspec'].invoke
           Rake::Task['spec'].invoke
   #        Rake::Task['ci:setup:cucumber'].invoke
