@@ -19,7 +19,7 @@ namespace :tufts_dca do
     #Rake::Task["db:drop"].invoke
     #Rake::Task["db:create"].invoke
     Rake::Task["db:migrate"].invoke
-
+    Rake::Teask["db:seed"].invoke
     require 'jettywrapper'
     Jettywrapper.unzip
     jetty_params = Jettywrapper.load_config #.merge({:jetty_home => File.expand_path(File.join(Rails.root, 'jetty'))})
