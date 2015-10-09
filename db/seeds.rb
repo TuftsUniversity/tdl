@@ -25,6 +25,14 @@ users.each do | name |
   User.first_or_create(username: name)
 end
 
+Role.all.each do | role|
+ puts "#{role.id} #{role.name}"
+end
+
+User.all.each do | user|
+ puts "#{user.id} #{user.username}"
+end
+
 puts "Loading associations : "
 ActiveRecord::Base.connection.execute "insert into roles_users values (2, 1)"
 
