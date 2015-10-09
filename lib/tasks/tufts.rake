@@ -20,6 +20,7 @@ namespace :tufts_dca do
     #Rake::Task["db:create"].invoke
 #    Rake::Task["db:reset"].invoke
 #    Rake::Task["db:seed"].invoke
+    puts ActiveRecord::Base.connection.instance_variable_get(:@config)
     require 'jettywrapper'
     Jettywrapper.unzip
     Rake::Task["jetty:config"].invoke

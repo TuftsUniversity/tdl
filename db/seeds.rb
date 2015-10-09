@@ -8,7 +8,7 @@
 puts "Begin loading seed data"
 
 puts "Loading Roles:"
-
+puts ActiveRecord::Base.connection.instance_variable_get(:@config)
 roles = ["admin","digital_repository_admin"]
 
 roles.each_with_index do | name, index |
