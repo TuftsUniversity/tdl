@@ -19,7 +19,7 @@ before_script:
 #  - cp config/secrets.yml.sample config/secrets.yml
 #  - cp config/application.yml.sample config/application.yml
   - cp config/ldap.yml.sample config/ldap.yml
-#  - mysql -e 'create database mira_test'
+  - mysql -e 'create database tdl_test'
 #  - bundle exec rake db:setup
 #  - bundle exec rake tufts:fixtures:refresh
 
