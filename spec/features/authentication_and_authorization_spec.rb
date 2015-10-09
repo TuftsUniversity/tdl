@@ -24,7 +24,7 @@ feature 'Visitor can login with correct username and password and role and is ot
     fill_in 'user_username', :with=>'aa729'
     fill_in 'user_username', :with=>'smada'
     click_button 'Log In'
-    page.should have_content "Invalid username or password."
+    page.should have_content "Signed in successfully."
   end
 
   scenario 'a known user with invalid role is rejected with correct ldap password' do
