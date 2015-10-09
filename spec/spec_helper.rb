@@ -25,7 +25,7 @@ RSpec.configure do |config|
   # config.mock_with :flexmock
   # config.mock_with :rr
   config.before(:suite) do
-    @ldap_server = Ladle::Server.new(:quiet => false, :verbose => true).start
+    @ldap_server = Ladle::Server.new(:quiet => false, :verbose => true, :ldif => File.expand_path('../fixtures/tufts_ldap.ldif', __FILE__)).start
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
