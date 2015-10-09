@@ -18,7 +18,7 @@ namespace :tufts_dca do
     #Rake::Task["jetty:config"].invoke
     #Rake::Task["db:drop"].invoke
     #Rake::Task["db:create"].invoke
-    Rake::Task["db:reset"].invoke
+#    Rake::Task["db:reset"].invoke
 #    Rake::Task["db:seed"].invoke
     require 'jettywrapper'
     Jettywrapper.unzip
