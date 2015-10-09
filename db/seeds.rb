@@ -8,12 +8,15 @@
 puts "Begin loading seed data"
 
 puts "Loading Roles:"
+
 roles = ["admin","digital_repository_admin"]
 
-roles.each do | name |
+roles.each_with_index do | name, index |
   puts "  #{name}"
-  Role.first_or_create(name: name)
+  Role.create(name: name, id: index+1)
 end
+
+puts "Loading Users:"
 
 users = ["aa729"]
 
@@ -22,6 +25,7 @@ users.each do | name |
   User.first_or_create(username: name)
 end
 
+puts "Loading associations : "
 ActiveRecord::Base.connection.execute "insert into roles_users values (2, 1)"
 
 puts "Data seeding finished"
