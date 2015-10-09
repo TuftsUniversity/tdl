@@ -30,7 +30,7 @@ development:
   # <<: *AUTHORIZATIONS
 
 test:
-  host: 0.0.0.0
+  host: localhost
   port: 3897
   attribute: uid
   base: ou=people,dc=example,dc=org
