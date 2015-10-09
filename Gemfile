@@ -4,7 +4,7 @@ gem 'rails', '3.2.16'
 
 gem 'hydra', '6.1.0'
 
-gem 'tuftsification-hydra', :git => 'https://github.com/TuftsUniversity/tuftsification-hydra', :tag => '1.1.0'
+gem 'tuftsification-hydra', :git => 'https://github.com/TuftsUniversity/tuftsification-hydra', :tag => '1.1.1'
 #gem 'tuftsification-hydra', :path => '/Users/mkorcy01/Documents/workspace/tuftsification-hydra'
 
 #gem 'solrizer', :path => '/home/hydradm/tdl_solrizer'
@@ -44,6 +44,7 @@ group :development, :test do
    gem 'simplecov-rcov'
    gem 'launchy'
    gem 'ci_reporter'
+   gem 'ladle'
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]
