@@ -17,9 +17,9 @@ end
 
 users = ["aa729"]
 
-roles.each do | name |
+users.each do | name |
   puts "  #{name}"
-  User.first_or_create(name: name)
+  User.first_or_create(username: name)
 end
 
 ActiveRecord::Base.connection.execute "insert into roles_users values (2, 1)"
