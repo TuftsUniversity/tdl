@@ -35,5 +35,6 @@ end
 
 puts "Loading associations : "
 ActiveRecord::Base.connection.execute "insert into roles_users values (2, 1)"
+ActiveRecord::Base.connection.execute "insert into roles_users values (1, 1)"
 
 puts "Data seeding finished"
