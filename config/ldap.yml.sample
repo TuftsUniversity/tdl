@@ -33,11 +33,7 @@ test:
   host: 0.0.0.0
   port: 3897
   attribute: uid
-  base: ou=people,dc=example,dc=org
-  admin_user: cn=admin,dc=example,dc=org
-  admin_password: admin_password
-  ssl: false
-  # <<: *AUTHORIZATIONS
+#  base: ou=people,dc=example,dc=org
 
 production:
   host: localhost
