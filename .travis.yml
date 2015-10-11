@@ -22,7 +22,9 @@ before_script:
   - mysql -e 'create database tdl_test'
 #  - bundle exec rake db:setup
 #  - bundle exec rake tufts:fixtures:refresh
-#  - RAILS_ENV=test bundle exec rake db:migrate --trace
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
+  - RAILS_ENV=development bundle exec rake db:migrate --trace
+  - RAILS_ENV=production bundle exec rake db:migrate --trace
 #  - RAILS_ENV=test bundle exec rake db:seed --trace
   - mkdir -p tmp && export TMPDIR=tmp
 #after_script:

@@ -22,7 +22,7 @@ users = ["aa729"]
 
 users.each do | name |
   puts "  #{name}"
-  User.first_or_create(username: name)
+  User.create(username: name)
 end
 
 Role.all.each do | role|
