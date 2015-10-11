@@ -6,7 +6,7 @@ feature 'Visitor can login with correct username and password and role and is ot
   include TestHelpers
 
   before(:each) do
-    @ldap_server = Ladle::Server.new(:quiet => true,
+    @ldap_server = Ladle::Server.new(:quiet => false,
                                      :domain => 'dc=example,dc=org',
                                      :verbose => true,
                                      :tmpdir => Dir.tmpdir,
