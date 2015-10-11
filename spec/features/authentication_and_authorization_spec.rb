@@ -29,6 +29,7 @@ feature 'Visitor can login with correct username and password and role and is ot
   end
 
   scenario 'a known user with valid role is accepted with correct ldap password' do
+    User.create(username: 'aa729')
     visit '/'
     page.should have_link "Staff Login"
     click_link 'Staff Login'
