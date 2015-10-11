@@ -10,7 +10,7 @@ notifications:
     - mike.korcynski@tufts.edu
 
 before_script:
-#  - cp config/database.yml.sample config/database.yml
+  - cp config/database.yml.travis config/database.yml
 #  - cp config/fedora.yml.sample config/fedora.yml
 #  - cp config/solr.yml.sample config/solr.yml
 #  - cp config/redis.yml.sample config/redis.yml
@@ -23,8 +23,6 @@ before_script:
 #  - bundle exec rake db:setup
 #  - bundle exec rake tufts:fixtures:refresh
   - RAILS_ENV=test bundle exec rake db:migrate --trace
-  - RAILS_ENV=development bundle exec rake db:migrate --trace
-  - RAILS_ENV=production bundle exec rake db:migrate --trace
 #  - RAILS_ENV=test bundle exec rake db:seed --trace
   - mkdir -p tmp && export TMPDIR=tmp
 #after_script:
