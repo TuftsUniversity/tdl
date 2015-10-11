@@ -12,7 +12,7 @@ feature 'Visitor can login with correct username and password and role and is ot
                                      :tmpdir => Dir.tmpdir,
                                      :java_bin => ["java", "-Xmx64m"],
                                      :ldif => File.expand_path('../../fixtures/tufts_ldap.ldif', __FILE__)).start
-    if ENV["Travis"]
+    if ENV["TRAVIS"]
        Rake::Task["db:seed"].invoke
     end
   end
