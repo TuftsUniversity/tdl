@@ -5,7 +5,7 @@ feature 'Visitor can login with correct username and password and role and is ot
 
   include TestHelpers
 
-  before(:each) do
+  before(:all) do
     @ldap_server = Ladle::Server.new(:quiet => true,
                                      :domain => 'dc=example,dc=org',
                                      :verbose => true,
@@ -18,7 +18,7 @@ feature 'Visitor can login with correct username and password and role and is ot
     end
   end
 
-  after(:each) do
+  after(:all) do
    @ldap_server.stop
   end
   scenario 'a known user with valid role is rejected with bad password' do
