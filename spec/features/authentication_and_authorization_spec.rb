@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'ladle'
-
+require 'rake'
 feature 'Visitor can login with correct username and password and role and is otherwise rejected' do
 
   include TestHelpers
@@ -12,6 +12,9 @@ feature 'Visitor can login with correct username and password and role and is ot
                                      :tmpdir => Dir.tmpdir,
                                      :java_bin => ["java", "-Xmx64m"],
                                      :ldif => File.expand_path('../../fixtures/tufts_ldap.ldif', __FILE__)).start
+    if ENV["Travis"]
+       Rake::Task["db:seed"].invoke
+    end
   end
 
   after(:each) do
@@ -29,7 +32,7 @@ feature 'Visitor can login with correct username and password and role and is ot
   end
 
   scenario 'a known user with valid role is accepted with correct ldap password' do
-    User.create(username: 'aa729')
+
     visit '/'
     page.should have_link "Staff Login"
     click_link 'Staff Login'
