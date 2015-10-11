@@ -1,6 +1,6 @@
 require 'simplecov'
 require 'simplecov-rcov'
-require 'ladle'
+#require 'ladle'
 SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
 SimpleCov.start
 
@@ -24,9 +24,9 @@ RSpec.configure do |config|
   # config.mock_with :mocha
   # config.mock_with :flexmock
   # config.mock_with :rr
-  config.before(:suite) do
-    @ldap_server = Ladle::Server.new(:quiet => false, :domain => 'dc=example,dc=org', :verbose => true, :tmpdir => Dir.tmpdir, :java_bin => ["java", "-Xmx64m"], :ldif => File.expand_path('../fixtures/tufts_ldap.ldif', __FILE__)).start
-  end
+#  config.before(:suite) do
+#    @ldap_server = Ladle::Server.new(:quiet => false, :domain => 'dc=example,dc=org', :verbose => true, :tmpdir => Dir.tmpdir, :java_bin => ["java", "-Xmx64m"], :ldif => File.expand_path('../fixtures/tufts_ldap.ldif', __FILE__)).start
+#  end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
