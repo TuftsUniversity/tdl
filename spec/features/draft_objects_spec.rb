@@ -1,32 +1,55 @@
 require 'spec_helper'
+require 'ldap_helpers'
+
+feature 'Visitor goes directly to draft object in the TDL' do
 
 
-feature 'Visitor goes directly to a catalog pid' do
+  include LdapHelpers
 
-  include TestHelpers
+  before(:all) do
 
+    start_ldap_server
 
-  scenario 'user logs in to see draft content without correct permissions' do
-#    visit '/'
-#    click_link 'Fletcher School of Law and Diplomacy records, 1923-2003'
-#    page.status_code.should be 200
-#    page.should have_content "58.25 Linear feet"
-#    page.should have_link "View Finding Aid"
-#    page.should have_link "View Online Materials"
-#    click_link 'View Finding Aid'
-#    page.should have_content "Russell Miller in his research for Light on the Hill"
-#    page.should have_link "General subject files, 1923-96 1923-96"
-#    click_link 'General subject files, 1923-96 1923-96'
-#    page.should have_content "Clippings, 1948-81"
-     pending("in progress")
+    if ENV["TRAVIS"]
+      load "#{Rails.root}/db/seeds.rb"
+    end
+
   end
 
-  scenario 'digital repository administrator logs in to see draft object' do
-     pending("in progress")
-#    visit '/catalog/tufts:UA069.005.DO.00094'
-    #checking table of contents
-#    page.should have_content 'Frontispiece'
-#    page.should have_title "Here and There at Tufts - Tufts Digital Library"
+  after(:all) do
+    stop_ldap_server
+  end
+
+  scenario 'unauthenticated user goes to draft object' do
+    visit '/catalog/draft:12423'
+    page.should have_content "Draft objects are only available to library and DCA staff."
+  end
+
+  scenario 'user logs in to see draft content with role digital_repository_admin' do
+#    visit '/'
+#    page.should have_link "Staff Login"
+#    click_link 'Staff Login'
+#    page.should have_content "Tufts Username"
+#    fill_in 'user_username', :with=>'aa729'
+#    fill_in 'user_password', :with=>'smada'
+#    click_button 'Log In'
+#    page.should have_content "Signed in successfully."
+#    visit '/catalog/draft:12423'
+#    page.should have_content "Official letters to the honourable American Congress"
+     pending('Visiting draft content')
+  end
+
+  scenario 'known user without correct role logs in to see draft object' do
+    visit '/'
+    page.should have_link "Staff Login"
+    click_link 'Staff Login'
+    page.should have_content "Tufts Username"
+    fill_in 'user_username', :with=>'cc414'
+    fill_in 'user_password', :with=>'retneprac'
+    click_button 'Log In'
+    page.should have_content "Signed in successfully."
+    visit '/catalog/draft:12423'
+    page.should have_content "Draft objects are only available to library and DCA staff."
   end
 
 

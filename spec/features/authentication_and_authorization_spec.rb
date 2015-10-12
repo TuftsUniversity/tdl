@@ -1,24 +1,21 @@
 require 'spec_helper'
-require 'ladle'
-require 'rake'
+require 'ldap_helpers'
+
 feature 'Visitor can login with correct username and password and role and is otherwise rejected' do
 
-  include TestHelpers
+  include LdapHelpers
 
   before(:all) do
-    @ldap_server = Ladle::Server.new(:quiet => true,
-                                     :domain => 'dc=example,dc=org',
-                                     :verbose => true,
-                                     :tmpdir => Dir.tmpdir,
-                                     :java_bin => ["java", "-Xmx64m"],
-                                     :ldif => File.expand_path('../../fixtures/tufts_ldap.ldif', __FILE__)).start
+
+    start_ldap_server
+
     if ENV["TRAVIS"]
        load "#{Rails.root}/db/seeds.rb"
     end
   end
 
   after(:all) do
-   @ldap_server.stop
+    stop_ldap_server
   end
 
   scenario 'a known user with valid role is rejected with bad password' do
