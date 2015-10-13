@@ -17,10 +17,10 @@ namespace :tufts_dca do
     #Rake::Task["hyhead:doc"].invoke
     #Rake::Task["jetty:config"].invoke
     #Rake::Task["db:drop"].invoke
-    Rake::Task["db:migrate"].invoke
+#########    Rake::Task["db:migrate"].invoke
 #    Rake::Task["db:reset"].invoke
-    Rake::Task["db:seed"].invoke
-    puts ActiveRecord::Base.connection.instance_variable_get(:@config)
+#    Rake::Task["db:seed"].invoke
+#    puts ActiveRecord::Base.connection.instance_variable_get(:@config)
     require 'jettywrapper'
     Jettywrapper.unzip
     Rake::Task["jetty:config"].invoke
@@ -32,6 +32,7 @@ namespace :tufts_dca do
       Rake::Task["tufts:fixtures:refresh"].invoke
       Rake::Task["jetty:config"].invoke
 #      Rake::Task['ci:setup:rspec'].invoke
+      Rake::Task["db:migrate"].invoke
       Rake::Task["db:seed"].invoke
       Rake::Task['spec'].invoke
     end
