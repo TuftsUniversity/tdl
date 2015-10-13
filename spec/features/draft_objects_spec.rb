@@ -10,9 +10,9 @@ feature 'Visitor goes directly to draft object in the TDL' do
 
     start_ldap_server
 
-    if ENV["TRAVIS"]
-      load "#{Rails.root}/db/seeds.rb"
-    end
+#    if ENV["TRAVIS"]
+#      load "#{Rails.root}/db/seeds.rb"
+#    end
 
   end
 

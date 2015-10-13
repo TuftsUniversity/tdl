@@ -9,9 +9,9 @@ feature 'Visitor can login with correct username and password and role and is ot
 
     start_ldap_server
 
-    if ENV["TRAVIS"]
-       load "#{Rails.root}/db/seeds.rb"
-    end
+#    if ENV["TRAVIS"]
+#       load "#{Rails.root}/db/seeds.rb"
+#    end
   end
 
   after(:all) do
