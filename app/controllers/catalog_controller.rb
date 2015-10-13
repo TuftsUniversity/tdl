@@ -34,9 +34,16 @@ class CatalogController < ApplicationController
     end
     id = params[:id]
     unless id.nil?
-      if (id[/^draft/])
-        flash[:alert] = "Draft objects are only available to library and DCA staff."
-        redirect_to(:action=>'index', :q=>nil, :f=>nil) and return false
+      if id[/^draft/]
+
+        if current_user.nil?
+          authenticate_user!
+        end
+
+        if !current_user.nil? and !current_user.has_role? :digital_repository_admin
+          flash[:alert] = "Draft objects are only available to library and DCA staff."
+          redirect_to(:action=>'index', :q=>nil, :f=>nil) and return false
+        end
       end
     end
   end

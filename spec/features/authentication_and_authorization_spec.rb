@@ -18,6 +18,19 @@ feature 'Visitor can login with correct username and password and role and is ot
     stop_ldap_server
   end
 
+  scenario 'a user can successfully log out' do
+    visit '/'
+    page.should have_link "Staff Login"
+    click_link 'Staff Login'
+    page.should have_content "Tufts Username"
+    fill_in 'user_username', :with=>'aa729'
+    fill_in 'user_password', :with=>'smada'
+    click_button 'Log In'
+    page.should have_content "Signed in successfully."
+    click_link 'Log Out aa729'
+    page.should have_content "Signed out successfully."
+  end
+  
   scenario 'a known user with valid role is rejected with bad password' do
     visit '/'
     page.should have_link "Staff Login"
