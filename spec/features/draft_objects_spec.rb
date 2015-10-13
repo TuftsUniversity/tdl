@@ -20,12 +20,12 @@ feature 'Visitor goes directly to draft object in the TDL' do
     stop_ldap_server
   end
 
-  scenario 'unauthenticated user goes to draft object' do
+  scenario 'An unauthenticated user goes to draft object and is redirected to the login page' do
     visit '/catalog/draft:12423'
     page.should have_content "You need to sign in before continuing."
   end
 
-  scenario 'user logs in to see draft content with role digital_repository_admin' do
+  scenario 'A Digital Repository Admin navigates to a draft, is challenged for LDAP password, and can retrieve draft object upon logging in' do
     visit '/catalog/draft:12423'
     page.should have_content "Tufts Username"
     fill_in 'user_username', :with=>'aa729'
@@ -35,7 +35,7 @@ feature 'Visitor goes directly to draft object in the TDL' do
     page.should have_content "Official letters to the honourable American Congress"
   end
 
-  scenario 'known user without correct role logs in to see draft object' do
+  scenario 'A non-admin Tufts user navigates to a draft, is challenged for LDAP password, and can NOT retrieve draft object upon logging in' do
     visit '/'
     page.should have_link "Staff Login"
     click_link 'Staff Login'

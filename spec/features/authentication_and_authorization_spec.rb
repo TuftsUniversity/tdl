@@ -18,7 +18,7 @@ feature 'Visitor can login with correct username and password and role and is ot
     stop_ldap_server
   end
 
-  scenario 'a user can successfully log out' do
+  scenario 'A user can successfully log out' do
     visit '/'
     page.should have_link "Staff Login"
     click_link 'Staff Login'
@@ -31,7 +31,7 @@ feature 'Visitor can login with correct username and password and role and is ot
     page.should have_content "Signed out successfully."
   end
   
-  scenario 'a known user with valid role is rejected with bad password' do
+  scenario 'A Digital Repository Admin with valid role is rejected with bad password' do
     visit '/'
     page.should have_link "Staff Login"
     click_link 'Staff Login'
@@ -42,7 +42,7 @@ feature 'Visitor can login with correct username and password and role and is ot
     page.should have_content "Invalid username or password."
   end
 
-  scenario 'a known user with valid role is accepted with correct ldap password' do
+  scenario 'A Digital Repository Admin with valid role sucessfully logs in with correct ldap password' do
 
     visit '/'
     page.should have_link "Staff Login"
@@ -54,7 +54,7 @@ feature 'Visitor can login with correct username and password and role and is ot
     page.should have_content "Signed in successfully."
   end
 
-  scenario 'a known user with invalid role is rejected with correct ldap password' do
+  scenario 'A Tufts user who is not a Digital Repository Admin is rejected with correct ldap password' do
     visit '/'
     page.should have_link "Staff Login"
     click_link 'Staff Login'
@@ -65,7 +65,7 @@ feature 'Visitor can login with correct username and password and role and is ot
     page.should have_content "Invalid username or password."
   end
 
-  scenario 'a known user with invalid role is rejected with incorrect ldap password' do
+  scenario 'A Tufts user who is not a Digital Repository Admin is rejected with correct ldap password' do
     visit '/'
     page.should have_link "Staff Login"
     click_link 'Staff Login'
