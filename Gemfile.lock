@@ -102,6 +102,7 @@ GEM
       execjs
     coffee-script-source (1.7.0)
     daemons (1.2.3)
+    database_cleaner (1.5.0)
     deprecation (0.1.0)
       activesupport
     devise (3.2.2)
@@ -368,6 +369,7 @@ DEPENDENCIES
   capybara
   chronic
   ci_reporter
+  database_cleaner
   devise
   devise-guests (~> 0.3)
   devise_ldap_authenticatable (= 0.8.1)

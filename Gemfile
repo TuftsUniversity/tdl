@@ -45,6 +45,7 @@ group :development, :test do
    gem 'launchy'
    gem 'ci_reporter'
    gem 'ladle'
+   gem 'database_cleaner'
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]
