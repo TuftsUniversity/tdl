@@ -13,7 +13,7 @@ roles = ["admin","digital_repository_admin"]
 
 roles.each_with_index do | name, index |
   puts "  #{name}"
-  Role.create(name: name, id: index+1)
+  Role.create!(name: name, id: index+1)
 end
 
 puts "Loading Users:"
@@ -22,7 +22,7 @@ users = ["aa729","cc414"]
 
 users.each do | name |
   puts "  #{name}"
-  User.create(username: name)
+  User.create!(username: name)
 end
 
 Role.all.each do | role|
