@@ -72,4 +72,7 @@ TDL::Application.configure do
 
   # Enable/disable Dark Archive behavior
   config.dark_archive = false
+  config.to_prepare { Devise::SessionsController.force_ssl }
+  config.to_prepare { Devise::RegistrationsController.force_ssl }
+  config.to_prepare { Devise::PasswordsController.force_ssl }
 end
