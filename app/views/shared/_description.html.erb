@@ -1,3 +1,6 @@
 <% unless metadata[:descriptions].empty? %>
-    <p><%= raw Tufts::MetadataMethods.read_more_or_less(metadata[:descriptions].first, 400) %></p>
+  <dd>Description</dd>
+  <% metadata[:descriptions].each do |description| %>
+    <dt><%= raw Tufts::MetadataMethods.read_more_or_less(description, 400) %></dt>
+  <% end %>
 <% end %>

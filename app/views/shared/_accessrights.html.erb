@@ -1,0 +1,6 @@
+<% unless metadata[:access_rights].empty? %>
+    <dd>Access Rights</dd>
+    <% metadata[:access_rights].each do |right| %>
+        <dt><%= raw right %></dt>
+    <% end %>
+<% end %>

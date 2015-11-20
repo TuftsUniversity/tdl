@@ -21,7 +21,7 @@ class CatalogController < ApplicationController
   # Controller "before" filter for enforcing access controls on show actions
   # @param [Hash] opts (optional, not currently used)
   def enforce_show_permissions(opts={})
-    unless @document_fedora.datastreams["DCA-ADMIN"].displays.include? "dl"
+    unless @document_fedora.datastreams["DCA-ADMIN"].displays.include? "dark"
       flash[:retrieval] = "This item is not available for viewing in the TDL."
       redirect_to(:action=>'index', :q=>nil, :f=>nil) and return false
     end
@@ -58,7 +58,7 @@ class CatalogController < ApplicationController
 
   def add_dca_admin_displays_awareness(solr_parameters, user_parameters)
     solr_parameters[:fq] ||= []
-    solr_parameters[:fq] << "displays_ssim:dl OR displays_tesim:dl"
+    solr_parameters[:fq] << "(-displays_tesim:[* TO *] AND *:*) OR displays_tesim:dark"
   end
 
   def exclude_drafts(solr_parameters,user_parameters)

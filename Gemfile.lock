@@ -1,7 +1,19 @@
 GIT
+  remote: https://github.com/TuftsUniversity/tdl_solrizer
+  revision: 9302b89fb4a8edf4bf0a1a592a324dae53d410b5
+  specs:
+    solrizer (3.1.1)
+      activesupport
+      daemons
+      mediashelf-loggable (~> 0.4.7)
+      nokogiri
+      stomp
+      xml-simple
+
+GIT
   remote: https://github.com/TuftsUniversity/tuftsification-hydra
-  revision: cc265eb7d73f1c251085367c36d3d76ab5f1b222
-  tag: 1.1.1
+  revision: db6fc78141c8e369f70333f84446a14fae9ea84d
+  tag: 1.1.3
   specs:
     tuftsification-hydra (0.0.3)
       chronic
@@ -52,20 +64,15 @@ GEM
       activesupport (= 3.2.16)
       arel (~> 3.0.2)
       tzinfo (~> 0.3.29)
-    activerecord-mysql-adapter (0.0.1)
-      activerecord (>= 3.2.9)
-      activesupport (>= 3.2.9)
-      mysql (>= 2.9.0)
     activeresource (3.2.16)
       activemodel (= 3.2.16)
       activesupport (= 3.2.16)
     activesupport (3.2.16)
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
-    addressable (2.3.5)
+    addressable (2.3.8)
     arel (3.0.3)
-    atomic (1.1.14)
-    bcrypt-ruby (3.1.2)
+    bcrypt (3.1.10)
     blacklight (4.5.0)
       bootstrap-sass (>= 2.2.0, < 2.4)
       kaminari (~> 0.13)
@@ -74,7 +81,7 @@ GEM
       rails (>= 3.2.6, < 5)
       rsolr (~> 1.0.6)
       sass-rails
-    blankslate (2.1.2.4)
+    blankslate (3.1.3)
     block_helpers (0.3.3)
       activesupport (>= 2.0)
     bootstrap-sass (2.3.2.2)
@@ -82,56 +89,61 @@ GEM
     bootstrap_forms (4.0.1)
     builder (3.0.4)
     cancan (1.6.10)
-    capybara (2.2.1)
+    capybara (2.5.0)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    childprocess (0.4.0)
+    childprocess (0.5.8)
       ffi (~> 1.0, >= 1.0.11)
     chronic (0.10.2)
-    ci_reporter (1.9.1)
+    ci_reporter (2.0.0)
       builder (>= 2.1.2)
     coderay (1.1.0)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
-    coffee-script (2.2.0)
+    coffee-script (2.4.1)
       coffee-script-source
       execjs
-    coffee-script-source (1.7.0)
+    coffee-script-source (1.10.0)
     daemons (1.2.3)
-    database_cleaner (1.5.0)
-    deprecation (0.1.0)
+    database_cleaner (1.5.1)
+    deprecation (0.2.2)
       activesupport
-    devise (3.2.2)
-      bcrypt-ruby (~> 3.0)
+    devise (3.5.2)
+      bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
+      responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
-    devise-guests (0.3.2)
+    devise-guests (0.3.3)
       devise
     devise_ldap_authenticatable (0.8.1)
       devise (>= 3.0)
       net-ldap (>= 0.3.1, < 0.6.0)
     diff-lcs (1.2.5)
-    docile (1.1.3)
-    ensure_valid_encoding (0.5.3)
-    equivalent-xml (0.4.0)
+    docile (1.1.5)
+    domain_name (0.5.25)
+      unf (>= 0.0.5, < 1.0.0)
+    equivalent-xml (0.6.0)
       nokogiri (>= 1.4.3)
     erubis (2.7.0)
-    execjs (2.0.2)
+    execjs (2.6.0)
     fastercsv (1.5.5)
-    ffi (1.9.3)
+    ffi (1.9.10)
     font-awesome-rails (3.2.1.3)
       railties (>= 3.2, < 5.0)
-    google-analytics-rails (0.0.4)
-    haml (4.0.5)
+    google-analytics-rails (0.0.6)
+    haml (4.0.7)
       tilt
     hike (1.2.3)
-    hooks (0.3.3)
+    hooks (0.3.6)
+      uber (~> 0.0.4)
+    http-cookie (1.0.2)
+      domain_name (~> 0.5)
     hydra (6.1.0)
       active-fedora (~> 6.7.0)
       blacklight (~> 4.5.0)
@@ -144,30 +156,30 @@ GEM
       rsolr (~> 1.0.9)
       rubydora (~> 1.6.5)
       solrizer (~> 3.1.0)
-    hydra-access-controls (6.4.1)
-      active-fedora (~> 6.6)
+    hydra-access-controls (6.4.2)
+      active-fedora (~> 6.7)
       activesupport
       blacklight (~> 4.0)
       cancan
       deprecation
-    hydra-core (6.4.1)
+    hydra-core (6.4.2)
       active-fedora
       blacklight (~> 4.0)
       block_helpers
       deprecation (>= 0.0.5)
-      hydra-access-controls (= 6.4.1)
+      hydra-access-controls (= 6.4.2)
       jettywrapper (>= 1.4.1)
       rails (>= 3.2.3, < 5)
-    hydra-head (6.4.1)
-      hydra-access-controls (= 6.4.1)
-      hydra-core (= 6.4.1)
+    hydra-head (6.4.2)
+      hydra-access-controls (= 6.4.2)
+      hydra-core (= 6.4.2)
       rails (>= 3.2.6)
     hydra-role-management (0.1.0)
       bootstrap_forms
       cancan
-    i18n (0.6.9)
+    i18n (0.7.0)
     image_size (1.4.1)
-    is_it_working (1.0.10)
+    is_it_working (1.1.0)
     jettywrapper (1.5.2)
       activesupport (>= 3.0.0)
       childprocess
@@ -175,44 +187,44 @@ GEM
       logger
       mediashelf-loggable
     journey (1.0.4)
-    jquery-rails (3.1.0)
+    jquery-rails (3.1.4)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     jquery-ui-rails (3.0.1)
       jquery-rails
       railties (>= 3.1.0)
-    json (1.8.1)
-    kaminari (0.15.1)
+    json (1.8.3)
+    kaminari (0.16.3)
       actionpack (>= 3.0.0)
       activesupport (>= 3.0.0)
     ladle (1.0.1)
       open4 (~> 1.0)
-    launchy (2.4.2)
+    launchy (2.4.3)
       addressable (~> 2.3)
-    libv8 (3.16.14.7)
+    libv8 (3.16.14.13)
     logger (1.2.8)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
-    marc (0.8.1)
-      ensure_valid_encoding
+    marc (1.0.0)
+      scrub_rb (>= 1.0.1, < 2)
       unf
-    mediashelf-loggable (0.4.9)
+    mediashelf-loggable (0.4.10)
     method_source (0.8.2)
     mime-types (1.25.1)
-    mini_portile (0.5.2)
-    multi_json (1.8.4)
-    mysql (2.9.1)
-    mysql2 (0.3.15)
+    mini_portile (0.6.2)
+    multi_json (1.11.2)
+    mysql2 (0.3.16)
     nested_form (0.3.2)
     net-ldap (0.5.1)
-    nokogiri (1.6.1)
-      mini_portile (~> 0.5.0)
+    netrc (0.11.0)
+    nokogiri (1.6.6.4)
+      mini_portile (~> 0.6.0)
     nom-xml (0.5.1)
       activesupport
       i18n
       nokogiri
-    om (3.0.4)
+    om (3.0.7)
       activemodel
       activesupport
       deprecation
@@ -221,22 +233,22 @@ GEM
       solrizer (~> 3.1.0)
     open4 (1.3.4)
     orm_adapter (0.5.0)
-    parslet (1.5.0)
-      blankslate (~> 2.0)
-    polyglot (0.3.3)
-    pry (0.9.12.6)
-      coderay (~> 1.0)
-      method_source (~> 0.8)
+    parslet (1.7.1)
+      blankslate (>= 2.0, <= 4.0)
+    polyglot (0.3.5)
+    pry (0.10.3)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
       slop (~> 3.4)
-    rack (1.4.5)
-    rack-cache (1.2)
+    rack (1.4.7)
+    rack-cache (1.5.1)
       rack (>= 0.4)
-    rack-pjax (0.7.0)
+    rack-pjax (0.8.0)
       nokogiri (~> 1.5)
-      rack (~> 1.3)
-    rack-ssl (1.3.3)
+      rack (~> 1.1)
+    rack-ssl (1.3.4)
       rack
-    rack-test (0.6.2)
+    rack-test (0.6.3)
       rack (>= 1.0)
     rails (3.2.16)
       actionmailer (= 3.2.16)
@@ -268,33 +280,42 @@ GEM
       rake (>= 0.8.7)
       rdoc (~> 3.4)
       thor (>= 0.14.6, < 2.0)
-    rake (10.1.1)
+    rake (10.4.2)
     rdf (1.1.1.1)
     rdf-rdfxml (1.0.1)
       rdf (>= 1.0)
       rdf-xsd (>= 1.0)
-    rdf-xsd (1.1.0)
-      rdf (>= 1.1)
+    rdf-xsd (1.1.2)
+      rdf (~> 1.1)
     rdoc (3.12.2)
       json (~> 1.4)
-    ref (1.0.5)
+    ref (2.0.0)
     remotipart (1.2.1)
-    rest-client (1.6.7)
-      mime-types (>= 1.16)
-    rsolr (1.0.9)
+    responders (1.1.2)
+      railties (>= 3.2, < 4.2)
+    rest-client (1.8.0)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 3.0)
+      netrc (~> 0.7)
+    rsolr (1.0.13)
       builder (>= 2.1.2)
-    rspec-core (2.14.7)
-    rspec-expectations (2.14.5)
-      diff-lcs (>= 1.1.3, < 2.0)
-    rspec-mocks (2.14.5)
-    rspec-rails (2.14.1)
-      actionpack (>= 3.0)
-      activemodel (>= 3.0)
-      activesupport (>= 3.0)
-      railties (>= 3.0)
-      rspec-core (~> 2.14.0)
-      rspec-expectations (~> 2.14.0)
-      rspec-mocks (~> 2.14.0)
+    rspec-core (3.4.1)
+      rspec-support (~> 3.4.0)
+    rspec-expectations (3.4.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
+    rspec-mocks (3.4.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.4.0)
+    rspec-rails (3.4.0)
+      actionpack (>= 3.0, < 4.3)
+      activesupport (>= 3.0, < 4.3)
+      railties (>= 3.0, < 4.3)
+      rspec-core (~> 3.4.0)
+      rspec-expectations (~> 3.4.0)
+      rspec-mocks (~> 3.4.0)
+      rspec-support (~> 3.4.0)
+    rspec-support (3.4.0)
     rubydora (1.6.5)
       activemodel
       activesupport
@@ -306,53 +327,47 @@ GEM
       nokogiri
       rest-client
     safe_yaml (0.9.7)
-    sass (3.2.14)
+    sass (3.4.19)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
+    scrub_rb (1.0.1)
     settingslogic (2.0.9)
-    simplecov (0.8.2)
+    simplecov (0.10.0)
       docile (~> 1.1.0)
-      multi_json
-      simplecov-html (~> 0.8.0)
-    simplecov-html (0.8.0)
+      json (~> 1.8)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.0)
     simplecov-rcov (0.2.3)
       simplecov (>= 0.4.1)
-    slop (3.4.7)
-    solrizer (3.1.1)
-      activesupport
-      daemons
-      mediashelf-loggable (~> 0.4.7)
-      nokogiri
-      stomp
-      xml-simple
-    sprockets (2.2.2)
+    slop (3.6.0)
+    sprockets (2.2.3)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
-    sqlite3 (1.3.8)
+    sqlite3 (1.3.11)
     stomp (1.3.4)
-    therubyracer (0.12.1)
+    therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
       ref
-    thor (0.18.1)
-    thread_safe (0.1.3)
-      atomic
+    thor (0.19.1)
+    thread_safe (0.3.5)
     tilt (1.4.1)
     titleize (1.3.0)
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.38)
-    uglifier (2.4.0)
+    tzinfo (0.3.45)
+    uber (0.0.15)
+    uglifier (2.7.2)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
-    unf (0.1.3)
+    unf (0.1.4)
       unf_ext
-    unf_ext (0.0.6)
-    unicode (0.4.4)
+    unf_ext (0.0.7.1)
+    unicode (0.4.4.2)
     warden (1.2.3)
       rack (>= 1.0)
     xml-simple (1.1.5)
@@ -363,7 +378,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activerecord-mysql-adapter
   blacklight_advanced_search!
   bootstrap-sass
   capybara
@@ -381,7 +395,7 @@ DEPENDENCIES
   jquery-rails
   ladle
   launchy
-  mysql2
+  mysql2 (~> 0.3.11)
   pry
   rails (= 3.2.16)
   rails_admin
@@ -390,7 +404,7 @@ DEPENDENCIES
   settingslogic
   simplecov
   simplecov-rcov
-  solrizer
+  solrizer!
   sqlite3
   therubyracer
   titleize
@@ -399,4 +413,4 @@ DEPENDENCIES
   unicode
 
 BUNDLED WITH
-   1.10.5
+   1.10.6

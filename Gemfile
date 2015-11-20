@@ -1,20 +1,17 @@
 source 'http://rubygems.org'
-ruby '2.0.0'
+
 gem 'rails', '3.2.16'
 
 gem 'hydra', '6.1.0'
 
-gem 'tuftsification-hydra', :git => 'https://github.com/TuftsUniversity/tuftsification-hydra', :tag => '1.1.1'
+gem 'tuftsification-hydra', :git => 'https://github.com/TuftsUniversity/tuftsification-hydra', :tag => '1.1.3'
 #gem 'tuftsification-hydra', :path => '/Users/mkorcy01/Documents/workspace/tuftsification-hydra'
 
 #gem 'solrizer', :path => '/home/hydradm/tdl_solrizer'
-#gem 'solrizer', :git => 'https://github.com/TuftsUniversity/tdl_solrizer'
-#gem 'solrizer', :path => '/home/hydradm/tdl_solrizer'
-gem 'solrizer'
-
-# Pointing at our fork of blacklight_advanced_search until 
-# https://github.com/projectblacklight/blacklight_advanced_search/pull/10 is merged
-
+gem 'solrizer', :git => 'https://github.com/TuftsUniversity/tdl_solrizer'
+#
+#gem  'tuftsification-hydra', :path => '/home/hydradm/tuftsification-hydra'
+#Pointing at our fork of blacklight_advanced_search until https://github.com/projectblacklight/blacklight_advanced_search/pull/10 is merged
 gem "blacklight_advanced_search", :git => 'https://github.com/whumph/blacklight_advanced_search'
 gem 'chronic' # for lib/tufts/model_methods.rb
 gem 'titleize' # for lib/tufts/model_methods.rb
@@ -35,7 +32,7 @@ end
 
 # You will probably want to use these to run the tests you write for your hyd   ra head
 # For testing with rspec
-group :development, :test do
+group :development, :test, :tdldev do
    gem 'rspec-rails'
    gem 'jettywrapper'
    gem 'pry'
@@ -52,8 +49,7 @@ gem "unicode", :platforms => [:mri_18, :mri_19]
 gem "devise"
 gem "devise-guests", "~> 0.3"
 gem "bootstrap-sass"
-gem 'mysql2'
-gem 'activerecord-mysql-adapter'
+gem "mysql2", "~> 0.3.11"
 gem 'google-analytics-rails'
 
 gem 'hydra-role-management', '0.1.0'
