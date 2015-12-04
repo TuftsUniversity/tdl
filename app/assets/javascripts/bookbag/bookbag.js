@@ -43,13 +43,14 @@ $(document).ready(function () {
             if (myList.length > 0) {
             $('#myListNav #myListButton').addClass('hasContents');
             $('.myListContents').append(
-                '<div class="row header-row">' + 
+                '<div class="aeon-row header-row">' +
                     '<div class="requestInputs"><input type="checkbox" checked="checked" name="allRequests"/></div>' + 
-                    '<div class="collectionTitle">Collection/Book Title</div>' +
-                    '<div class="title">Folder Title</div>' + 
-                    '<div class="date">Date</div>' + 
-                    '<div class="containers">Containers</div>' +
-                    '<div class="dateAdded">Date Added</div>' +
+                    '<div class="collectionTitle">Title/Collection title</div>' +
+                    '<div class="title">Item Title</div>' +
+                    '<div class="callNumber">Call Number</div>' +
+                    //'<div class="date">Date</div>' +
+                    //'<div class="containers">Containers</div>' +
+                    //'<div class="dateAdded">Date Added</div>' +
                 '</div>');
             }
         for(var i =0; i <= myList.length-1; i++) {
@@ -105,49 +106,52 @@ $(document).ready(function () {
                 }
             };
 
-            var title = sanitize(item.title);
-            var date = sanitize(item.date);
-            var collectionTitle = sanitize(item.collectionTitle);
-            var creator = sanitize(item.creator);
-            var dateAdded = dateConvert(item.dateAdded);
+
             var identifier = sanitize(item.identifier);
-            var url = sanitize(item.URL);
-            var parents = sanitize(item.parents);
-            var formatparents = splitparents(item.parents);
-            var container1 = sanitize(item.container1);
-            var container2 = sanitize(item.container2);
-            var containers = containerJoin(container1, container2);
+            var referenceNumber = sanitize(item.referenceNumber);
+            var itemNumber = sanitize(item.itemNumber);
+            var site = sanitize(item.site);
+            var title = sanitize(item.title);
+            var subTitle = sanitize(item.subTitle);
+            var itemInfo1 = sanitize(item.itemInfo1);
+            var itemInfo2 = sanitize(item.itemInfo2);
+            var itemInfo3 = sanitize(item.itemInfo3);
+            var itemAuthor = sanitize(item.itemAuthor);
+            var itemDate = sanitize(item.itemDate);
             var callNumber = sanitize(item.callNumber);
-            var accessRestrict = sanitize(item.accessRestrict);
-            var groupingfield = sanitize(item.groupingfield);
-                                
+            var itemVolume = sanitize(item.itemVolume);
+
             $('.myListContents').append(
-                '<div class="row">' + 
+                '<div class="aeon-row">' +
                     '<div class="requestInputs">' +
                         '<input type="checkbox" checked="checked" name="Request" value="' + identifier + '"/>' +
-                        '<input type="hidden" name="ItemInfo1_' + identifier + '" value="' + title + '"/>' +
-                        '<input type="hidden" name="ItemDate_' + identifier + '" value="' + date + '"/>' +
-                        '<input type="hidden" name="ItemTitle_' + identifier + '" value="' + collectionTitle + '"/>' +
-                        '<input type="hidden" name="ItemAuthor_' + identifier + '" value="' + creator + '"/>' +
-                        '<input type="hidden" name="ItemSubtitle_' + identifier + '" value="' + parents + '"/>' +
-                        '<input type="hidden" name="ItemVolume_' + identifier + '" value="' + container1 + '"/>' +
-                        '<input type="hidden" name="ItemIssue_' + identifier + '" value="' + container2 + '"/>' +
-                        '<input type="hidden" name="ItemInfo2_' + identifier + '" value="' + accessRestrict + '"/>' +
+                        '<input type="hidden" name="ReferenceNumber_' + identifier + '" value="' + referenceNumber + '"/>' +
+                        '<input type="hidden" name="ItemNumber_' + identifier + '" value="' + itemNumber + '"/>' +
+                        '<input type="hidden" name="Site_' + identifier + '" value="' + site + '"/>' +
+                        '<input type="hidden" name="ItemTitle_' + identifier + '" value="' + title + '"/>' +
+                        '<input type="hidden" name="ItemSubtitle_' + identifier + '" value="' + subTitle + '"/>' +
+                        '<input type="hidden" name="ItemInfo1_' + identifier + '" value="' + itemInfo1 + '"/>' +
+                        '<input type="hidden" name="ItemInfo2_' + identifier + '" value="' + itemInfo2 + '"/>' +
+                        '<input type="hidden" name="ItemInfo3_' + identifier + '" value="' + itemInfo3 + '"/>' +
+                        '<input type="hidden" name="Author_' + identifier + '" value="' + itemAuthor + '"/>' +
+                        '<input type="hidden" name="ItemAuthor_' + identifier + '" value="' + itemAuthor + '"/>' +
+                        '<input type="hidden" name="ItemDate_' + identifier + '" value="' + itemDate + '"/>' +
                         '<input type="hidden" name="CallNumber_' + identifier + '" value="' + callNumber + '"/>' +
-                        '<input type="hidden" name="ItemInfo3_' + identifier + '" value="' + url + '"/>' +
-                        '<input type="hidden" name="GroupingField_' + identifier + '" value="' + groupingfield + '"/>' +
+                        '<input type="hidden" name="ItemVolume_' + identifier + '" value="' + itemVolume + '"/>' +
                     '</div>' + 
-                    '<div class="collectionTitle"><p>' + collectionTitle + ' (' + item.callNumber + ')</p>' +
-                    '<div class="parents">' + formatparents + '</div></div>' +
-                    '<div class="title"><p><a href="' + url + '">' + title + '</a></p></div>' + 
-                    '<div class="date">' + date + ' </div>' +
-                    '<div class="containers"><p>' + containers + '</p></div>' +
-                    '<div class="dateAdded"><p>' + dateAdded + '</p></div>' + 
+                    '<div class="collectionTitle"><p>' + title + '</p></div>' +
+                    //'<div class="parents">' + formatparents + '</div></div>' +
+                    '<div class="title"><p>' + subTitle + '</p></div>' +
+                    '<div class="CallNumber"><p>' + callNumber + '</a></p></div>' +
+
+                    //'<div class="date">' + date + ' </div>' +
+                    //'<div class="containers"><p>' + containers + '</p></div>' +
+                    //'<div class="dateAdded"><p>' + dateAdded + '</p></div>' +
                     '<button class="list-delete btn" href="#" data-identifier="'+ identifier + '">Delete</button>' +
                 '</div>');
 
             // change text for components already in bookbag
-            $('.list-add[data-identifier="' + identifier + '"]').replaceWith('<span>Added</span>');
+            $('.list-add[data-identifier="' + identifier + '"]').replaceWith('<span class="list-added" data-identifier="' + identifier + '">Added to List</span>');
 
         };
 
@@ -155,10 +159,15 @@ $(document).ready(function () {
         var count = myList.length
         $(listCount).text(count);
         if (count < 1) {
-            $('.myListContents').append('<div class="empty">Your List is empty! Click on the icon that looks like this <img alt="bookbag icon" src="/xtf/icons/default/addlist.png"/> next to one or more items in your <a href="">Search Results</a> to add it to your list.</div>');
+            $('.myListContents').append('<div class="empty">Your List is empty! Click on the icon that looks like this <i class="icon-plus-sign"></i> to add it to your list.</div>');
             $('#myListNav #myListButton').removeClass('hasContents');
-        } 
-        
+            $('.listActions').hide();
+        }
+
+        if (count >= 1) {
+            $('.listActions').show();
+
+        }
         
     } else {
         //if list is empty, set count to zero
@@ -172,87 +181,145 @@ $(document).ready(function () {
 
     };
 
+    function validate()
+    {
+        if ($('#myReproductionActions select[name="Format"]').val()) {
+            $('#myReproductionActions select[name="Format"]').removeClass('error');
+            $('#myReproductionActions #formatError').hide();
+            if($('#myReproductionActions input[name="ItemInfo4"]').val()) {
+                return true;
+            } else {
+                $('#myReproductionActions input[name="ItemInfo4"]').addClass('error');
+                $('#myReproductionActions #itemPagesError').show();
+                return false;
+            }
+        } else {
+            $('#myReproductionActions select[name="Format"]').addClass('error');
+            $('#myReproductionActions #formatError').show();
+            if($('#myReproductionActions input[name="ItemInfo4"]').val()) {
+                $('#myReproductionActions input[name="ItemInfo4"]').removeClass('error');
+                $('#myReproductionActions #itemPagesError').hide();
+                return false;
+            } else {
+                $('#myReproductionActions input[name="ItemInfo4"]').addClass('error');
+                $('#myReproductionActions #itemPagesError').show();
+                return false;
+            }
+        }
+        return true;
+    }
     //Might need some functions to sort by various fields, maybe title, collection, creator, date added
     //function sortList(param) {}
-    
-    //Adds documents to My List
-    $(listAdd).on('click', function (e) {
-    
+    function addToList(e) {
+
         //animate my list button
-        $('#myListButton').effect( "highlight", {color:"rgba(196, 84, 20, 0.1)"}, 500 );
-        
+        //TODO do we really want this, I think not.
+        //$('#myListButton').effect( "highlight", {color:"rgba(196, 84, 20, 0.1)"}, 500 );
+
         var a = $(this);
 
         //data variables
         var identifier = $(a).attr('data-identifier');
-        var title = $(a).attr('data-iteminfo1');
-        var date = $(a).attr('data-itemdate');
-        var collectionTitle = $(a).attr('data-itemtitle');
-        var creator = $(a).attr('data-itemauthor');
-        var parents = $(a).attr('data-itemsubtitle');
-        var container1 = $(a).attr('data-itemvolume');
-        var container2 = $(a).attr('data-itemissue');
-        var accessRestrict = $(a).attr('data-iteminfo2');
+        var referenceNumber = $(a).attr('data-referencenumber');
+        var itemNumber = $(a).attr('data-itemnumber');
+        var site = $(a).attr('data-site');
+        var title = $(a).attr('data-itemtitle');
+        var subTitle = $(a).attr('data-itemsubtitle');
+        var itemInfo1  = $(a).attr('data-iteminfo1');
+        var itemInfo2  = $(a).attr('data-iteminfo2');
+        var itemInfo3  = $(a).attr('data-iteminfo3');
+        var itemAuthor  = $(a).attr('data-itemauthor');
+        var itemDate = $(a).attr('data-itemdate');
         var callNumber = $(a).attr('data-callnumber');
-        var url = $(a).attr('data-iteminfo3');
-        var groupingfield = $(a).attr('data-groupingfield');
+        var itemVolume = $(a).attr('data-itemvolume');
+        var originalButton = $(a).prop('outerHTML');
 
         //Let the user know something is happpening
-        a.text('Adding...');
+        var text = a.text();
+        //a.text('Adding...');
 
-        // Add document to myList in localStorage        
-            // figure out if there's an existing list in localStorage
-            var localStorage = getList();
-            if (localStorage) {
-                var myList = localStorage;
-            } else {
-                var myList = new Array();};
+        // Add document to myList in localStorage
+        // figure out if there's an existing list in localStorage
+        var localStorage = getList();
+        if (localStorage) {
+            var myList = localStorage;
+        } else {
+            var myList = new Array();};
 
-            //create a new object to add to the array    
-            var dateAdded = Date.now();
-            var doc = {
-                'identifier': identifier,
-                'title': title,
-                'date': date,
-                'collectionTitle': collectionTitle,
-                'creator': creator,
-                'parents': parents,
-                'container1': container1,
-                'container2': container2,
-                'accessRestrict': accessRestrict,
-                'callNumber': callNumber,
-                'URL': url,
-                'groupingfield': groupingfield,
-                'dateAdded': dateAdded
-            }
+        //create a new object to add to the array
+        //var dateAdded = Date.now();
+        var doc = {
+            'identifier': identifier,
+            'referenceNumber': referenceNumber,
+            'itemNumber': itemNumber,
+            'site': site,
+            'title': title,
+            'subTitle': subTitle,
+            'itemInfo1': itemInfo1,
+            'itemInfo2': itemInfo2,
+            'itemInfo3': itemInfo3,
+            'itemAuthor': itemAuthor,
+            'itemDate': itemDate,
+            'callNumber': callNumber,
+            'itemVolume': itemVolume,
+            'originalButton' : originalButton
+        }
 
-            //add the new item to the existing array
-            myList.push(doc);
+        var identifier = $(a).attr('data-identifier');
+        var referenceNumber = $(a).attr('data-referencenumber');
+        var itemNumber = $(a).attr('data-itemnumber');
+        var site = $(a).attr('data-site');
+        var title = $(a).attr('data-itemtitle');
+        var subTitle = $(a).attr('data-itemsubtitle');
+        var itemInfo1  = $(a).attr('data-iteminfo1');
+        var itemInfo2  = $(a).attr('data-iteminfo2');
+        var itemInfo3  = $(a).attr('data-iteminfo3');
+        var itemAuthor  = $(a).attr('data-itemauthor');
+        var itemDate = $(a).attr('data-itemdate');
+        var callNumber = $(a).attr('data-callnumber');
+        var itemVolume = $(a).attr('data-itemvolume');
+        var originalButton = $(a).prop('outerHTML');
 
-            //save the new list in localStorage
-            saveList(myList);
+        //add the new item to the existing array
+        myList.push(doc);
 
-            // update display
-            updateDisplay();
-   
+        //save the new list in localStorage
+        saveList(myList);
+
+        // update display
+        updateDisplay();
+
         e.preventDefault();
-
+        //  a.text(text);
         //need this so function doesn't run twice
-        return false;   
-    });
+        return false;
+    }
 
+    //Adds documents to My List
+    $(listAdd).on('click', addToList);
+    $('.back_button').on('click', function(e) {
+        $('#myRequestActions').hide();
+        $('#myReproductionActions').hide();
+        $('.myListContents').show();
+        $('#requestActions').show();
+        e.preventDefault();
+    });
     // Removes documents from My List
     $('body').on('click', listDelete, function(e) {
         var a = $(this);
         var identifier = $(a).attr('data-identifier')
         // Remove document from bookbag
-            a.text('Deleting...');
+           // a.text('Deleting...');
             var myList  = getList();
 
             for(var i=0; i <= myList.length -1; i++) {
                 var item = myList[i];
                 if (item.identifier === identifier) {
                     myList.splice(i, 1)
+                    // change text for components already in bookbag
+                    $('.list-added[data-identifier="' + identifier + '"]').replaceWith(item.originalButton);
+                    $('.list-add[data-identifier="' + identifier + '"]').on('click', addToList);
+
                 }
             }
             
@@ -263,15 +330,75 @@ $(document).ready(function () {
             updateDisplay();
 
             e.preventDefault();
-    })
+    });
+
+    $('#myListActions').append('<div id="requestActions" class="listActions"><button class="btn request-copies" href="#">Request Copies</button>' +
+        '<button class="btn request-room" href="#">Request in Reading Room</button>' +
+        '<button class="btn myListRemoveAll remove-all" href="#">Remove all Items from List</button>' +'</div>');
+
+    $('.request-room').on('click', function(e) {
+           $('.myListContents').hide();
+           $('#requestActions').hide();
+           $('#myRequestActions').show();
+           $('input[name=WebRequestForm]').val('DefaultRequest')
+           $('#requestType').val('Loan')
+           e.preventDefault();
+    });
+
+    $("#requestItemsButton").on('click', function(e) {
+        if($('#myRequestActions input[name="ScheduledDate"]').val()) {
+            $('input[name="UserReview"]').val("No");
+            $('#requestForm').submit();
+            $('#cart_modal').modal("hide");
+            $('.back_button').click();
+            $('#myRequestActions input[name="ScheduledDate"]').removeClass('error');
+            $('#myRequestActions #dateError').hide();
+            $('#dialogMyListRequestConfirm').modal("show");
+        } else {
+            $('#myRequestActions input[name="ScheduledDate"]').addClass('error');
+            $('#myRequestActions     #dateError').show();
+            return false;
+        }
+    });
+
+    $("#requestReproductionButton").on('click', function(e) {
+        if(validate()){
+            $('#requestForm').submit();
+            $('.back_button').click();
+            $('#myReproductionActions input[name="ItemInfo4"]').removeClass('error');
+            $('#myReproductionActions #itemPagesError').hide();
+            $('#myReproductionActions select[name="Format"]').removeClass('error');
+            $('#myReproductionActions #formatError').hide();
+            $('#cart_modal').modal("hide");
+            $('#dialogMyListRequestConfirm').modal("show");
+            return true;
+        } else {
+            return false;
+        }
+
+});
+
+    $('.request-copies').on('click', function(e) {
+        $('.myListContents').hide();
+        $('#requestActions').hide();
+        $('#myReproductionActions').show();
+        $('input[name=WebRequestForm]').val('PhotoduplicationRequest')
+
+        $('#requestType').val('Copy')
+        e.preventDefault();
+    });
+    // Remove all items from bookbag
 
     // Remove all items from bookbag
     $('.myListRemoveAll').on('click', function(e){
         var myList = [];
         saveList(myList);
         updateDisplay();
+        e.preventDefault();
     });
 
+    $('#myRequestActions').hide();
+    $('#myReproductionActions').hide();
 
     // update display
     updateDisplay();
@@ -279,6 +406,7 @@ $(document).ready(function () {
     return false;
 
 });
+
 
 // Disables inputs when checkbox is unchecked
 $(function() {
