@@ -4,6 +4,22 @@ include Tufts::DarkArchiveMethods
 
 module ApplicationHelper
 
+  def collection_has_online_content(pid)
+
+    solr_connection = ActiveFedora.solr.conn
+    fq = '{!raw f=collection_id_sim}' + pid
+    #&fq={!raw f=field_name}crazy+\"field+value
+
+    response = solr_connection.get 'select', :params => {:fq => fq,:rows=>'1'}
+    collection_length = response['response']['docs'].length
+
+    if collection_length > 0
+      true
+    else
+      false
+    end
+  end
+
   def showPdfImage(pid)
     result = "<img alt=\"\" src=\"/pdf_pages/" + pid + "/0\"/>"
 
