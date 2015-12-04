@@ -1,3 +1,17 @@
+<%
+   metadata = Tufts::ModelMethods.get_metadata(@document_fedora)
+%>
 <div class="span6 pull-right download_links">
   <a href="/file_assets/<%= params[:id] %>"><i class="icon-file"/></i>&nbsp;Download PDF</a>
+  <a class="list-add" data-pid="<%= j @document_fedora.pid %>"
+     data-identifier="<%= j @document_fedora.pid.gsub(/[^0-9a-z ]/i, '') %>"
+     data-itemtitle="<%=j metadata[:titles].first unless metadata[:titles].empty? %>"
+     data-author="<%= j metadata[:creators].first unless metadata[:creators].empty? %>"
+     data-itemauthor="<%= j metadata[:creators].first unless metadata[:creators].empty? %>"
+     data-iteminfo2="<%= j metadata[:creators].first unless metadata[:creators].empty? %>"
+     data-iteminfo3="<%= j metadata[:citable_urls].first unless metadata[:citable_urls].empty? %>"
+     data-callnumber="<%= j @document_fedora.pid %>"
+     data-itemdate="<%= j metadata[:dates].first unless metadata[:dates].nil? %>">
+    <i class="icon-plus-sign"/></i>&nbsp;Add to List
+  </a>
 </div>
