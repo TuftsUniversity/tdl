@@ -172,6 +172,9 @@ $(document).ready(function () {
     } else {
         //if list is empty, set count to zero
         $(listCount).text('0');
+        $('.myListContents').append('<div class="empty">Your List is empty! Click on the icon that looks like this <i class="icon-plus-sign"></i> to add it to your list.</div>');
+        $('#myListNav #myListButton').removeClass('hasContents');
+        $('.listActions').hide();
         $('#myListNav #myListButton').removeClass('hasContents');
     }
     
