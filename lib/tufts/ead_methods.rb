@@ -11,14 +11,34 @@ module Tufts
       return "/catalog/ead/" + fedora_obj.id
     end
 
+    def self.eadid(fedora_obj, datastream = "Archival.xml")
+      result = ""
+      url = ""
+      eadid = fedora_obj.datastreams[datastream].find_by_terms_and_value(:eadheader).first
+      eadid.element_children.each do |child|
+        if child.name == "eadid"
+          result << child.text
+          url = child.attribute('url')
+          url = url.text unless url.nil?
+        end
+      end
 
-    def self.title(fedora_obj, datastream = "Archival.xml")
+
+
+      return result, url
+    end
+
+    def self.title(fedora_obj, datastream = "Archival.xml", includeDate = true)
       result = ""
       unittitle = fedora_obj.datastreams[datastream].get_values(:unittitle).first
       unitdate = fedora_obj.datastreams[datastream].get_values(:unitdate).first
 
-      if !unittitle.nil?
-        result << unittitle + (unitdate.nil? ? "" : ", " + unitdate)
+      unless unittitle.nil?
+        if (includeDate)
+          result << unittitle + (unitdate.nil? ? "" : ", " + unitdate)
+        else
+          result = unittitle
+        end
       end
 
       return result
@@ -62,16 +82,42 @@ module Tufts
       return result
     end
 
-
-    def self.unitid(fedora_obj, datastream = "Archival.xml")
+    def self.unitdate(fedora_obj, datastream = "Archival.xml")
       result = ""
-      unitid = fedora_obj.datastreams[datastream].get_values(:unitid).first
-
-      if !unitid.nil?
-        result << unitid
+      fedora_obj.datastreams[datastream].find_by_terms_and_value(:archdesc).children.each do |element|
+        next unless element.name == "did"
+        element.children.each do |child|
+          childname = child.name
+          if childname == "unitdate"
+            return child.text
+          end
+        end
       end
 
       return result
+    end
+
+    def self.unitid_and_author(fedora_obj, datastream = "Archival.xml")
+      unitid = nil
+      author = ""
+      fedora_obj.datastreams[datastream].find_by_terms_and_value(:archdesc).children.each do |element|
+        next unless element.name == "did" || element.name == "origination"
+        element.children.each do |child|
+          childname = child.name
+          if childname == "unitid"
+            unitid = child.text
+          elsif childname == "origination"
+            child.children.each do |pers|
+              if pers.name = "persname"
+                author += pers.text.strip
+              end
+            end
+          end
+
+        end
+      end
+
+      return unitid, author
     end
 
 
@@ -350,6 +396,7 @@ module Tufts
       physdesc = ""
       title = ""
       paragraphs = []
+      series_restrict = nil
 
       if !series.nil?
         # find the pertinent child elements: did, scopecontent
@@ -358,6 +405,8 @@ module Tufts
             did = element_child
           elsif element_child.name == "scopecontent"
             scopecontent = element_child
+          elsif element_child.name == "accessrestrict"
+            series_restrict = element_child.text
           end
         end
 
@@ -380,7 +429,7 @@ module Tufts
         title = (unittitle.nil? ? "" : unittitle + (unitdate.nil? ? "" : ", " + unitdate))
       end
 
-      return title, physdesc, paragraphs
+      return title, physdesc, paragraphs, series_restrict
     end
 
     def self.get_series_items(series)
@@ -412,11 +461,14 @@ module Tufts
       unittitle = nil
       unitdate = nil
       physloc = nil
+      physloc_orig = nil
+      creator = ""
       page = nil
       thumbnail = nil
+      access_restrict = nil
       available_online = false;
 
-      item_id = item.attribute("id")
+      item_id = item.attribute("id").text()
       item_type = item.attribute("level")
 
       item.element_children.each do |item_child|
@@ -426,6 +478,8 @@ module Tufts
           daogrp = item_child
         elsif item_child.name == "scopecontent"
           scopecontent = item_child
+        elsif item_child.name == "accessrestrict"
+          access_restrict = item_child.text
         elsif item_child.name == "c03" || item_child.name == "c04" ||
               item_child.name == "c05" || item_child.name == "c06" ||
               item_child.name == "c07" || item_child.name == "c08" ||
@@ -451,6 +505,14 @@ module Tufts
             unitdate = did_child.text
           elsif did_child.name == "physloc"
             physloc = did_child.text
+            physloc_orig = did_child.text
+          elsif did_child.name == "origination"
+            did_child.children.each do |pers|
+              if pers.name = "persname"
+                creator += pers.text.strip
+              end
+            end
+
           end
         end
       end
@@ -517,9 +579,18 @@ module Tufts
         end
       end
 
+      if !access_restrict.nil?
+        if labels.size > 0
+          labels << "<br>"
+          values << "<br>"
+        end
+        labels << "Access:"
+        values << access_restrict
+      end
+
       paragraphs = get_scopecontent_paragraphs(scopecontent)
 
-      return title, paragraphs, labels, values, page, thumbnail, available_online, next_level_items
+      return unitdate, creator, physloc_orig, access_restrict, item_id, title, paragraphs, labels, values, page, thumbnail, available_online, next_level_items
     end
 
 
