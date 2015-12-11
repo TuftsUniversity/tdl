@@ -202,11 +202,11 @@
       <p>Some of the materials from this collection are available online. Not all materials have necessarily been digitized.</p>
     </div>
    <% end %>
-
+   <%  if serieses.empty? %>
     <div class="tooltip-demo well">
       <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata} %>
-      
       <p>Contact DCA to request Materials by adding to your list..</p>
     </div>
+   <% end %>
   </div>
 </div>
