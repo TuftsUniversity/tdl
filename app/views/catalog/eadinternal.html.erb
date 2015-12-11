@@ -55,6 +55,11 @@
   </div>
 
   <div class="span3 ">
+    <%  if series_items.empty? %>
+        <div class="tooltip-demo well">
+          <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata} %>
+          <p>Contact DCA to request Materials by adding to your list..</p>
+        </div>
     <div class="tooltip-demo well">
       <a href="/catalog?f[collection_id_sim][]=<%= params[:id] %>"><h5>View Online Materials <i class="icon-arrow-right margintoparrow"></i></h5></a>
       <p><a href="/contact">Contact DCA</a> to view materials that are not online.</p>
@@ -87,7 +92,8 @@
 <% @row_count = 2
    indentation_level = 0;
 %>
-<%= render :partial => 'tufts_eads/eadinternal_items', :locals => {:series_restrict => series_restrict, :metadata => metadata, :series_items => series_items, :indentation_level => indentation_level} %>
+
+      <%= render :partial => 'tufts_eads/eadinternal_items', :locals => {:series_restrict => series_restrict, :metadata => metadata, :series_items => series_items, :indentation_level => indentation_level} %>
 
     </table>
 
