@@ -47,10 +47,8 @@ $(document).ready(function () {
                     '<div class="requestInputs"><input type="checkbox" checked="checked" name="allRequests"/></div>' + 
                     '<div class="collectionTitle">Title/Collection title</div>' +
                     '<div class="title">Item Title</div>' +
-                    '<div class="callNumber">Call Number</div>' +
-                    //'<div class="date">Date</div>' +
-                    //'<div class="containers">Containers</div>' +
-                    //'<div class="dateAdded">Date Added</div>' +
+                    '<div class="CallNumber">Call Number</div>' +
+                    '<div class="volume">Volume / Box</div>' +
                 '</div>');
             }
         for(var i =0; i <= myList.length-1; i++) {
@@ -142,7 +140,8 @@ $(document).ready(function () {
                     '<div class="collectionTitle"><p>' + title + '</p></div>' +
                     //'<div class="parents">' + formatparents + '</div></div>' +
                     '<div class="title"><p>' + subTitle + '</p></div>' +
-                    '<div class="CallNumber"><p>' + callNumber + '</a></p></div>' +
+                    '<div class="CallNumber"><p>' + callNumber + '</p></div>' +
+                    '<div class="volume"><p>' + itemVolume + '</p></div>' +
 
                     //'<div class="date">' + date + ' </div>' +
                     //'<div class="containers"><p>' + containers + '</p></div>' +
