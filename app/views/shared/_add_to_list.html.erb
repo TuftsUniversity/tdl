@@ -1,0 +1,13 @@
+<a class="list-add" data-pid="<%= j @document_fedora.pid %>"
+   data-identifier="<%= j @document_fedora.pid.gsub(/[^0-9a-z ]/i, '') %>"
+   data-itemtitle="<%= strip_tags(j(get_ead_title(@document_fedora, false))) %>"
+   data-itemsubtitle="<%=strip_tags(j(metadata[:titles].first)) unless metadata[:titles].empty? %>"
+   data-author="<%= strip_tags(j(metadata[:creators].first)) unless metadata[:creators].empty? %>"
+   data-itemauthor="<%= strip_tags(j(metadata[:creators].first)) unless metadata[:creators].empty? %>"
+   data-iteminfo2="<%= strip_tags(j(metadata[:creators].first)) unless metadata[:creators].empty? %>"
+   data-iteminfo3="<%= strip_tags(j(metadata[:citable_urls].first)) unless metadata[:citable_urls].empty? %>"
+   data-callnumber="<%= strip_tags(j(metadata[:sources].first)) unless metadata[:sources].empty? %>"
+   data-itemvolume="<%= j @document_fedora.pid %>"
+   data-itemdate="<%= strip_tags(j(metadata[:dates].first)) unless metadata[:dates].nil? %>">
+  <i class="icon-plus-sign"/></i>&nbsp;Add to List
+</a>

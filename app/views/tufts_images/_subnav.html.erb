@@ -1,16 +1,7 @@
 <% metadata = Tufts::ModelMethods.get_metadata(@document_fedora) %>
 <%# data-iteminfo1="accessrights" href="#" %>
 <div class="span6 pull-right download_links">
-  <a href="/file_assets/<%= params[:id] %>"><i class="icon-picture"/></i>&nbsp;Download Image</a>&nbsp;&nbsp;<% if (!current_user.nil? && current_user.has_role?(:archivist)) %><a href="/file_assets/archival/<%= params[:id] %>"><i class="icon-picture"/></i>&nbsp;Download High-resolution<% else %></a>
-<a class="list-add" data-pid="<%= j @document_fedora.pid %>"
-                    data-identifier="<%= j @document_fedora.pid.gsub(/[^0-9a-z ]/i, '') %>"
-                    data-itemtitle="<%=j metadata[:titles].first unless metadata[:titles].empty? %>"
-                    data-author="<%= j metadata[:creators].first unless metadata[:creators].empty? %>"
-                    data-itemauthor="<%= j metadata[:creators].first unless metadata[:creators].empty? %>"
-                    data-iteminfo2="<%= j metadata[:creators].first unless metadata[:creators].empty? %>"
-                    data-iteminfo3="<%= j metadata[:citable_urls].first unless metadata[:citable_urls].empty? %>"
-                    data-callnumber="<%= j @document_fedora.pid %>"
-                    data-itemdate="<%= j metadata[:dates].first unless metadata[:dates].nil? %>">
-  <i class="icon-plus-sign"/></i>&nbsp;Add to List
-</a><% end %>
+  <a href="/file_assets/<%= params[:id] %>"><i class="icon-picture"/></i>&nbsp;Download low-resolution image</a>&nbsp;&nbsp;<% if (!current_user.nil? && current_user.has_role?(:archivist)) %><a href="/file_assets/archival/<%= params[:id] %>"><i class="icon-picture"/></i>&nbsp;Download High-resolution<% else %></a>
+  <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata} %>
+  <% end %>
 </div>

@@ -202,21 +202,11 @@
       <p>Some of the materials from this collection are available online. Not all materials have necessarily been digitized.</p>
     </div>
    <% end %>
-   <%  if serieses.empty? %>
+
     <div class="tooltip-demo well">
-      <a class="list-add" data-pid="<%= j @document_fedora.pid %>"
-         data-identifier="<%= j @document_fedora.pid.gsub(/[^0-9a-z ]/i, '') %>"
-         data-itemtitle="<%=j metadata[:titles].first unless metadata[:titles].empty? %>"
-         data-author="<%= j metadata[:creators].first unless metadata[:creators].empty? %>"
-         data-itemauthor="<%= j metadata[:creators].first unless metadata[:creators].empty? %>"
-         data-iteminfo2="<%= j metadata[:creators].first unless metadata[:creators].empty? %>"
-         data-iteminfo3="<%= j metadata[:citable_urls].first unless metadata[:citable_urls].empty? %>"
-         data-callnumber="<%= j @document_fedora.pid %>"
-         data-itemdate="<%= j metadata[:dates].first unless metadata[:dates].nil? %>">
-      </a>
-      <h5>Request this Collection <i class="icon-arrow-right margintoparrow"></i></h5></a>
+      <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata} %>
+      
       <p>Contact DCA to request Materials by adding to your list..</p>
     </div>
-   <% end %>
   </div>
 </div>
