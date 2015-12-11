@@ -50,7 +50,29 @@ $(document).ready(function () {
                     '<div class="CallNumber">Call Number</div>' +
                     '<div class="volume">Volume / Box</div>' +
                 '</div>');
+
+                $('.header-row input[type="checkbox"]').on('click', function(e) {
+                    if($(this).is(':checked')) {
+                        $('.requestInputs input[type="checkbox"]').attr('checked', true);
+                        $('.requestInputs input[type="hidden"]').attr("disabled", false);
+                        if(!($(this).parents('.myListContents').hasClass('dialog'))) {
+                            $('.requestInputs').parents('.aeon-row:not(.header-row)').removeClass('disabled');
+                        }
+                        var listCount = $('#requestForm .aeon-row > .requestInputs > input[checked="checked"]').length - 1;
+                        $('.listCount').html(listCount);
+                    } else {
+                        $('.requestInputs input[type="checkbox"]').attr('checked', false);
+                        $('.requestInputs input[type="hidden"]').attr("disabled", true);
+                        if(!($(this).parents('.myListContents').hasClass('dialog'))) {
+                            $('.requestInputs').parents('.aeon-row:not(.header-row)').addClass('disabled');
+                        }
+                        var listCount = $('#requestForm .aeon-row > .requestInputs > input[checked="checked"]').length;
+                        $('.listCount').html(listCount);
+                    }
+                });
+
             }
+
         for(var i =0; i <= myList.length-1; i++) {
             var item = myList[i];
             
@@ -434,31 +456,6 @@ $(function() {
         $('.listCount').html(listCount);
     });
 });
-
-
-// Checks or unchecks all
-$(function() {
-    $('.header-row input[type="checkbox"]').on('click', function(e) {
-        if($(this).is(':checked')) {
-            $('.requestInputs input[type="checkbox"]').attr('checked', true);
-            $('.requestInputs input[type="hidden"]').attr("disabled", false);
-            if(!($(this).parents('.myListContents').hasClass('dialog'))) {
-                $('.requestInputs').parents('.row:not(.header-row)').removeClass('disabled');
-            }
-            var listCount = $('#requestForm .row > .requestInputs > input[checked="checked"]').length - 1;
-           $('.listCount').html(listCount);
-        } else {
-            $('.requestInputs input[type="checkbox"]').attr('checked', false);
-            $('.requestInputs input[type="hidden"]').attr("disabled", true);
-            if(!($(this).parents('.myListContents').hasClass('dialog'))) {
-                $('.requestInputs').parents('.row:not(.header-row)').addClass('disabled');
-            }
-           var listCount = $('#requestForm .row > .requestInputs > input[checked="checked"]').length;
-           $('.listCount').html(listCount);
-        }
-    });
-});
-
 
 //shows or hides scheduled date and user review sections
 $(function () {
