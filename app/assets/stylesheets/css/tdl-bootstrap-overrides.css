@@ -1386,13 +1386,11 @@ margin-left: 300px;	}
 
 .modal_1200wide
 {
-
     /* margin: -350px 0 0 -477px;*/
-    position: absolute;
-    left: 50%;
-    top: 0;
-
-    transform: translate(-28%, -30%);
+    position: fixed;
+    margin-left: auto;
+    margin-right: auto;
+    transform: translate(-50%, -0%);
     width: 90%;
 
 }
