@@ -1,11 +1,15 @@
 <a class="list-add" data-pid="<%= j @document_fedora.pid %>"
    data-identifier="<%= j @document_fedora.pid.gsub(/[^0-9a-z ]/i, '') %>"
-   <% if @document_fedora.class = TuftsEAD %>
+   <% if @document_fedora.class == TuftsEAD %>
     data-itemtitle="<%=strip_tags(metadata[:titles].first) unless metadata[:titles].empty? %>"
    <% else %>
      data-itemtitle="<%= strip_tags(get_ead_title(@document_fedora, false)) %>"
    <% end %>
-   data-itemsubtitle="<%=strip_tags(metadata[:titles].first) unless metadata[:titles].empty? %>"
+   <% if defined? series_title %>
+     data-itemsubtitle="<%= strip_tags(series_title) %>"
+   <% else %>
+     data-itemsubtitle="<%=strip_tags(metadata[:titles].first) unless metadata[:titles].empty? %>"
+   <% end %>
    data-author="<%= strip_tags(metadata[:creators].first) unless metadata[:creators].empty? %>"
    data-itemauthor="<%= strip_tags(metadata[:creators].first) unless metadata[:creators].empty? %>"
    data-iteminfo2="<%= strip_tags(metadata[:creators].first) unless metadata[:creators].empty? %>"
