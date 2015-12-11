@@ -57,18 +57,19 @@
         <td class="availableonline_td" align="center">
           <a class="list-add" data-pid="<%= j @document_fedora.pid %>"
                               data-identifier="<%= j item_id.gsub(/[^0-9a-z ]/i, '') %>"
-                              data-itemtitle="<%=strip_tags(j(Tufts::EADMethods.title(@document_fedora,'Archival.xml',true))) %>"
+                              data-itemtitle="<%=strip_tags(Tufts::EADMethods.title(@document_fedora,'Archival.xml',true))) %>"
                               data-site="DCA"
-                              data-itemsubtitle="<%= strip_tags(j(item_title)) %>"
-                              data-itemnumber="<%= strip_tags(j(physloc)) %>"
-                              data-iteminfo1="<%= strip_tags(j(access_restrict)) %>"
-                              data-itemauthor="<%= strip_tags(j(author)) %>"
-                              data-iteminfo2="<%= strip_tags(j(creator)) %>"
-                              data-iteminfo3="<%= strip_tags(j(url)) %>"
-                              data-itemdate="<%=strip_tags(j(item_date)) %>"
-                              data-referencenumber="<%= strip_tags(j(eadid)) %>"
-                              data-callnumber="<%= strip_tags(j(unitid)) %>"
-                              data-itemvolume="<%=strip_tags(j(item_id)) %>" href="#">
+
+                              data-itemsubtitle="<%= strip_tags(item_title) %>"
+                              data-itemnumber="<%= strip_tags(physloc) %>"
+                              data-iteminfo1="<%= strip_tags(access_restrict) %>"
+                              data-itemauthor="<%= strip_tags(author) %>"
+                              data-iteminfo2="<%= strip_tags(creator) %>"
+                              data-iteminfo3="<%= strip_tags(url) %>"
+                              data-itemdate="<%=strip_tags(item_date) %>"
+                              data-referencenumber="<%= strip_tags(eadid) %>"
+                              data-callnumber="<%= strip_tags(unitid) %>"
+                              data-itemvolume="<%=strip_tags(item_id) %>" href="#">
             <i class="icon-plus-sign"/></i>&nbsp;Add to List</a>
         </td>
 <%
