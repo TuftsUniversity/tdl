@@ -57,7 +57,7 @@
         <td class="availableonline_td" align="center">
           <a class="list-add" data-pid="<%= j @document_fedora.pid %>"
                               data-identifier="<%= j item_id.gsub(/[^0-9a-z ]/i, '') %>"
-                              data-itemtitle="<%=strip_tags(Tufts::EADMethods.title(@document_fedora,'Archival.xml',true))) %>"
+                              data-itemtitle="<%=strip_tags(Tufts::EADMethods.title(@document_fedora,'Archival.xml',true)) %>"
                               data-site="DCA"
 
                               data-itemsubtitle="<%= strip_tags(item_title) %>"
