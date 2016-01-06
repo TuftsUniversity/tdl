@@ -286,7 +286,7 @@ module Tufts
       processinfos = fedora_obj.datastreams[datastream].find_by_terms_and_value(:processinfo)
 
       processinfos.each do |processinfo|
-        result << processinfo.text
+        result << processinfo.to_html
       end
 
       return result
