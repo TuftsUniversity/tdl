@@ -557,7 +557,7 @@ module Tufts
           labels << "<br>"
           values << "<br>"
         end
-        labels << "ID:"
+        labels << "Item ID:"
         values << item_id.to_s
       end
 
