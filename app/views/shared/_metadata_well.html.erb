@@ -6,7 +6,7 @@
     </tr>
     <tr>
       <td>To Cite:</td>
-      <td><a href="http://DCA.tufts.edu/copyright-and-citations">DCA Citation Guide</a></td>
+      <td><a href="http://sites.tufts.edu/dca/about-us/research-help/reproductions-and-use/">DCA Citation Guide</a></td>
     </tr>
     <% unless metadata[:rights].empty? %>
         <tr>
@@ -19,4 +19,8 @@
 
 
   </table>
+  <% if defined? is_image %>
+        <p>To request a high-resolution image, choose Add to List.</p>
+
+  <% end %>
 </div>
