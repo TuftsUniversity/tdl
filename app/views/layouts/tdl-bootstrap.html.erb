@@ -136,15 +136,15 @@
 <div class="modal fade modal_1200wide" id="dialogMyListRequestConfirm">
   <div class="modal-header">
     <button class="close" data-dismiss="modal">×</button>
-    <h3>Aeon Confirmation</h3>
+    <h3>Request Confirmation</h3>
   </div>
   <div class="modal-body">
 
     <div class="overlay" id="myListRequestConfirm">
       <div class="confirm">
-        <h1>Your request has been sent to Aeon!</h1>
+        <h1>Your request has been sent!</h1>
 
-        <p>You must be logged into <a href="https://raccess.rockarch.org">Aeon</a> in order for your request to be
+        <p>You must be logged into <a href="https://aeon.tufts.edu/">your account</a> in order for your request to be
           submitted.
           <a href="https://aeon.tufts.edu/Aeon/aeon.dll" target="_blank">Click here</a> to view your requests.</p>
       </div>
@@ -183,7 +183,7 @@
     <div id="myListActions"></div>
     <div id="myRequestActions" class="myList">
       <h2>Reading Room Request</h2>
-      <div class="third">
+      d<div class="third">
 
         <div class="form-group scheduledDate">
           <label class="control-label required" for="scheduledDate">Scheduled
@@ -191,6 +191,8 @@
           <input id="ScheduledDate" class="form-control" name="ScheduledDate"
                  type="text" placeholder="Enter the date of your research visit"/>
           <div id="dateError" class="error">Please enter the date of your research visit.</div>
+          <p class="additional_notes">Planning a visit? <a href="http://sites.tufts.edu/dca/about-us/planning-a-visit/">Read more here.</a></p>
+          <p class="additional_notes">Note: Reading Room Hours, M-F, 9 am - 3:45 pm. Some material may be stored offsite and require up to two business days for retrieval.</p>
         </div>
 
       </div>
@@ -209,8 +211,8 @@
         </div>
       </div>
       <div id="reservationActions" class="listActions">
-      <button class="btn back_button">Back</button>
-      <button id="requestItemsButton" class="btn">Submit Reading Room Request</button>
+        <button class="btn back_button">Back</button>
+        <button id="requestItemsButton" class="btn">Submit Reading Room Request</button>
       </div>
     </div>
     <div id="myReproductionActions" class="myList">
@@ -238,15 +240,21 @@
             description of the materials you want reproduced.</p>
         </div>
         <div class="form-group">
+          <input id="ReadAgreement" name="ReadAgreement" type="checkbox"/>
+          <label id="ReadAgreementLabel" class="control-label required" for="ReadAgreement">  I have read and agree to abide by DCA's
+            <a href="http://sites.tufts.edu/dca/about-us/research-help/reproductions-and-use/" target="_blank">Reproduction and Use policies.</a>
+          </label><br/>
+
+
           <input id="ForPublication" name="ForPublication" type="checkbox" value="Yes"/>
-          <p>If you intend to publish this material, check this box</p>
+          &nbsp;If you intend to publish this material, check this box
         </div>
       </div>
       <div class="third notes">
         <div class="form-group">
           <label class="control-label" for="SpecialRequest">Special Requests/Questions</label>
           <textarea class="form-control" rows="2" name="SpecialRequest"></textarea>
-          <span class="help-block">Please enter any special requests or questions for RAC staff.</span>
+          <span class="help-block">Please enter any special requests or questions for staff.</span>
         </div>
       </div>
       <div class="third notes">

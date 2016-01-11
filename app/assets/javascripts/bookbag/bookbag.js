@@ -207,14 +207,29 @@ $(document).ready(function () {
 
     function validate()
     {
+
+
         if ($('#myReproductionActions select[name="Format"]').val()) {
             $('#myReproductionActions select[name="Format"]').removeClass('error');
             $('#myReproductionActions #formatError').hide();
             if($('#myReproductionActions input[name="ItemInfo4"]').val()) {
-                return true;
+                if ($('#myReproductionActions input[name="ReadAgreement"]').is(':checked')) {
+                    return true;
+                }
+                else {
+                    $('#ReadAgreementLabel').addClass('error');
+                    return false;
+                }
             } else {
                 $('#myReproductionActions input[name="ItemInfo4"]').addClass('error');
                 $('#myReproductionActions #itemPagesError').show();
+
+                if ($('#myReproductionActions input[name="ReadAgreement"]').is(':checked')) {
+                    $('#ReadAgreementLabel').removeClass('error');
+                } else {
+                    $('#ReadAgreementLabel').addClass('error');
+
+                }
                 return false;
             }
         } else {
@@ -223,10 +238,26 @@ $(document).ready(function () {
             if($('#myReproductionActions input[name="ItemInfo4"]').val()) {
                 $('#myReproductionActions input[name="ItemInfo4"]').removeClass('error');
                 $('#myReproductionActions #itemPagesError').hide();
+
+                if ($('#myReproductionActions input[name="ReadAgreement"]').is(':checked')) {
+                    $('#ReadAgreementLabel').removeClass('error');
+                } else {
+                    $('##ReadAgreementLabel').addClass('error');
+
+                }
+
                 return false;
             } else {
                 $('#myReproductionActions input[name="ItemInfo4"]').addClass('error');
                 $('#myReproductionActions #itemPagesError').show();
+
+                if ($('#myReproductionActions input[name="ReadAgreement"]').is(':checked')) {
+                    $('#ReadAgreementLabel').removeClass('error');
+                } else {
+                    $('#ReadAgreementLabel').addClass('error');
+
+                }
+
                 return false;
             }
         }
