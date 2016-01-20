@@ -1,4 +1,16 @@
 GIT
+  remote: https://github.com/TuftsUniversity/tuftsification-hydra
+  revision: 97b52608269c31164fe614db6554a038e3f281e1
+  tag: 1.1.5
+  specs:
+    tuftsification-hydra (0.0.3)
+      chronic
+      image_size
+      rails (~> 3.2.13)
+      settingslogic
+      titleize
+
+GIT
   remote: https://github.com/whumph/blacklight_advanced_search
   revision: 818aaf97d65cc8d19f5986d7c84a606da24972a3
   specs:
@@ -157,6 +169,7 @@ GEM
       bootstrap_forms
       cancan
     i18n (0.6.9)
+    image_size (1.4.1)
     is_it_working (1.0.10)
     jettywrapper (1.5.2)
       activesupport (>= 3.0.0)
@@ -398,6 +411,7 @@ DEPENDENCIES
   sqlite3
   therubyracer
   titleize
+  tuftsification-hydra!
   uglifier
   unicode
 
