@@ -179,6 +179,13 @@ $(document).ready(function () {
         // update list count
         var count = myList.length
         $(listCount).text(count);
+        if (count === 1) {
+            $('.listCountText').text(' Item')
+        } else {
+            $('.listCountText').text(' Items')
+        }
+
+
         if (count < 1) {
             $('.myListContents').append('<div class="empty">Your List is empty! Click on the icon that looks like this <i class="icon-plus-sign"></i> to add it to your list.</div>');
             $('#myListNav #myListButton').removeClass('hasContents');
@@ -355,6 +362,7 @@ $(document).ready(function () {
     $('.back_button').on('click', function(e) {
         $('#myRequestActions').hide();
         $('#myReproductionActions').hide();
+        $('#myReviewActions').hide();
         $('.myListContents').show();
         $('#requestActions').show();
         e.preventDefault();
@@ -387,19 +395,21 @@ $(document).ready(function () {
             e.preventDefault();
     });
 
-    $('#myListActions').append('<div id="requestActions" class="listActions"><button class="btn request-copies" href="#">Request Copies</button>' +
-        '<button class="btn request-room" href="#">Request in Reading Room</button>' +
-        '<button class="btn myListRemoveAll remove-all" href="#">Remove all Items from List</button>' +'</div>');
+    $('#myListActions').append('<div id="requestActions" class="listActions">'+
+        '<button class="btn request-copies" href="#"><i class="icon-file"></i>&nbsp;Request Copies</button>' +
+        '<button class="btn request-room" href="#"><i class="icon-book"></i>&nbsp;Request in Reading Room</button>' +
+        '<button class="btn review" href="#"><i class="icon-upload"></i>&nbsp;Save in TASCR</button>' +
+        '<button class="btn myListRemoveAll remove-all" href="#"><i class="icon-trash"></i>&nbsp;Remove all Items from List</button>' +'</div>');
 
-    $('.request-room').on('click', function(e) {
-           $('.myListContents').hide();
-           $('#requestActions').hide();
-           $('#myRequestActions').show();
-           $('input[name=WebRequestForm]').val('DefaultRequest')
-           $('#requestType').val('Loan')
-           e.preventDefault();
+
+    $('#reviewItemsButton').on('click', function(e) {
+        $('input[name="UserReview"]').val("Yes");
+        $('#requestForm').submit();
+        $('#cart_modal').modal("hide");
+        $('.back_button').click();
+        $('#dialogMyListSaveConfirm').modal("show");
+        e.preventDefault();
     });
-
     $("#requestItemsButton").on('click', function(e) {
         if($('#myRequestActions input[name="ScheduledDate"]').val()) {
             $('input[name="UserReview"]').val("No");
@@ -411,7 +421,7 @@ $(document).ready(function () {
             $('#dialogMyListRequestConfirm').modal("show");
         } else {
             $('#myRequestActions input[name="ScheduledDate"]').addClass('error');
-            $('#myRequestActions     #dateError').show();
+            $('#myRequestActions #dateError').show();
             return false;
         }
     });
@@ -431,15 +441,38 @@ $(document).ready(function () {
             return false;
         }
 
-});
+    });
+
+    $('.review').on('click', function(e) {
+        $('.myListContents').hide();
+        $('#requestActions').hide();
+        $('#myReviewActions').show();
+        $('input[name=SkipOrderEstimate]').remove();
+        $('input[name=WebRequestForm]').val('DefaultRequest');
+        $('input[name=RequestType]').val('Loan');
+        $('input[name=RequestType]').after('<input type="hidden" name="UserReview" value="Yes"/>');
+        e.preventDefault();
+    });
+
+    $('.request-room').on('click', function(e) {
+        $('.myListContents').hide();
+        $('#requestActions').hide();
+        $('#myRequestActions').show();
+
+        $('input[name=WebRequestForm]').val('DefaultRequest');
+        $('input[name=RequestType]').val('Loan');
+        $('input[name=SkipOrderEstimate]').remove();
+        e.preventDefault();
+    });
 
     $('.request-copies').on('click', function(e) {
         $('.myListContents').hide();
         $('#requestActions').hide();
         $('#myReproductionActions').show();
-        $('input[name=WebRequestForm]').val('PhotoduplicationRequest')
+        $('input[name=WebRequestForm]').val('PhotoduplicationRequest');
 
-        $('#requestType').val('Copy')
+        $('input[name=RequestType]').val('Copy');
+        $('input[name=RequestType]').after('<input type="hidden" id="skipOrder" name=”SkipOrderEstimate” value=”Yes”/>');
         e.preventDefault();
     });
     // Remove all items from bookbag
@@ -453,6 +486,7 @@ $(document).ready(function () {
     });
 
     $('#myRequestActions').hide();
+    $('#myReviewActions').hide();
     $('#myReproductionActions').hide();
 
     // update display

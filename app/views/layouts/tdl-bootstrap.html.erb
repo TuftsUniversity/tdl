@@ -144,23 +144,43 @@
       <div class="confirm">
         <h1>Your request has been sent!</h1>
 
-        <p>You must be logged into <a href="https://aeon.tufts.edu/">your account</a> in order for your request to be
+        <p>You must be logged into <a href="https://tascr.tufts.edu/">your account</a> in order for your request to be
           submitted.
-          <a href="https://aeon.tufts.edu/Aeon/aeon.dll" target="_blank">Click here</a> to view your requests.</p>
+          <a href="https://tascr.tufts.edu/aeon.dll" target="_blank">Click here</a> to view your requests.</p>
       </div>
     </div>
   </div>
 </div>
+
+<div class="modal fade modal_1200wide" id="dialogMyListSaveConfirm">
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">×</button>
+    <h3>Save in TASCR Confirmation</h3>
+  </div>
+  <div class="modal-body">
+
+    <div class="overlay" id="myListRequestConfirm">
+      <div class="confirm">
+        <h1>Your request has been sent!</h1>
+
+        <p>This request will be saved in TASCR, but won't be retrieved until you submit it for processing.
+
+          <a href="https://tascr.tufts.edu/aeon.dll" target="_blank">Click here</a> to view your requests.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!--cart modal-->
 
 <div class="modal fade modal_1200wide" id="cart_modal">
   <div class="modal-header">
     <button class="close" data-dismiss="modal">×</button>
-    <h3>My List : <span class="listCount">1</span> items</h3>
+    <h3>My List : <span class="listCount">1</span><span class="listCountText">&nbsp;Item</span></h3>
   </div>
   <div class="modal-body">
     <form id="requestForm" method="post" target="new"
-          action="https://aeon.tufts.edu/Aeon/aeon.dll">
+          action="https://tascr.tufts.edu/aeon.dll">
       <!-- Aeon inputs -->
       <input type="hidden" name="AeonForm" value="EADRequest"/>
       <input id="webRequestForm" type="hidden" name="WebRequestForm" value="DefaultRequest"/>
@@ -181,9 +201,35 @@
       <input type="hidden" name="UserReview" value="No"/>
     <div class="myListContents"></div>
     <div id="myListActions"></div>
+    <div id="myReviewActions" class="myList">
+      <h2>Save in TASCR</h2>
+
+      <div class="third">
+          <label class="control-label">This request will be saved in TASCR, but won't be retrieved until you submit it for processing.</label>
+        </div>
+
+      <div class="third notes">
+        <div class="form-group">
+          <label class="control-label" for="SpecialRequest">Special Requests/Questions</label>
+          <textarea class="form-control" rows="2" name="SpecialRequest"></textarea>
+          <span class="help-block">Please enter any special requests or questions for DCA staff.</span>
+        </div>
+      </div>
+      <div class="third notes">
+        <div class="form-group">
+          <label class="control-label" for="Notes">Notes</label>
+          <textarea class="form-control" rows="2" name="Notes"></textarea>
+          <span class="help-block">Enter any notes about this request for your personal reference here.</span>
+        </div>
+      </div>
+      <div id="reservationActions" class="listActions">
+        <button class="btn back_button">Back</button>
+        <button id="reviewItemsButton" class="btn">Save</button>
+      </div>
+    </div>
     <div id="myRequestActions" class="myList">
       <h2>Reading Room Request</h2>
-      d<div class="third">
+      <div class="third">
 
         <div class="form-group scheduledDate">
           <label class="control-label required" for="scheduledDate">Scheduled
@@ -247,14 +293,14 @@
 
 
           <input id="ForPublication" name="ForPublication" type="checkbox" value="Yes"/>
-          &nbsp;If you intend to publish this material, check this box
+          &nbsp;If you intend to publish this material, check this box.
         </div>
       </div>
       <div class="third notes">
         <div class="form-group">
           <label class="control-label" for="SpecialRequest">Special Requests/Questions</label>
           <textarea class="form-control" rows="2" name="SpecialRequest"></textarea>
-          <span class="help-block">Please enter any special requests or questions for staff.</span>
+          <span class="help-block">Please enter any special requests or questions for DCA staff.</span>
         </div>
       </div>
       <div class="third notes">
