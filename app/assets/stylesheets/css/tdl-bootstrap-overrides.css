@@ -1392,6 +1392,7 @@ margin-left: 300px;	}
     margin-right: auto;
     transform: translate(-50%, -0%);
     width: 90%;
+    max-height: 600px;
 
 }
   
