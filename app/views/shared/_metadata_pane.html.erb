@@ -10,5 +10,9 @@
   <%= render :partial => 'shared/original_publication', :locals => {:metadata => metadata} %>
 
 </dl>
-<%= render :partial => 'shared/metadata_well', :locals => {:metadata => metadata} %>
+<% if defined? is_image %>
+  <%= render :partial => 'shared/metadata_well', :locals => {:metadata => metadata, :is_image => is_image} %>
+<% else %>
+  <%= render :partial => 'shared/metadata_well', :locals => {:metadata => metadata} %>
+<% end %>
 <!-- tooltip-demo well -->

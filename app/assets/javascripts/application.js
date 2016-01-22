@@ -30,5 +30,8 @@
 //= require 'bootstrap-collapse'
 //= require 'bootstrap-carousel'
 //= require 'bootstrap-typeahead'
+//= require 'bookbag/bootstrap-datepicker.js'
 //= require 'feedback'
 //= require 'tdl_customizations.js'
+//= require 'bookbag/bookbag.js'
+//= require 'bookbag/datepicker.js'

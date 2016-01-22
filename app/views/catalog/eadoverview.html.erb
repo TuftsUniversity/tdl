@@ -13,7 +13,7 @@
     access_and_use = Tufts::EADMethods.get_access_and_use(@document_fedora)
     processing_notes = Tufts::EADMethods.get_processing_notes(@document_fedora)
     acquisition_info = Tufts::EADMethods.get_acquisition_info(@document_fedora)
-
+    metadata = Tufts::ModelMethods.get_metadata(@document_fedora)
     @page_title = title + " - " + application_name
 %>
 
@@ -64,7 +64,8 @@
     <p>
       <%= raw Tufts::EADMethods.physdesc(@document_fedora) %>
       <br>
-      Call Number: <%= raw Tufts::EADMethods.unitid(@document_fedora) %>
+      <% unitid, author =  Tufts::EADMethods.unitid_and_author(@document_fedora) %>
+      Call Number: <%= raw unitid %>
     </p>
 
     <p><%= raw Tufts::EADMethods.abstract(@document_fedora) %></p>
@@ -180,7 +181,7 @@
         end
       end
 %>
-<%    if !acquisition_info.empty? %>
+<%    if !acquisition_info.empty? %>`
     <h5 class="EAD_H5">Acquisition Information</h5>
 <%      acquisition_info.each do |paragraph| %>
     <p><%= raw paragraph %></p>
@@ -195,9 +196,17 @@
   </div>
 
   <div class="span3">
+   <% if collection_has_online_content(params[:id]) %>
     <div class="tooltip-demo well">
       <a href="/catalog?f[collection_id_sim][]=<%= params[:id] %>"><h5>View Online Materials <i class="icon-arrow-right margintoparrow"></i></h5></a>
-      <p><a href="/contact">Contact DCA</a> to view materials that are not online.<p>
+      <p>Some of the materials from this collection are available online. Not all materials have necessarily been digitized.</p>
     </div>
+   <% end %>
+   <%  if serieses.empty? %>
+    <div class="tooltip-demo well">
+      <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata} %>
+      <p>Contact DCA to request Materials by adding to your list..</p>
+    </div>
+   <% end %>
   </div>
 </div>

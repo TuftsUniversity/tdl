@@ -109,6 +109,8 @@
           <i class="icon-comment icon-white"></i></button>
     <%- end -%>
 
+        <button id="myListButton" href="#cart_modal" data-toggle="modal" class="btn btn-blue pull-right" style="margin-top:10px; margin-right:10px;"> My List (<span class="listCount">1</span>)
+          <i class="icon-shopping-cart icon-white"></i></button>
   </div>
 </div>
 
@@ -131,6 +133,194 @@
   <!-End Gallery Modal -->
 </div>
 <!-- /container -->
+<div class="modal fade modal_1200wide" id="dialogMyListRequestConfirm">
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">×</button>
+    <h3>Request Confirmation</h3>
+  </div>
+  <div class="modal-body">
+
+    <div class="overlay" id="myListRequestConfirm">
+      <div class="confirm">
+        <h1>Your request has been sent!</h1>
+
+        <p>You must be logged into <a href="https://tascr.tufts.edu/">your account</a> in order for your request to be
+          submitted.
+          <a href="https://tascr.tufts.edu/aeon.dll" target="_blank">Click here</a> to view your requests.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade modal_1200wide" id="dialogMyListSaveConfirm">
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">×</button>
+    <h3>Save in TASCR Confirmation</h3>
+  </div>
+  <div class="modal-body">
+
+    <div class="overlay" id="myListRequestConfirm">
+      <div class="confirm">
+        <h1>Your request has been sent!</h1>
+
+        <p>This request will be saved in TASCR, but won't be retrieved until you submit it for processing.
+
+          <a href="https://tascr.tufts.edu/aeon.dll" target="_blank">Click here</a> to view your requests.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--cart modal-->
+
+<div class="modal fade modal_1200wide" id="cart_modal">
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">×</button>
+    <h3>My List : <span class="listCount">1</span><span class="listCountText">&nbsp;Item</span></h3>
+  </div>
+  <div class="modal-body">
+    <form id="requestForm" method="post" target="new"
+          action="https://tascr.tufts.edu/aeon.dll">
+      <!-- Aeon inputs -->
+      <input type="hidden" name="AeonForm" value="EADRequest"/>
+      <input id="webRequestForm" type="hidden" name="WebRequestForm" value="DefaultRequest"/>
+      <input id="requestType" type="hidden" name="RequestType" value="Loan"/>
+      <input type="hidden" name="DocumentType" value="Default"/>
+      <input type="hidden" name="GroupingIdentifier" value="GroupingField"/>
+      <input type="hidden" name="GroupingOption_ItemInfo1" value="Concatenate"/>
+      <input type="hidden" name="GroupingOption_ItemDate" value="Concatenate"/>
+      <input type="hidden" name="GroupingOption_ItemTitle" value="FirstValue"/>
+      <input type="hidden" name="GroupingOption_ItemAuthor" value="FirstValue"/>
+      <input type="hidden" name="GroupingOption_ItemSubtitle" value="FirstValue"/>
+      <input type="hidden" name="GroupingOption_ItemVolume" value="FirstValue"/>
+      <input type="hidden" name="GroupingOption_ItemIssue" value="Concatenate"/>
+      <input type="hidden" name="GroupingOption_ItemInfo2" value="Concatenate"/>
+      <input type="hidden" name="GroupingOption_CallNumber" value="FirstValue"/>
+      <input type="hidden" name="GroupingOption_ItemInfo3" value="FirstValue"/>
+      <input type="hidden" name="SubmitButton" value="Submit Request"/>
+      <input type="hidden" name="UserReview" value="No"/>
+    <div class="myListContents"></div>
+    <div id="myListActions"></div>
+    <div id="myReviewActions" class="myList">
+      <h2>Save in TASCR</h2>
+
+      <div class="third">
+          <label class="control-label">This request will be saved in TASCR, but won't be retrieved until you submit it for processing.</label>
+        </div>
+
+      <div class="third notes">
+        <div class="form-group">
+          <label class="control-label" for="SpecialRequest">Special Requests/Questions</label>
+          <textarea class="form-control" rows="2" name="SpecialRequest"></textarea>
+          <span class="help-block">Please enter any special requests or questions for DCA staff.</span>
+        </div>
+      </div>
+      <div class="third notes">
+        <div class="form-group">
+          <label class="control-label" for="Notes">Notes</label>
+          <textarea class="form-control" rows="2" name="Notes"></textarea>
+          <span class="help-block">Enter any notes about this request for your personal reference here.</span>
+        </div>
+      </div>
+      <div id="reservationActions" class="listActions">
+        <button class="btn back_button">Back</button>
+        <button id="reviewItemsButton" class="btn">Save</button>
+      </div>
+    </div>
+    <div id="myRequestActions" class="myList">
+      <h2>Reading Room Request</h2>
+      <div class="third">
+
+        <div class="form-group scheduledDate">
+          <label class="control-label required" for="scheduledDate">Scheduled
+            Date</label>
+          <input id="ScheduledDate" class="form-control" name="ScheduledDate"
+                 type="text" placeholder="Enter the date of your research visit"/>
+          <div id="dateError" class="error">Please enter the date of your research visit.</div>
+          <p class="additional_notes">Planning a visit? <a href="http://sites.tufts.edu/dca/about-us/planning-a-visit/">Read more here.</a></p>
+          <p class="additional_notes">Note: Reading Room Hours, M-F, 9 am - 3:45 pm. Some material may be stored offsite and require up to two business days for retrieval.</p>
+        </div>
+
+      </div>
+      <div class="third notes">
+        <div class="form-group">
+          <label class="control-label" for="SpecialRequest">Special Requests/Questions</label>
+          <textarea class="form-control" rows="2" name="SpecialRequest"></textarea>
+          <span class="help-block">Please enter any special requests or questions for DCA staff.</span>
+        </div>
+      </div>
+      <div class="third notes">
+        <div class="form-group">
+          <label class="control-label" for="Notes">Notes</label>
+          <textarea class="form-control" rows="2" name="Notes"></textarea>
+          <span class="help-block">Enter any notes about this request for your personal reference here.</span>
+        </div>
+      </div>
+      <div id="reservationActions" class="listActions">
+        <button class="btn back_button">Back</button>
+        <button id="requestItemsButton" class="btn">Submit Reading Room Request</button>
+      </div>
+    </div>
+    <div id="myReproductionActions" class="myList">
+      <h2>Reproduction Request</h2>
+      <div class="third">
+        <div class="form-group">
+          <label class="control-label required" for="Format">Format</label>
+          <!-- These options mush match exactly the list in the Aeon list of formats -->
+          <select id="Format" class="form-control" name="Format">
+            <option/>
+            <option>JPG</option>
+            <option>PDF</option>
+            <option>Photocopy</option>
+            <option>TIFF</option>
+          </select>
+          <p class="help-block text-danger" id="formatError">Please select a
+            format.</p>
+        </div>
+        <div class="form-group">
+          <label class="control-label required" for="ItemPages">Description of
+            Materials</label>
+          <input id="ItemPages" class="form-control" name="ItemPages" type="text"
+                 placeholder="Describe the materials you want reproduced"/>
+          <p class="help-block text-danger" id="itemPagesError">Describe the materials you want reproduced (example: entire folder, letter dated Sept. 1, 1947)</p>
+        </div>
+        <div class="form-group">
+          <input id="ReadAgreement" name="ReadAgreement" type="checkbox"/>
+          <label id="ReadAgreementLabel" class="control-label required" for="ReadAgreement">  I have read and agree to abide by DCA's
+            <a href="http://sites.tufts.edu/dca/about-us/research-help/reproductions-and-use/" target="_blank">Reproduction and Use policies.</a>
+          </label><br/>
+
+
+          <input id="ForPublication" name="ForPublication" type="checkbox" value="Yes"/>
+          &nbsp;If you intend to publish this material, check this box.
+        </div>
+      </div>
+      <div class="third notes">
+        <div class="form-group">
+          <label class="control-label" for="SpecialRequest">Special Requests/Questions</label>
+          <textarea class="form-control" rows="2" name="SpecialRequest"></textarea>
+          <span class="help-block">Please enter any special requests or questions for DCA staff.</span>
+        </div>
+      </div>
+      <div class="third notes">
+        <div class="form-group">
+          <label class="control-label" for="Notes">Notes</label>
+          <textarea class="form-control" rows="2" name="Notes"></textarea>
+          <span class="help-block">Enter any notes about this request for your personal reference here.</span>
+        </div>
+      </div>
+      <div id="reproductionActions" class="listActions">
+      <div class="button_panel">
+        <button class="btn back_button">Back</button>
+        <button id="requestReproductionButton" class="btn">Submit Reproduction Request</button>
+      </div>
+        </div>
+    </div>
+        </form>
+  </div>
+
+</div>
+
 <!--comment modal-->
 
 <div class="modal fade" id="comment_modal">
@@ -263,6 +453,6 @@
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+<script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
 </body>
 </html>

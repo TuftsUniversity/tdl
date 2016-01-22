@@ -455,8 +455,8 @@ table {
 .table .collapse_td{padding:0; padding-top:3px; width: 10px;}
  .table .locator_td{ width: 65px; text-align: right; padding-right:7px;}
 
-.table .id_td{ width: 150px;}
-.table  .availableonline_td{width: 100px;}
+.table .id_td{ width: 140px;}
+.table  .availableonline_td{width: 110px;}
 
 .table  .expanded_table{border:0; margin:0;}
 
@@ -1381,6 +1381,18 @@ margin-left: 300px;	}
     max-height: 900px;
 	 /* margin: -350px 0 0 -477px;*/
 	  	  margin: -300px 0 0 -400px;
+
+}
+
+.modal_1200wide
+{
+    /* margin: -350px 0 0 -477px;*/
+    position: fixed;
+    margin-left: auto;
+    margin-right: auto;
+    transform: translate(-50%, -0%);
+    width: 90%;
+    max-height: 600px;
 
 }
   

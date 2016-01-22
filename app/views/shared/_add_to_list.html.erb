@@ -1,0 +1,29 @@
+<a class="list-add" href="#" data-pid="<%= j @document_fedora.pid %>"
+   data-identifier="<%= j @document_fedora.pid.gsub(/[^0-9a-z ]/i, '') %>"
+   <% if @document_fedora.class == TuftsEAD %>
+    data-itemtitle="<%=strip_tags(metadata[:titles].first) unless metadata[:titles].empty? %>"
+   <% else %>
+     data-itemtitle="<%= strip_tags(get_ead_title(@document_fedora, false)) %>"
+   <% end %>
+   <% if defined? series_title %>
+     data-itemsubtitle="<%= strip_tags(series_title) %>"
+   <% else %>
+     data-itemsubtitle="<%=strip_tags(metadata[:titles].first) unless metadata[:titles].empty? %>"
+   <% end %>
+   data-site="DCA"
+   data-author="<%= strip_tags(metadata[:creators].first) unless metadata[:creators].empty? %>"
+   data-itemauthor="<%= strip_tags(metadata[:creators].first) unless metadata[:creators].empty? %>"
+   data-iteminfo2="<%= strip_tags(metadata[:creators].first) unless metadata[:creators].empty? %>"
+   data-iteminfo3="<%= strip_tags(metadata[:citable_urls].first) unless metadata[:citable_urls].empty? %>"
+
+
+   <% if defined? series_id %>
+     data-itemvolume="<%= strip_tags(series_id) %>"
+     data-callnumber="<%= strip_tags(series_id.split('.').first) unless metadata[:sources].empty? %>"
+   <% else %>
+     data-itemvolume="<%= j @document_fedora.pid %>"
+     data-callnumber="<%= strip_tags(metadata[:sources].first) unless metadata[:sources].empty? %>"
+   <% end %>
+   data-itemdate="<%= strip_tags(metadata[:dates].first) unless metadata[:dates].nil? %>">
+  <i class="icon-plus-sign"/></i>&nbsp;Add to List
+</a>

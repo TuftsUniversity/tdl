@@ -4,10 +4,10 @@
 
 <%
     series, series_level = Tufts::EADMethods.get_series(@document_fedora, @item_id)
-    series_title, series_physdesc, series_scopecontents = Tufts::EADMethods.get_series_info(series)
+    series_title, series_physdesc, series_scopecontents, series_restrict = Tufts::EADMethods.get_series_info(series)
     series_items = Tufts::EADMethods.get_series_items(series)
     series_access_and_use = Tufts::EADMethods.get_series_access_and_use(series)
-
+    metadata = Tufts::ModelMethods.get_metadata(@document_fedora)
     # @collection_title and @series_full_title are also used in the _subnav.html.erb partial
     @collection_title = Tufts::EADMethods.title(@document_fedora)
     @series_full_title = "Series " + series_level + ": " + series_title
@@ -55,14 +55,20 @@
   </div>
 
   <div class="span3 ">
+    <%  if series_items.empty? %>
+        <div class="tooltip-demo well">
+          <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata, :series_title => series_title, :series_id => params[:item_id] } %>
+          <p>Contact DCA to request Materials by adding to your list..</p>
+        </div>
+    <% end %>
     <div class="tooltip-demo well">
       <a href="/catalog?f[collection_id_sim][]=<%= params[:id] %>"><h5>View Online Materials <i class="icon-arrow-right margintoparrow"></i></h5></a>
-      <p><a href="/contact">Contact DCA</a> to view materials that are not online.</p>
+      <p>Use <strong>My List</strong> to request materials that are not online.</p>
     </div>
   </div>
 
   <div class="span9 offset3">
-    <h4 id="detailed_contents_list">Detailed Contents List</h4>
+    <h4 id="detailed_contents_list"><b>Detailed Contents List</b></h4>
     <br> 
     <table id="theTable" cellpadding="0" cellspacing="0" class="table" width="679px" style="border:0">
       <thead>
@@ -77,17 +83,18 @@
 
         <tr class="table_header">
           <td class="collapse_td">&nbsp;</td>
-          <td class="active" valign="bottom">Title</td>
+          <td class="active" valign="bottom"><b>Title</b></td>
           <td class="locator_td" valign="bottom">&nbsp;</a></td>
           <td class="id_td" align="left" valign="bottom">&nbsp;</td>
-          <td class="availableonline_td" align="center" valign="bottom">Available Online</td>
+          <td class="availableonline_td" align="center" valign="bottom"><b>Request Materials</b></td>
         </tr>
       </thead>
 
 <% @row_count = 2
    indentation_level = 0;
 %>
-<%= render :partial => 'tufts_eads/eadinternal_items', :locals => {:series_items => series_items, :indentation_level => indentation_level} %>
+
+      <%= render :partial => 'tufts_eads/eadinternal_items', :locals => {:series_restrict => series_restrict, :metadata => metadata, :series_items => series_items, :indentation_level => indentation_level} %>
 
     </table>
 

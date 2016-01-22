@@ -15,9 +15,11 @@
 
       <div class="span5 offset1">
         <div class="tooltip-demo well">
+          <% if collection_has_online_content params[:id] %>
           <a href="/catalog?f[collection_id_sim][]=<%= params[:id] %>"><h5>View Online Materials <i class="icon-arrow-right margintoparrow"></i></h5></a>
           <p>Some of the materials from this collection are available online. Not all materials have necessarily been digitized. <a href="<%= raw Tufts::EADMethods.finding_aid_url(@document_fedora) %>">View the finding aid</a> or <a href="/contact">contact DCA</a> for more information.</p>
           <br>
+          <% end %>
           <a href="<%= raw Tufts::EADMethods.finding_aid_url(@document_fedora) %>"><h5>View Finding Aid <i class="icon-arrow-right margintoparrow"></i></h5></a>
           <p>A finding aid is a description of a collection of archival material, which will help you discover what records are available for research. It provides information about a collection, the collection's creators, and an outline of the collection's contents.  <a href="/about/finding_aids">Learn more about finding aids</a>.</p>
         </div>

@@ -4,13 +4,14 @@ gem 'rails', '3.2.16'
 
 gem 'hydra', '6.1.0'
 
-gem 'tuftsification-hydra', :git => 'https://github.com/TuftsUniversity/tuftsification-hydra', :tag => '1.1.1'
+gem 'tuftsification-hydra', :git => 'https://github.com/TuftsUniversity/tuftsification-hydra', :tag => '1.1.5'
 #gem 'tuftsification-hydra', :path => '/Users/mkorcy01/Documents/workspace/tuftsification-hydra'
 
 #gem 'solrizer', :path => '/home/hydradm/tdl_solrizer'
 #gem 'solrizer', :git => 'https://github.com/TuftsUniversity/tdl_solrizer'
 #gem 'solrizer', :path => '/home/hydradm/tdl_solrizer'
 gem 'solrizer'
+gem 'rubocop', require: false
 
 # Pointing at our fork of blacklight_advanced_search until 
 # https://github.com/projectblacklight/blacklight_advanced_search/pull/10 is merged
@@ -46,6 +47,8 @@ group :development, :test do
    gem 'ci_reporter'
    gem 'ladle'
    gem 'database_cleaner'
+   gem 'poltergeist'
+   gem 'selenium-webdriver'
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]

@@ -1,0 +1,224 @@
+/*My List (aka Bookbag)*/
+#myListNav {
+    margin-right:1%;
+    margin-top:5em;
+}
+
+#myListButton img {
+    height: 15px;
+    margin-top: -3px;
+    vertical-align: middle;
+}
+
+.myListRemoveAll img, .myListPrint img {
+    height: 15px;
+}
+
+.actions img {
+    vertical-align: middle;
+    height:20px;
+}
+
+#myListButton.hasContents {
+    color:#c45414 !important;
+}
+
+#myListButton.hasContents .caret {
+    border-top: 4px solid #c45414;
+}
+
+.ui-dialog .myListContents {
+    border-bottom: 1px solid #ddd;
+}
+
+.results.bookbagView {
+    padding-top: 0;
+}
+
+.myListContents {
+    #overflow-y: scroll;
+    overflow-y: hidden;
+    word-wrap: break-word;
+    padding-bottom: .5em;
+}
+
+.myListContents p {
+    margin-bottom: 0;
+}
+
+.myListContents.dialog {
+    max-height: 300px;
+}
+
+.myListContents.dialog .row.disabled {
+    display:none;
+}
+
+.myListContents .empty {margin: 1em;text-align: center;background: rgba(196, 84, 20, 0.1);padding: .5em;border: 1px solid #c45414;border-radius: 5px;}
+
+.register {margin: 1em;text-align: center;background: rgba(196, 84, 20, 0.1);padding: .5em;border: 1px solid #c45414;border-radius: 5px;float:left;width:96%;}
+
+.myListContents .aeon-row {
+    width:90%;
+    float:left;
+    padding: .4em 1%;
+}
+
+.myListContents .aeon-row.header-row {
+    font-weight: bold;
+    color: #fff;
+    background-color: #333 !important;
+}
+
+.register a:focus, .myListContents input:focus {
+    outline:0;
+}
+
+.myListContents .aeon-row:nth-of-type(odd) {
+    background-color: rgb(243, 243, 243);
+}
+
+.myListContents .requestInputs {float:left; width:2%;min-height: 0;min-height:1px;}
+.myListContents .collectionTitle {float:left; width:25%;margin-right: 1%;min-height:1px;}
+.myListContents .title {float:left; width:30%;margin-right: 1%;min-height:1px;}
+.myListContents .CallNumber {float:left; width:10%;margin-right: 1%;min-height:1px;}
+.myListContents .volume {float:left; width:20%;margin-right: 1%;min-height:1px;}
+.myListContents .list-delete {margin-top:0;float:right;}
+
+
+/* unused right now */
+.myListContents .date {float:left; width:7%;margin-right: 1%;min-height:1px;}
+.myListContents .containers {width:12%;margin-right: 1%;min-height:1px;}
+.myListContents .dateAdded {float:left;width:14%;min-height:1px;}
+
+#ReadAgreementLabel {
+    display: inline;
+    font-weight: normal;
+}
+.listActions {
+    text-align: center;
+}
+.request-copies {
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+.remove-all {
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.request-room {
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+
+.myList .third {
+    width:33%;
+    float:left;
+    margin-top:1em;
+}
+
+.myList .half {
+    width:50%;
+    float:left;
+    margin-top:1em;
+}
+
+.myList .form-group {
+    padding-left:5%
+}
+
+.myList .control-label {
+    font-weight: bold;
+    width:90%;
+}
+
+.myList .control-label.required:after {
+    color: red;
+    content: "*";
+}
+
+.myList .form-control {
+    width:90%;
+}
+
+.myList .form-control.error {
+    border-color: #c45414;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(236, 155, 82, 0.6);
+}
+
+.myList .error {
+    color:#c45414;
+}
+
+.myList .buttons {
+    float:right;
+}
+
+.myList .btn, .ui-dialog .ui-dialog-buttonpane button, #myListNav .btn, .actions .btn, #results .btn {
+    margin: 0 4px;
+    border: 1px outset #dddddd;
+    background-color:#dddddd;
+    -webkit-appearance:none;
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    text-decoration: none;
+    letter-spacing: -.5px;
+    padding:4px 6px;
+    color:#000;
+}
+
+.myList .btn:hover, .ui-dialog .ui-dialog-buttonpane button:hover, #myListNav .btn:hover, .actions .btn:hover, #results .btn:hover {box-shadow:0px 0px 3px #c45414;color: #c45414;cursor:pointer;text-decoration:none !important;}
+.myList .btn:active, .ui-dialog .ui-dialog-buttonpane button:active, #myListNav .btn:active, .actions .btn:active, #results .btn:active {border: 1px inset #dddddd;color: #c45414;}
+
+.additional_notes {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.ui-dialog-buttonpane {
+    border: none;
+    margin-top: 0 !important;
+}
+
+.myList .confirm h1, .myList .confirm p, .myList .confirm h3 {
+    text-align: center;
+    border-bottom: none;
+}
+
+.contentError {
+    text-align:center;
+    margin-top:.5em;
+}
+
+/* --------------------------------------------------------------------- */
+.myList .third {
+    width:33%;
+    float:left;
+    margin-top:1em;
+}
+.button_panel {
+    clear: both;
+}
+
+
+.cart_table {
+    width: 100%
+}
+.cart_table > thead {
+    text-align: left;
+}
+.cart_button_panel {
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+#reservationActions {
+    clear: both;
+}
