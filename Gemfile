@@ -47,6 +47,8 @@ group :development, :test do
    gem 'ci_reporter'
    gem 'ladle'
    gem 'database_cleaner'
+   gem 'poltergeist'
+   gem 'selenium-webdriver'
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]
