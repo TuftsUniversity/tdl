@@ -1,6 +1,8 @@
 require 'simplecov'
 require 'simplecov-rcov'
 #require 'ladle'
+require 'capybara/poltergeist'
+Capybara.javascript_driver = :poltergeist
 
 SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
 SimpleCov.start
