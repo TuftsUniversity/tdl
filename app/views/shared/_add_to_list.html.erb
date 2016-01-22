@@ -10,6 +10,7 @@
    <% else %>
      data-itemsubtitle="<%=strip_tags(metadata[:titles].first) unless metadata[:titles].empty? %>"
    <% end %>
+   data-site="DCA"
    data-author="<%= strip_tags(metadata[:creators].first) unless metadata[:creators].empty? %>"
    data-itemauthor="<%= strip_tags(metadata[:creators].first) unless metadata[:creators].empty? %>"
    data-iteminfo2="<%= strip_tags(metadata[:creators].first) unless metadata[:creators].empty? %>"

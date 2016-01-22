@@ -219,7 +219,7 @@ $(document).ready(function () {
         if ($('#myReproductionActions select[name="Format"]').val()) {
             $('#myReproductionActions select[name="Format"]').removeClass('error');
             $('#myReproductionActions #formatError').hide();
-            if($('#myReproductionActions input[name="ItemInfo4"]').val()) {
+            if($('#myReproductionActions input[name="ItemPages"]').val()) {
                 if ($('#myReproductionActions input[name="ReadAgreement"]').is(':checked')) {
                     return true;
                 }
@@ -228,7 +228,7 @@ $(document).ready(function () {
                     return false;
                 }
             } else {
-                $('#myReproductionActions input[name="ItemInfo4"]').addClass('error');
+                $('#myReproductionActions input[name="ItemPages"]').addClass('error');
                 $('#myReproductionActions #itemPagesError').show();
 
                 if ($('#myReproductionActions input[name="ReadAgreement"]').is(':checked')) {
@@ -242,8 +242,8 @@ $(document).ready(function () {
         } else {
             $('#myReproductionActions select[name="Format"]').addClass('error');
             $('#myReproductionActions #formatError').show();
-            if($('#myReproductionActions input[name="ItemInfo4"]').val()) {
-                $('#myReproductionActions input[name="ItemInfo4"]').removeClass('error');
+            if($('#myReproductionActions input[name="ItemPages"]').val()) {
+                $('#myReproductionActions input[name="ItemPages"]').removeClass('error');
                 $('#myReproductionActions #itemPagesError').hide();
 
                 if ($('#myReproductionActions input[name="ReadAgreement"]').is(':checked')) {
@@ -255,7 +255,7 @@ $(document).ready(function () {
 
                 return false;
             } else {
-                $('#myReproductionActions input[name="ItemInfo4"]').addClass('error');
+                $('#myReproductionActions input[name="ItemPages"]').addClass('error');
                 $('#myReproductionActions #itemPagesError').show();
 
                 if ($('#myReproductionActions input[name="ReadAgreement"]').is(':checked')) {
@@ -430,7 +430,7 @@ $(document).ready(function () {
         if(validate()){
             $('#requestForm').submit();
             $('.back_button').click();
-            $('#myReproductionActions input[name="ItemInfo4"]').removeClass('error');
+            $('#myReproductionActions input[name="ItemPages"]').removeClass('error');
             $('#myReproductionActions #itemPagesError').hide();
             $('#myReproductionActions select[name="Format"]').removeClass('error');
             $('#myReproductionActions #formatError').hide();
