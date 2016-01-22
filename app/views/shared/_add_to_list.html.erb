@@ -1,4 +1,4 @@
-<a class="list-add" data-pid="<%= j @document_fedora.pid %>"
+<a class="list-add" href="#" data-pid="<%= j @document_fedora.pid %>"
    data-identifier="<%= j @document_fedora.pid.gsub(/[^0-9a-z ]/i, '') %>"
    <% if @document_fedora.class == TuftsEAD %>
     data-itemtitle="<%=strip_tags(metadata[:titles].first) unless metadata[:titles].empty? %>"
