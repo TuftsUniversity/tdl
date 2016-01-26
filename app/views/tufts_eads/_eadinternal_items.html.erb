@@ -12,7 +12,7 @@
 
       if is_folder
         next_row = @row_count
-        next_level_items_rows = render(:partial => 'tufts_eads/eadinternal_items', :locals => {:series_items => next_level_items, :indentation_level => indentation_level + 1})
+        next_level_items_rows = render(:partial => 'tufts_eads/eadinternal_items', :locals => {:series_restrict => series_restrict, :series_items => next_level_items, :indentation_level => indentation_level + 1})
         last_row = @row_count - 1 # After the recursive invocation of this view partial, @row_count points at the next row to be output;  we want to toggle the expand/close state up through one row less than that.
         child_count = @row_count - next_row # total number of children/grandchildren/etc of this folder
         toggle_action = raw("javascript:toggleDisplay('#img" + this_row_s + "', " + next_row.to_s + ", " + last_row.to_s + ");")
