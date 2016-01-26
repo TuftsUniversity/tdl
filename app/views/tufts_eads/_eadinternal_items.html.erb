@@ -50,7 +50,7 @@
       unless available_online
         eadid, url = Tufts::EADMethods.eadid(@document_fedora)
         access_restrict = series_restrict if access_restrict.nil?
-        access_restrict = access_restrict.strip     unless access_restrict.nil?
+        access_restrict = access_restrict.strip unless access_restrict.nil?
 
         unitid, author = Tufts::EADMethods.unitid_and_author(@document_fedora)
 %>
