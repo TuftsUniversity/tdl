@@ -393,19 +393,19 @@ module Tufts
       scopecontent = nil
       unittitle = nil
       unitdate = nil
-      physdesc = ""
-      title = ""
+      physdesc = ''
+      title = ''
       paragraphs = []
-      series_restrict = nil
+      series_restrict = ''
 
       if !series.nil?
         # find the pertinent child elements: did, scopecontent
         series.element_children.each do |element_child|
-          if element_child.name == "did"
+          if element_child.name == 'did'
             did = element_child
-          elsif element_child.name == "scopecontent"
+          elsif element_child.name == 'scopecontent'
             scopecontent = element_child
-          elsif element_child.name == "accessrestrict"
+          elsif element_child.name == 'accessrestrict'
             series_restrict = element_child.text
           end
         end
@@ -413,11 +413,11 @@ module Tufts
         # process the did element
         if !did.nil?
           did.element_children.each do |did_child|
-            if did_child.name == "unittitle"
+            if did_child.name == 'unittitle'
               unittitle = did_child.text
-            elsif did_child.name == "unitdate"
+            elsif did_child.name == 'unitdate'
               unitdate = did_child.text
-            elsif did_child.name == "physdesc"
+            elsif did_child.name == 'physdesc'
               physdesc = did_child.text
             end
           end
@@ -426,7 +426,7 @@ module Tufts
         # process the scopecontent element
         paragraphs = get_scopecontent_paragraphs(scopecontent)
 
-        title = (unittitle.nil? ? "" : unittitle + (unitdate.nil? ? "" : ", " + unitdate))
+        title = (unittitle.nil? ? '' : unittitle + (unitdate.nil? ? '' : ', ' + unitdate))
       end
 
       return title, physdesc, paragraphs, series_restrict
