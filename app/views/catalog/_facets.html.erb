@@ -1,4 +1,5 @@
 <% # main container for facets/limits menu    -%>
+<% cache_if !has_search_parameters?, 'home_page_facets', :expires_in => 1.hour, :race_condition_ttl => 3.minutes do %>
 <div id="facets" class="facets">
   <div id="menu">
     <ul class="navmenu">
@@ -49,3 +50,4 @@
     </ul>
   </div>
 </div>
+<% end %>
