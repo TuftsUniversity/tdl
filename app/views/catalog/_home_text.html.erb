@@ -5,10 +5,13 @@
 
   <!-- nested row LEFT -->
   <div class="row-fluid">
-
-    <%= render :partial => 'facet_nav' %>
+    <div class="span3">
+      <%= render 'search_sidebar' %>
+    </div>
     <!-- nested Fluid RIGHT -->
+
     <div class="row-fluid">
+
       <!-- MAIN CONTENT AREA -->
       <div class="span9 offset3">
         <%= render :partial => "dca_text/welcome#{dark_suffix}" %>
