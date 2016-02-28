@@ -1,112 +1,123 @@
+<%
+   #retrieve items that can not be cached
+   series, series_level = Tufts::EADMethods.get_series(@document_fedora, @item_id)
+   series_title, series_physdesc, series_scopecontents, series_restrict = Tufts::EADMethods.get_series_info(series)
+   # @collection_title and @series_full_title are also used in the _subnav.html.erb partial
+   @collection_title = Tufts::EADMethods.title(@document_fedora)
+   @series_full_title = "Series " + series_level + ": " + series_title
+   @page_title = @series_full_title + " - " + application_name
+%>
 <% javascript_includes << "ead.js" %>
 <% stylesheet_links << "ead/ead.css" %>
+<% cache (@document_fedora.pid + @item_id + @document_fedora.edited_at.to_s).strip do %>
 
 
-<%
-    series, series_level = Tufts::EADMethods.get_series(@document_fedora, @item_id)
-    series_title, series_physdesc, series_scopecontents, series_restrict = Tufts::EADMethods.get_series_info(series)
-    series_items = Tufts::EADMethods.get_series_items(series)
-    series_access_and_use = Tufts::EADMethods.get_series_access_and_use(series)
-    metadata = Tufts::ModelMethods.get_metadata(@document_fedora)
-    # @collection_title and @series_full_title are also used in the _subnav.html.erb partial
-    @collection_title = Tufts::EADMethods.title(@document_fedora)
-    @series_full_title = "Series " + series_level + ": " + series_title
-    @page_title = @series_full_title + " - " + application_name
-%>
+
+    <%
+
+       series_items = Tufts::EADMethods.get_series_items(series)
+       series_access_and_use = Tufts::EADMethods.get_series_access_and_use(series)
+       metadata = Tufts::ModelMethods.get_metadata(@document_fedora)
+
+    %>
 
 
-<div class="row">
-  <div class="span12">
-    <h2><%= series_title %></h2>
-  </div>
-</div>
-
-<hr>
-
-<div class="row" id="outermost">
-  <div class="span3" id="floating_table_of_contents_column">
-    <div class="EAD_TOC" id="floating_table_of_contents">
-      <h6>On this page:</h6>
-      <ul class="nav nav-tabs nav-stacked" style="margin: 0px;">
-        <li><a href="#series_overview">Series Overview</a></li>
-<%  if !series_items.empty? %>
-        <li><a href="#detailed_contents_list">Detailed Contents List</a></li>
-<%  end %>
-<%  if !series_access_and_use.empty? %>
-        <li><a href="#access_and_use">Access and Use</a></li>
-<%  end %>
-      </ul>
+    <div class="row">
+      <div class="span12">
+        <h2><%= series_title %></h2>
+      </div>
     </div>
-    <div>  <!-- placeholder div to maintain containing column width when TOC becomes fixed -->
-      &nbsp;
-    </div>
-  </div>
 
-  <div class="span6" id="series_overview">
-    <p>
-      This series is part of <a href="<%= Tufts::EADMethods.collection_url(@document_fedora)%>"><%= @collection_title %></a>
-      <br>
-      <%= series_physdesc %>
-    </p>
+    <hr>
 
-<%  series_scopecontents.each do |paragraph| %>
-    <p><%= raw paragraph %></p>
-<%  end %>
-  </div>
-
-  <div class="span3 ">
-    <%  if series_items.empty? %>
-        <div class="tooltip-demo well">
-          <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata, :series_title => series_title, :series_id => params[:item_id] } %>
-          <p>Contact DCA to request Materials by adding to your list..</p>
+    <div class="row" id="outermost">
+      <div class="span3" id="floating_table_of_contents_column">
+        <div class="EAD_TOC" id="floating_table_of_contents">
+          <h6>On this page:</h6>
+          <ul class="nav nav-tabs nav-stacked" style="margin: 0px;">
+            <li><a href="#series_overview">Series Overview</a></li>
+            <% if !series_items.empty? %>
+                <li><a href="#detailed_contents_list">Detailed Contents List</a></li>
+            <% end %>
+            <% if !series_access_and_use.empty? %>
+                <li><a href="#access_and_use">Access and Use</a></li>
+            <% end %>
+          </ul>
         </div>
-    <% end %>
-    <div class="tooltip-demo well">
-      <a href="/catalog?f[collection_id_sim][]=<%= params[:id] %>"><h5>View Online Materials <i class="icon-arrow-right margintoparrow"></i></h5></a>
-      <p>Use <strong>My List</strong> to request materials that are not online.</p>
-    </div>
-  </div>
+        <div>  <!-- placeholder div to maintain containing column width when TOC becomes fixed -->
+          &nbsp;
+        </div>
+      </div>
 
-  <div class="span9 offset3">
-    <h4 id="detailed_contents_list"><b>Detailed Contents List</b></h4>
-    <br> 
-    <table id="theTable" cellpadding="0" cellspacing="0" class="table" width="679px" style="border:0">
-      <thead>
-        <tr class="table_options">
-          <td colspan="5">
-            <div class="left" style="margin-bottom: 2px">
-              <button class="btn btn-mini" onclick="displayAll(true)" tabindex="0">expand all folders</button>
-              <button class="btn btn-mini" onclick="displayAll(false)" tabindex="1">close all folders</button>
+      <div class="span6" id="series_overview">
+        <p>
+          This series is part of
+          <a href="<%= Tufts::EADMethods.collection_url(@document_fedora) %>"><%= @collection_title %></a>
+          <br>
+          <%= series_physdesc %>
+        </p>
+
+        <% series_scopecontents.each do |paragraph| %>
+            <p><%= raw paragraph %></p>
+        <% end %>
+      </div>
+
+      <div class="span3 ">
+        <% if series_items.empty? %>
+            <div class="tooltip-demo well">
+              <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata, :series_title => series_title, :series_id => params[:item_id]} %>
+              <p>Contact DCA to request Materials by adding to your list..</p>
             </div>
-          </td>
-        </tr>
+        <% end %>
+        <div class="tooltip-demo well">
+          <a href="/catalog?f[collection_id_sim][]=<%= params[:id] %>">
+            <h5>View Online Materials <i class="icon-arrow-right margintoparrow"></i></h5></a>
 
-        <tr class="table_header">
-          <td class="collapse_td">&nbsp;</td>
-          <td class="active" valign="bottom"><b>Title</b></td>
-          <td class="locator_td" valign="bottom">&nbsp;</td>
-          <td class="id_td" align="left" valign="bottom">&nbsp;</td>
-          <td class="availableonline_td" align="center" valign="bottom"><b>Request Materials</b></td>
-        </tr>
-      </thead>
+          <p>Use <strong>My List</strong> to request materials that are not online.</p>
+        </div>
+      </div>
 
-<% @row_count = 2
-   indentation_level = 0;
-%>
+      <div class="span9 offset3">
+        <h4 id="detailed_contents_list"><b>Detailed Contents List</b></h4>
+        <br>
+        <table id="theTable" cellpadding="0" cellspacing="0" class="table" width="679px" style="border:0">
+          <thead>
+          <tr class="table_options">
+            <td colspan="5">
+              <div class="left" style="margin-bottom: 2px">
+                <button class="btn btn-mini" onclick="displayAll(true)" tabindex="0">expand all folders</button>
+                <button class="btn btn-mini" onclick="displayAll(false)" tabindex="1">close all folders</button>
+              </div>
+            </td>
+          </tr>
 
-      <%= render :partial => 'tufts_eads/eadinternal_items', :locals => {:series_restrict => series_restrict, :metadata => metadata, :series_items => series_items, :indentation_level => indentation_level} %>
+          <tr class="table_header">
+            <td class="collapse_td">&nbsp;</td>
+            <td class="active" valign="bottom"><b>Title</b></td>
+            <td class="locator_td" valign="bottom">&nbsp;</td>
+            <td class="id_td" align="left" valign="bottom">&nbsp;</td>
+            <td class="availableonline_td" align="center" valign="bottom"><b>Request Materials</b></td>
+          </tr>
+          </thead>
 
-    </table>
+          <% @row_count = 2
+             indentation_level = 0;
+          %>
 
-<%  if !series_access_and_use.empty? %>
-    <h4 id="access_and_use">Access and Use</h4>
-<%    series_access_and_use.each do |paragraph| %>
-    <p><%= raw paragraph %></p>
-<%
-      end
-    end
-%>
+          <%= render :partial => 'tufts_eads/eadinternal_items', :locals => {:series_restrict => series_restrict, :metadata => metadata, :series_items => series_items, :indentation_level => indentation_level} %>
 
-    <br>
-  </div>
-</div>
+        </table>
+
+        <% if !series_access_and_use.empty? %>
+            <h4 id="access_and_use">Access and Use</h4>
+            <% series_access_and_use.each do |paragraph| %>
+                <p><%= raw paragraph %></p>
+            <%
+               end
+               end
+            %>
+
+        <br>
+      </div>
+    </div>
+<% end %>

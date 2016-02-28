@@ -1,212 +1,217 @@
-<% javascript_includes << "ead.js" %>
-<% stylesheet_links << "ead/ead.css" %>
+<% cache (@document_fedora.pid + @document_fedora.edited_at.to_s).strip do %>
+    <% javascript_includes << "ead.js" %>
+    <% stylesheet_links << "ead/ead.css" %>
 
 
-<%
-    title = raw Tufts::EADMethods.title(@document_fedora)
-    read_more_about = Tufts::EADMethods.read_more_about(@document_fedora)
-    contributors = Tufts::EADMethods.get_contributors(@document_fedora)
-    contents = Tufts::EADMethods.get_contents(@document_fedora)
-    serieses = Tufts::EADMethods.get_serieses(@document_fedora)
-    names_and_subjects = Tufts::EADMethods.get_names_and_subjects(@document_fedora)
-    related_material = Tufts::EADMethods.get_related_material(@document_fedora)
-    access_and_use = Tufts::EADMethods.get_access_and_use(@document_fedora)
-    processing_notes = Tufts::EADMethods.get_processing_notes(@document_fedora)
-    acquisition_info = Tufts::EADMethods.get_acquisition_info(@document_fedora)
-    metadata = Tufts::ModelMethods.get_metadata(@document_fedora)
-    @page_title = title + " - " + application_name
-%>
+    <%
+       title = raw Tufts::EADMethods.title(@document_fedora)
+       read_more_about = Tufts::EADMethods.read_more_about(@document_fedora)
+       contributors = Tufts::EADMethods.get_contributors(@document_fedora)
+       contents = Tufts::EADMethods.get_contents(@document_fedora)
+       serieses = Tufts::EADMethods.get_serieses(@document_fedora)
+       names_and_subjects = Tufts::EADMethods.get_names_and_subjects(@document_fedora)
+       related_material = Tufts::EADMethods.get_related_material(@document_fedora)
+       access_and_use = Tufts::EADMethods.get_access_and_use(@document_fedora)
+       processing_notes = Tufts::EADMethods.get_processing_notes(@document_fedora)
+       acquisition_info = Tufts::EADMethods.get_acquisition_info(@document_fedora)
+       metadata = Tufts::ModelMethods.get_metadata(@document_fedora)
+       @page_title = title + " - " + application_name
+    %>
 
 
-<div class="row">
-  <div class="span12">
-    <h2><%= title %></h2>
-  </div>
-</div>
-
-<hr>
-
-<div class="row" id="outermost">
-  <div class="span3" id="floating_table_of_contents_column">
-    <div class="EAD_TOC" id="floating_table_of_contents">
-      <h6>On this page:</h6>
-      <ul class="nav nav-tabs nav-stacked" style="margin: 0px;">
-        <li><a href="#overview">Overview</a></li>
-<%  if !contributors.empty? %>
-        <li><a href="#contributors">Contributors</a></li>
-<%  end %>
-<%  if !contents.empty? %>
-        <li><a href="#contents">Contents</a></li>
-<%  end %>
-<%  if !serieses.empty? %>
-        <li><a href="#series_descriptions">Series Description</a></li>
-<%  end %>
-<%  if !names_and_subjects.empty? %>
-        <li><a href="#names_and_subjects">Names and Subjects</a></li>
-<%  end %>
-<%  if !related_material.empty? %>
-        <li><a href="#related_material">Related Material</a></li>
-<%  end %>
-<%  if !access_and_use.empty? %>
-        <li><a href="#access_and_use">Access and Use</a></li>
-<%  end %>
-<%  if !(processing_notes.empty? && acquisition_info.empty?) %>
-        <li><a href="#administrative_notes">Administrative Notes</a></li>
-<%  end %>
-      </ul>
+    <div class="row">
+      <div class="span12">
+        <h2><%= title %></h2>
+      </div>
     </div>
-    <div>  <!-- placeholder div to maintain containing column width when TOC becomes fixed -->
-      &nbsp;
+
+    <hr>
+
+    <div class="row" id="outermost">
+      <div class="span3" id="floating_table_of_contents_column">
+        <div class="EAD_TOC" id="floating_table_of_contents">
+          <h6>On this page:</h6>
+          <ul class="nav nav-tabs nav-stacked" style="margin: 0px;">
+            <li><a href="#overview">Overview</a></li>
+            <% if !contributors.empty? %>
+                <li><a href="#contributors">Contributors</a></li>
+            <% end %>
+            <% if !contents.empty? %>
+                <li><a href="#contents">Contents</a></li>
+            <% end %>
+            <% if !serieses.empty? %>
+                <li><a href="#series_descriptions">Series Description</a></li>
+            <% end %>
+            <% if !names_and_subjects.empty? %>
+                <li><a href="#names_and_subjects">Names and Subjects</a></li>
+            <% end %>
+            <% if !related_material.empty? %>
+                <li><a href="#related_material">Related Material</a></li>
+            <% end %>
+            <% if !access_and_use.empty? %>
+                <li><a href="#access_and_use">Access and Use</a></li>
+            <% end %>
+            <% if !(processing_notes.empty? && acquisition_info.empty?) %>
+                <li><a href="#administrative_notes">Administrative Notes</a></li>
+            <% end %>
+          </ul>
+        </div>
+        <div>  <!-- placeholder div to maintain containing column width when TOC becomes fixed -->
+          &nbsp;
+        </div>
+      </div>
+
+      <div class="span6" id="overview">
+        <p>
+          <%= raw Tufts::EADMethods.physdesc(@document_fedora) %>
+          <br>
+          <% unitid, author = Tufts::EADMethods.unitid_and_author(@document_fedora) %>
+          Call Number: <%= raw unitid %>
+        </p>
+
+        <p><%= raw Tufts::EADMethods.abstract(@document_fedora) %></p>
+
+        <% unless read_more_about.nil? %>
+            <p>Read more about <%= raw read_more_about %></p>
+        <% end %>
+
+        <% if !contributors.empty? %>
+            <h4 id="contributors">Contributors</h4>
+            <ul>
+              <% contributors.each do |list_item| %>
+                  <li><%= raw list_item %></li>
+              <% end %>
+            </ul>
+        <% end %>
+
+        <% if !contents.empty? %>
+            <h4 id="contents">Contents of the Collection </h4>
+            <% contents.each do |paragraph| %>
+                <p><%= raw paragraph %></p>
+            <%
+               end
+               end
+            %>
+
+        <% if !serieses.empty? %>
+            <h4 id="series_descriptions">Series Description</h4>
+            <ol>
+              <%
+                 ead_id = @document_fedora.id
+                 series_count = serieses.size
+                 series_index = 0
+                 while series_index < series_count
+                   series_level = (series_index + 1).to_s
+                   series_id, did, scopecontent, c02s = Tufts::EADMethods.get_series_elements(serieses[series_index])
+                   title = Tufts::EADMethods.get_series_title(did, ead_id, series_id, nil, c02s.empty?)
+                   paragraphs = Tufts::EADMethods.get_scopecontent_paragraphs(scopecontent)
+              %>
+                  <li>
+                    <h5 class="EAD_H5"><%= raw title %></h5>
+                    <% paragraphs.each do |paragraph| %>
+                        <p><%= raw paragraph %></p>
+                    <%
+                       end
+                       subseries_count = c02s.size
+                       if subseries_count > 0
+                    %>
+                        <ol style="list-style-type: none;">
+                          <%
+                             subseries_index = 0
+                             while subseries_index < subseries_count
+                               subseries_level = (subseries_index + 1).to_s
+                               # note: ignore 4th return value from get_series_elements because it will always be nil (c02s don't have sub-c02s)
+                               subseries_id, did, scopecontent = Tufts::EADMethods.get_series_elements(c02s[subseries_index])
+                               title = Tufts::EADMethods.get_series_title(did, ead_id, subseries_id, series_level + "." + subseries_level, true)
+                               paragraphs = Tufts::EADMethods.get_scopecontent_paragraphs(scopecontent)
+                          %>
+                              <li>
+                                <h6 class="EAD_H6"><%= raw title %></h6>
+                                <% paragraphs.each do |paragraph| %>
+                                    <p><%= raw paragraph %></p>
+                                <%
+                                   end
+                                   subseries_index += 1
+                                %>
+                              </li>
+                          <% end %>
+                        </ol>
+                    <%
+                       end
+                       series_index += 1
+                    %>
+                  </li>
+              <% end %>
+            </ol>
+        <% end %>
+
+        <% if !names_and_subjects.empty? %>
+            <h4 id="names_and_subjects">Names and Subjects</h4>
+            <ul>
+              <% names_and_subjects.each do |list_item| %>
+                  <li><%= raw list_item %></li>
+              <% end %>
+            </ul>
+        <% end %>
+
+        <% if !related_material.empty? %>
+            <h4 id="related_material">Related Material</h4>
+            <ul>
+              <% related_material.each do |list_item| %>
+                  <li><%= raw list_item %></li>
+              <% end %>
+            </ul>
+        <% end %>
+
+        <% if !access_and_use.empty? %>
+            <h4 id="access_and_use">Access and Use</h4>
+            <% access_and_use.each do |paragraph| %>
+                <p><%= raw paragraph %></p>
+            <%
+               end
+               end
+            %>
+
+        <% if !(processing_notes.empty? && acquisition_info.empty?) %>
+            <h4 id="administrative_notes">Administrative Notes</h4>
+            <% if !processing_notes.empty? %>
+                <h5 class="EAD_H5">Processing Notes</h5>
+                <% processing_notes.each do |paragraph| %>
+                    <p><%= raw paragraph %></p>
+                <%
+                   end
+                   end
+                %>
+            <% if !acquisition_info.empty? %>`
+                <h5 class="EAD_H5">Acquisition Information</h5>
+                <% acquisition_info.each do |paragraph| %>
+                    <p><%= raw paragraph %></p>
+                <%
+                   end
+                   end
+                   end
+                %>
+
+        <br>
+        <br>
+      </div>
+
+      <div class="span3">
+        <% if collection_has_online_content(params[:id]) %>
+            <div class="tooltip-demo well">
+              <a href="/catalog?f[collection_id_sim][]=<%= params[:id] %>">
+                <h5>View Online Materials <i class="icon-arrow-right margintoparrow"></i></h5></a>
+
+              <p>Some of the materials from this collection are available online. Not all materials have necessarily
+                been digitized.</p>
+            </div>
+        <% end %>
+        <% if serieses.empty? %>
+            <div class="tooltip-demo well">
+              <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata} %>
+              <p>Contact DCA to request Materials by adding to your list..</p>
+            </div>
+        <% end %>
+      </div>
     </div>
-  </div>
-
-  <div class="span6" id="overview">
-    <p>
-      <%= raw Tufts::EADMethods.physdesc(@document_fedora) %>
-      <br>
-      <% unitid, author =  Tufts::EADMethods.unitid_and_author(@document_fedora) %>
-      Call Number: <%= raw unitid %>
-    </p>
-
-    <p><%= raw Tufts::EADMethods.abstract(@document_fedora) %></p>
-
-<%  unless read_more_about.nil? %>
-    <p>Read more about <%= raw read_more_about %></p>
-<%  end %>
-
-<%  if !contributors.empty? %>
-    <h4 id="contributors">Contributors</h4>
-    <ul>
-<%    contributors.each do |list_item| %>
-      <li><%= raw list_item %></li>
-<%    end %>
-    </ul>
-<%  end %>
-
-<%  if !contents.empty? %>
-    <h4 id="contents">Contents of the Collection </h4>
-<%    contents.each do |paragraph| %>
-    <p><%= raw paragraph %></p>
-<%
-      end
-    end
-%>
-
-<%  if !serieses.empty? %>
-    <h4 id="series_descriptions">Series Description</h4>
-    <ol>
-<%
-      ead_id = @document_fedora.id
-      series_count = serieses.size
-      series_index = 0
-      while series_index < series_count
-        series_level = (series_index + 1).to_s
-        series_id, did, scopecontent, c02s = Tufts::EADMethods.get_series_elements(serieses[series_index])
-        title = Tufts::EADMethods.get_series_title(did, ead_id, series_id, nil, c02s.empty?)
-        paragraphs = Tufts::EADMethods.get_scopecontent_paragraphs(scopecontent)
-%>
-      <li>
-        <h5 class="EAD_H5"><%= raw title %></h5>
-<%      paragraphs.each do |paragraph| %>
-        <p><%= raw paragraph %></p>
-<%
-        end
-        subseries_count = c02s.size
-        if subseries_count > 0
-%>
-        <ol style="list-style-type: none;">
-<%
-          subseries_index = 0
-          while subseries_index < subseries_count
-            subseries_level = (subseries_index + 1).to_s
-            # note: ignore 4th return value from get_series_elements because it will always be nil (c02s don't have sub-c02s)
-            subseries_id, did, scopecontent = Tufts::EADMethods.get_series_elements(c02s[subseries_index])
-            title = Tufts::EADMethods.get_series_title(did, ead_id, subseries_id, series_level + "." + subseries_level, true)
-            paragraphs = Tufts::EADMethods.get_scopecontent_paragraphs(scopecontent)
-%>
-          <li>
-            <h6 class="EAD_H6"><%= raw title %></h6>
-<%          paragraphs.each do |paragraph| %>
-            <p><%= raw paragraph %></p>
-<%
-            end
-            subseries_index += 1
-%>
-          </li>
-<%        end %>
-        </ol>
-<%
-        end
-        series_index += 1
-%>
-      </li>
-<%    end %>
-    </ol>
-<%  end %>
-
-<%  if !names_and_subjects.empty? %>
-    <h4 id="names_and_subjects">Names and Subjects</h4>
-    <ul>
-<%    names_and_subjects.each do |list_item| %>
-      <li><%= raw list_item %></li>
-<%    end %>
-    </ul>
-<%  end %>
-
-<%  if !related_material.empty? %>
-    <h4 id="related_material">Related Material</h4>
-    <ul>
-<%    related_material.each do |list_item| %>
-      <li><%= raw list_item %></li>
-<%    end %>
-    </ul>
-<%  end %>
-
-<%  if !access_and_use.empty? %>
-    <h4 id="access_and_use">Access and Use</h4>
-<%    access_and_use.each do |paragraph| %>
-    <p><%= raw paragraph %></p>
-<%
-      end
-    end
-%>
-
-<%  if !(processing_notes.empty? && acquisition_info.empty?) %>
-    <h4 id="administrative_notes">Administrative Notes</h4>
-<%    if !processing_notes.empty? %>
-    <h5 class="EAD_H5">Processing Notes</h5>
-<%      processing_notes.each do |paragraph| %>
-    <p><%= raw paragraph %></p>
-<%
-        end
-      end
-%>
-<%    if !acquisition_info.empty? %>`
-    <h5 class="EAD_H5">Acquisition Information</h5>
-<%      acquisition_info.each do |paragraph| %>
-    <p><%= raw paragraph %></p>
-<%
-        end
-      end
-    end
-%>
-
-    <br>
-    <br>
-  </div>
-
-  <div class="span3">
-   <% if collection_has_online_content(params[:id]) %>
-    <div class="tooltip-demo well">
-      <a href="/catalog?f[collection_id_sim][]=<%= params[:id] %>"><h5>View Online Materials <i class="icon-arrow-right margintoparrow"></i></h5></a>
-      <p>Some of the materials from this collection are available online. Not all materials have necessarily been digitized.</p>
-    </div>
-   <% end %>
-   <%  if serieses.empty? %>
-    <div class="tooltip-demo well">
-      <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata} %>
-      <p>Contact DCA to request Materials by adding to your list..</p>
-    </div>
-   <% end %>
-  </div>
-</div>
+<% end %>
