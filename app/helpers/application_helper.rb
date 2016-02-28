@@ -4,6 +4,14 @@ include Tufts::DarkArchiveMethods
 
 module ApplicationHelper
 
+  def cache_if (condition, name = {}, opts = {},&block)
+    if condition
+      cache(name, opts,&block)
+    else
+      yield
+    end
+  end
+
   def collection_has_online_content(pid)
 
     solr_connection = ActiveFedora.solr.conn
