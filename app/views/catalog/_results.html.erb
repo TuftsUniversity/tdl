@@ -9,7 +9,9 @@
   <!-- nested row LEFT -->
   <div class="row-fluid">
 
-    <%= render :partial => 'facet_nav' %>
+    <div class="span3">
+      <%= render 'search_sidebar' %>
+    </div>
     <!-- nested Fluid RIGHT -->
     <div class="row-fluid">
       <!-- MAIN CONTENT AREA -->
@@ -17,8 +19,6 @@
       <%#=  render :partial => 'did_you_mean' %>
 
       <div class="span9">
-        <br/>
-
         <h2><%= @response.total %> Result<%= @response.total == 1 ? "" : "s" %></h2>
         <% if false %>
             <%= render_pagination_info @response, :entry_name => 'item' %>
