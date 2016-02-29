@@ -1,7 +1,7 @@
 require 'simplecov'
 require 'simplecov-rcov'
-#require 'ladle'
 require 'capybara/poltergeist'
+
 Capybara.javascript_driver = :poltergeist
 
 SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
@@ -29,10 +29,9 @@ RSpec.configure do |config|
   # config.mock_with :rr
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
-
   config.before(:suite) do
     DatabaseCleaner.clean_with(:truncation)
-    load "#{Rails.root}/db/seeds.rb" 
+    load "#{Rails.root}/db/seeds.rb"
   end
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
@@ -52,7 +51,7 @@ RSpec.configure do |config|
 end
 
 Capybara.configure do |config|
-    config.app_host    = 'http://localhost'
-    config.server_port = 3000
-    config.always_include_port = true
+  config.app_host    = 'http://localhost'
+  config.server_port = 3000
+  config.always_include_port = true
 end

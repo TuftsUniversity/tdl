@@ -11,7 +11,6 @@ gem 'tuftsification-hydra', :git => 'https://github.com/TuftsUniversity/tuftsifi
 #gem 'solrizer', :git => 'https://github.com/TuftsUniversity/tdl_solrizer'
 #gem 'solrizer', :path => '/home/hydradm/tdl_solrizer'
 gem 'solrizer'
-gem 'rubocop', require: false
 
 # Pointing at our fork of blacklight_advanced_search until 
 # https://github.com/projectblacklight/blacklight_advanced_search/pull/10 is merged
@@ -49,6 +48,8 @@ group :development, :test do
    gem 'database_cleaner'
    gem 'poltergeist'
    gem 'selenium-webdriver'
+   gem 'rubocop', require: false
+   gem 'rubocop-rspec', require: false
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]
