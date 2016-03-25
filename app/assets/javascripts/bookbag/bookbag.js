@@ -73,6 +73,8 @@ $(document).ready(function () {
 
             }
 
+        var form_data = '';
+
         for(var i =0; i <= myList.length-1; i++) {
             var item = myList[i];
             
@@ -127,55 +129,36 @@ $(document).ready(function () {
             };
 
 
-            var identifier = sanitize(item.identifier);
-            var referenceNumber = sanitize(item.referenceNumber);
-            var itemNumber = sanitize(item.itemNumber);
-            var site = sanitize(item.site);
-            var title = sanitize(item.title);
-            var subTitle = sanitize(item.subTitle);
-            var itemInfo1 = sanitize(item.itemInfo1);
-            var itemInfo2 = sanitize(item.itemInfo2);
-            var itemInfo3 = sanitize(item.itemInfo3);
-            var itemAuthor = sanitize(item.itemAuthor);
-            var itemDate = sanitize(item.itemDate);
-            var callNumber = sanitize(item.callNumber);
-            var itemVolume = sanitize(item.itemVolume);
 
-            $('.myListContents').append(
-                '<div class="aeon-row">' +
-                    '<div class="requestInputs">' +
-                        '<input type="checkbox" checked="checked" name="Request" value="' + identifier + '"/>' +
-                        '<input type="hidden" name="ReferenceNumber_' + identifier + '" value="' + referenceNumber + '"/>' +
-                        '<input type="hidden" name="ItemNumber_' + identifier + '" value="' + itemNumber + '"/>' +
-                        '<input type="hidden" name="Site_' + identifier + '" value="' + site + '"/>' +
-                        '<input type="hidden" name="ItemTitle_' + identifier + '" value="' + title + '"/>' +
-                        '<input type="hidden" name="ItemSubtitle_' + identifier + '" value="' + subTitle + '"/>' +
-                        '<input type="hidden" name="ItemInfo1_' + identifier + '" value="' + itemInfo1 + '"/>' +
-                        '<input type="hidden" name="ItemInfo2_' + identifier + '" value="' + itemInfo2 + '"/>' +
-                        '<input type="hidden" name="ItemInfo3_' + identifier + '" value="' + itemInfo3 + '"/>' +
-                        '<input type="hidden" name="Author_' + identifier + '" value="' + itemAuthor + '"/>' +
-                        '<input type="hidden" name="ItemAuthor_' + identifier + '" value="' + itemAuthor + '"/>' +
-                        '<input type="hidden" name="ItemDate_' + identifier + '" value="' + itemDate + '"/>' +
-                        '<input type="hidden" name="CallNumber_' + identifier + '" value="' + callNumber + '"/>' +
-                        '<input type="hidden" name="ItemVolume_' + identifier + '" value="' + itemVolume + '"/>' +
-                    '</div>' + 
-                    '<div class="collectionTitle"><p>' + title + '</p></div>' +
-                    //'<div class="parents">' + formatparents + '</div></div>' +
-                    '<div class="title"><p>' + subTitle + '</p></div>' +
-                    '<div class="CallNumber"><p>' + callNumber + '</p></div>' +
-                    '<div class="volume"><p>' + itemVolume + '</p></div>' +
+            var template = '<div class="aeon-row"><div class="requestInputs"><input type="checkbox" checked="checked" name="Request" value="{{identifier}}"/><input type="hidden" name="ReferenceNumber_{{identifier}}" value="{{referenceNumber}}"/><input type="hidden" name="ItemNumber_{{identifier}}" value="{{itemNumber}}"/><input type="hidden" name="Site_{{identifier}}" value="{{site}}"/><input type="hidden" name="ItemTitle_{{identifier}}" value="{{title}}"/><input type="hidden" name="ItemSubtitle_{{identifier}}" value="{{subTitle}}"/><input type="hidden" name="ItemInfo1_{{identifier}}" value="{{itemInfo1}}"/><input type="hidden" name="ItemInfo2_{{identifier}}" value="{{itemInfo2}}"/><input type="hidden" name="ItemInfo3_{{identifier}}" value="{{itemInfo3}}"/><input type="hidden" name="Author_{{identifier}}" value="{{itemAuthor}}"/><input type="hidden" name="ItemAuthor_{{identifier}}" value="{{itemAuthor}}"/><input type="hidden" name="ItemDate_{{identifier}}" value="{{itemDate}}"/><input type="hidden" name="CallNumber_{{identifier}}" value="{{callNumber}}"/><input type="hidden" name="ItemVolume_{{identifier}}" value="{{itemVolume}}"/></div><div class="collectionTitle"><p>{{title}}</p></div><div class="title"><p>{{subTitle}}</p></div><div class="CallNumber"><p>{{callNumber}}</p></div><div class="volume"><p>{{itemVolume}}</p></div><button class="list-delete btn" href="#" data-identifier="{{identifier}}">Delete</button></div>'
+            var aeon_item = {
+              identifier: sanitize(item.identifier),
+              referenceNumber: sanitize(item.referenceNumber),
+              itemNumber: sanitize(item.itemNumber),
+              site: sanitize(item.site),
+              title: sanitize(item.title),
+              subTitle: sanitize(item.subTitle),
+              itemInfo1: sanitize(item.itemInfo1),
+              itemInfo2: sanitize(item.itemInfo2),
+              itemInfo3: sanitize(item.itemInfo3),
+              itemAuthor: sanitize(item.itemAuthor),
+              itemDate: sanitize(item.itemDate),
+              callNumber: sanitize(item.callNumber),
+              itemVolume: sanitize(item.itemVolume)
 
-                    //'<div class="date">' + date + ' </div>' +
-                    //'<div class="containers"><p>' + containers + '</p></div>' +
-                    //'<div class="dateAdded"><p>' + dateAdded + '</p></div>' +
-                    '<button class="list-delete btn" href="#" data-identifier="'+ identifier + '">Delete</button>' +
-                '</div>');
+        };
+            form_data += Mustache.to_html(template, aeon_item);
+
+
 
             // change text for components already in bookbag
-            $('.list-add[data-identifier="' + identifier + '"]').replaceWith('<span class="list-added" data-identifier="' + identifier + '">Added to List</span>');
+            $('.list-add[data-identifier="' + item.identifier + '"]').replaceWith('<span class="list-added" data-identifier="' + item.identifier + '">Added to List</span>');
 
         };
 
+        //Attempting to append the html outside the for loop as there would be an occasional failure to append that seemed to be due to a
+        //browser race condition in the DOM
+        $('.myListContents').append(form_data);
         // update list count
         var count = myList.length
         $(listCount).text(count);

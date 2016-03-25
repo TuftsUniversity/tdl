@@ -33,5 +33,7 @@
 //= require 'bookbag/bootstrap-datepicker.js'
 //= require 'feedback'
 //= require 'tdl_customizations.js'
+//= require 'mustache/mustache.js'
 //= require 'bookbag/bookbag.js'
 //= require 'bookbag/datepicker.js'
+
