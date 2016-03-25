@@ -387,6 +387,9 @@ $(document).ready(function () {
 
     $('#reviewItemsButton').on('click', function(e) {
         $('input[name="UserReview"]').val("Yes");
+        if (window.console) {
+          console.log($('#requestForm').serialize());
+        }
         $('#requestForm').submit();
         $('#cart_modal').modal("hide");
         $('.back_button').click();
@@ -396,6 +399,9 @@ $(document).ready(function () {
     $("#requestItemsButton").on('click', function(e) {
         if($('#myRequestActions input[name="ScheduledDate"]').val()) {
             $('input[name="UserReview"]').val("No");
+            if (window.console) {
+              console.log($('#requestForm').serialize());
+            }
             $('#requestForm').submit();
             $('#cart_modal').modal("hide");
             $('.back_button').click();
@@ -411,6 +417,9 @@ $(document).ready(function () {
 
     $("#requestReproductionButton").on('click', function(e) {
         if(validate()){
+            if (window.console) {
+              console.log($('#requestForm').serialize());
+            }
             $('#requestForm').submit();
             $('.back_button').click();
             $('#myReproductionActions input[name="ItemPages"]').removeClass('error');
