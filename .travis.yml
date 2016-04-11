@@ -10,23 +10,14 @@ notifications:
     - mike.korcynski@tufts.edu
 
 before_script:
-  - cp config/database.yml.travis config/database.yml
-#  - cp config/fedora.yml.sample config/fedora.yml
-#  - cp config/solr.yml.sample config/solr.yml
-#  - cp config/redis.yml.sample config/redis.yml
-#  - cp config/devise.yml.sample config/devise.yml
-#  - cp config/jetty.yml.sample config/jetty.yml
-#  - cp config/secrets.yml.sample config/secrets.yml
+  - cp config/fedora.yml.sample config/fedora.yml
+  - cp config/solr.yml.sample config/solr.yml
+  - cp config/devise.yml.sample config/devise.yml
+  - cp config/application.yml.sample config/application.yml
   - cp config/database.yml.travis config/database.yml
   - cp config/ldap.yml.sample config/ldap.yml
   - mysql -e 'create database tdl_test'
-#  - bundle exec rake db:setup
-#  - bundle exec rake tufts:fixtures:refresh
-#  - RAILS_ENV=test bundle exec rake db:migrate --trace
-#  - RAILS_ENV=test bundle exec rake db:seed --trace
   - mkdir -p tmp && export TMPDIR=tmp
-#after_script:
-#  - cat log/*
 env:
   global:
     - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
