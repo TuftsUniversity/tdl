@@ -1,4 +1,16 @@
 GIT
+  remote: https://github.com/TuftsUniversity/tdl_solrizer.git
+  revision: 634febd2cd207826d2b4c32de1ab7f0846879c05
+  specs:
+    solrizer (3.1.1)
+      activesupport
+      daemons
+      mediashelf-loggable (~> 0.4.7)
+      nokogiri
+      stomp
+      xml-simple
+
+GIT
   remote: https://github.com/TuftsUniversity/tuftsification-hydra
   revision: 97b52608269c31164fe614db6554a038e3f281e1
   tag: 1.1.5
@@ -348,20 +360,13 @@ GEM
     simplecov-rcov (0.2.3)
       simplecov (>= 0.4.1)
     slop (3.4.7)
-    solrizer (3.1.1)
-      activesupport
-      daemons
-      mediashelf-loggable (~> 0.4.7)
-      nokogiri
-      stomp
-      xml-simple
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
       tilt (~> 1.1, != 1.3.0)
     sqlite3 (1.3.8)
-    stomp (1.3.4)
+    stomp (1.3.5)
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
       ref
@@ -427,13 +432,10 @@ DEPENDENCIES
   settingslogic
   simplecov
   simplecov-rcov
-  solrizer
+  solrizer!
   sqlite3
   therubyracer
   titleize
   tuftsification-hydra!
   uglifier
   unicode
-
-BUNDLED WITH
-   1.10.5
