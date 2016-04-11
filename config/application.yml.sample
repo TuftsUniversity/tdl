@@ -1,4 +1,3 @@
-# config/application.yml
 defaults: &defaults
   pdf_pages:
     page_location: "#{Rails.root}/pdf_pages"
