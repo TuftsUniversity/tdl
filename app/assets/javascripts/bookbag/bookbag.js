@@ -33,6 +33,29 @@ $(document).ready(function () {
         }
     };
 
+    function removeFromAeonList(element)
+    {
+            var a = $(element);
+            var identifier = $(a).attr('data-identifier');
+            var myList = getList();
+
+            for (var i = 0; i <= myList.length - 1; i++) {
+                var item = myList[i];
+                if (item.identifier === identifier) {
+                    myList.splice(i, 1);
+                    // change text for components already in book bag
+                    $('.list-added[data-identifier="' + identifier + '"]').replaceWith(item.originalButton);
+                    $('.list-add[data-identifier="' + identifier + '"]').on('click', addToList);
+
+                }
+            }
+
+            // save new list in localStorage
+            saveList(myList);
+
+            // update display
+            updateDisplay();
+    }
     //saves list items to localStorage
     function saveList(collection) {
         localStorage.setItem("myList", JSON.stringify(collection));
@@ -256,7 +279,7 @@ $(document).ready(function () {
                 if ($('#myReproductionActions input[name="ReadAgreement"]').is(':checked')) {
                     $('#ReadAgreementLabel').removeClass('error');
                 } else {
-                    $('##ReadAgreementLabel').addClass('error');
+                    $('#ReadAgreementLabel').addClass('error');
 
                 }
 
@@ -281,10 +304,6 @@ $(document).ready(function () {
     //Might need some functions to sort by various fields, maybe title, collection, creator, date added
     //function sortList(param) {}
     function addToList(e) {
-
-        //animate my list button
-        //TODO do we really want this, I think not.
-        //$('#myListButton').effect( "highlight", {color:"rgba(196, 84, 20, 0.1)"}, 500 );
 
         var a = $(this);
 
@@ -378,30 +397,8 @@ $(document).ready(function () {
         e.preventDefault();
     });
     // Removes documents from My List
-    $('body').on('click', listDelete, function (e) {
-        var a = $(this);
-        var identifier = $(a).attr('data-identifier')
-        // Remove document from bookbag
-        // a.text('Deleting...');
-        var myList = getList();
-
-        for (var i = 0; i <= myList.length - 1; i++) {
-            var item = myList[i];
-            if (item.identifier === identifier) {
-                myList.splice(i, 1)
-                // change text for components already in bookbag
-                $('.list-added[data-identifier="' + identifier + '"]').replaceWith(item.originalButton);
-                $('.list-add[data-identifier="' + identifier + '"]').on('click', addToList);
-
-            }
-        }
-
-        // save new list in localStorage
-        saveList(myList);
-
-        // update display
-        updateDisplay();
-
+    $('body').on('click', listDelete, function(e) {
+        removeFromAeonList(this);
         e.preventDefault();
     });
 
@@ -414,26 +411,33 @@ $(document).ready(function () {
 
     $('#reviewItemsButton').on('click', function (e) {
         $('input[name="UserReview"]').val("Yes");
-        if (window.console) {
-            console.log($('#requestForm').serialize());
-        }
+
         $('#requestForm').submit();
         $('#cart_modal').modal("hide");
         $('.back_button').click();
+        var checkedItems = $('#requestForm .aeon-row:not(.header-row) > .requestInputs > input[checked="checked"]');
+        $.each(checkedItems, function(index, value) {
+            removeFromAeonList($(value).closest('.aeon-row').find('.list-delete'));
+        });
         $('#dialogMyListSaveConfirm').modal("show");
         e.preventDefault();
     });
+
     $("#requestItemsButton").on('click', function (e) {
         if ($('#myRequestActions input[name="ScheduledDate"]').val()) {
             $('input[name="UserReview"]').val("No");
-            if (window.console) {
-                console.log($('#requestForm').serialize());
-            }
+
             $('#requestForm').submit();
             $('#cart_modal').modal("hide");
             $('.back_button').click();
             $('#myRequestActions input[name="ScheduledDate"]').removeClass('error');
             $('#myRequestActions #dateError').hide();
+
+            var checkedItems = $('#requestForm .aeon-row:not(.header-row) > .requestInputs > input[checked="checked"]');
+            $.each(checkedItems, function(index, value) {
+                removeFromAeonList($(value).closest('.aeon-row').find('.list-delete'));
+            });
+
             $('#dialogMyListRequestConfirm').modal("show");
         } else {
             $('#myRequestActions input[name="ScheduledDate"]').addClass('error');
@@ -444,9 +448,7 @@ $(document).ready(function () {
 
     $("#requestReproductionButton").on('click', function (e) {
         if (validate()) {
-            if (window.console) {
-                console.log($('#requestForm').serialize());
-            }
+
             $('#requestForm').submit();
             $('.back_button').click();
             $('#myReproductionActions input[name="ItemPages"]').removeClass('error');
@@ -454,6 +456,12 @@ $(document).ready(function () {
             $('#myReproductionActions select[name="Format"]').removeClass('error');
             $('#myReproductionActions #formatError').hide();
             $('#cart_modal').modal("hide");
+
+            var checkedItems = $('#requestForm .aeon-row:not(.header-row) > .requestInputs > input[checked="checked"]');
+            $.each(checkedItems, function(index, value) {
+                removeFromAeonList($(value).closest('.aeon-row').find('.list-delete'));
+            });
+
             $('#dialogMyListRequestConfirm').modal("show");
             return true;
         } else {
