@@ -179,6 +179,10 @@
     <h3>My List : <span class="listCount">1</span><span class="listCountText">&nbsp;Item</span></h3>
   </div>
   <div class="modal-body">
+
+    <form id ="listContentForm">
+      <div class="myListContents"></div>
+    </form>
     <form id="requestForm" method="post" target="new"
           action="https://tascr.tufts.edu/aeon.dll">
       <!-- Aeon inputs -->
@@ -199,7 +203,6 @@
       <input type="hidden" name="GroupingOption_ItemInfo3" value="FirstValue"/>
       <input type="hidden" name="SubmitButton" value="Submit Request"/>
       <input type="hidden" name="UserReview" value="No"/>
-    <div class="myListContents"></div>
     <div id="myListActions"></div>
     <div id="myReviewActions" class="myList">
       <h2>Save in TASCR</h2>

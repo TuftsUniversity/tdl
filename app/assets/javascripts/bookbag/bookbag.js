@@ -9,7 +9,6 @@
  bagCount - the element which displays the number of items in the bookbag.
  ================================================================================================ */
 
-
 $(document).ready(function () {
     // Sets global selector variables
     var listAdd = '.list-add';
@@ -19,10 +18,15 @@ $(document).ready(function () {
     // Removes link and changes text displayed if cookies are not enabled
     if (!navigator.cookieEnabled) {
         $(listAdd).text('Cookies not enabled');
+    };
+
+    function setAeonButtonStateEnabled(enabled)
+    {
+        $('.request-copies').prop('disabled',!enabled);
+        $('.request-room').prop('disabled',!enabled);
+        $('.review').prop('disabled',!enabled);
+        $('.remove-all').prop('disabled',!enabled);
     }
-    ;
-
-
     //gets list items from localStorage
     function getList() {
         if (localStorage.getItem("myList")) {
@@ -35,26 +39,26 @@ $(document).ready(function () {
 
     function removeFromAeonList(element)
     {
-            var a = $(element);
-            var identifier = $(a).attr('data-identifier');
-            var myList = getList();
+        var a = $(element);
+        var identifier = $(a).attr('data-identifier');
+        var myList = getList();
 
-            for (var i = 0; i <= myList.length - 1; i++) {
-                var item = myList[i];
-                if (item.identifier === identifier) {
-                    myList.splice(i, 1);
-                    // change text for components already in book bag
-                    $('.list-added[data-identifier="' + identifier + '"]').replaceWith(item.originalButton);
-                    $('.list-add[data-identifier="' + identifier + '"]').on('click', addToList);
+        for (var i = 0; i <= myList.length - 1; i++) {
+            var item = myList[i];
+            if (item.identifier === identifier) {
+                myList.splice(i, 1);
+                // change text for components already in book bag
+                $('.list-added[data-identifier="' + identifier + '"]').replaceWith(item.originalButton);
+                $('.list-add[data-identifier="' + identifier + '"]').on('click', addToList);
 
-                }
             }
+        }
 
-            // save new list in localStorage
-            saveList(myList);
+        // save new list in localStorage
+        saveList(myList);
 
-            // update display
-            updateDisplay();
+        // update display
+        updateDisplay();
     }
     //saves list items to localStorage
     function saveList(collection) {
@@ -81,18 +85,20 @@ $(document).ready(function () {
                     if ($(this).is(':checked')) {
                         $('.requestInputs input[type="checkbox"]').attr('checked', true);
                         $('.requestInputs input[type="hidden"]').attr("disabled", false);
-                        if (!($(this).parents('.myListContents').hasClass('dialog'))) {
+                        setAeonButtonStateEnabled(true);
+                        if(!($(this).parents('.myListContents').hasClass('dialog'))) {
                             $('.requestInputs').parents('.aeon-row:not(.header-row)').removeClass('disabled');
                         }
 
                     } else {
                         $('.requestInputs input[type="checkbox"]').attr('checked', false);
                         $('.requestInputs input[type="hidden"]').attr("disabled", true);
-                        if (!($(this).parents('.myListContents').hasClass('dialog'))) {
+                        setAeonButtonStateEnabled(false);
+                        if(!($(this).parents('.myListContents').hasClass('dialog'))) {
                             $('.requestInputs').parents('.aeon-row:not(.header-row)').addClass('disabled');
                         }
                     }
-                    var listCount = $('#requestForm .aeon-row > .requestInputs > input[checked="checked"]').length - 1;
+                    var listCount = $('#listContentForm .aeon-row > .requestInputs > input[checked="checked"]').length - 1;
                     $('.listCount').html(listCount < 0 ? 0 : listCount);
 
                 });
@@ -216,15 +222,25 @@ $(document).ready(function () {
                     $(this).closest('.aeon-row').removeClass('disabled');
                     $(this).siblings().attr("disabled", false);
 
-                    var listCount = $('#requestForm .aeon-row:not(.header-row) > .requestInputs > input[checked="checked"]').length;
+                    var listCount = $('#listContentForm .aeon-row:not(.header-row) > .requestInputs > input[checked="checked"]').length;
                     $('.listCount').html(listCount < 0 ? 0 : listCount);
+
+
                 } else {
                     $(this).closest('.requestInputs input[type="checkbox"]').attr('checked', false);
                     $(this).closest('.aeon-row').addClass('disabled');
                     $(this).siblings().attr("disabled", true);
 
-                    var listCount = $('#requestForm .aeon-row:not(.header-row) > .requestInputs > input[checked="checked"]').length;
+                    var listCount = $('#listContentForm .aeon-row:not(.header-row) > .requestInputs > input[checked="checked"]').length;
                     $('.listCount').html(listCount < 0 ? 0 : listCount);
+                }
+                if (listCount < 1)
+                {
+                    setAeonButtonStateEnabled(false);
+                }
+                else
+                {
+                    setAeonButtonStateEnabled(true);
                 }
             });
 
@@ -408,40 +424,55 @@ $(document).ready(function () {
         '<button class="btn review" href="#"><i class="icon-upload"></i>&nbsp;Save in TASCR</button>' +
         '<button class="btn myListRemoveAll remove-all" href="#"><i class="icon-trash"></i>&nbsp;Remove all Items from List</button>' + '</div>');
 
-
+    function moveCheckedItemsToRequestForm()
+    {
+        var checkedItems = $('#listContentForm .aeon-row:not(.header-row) > .requestInputs > input[checked="checked"]');
+        $.each(checkedItems, function(index, value) {
+            var element = $(value).parents('.aeon-row').detach();
+            $('#requestForm').append(element.get(0));
+        });
+    }
     $('#reviewItemsButton').on('click', function (e) {
         $('input[name="UserReview"]').val("Yes");
 
-        $('#requestForm').submit();
+        moveCheckedItemsToRequestForm();
+
+        $("#requestForm").submit();
         $('#cart_modal').modal("hide");
         $('.back_button').click();
-        var checkedItems = $('#requestForm .aeon-row:not(.header-row) > .requestInputs > input[checked="checked"]');
+        $('#dialogMyListSaveConfirm').modal("show");
+
+
+        e.preventDefault();
+    });
+
+    $('#dialogMyListRequestConfirm, #dialogMyListSaveConfirm').on('hidden', function () {
+        // do something…
+        var checkedItems = $('#requestForm > .aeon-row');
         $.each(checkedItems, function(index, value) {
+            $(value).remove();
             removeFromAeonList($(value).closest('.aeon-row').find('.list-delete'));
         });
-        $('#dialogMyListSaveConfirm').modal("show");
-        e.preventDefault();
     });
 
     $("#requestItemsButton").on('click', function (e) {
         if ($('#myRequestActions input[name="ScheduledDate"]').val()) {
             $('input[name="UserReview"]').val("No");
 
-            $('#requestForm').submit();
+            moveCheckedItemsToRequestForm();
+
+            $("#requestForm").submit();
             $('#cart_modal').modal("hide");
             $('.back_button').click();
             $('#myRequestActions input[name="ScheduledDate"]').removeClass('error');
             $('#myRequestActions #dateError').hide();
-
-            var checkedItems = $('#requestForm .aeon-row:not(.header-row) > .requestInputs > input[checked="checked"]');
-            $.each(checkedItems, function(index, value) {
-                removeFromAeonList($(value).closest('.aeon-row').find('.list-delete'));
-            });
-
             $('#dialogMyListRequestConfirm').modal("show");
+
+            return true;
         } else {
             $('#myRequestActions input[name="ScheduledDate"]').addClass('error');
             $('#myRequestActions #dateError').show();
+
             return false;
         }
     });
@@ -449,20 +480,17 @@ $(document).ready(function () {
     $("#requestReproductionButton").on('click', function (e) {
         if (validate()) {
 
-            $('#requestForm').submit();
+            moveCheckedItemsToRequestForm();
+
+            $("#requestForm").submit();
             $('.back_button').click();
             $('#myReproductionActions input[name="ItemPages"]').removeClass('error');
             $('#myReproductionActions #itemPagesError').hide();
             $('#myReproductionActions select[name="Format"]').removeClass('error');
             $('#myReproductionActions #formatError').hide();
             $('#cart_modal').modal("hide");
-
-            var checkedItems = $('#requestForm .aeon-row:not(.header-row) > .requestInputs > input[checked="checked"]');
-            $.each(checkedItems, function(index, value) {
-                removeFromAeonList($(value).closest('.aeon-row').find('.list-delete'));
-            });
-
             $('#dialogMyListRequestConfirm').modal("show");
+
             return true;
         } else {
             return false;
@@ -485,7 +513,6 @@ $(document).ready(function () {
         $('.myListContents').hide();
         $('#requestActions').hide();
         $('#myRequestActions').show();
-
         $('input[name=WebRequestForm]').val('DefaultRequest');
         $('input[name=RequestType]').val('Loan');
         $('input[name=SkipOrderEstimate]').remove();
@@ -502,7 +529,6 @@ $(document).ready(function () {
         $('input[name=RequestType]').after('<input type="hidden" id="skipOrder" name="SkipOrderEstimate" value="Yes"/>');
         e.preventDefault();
     });
-    // Remove all items from bookbag
 
     // Remove all items from bookbag
     $('.myListRemoveAll').on('click', function (e) {
@@ -533,7 +559,7 @@ $(function () {
             $('input[value=' + value + "]").attr('checked', true);
             $('input[value=' + value + "]").siblings('input').attr("disabled", false);
             if (!($(this).parents('.myListContents').hasClass('dialog'))) {
-                $('input[value=' + value + "]").parents('.row:not(.header-row)').removeClass('disabled');
+                $('input[value=' + value + "]").parents('.aeon-row').removeClass('disabled');
             }
         } else {
             $(this).siblings('input').attr("disabled", true);
@@ -541,11 +567,11 @@ $(function () {
             $('input[value=' + value + "]").attr('checked', false);
             $('input[value=' + value + "]").siblings('input').attr("disabled", true);
             if (!($(this).parents('.myListContents').hasClass('dialog'))) {
-                $('input[value=' + value + "]").parents('.row:not(.header-row)').addClass('disabled');
+                $('input[value=' + value + "]").parents('.aeon-row').addClass('disabled');
             }
         }
 
-        var listCount = $('#requestForm .aeon-row:not(.header-row) > .requestInputs > input[checked="checked"]').length;
+        var listCount = $('#listContentForm .aeon-row:not(.header-row) > .requestInputs > input[checked="checked"]').length;
         $('.listCount').html(listCount);
     });
 
@@ -559,7 +585,7 @@ $(function () {
             $(this).closest('.aeon-row').addClass('disabled');
             $(this).siblings().attr("disabled", true);
         }
-        var listCount = $('#requestForm .aeon-row:not(.header-row) > .requestInputs > input[checked="checked"]').length;
+        var listCount = $('#listContentForm .aeon-row:not(.header-row) > .requestInputs > input[checked="checked"]').length;
         $('.listCount').html(listCount);
 
     });
@@ -616,8 +642,6 @@ $(function () {
                 showScheduled();
             }
         }
-
-        //updateAeonRow();
+        
     });
-
 }());
