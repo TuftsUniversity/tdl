@@ -32,7 +32,7 @@ feature 'Visitor goes directly to draft object in the TDL' do
     fill_in 'user_password', :with=>'smada'
     click_button 'Log In'
     page.should have_content "Signed in successfully."
-    page.should have_content "Official letters to the honourable American Congress"
+    page.should have_content "A Draft Object"
   end
 
   scenario 'A non-admin Tufts user navigates to a draft, is challenged for LDAP password, and can NOT retrieve draft object upon logging in' do
