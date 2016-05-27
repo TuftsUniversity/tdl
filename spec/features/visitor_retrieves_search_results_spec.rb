@@ -62,7 +62,7 @@ feature 'Visitor goes to homepage and does a search' do
         find_field('year_end', :type=> 'number').set('1982')
       end
       click_button 'advanced_search'
-      page.should have_content "3 Results"
+      page.should have_content "4 Results"
       page.should have_content "Year Start"
       page.should have_content "Tufts Daily, March 1"
   end
