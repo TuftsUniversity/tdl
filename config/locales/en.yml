@@ -3,3 +3,6 @@
 
 en:
   hello: "Hello world"
+  blacklight:
+    header_links:
+      logout: "Log out"
