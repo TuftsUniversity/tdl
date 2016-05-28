@@ -1,0 +1,46 @@
+div.utilbar {
+    background-color: #6699cc;
+    overflow: visible;
+    margin-bottom: 0;
+    height: 25px;
+    width: 955px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+ul.utilbar-nav {
+    position: relative;
+    left: 0;
+    display: block;
+    float: right;
+    margin: 0 0px 0 0;
+    list-style: none;
+    padding-right: 15px;
+}
+
+ul.utilbar-nav > li {
+    float: right;
+}
+.utilbar-nav > li > a:focus {
+  outline: thin dotted #333;
+  outline-offset: 1px;
+}
+.utilbar-nav > li > a {
+    float: none;
+    padding-top: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 1px;
+    line-height: 20px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-shadow: none;
+    display: block;
+
+}
+
+a.hi {
+    color: transparent;
+}
