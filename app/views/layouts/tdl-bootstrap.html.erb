@@ -68,8 +68,25 @@
   <%= analytics_init if (Rails.env.production? || Rails.env.tdldev?) %>
 </head>
 <body data-spy="scroll" data-target=".subnav" data-offset="50">
+<!-- Util Bar -->
+<div class="utilbar">
+        <ul class="utilbar-nav">
+              <li>
+                <a id="myListButton" href="#cart_modal" data-toggle="modal"> My List (<span class="listCount">1</span>)
+                  <i class="icon-shopping-cart icon-white"></i></a>
+              </li>
+              <li>
+                <% if has_user_authentication_provider? %>
+                    <% if current_user.nil? %>
+                        <%= link_to t('blacklight.header_links.login'), new_user_session_path %>
+                    <% else %>
+                        <%= link_to t('blacklight.header_links.logout') + " " + current_user.to_s.html_safe, destroy_user_session_path %>
+                    <% end %>
+                <% end %>
+              </li>
+        </ul>
+</div>
 
-<div class="<%= dark_class %> blueline"></div>
 <!-- Navbar
 ================================================== -->
 <div class="navbar">
@@ -108,9 +125,6 @@
         <button href="#comment_modal" data-toggle="modal" class="btn btn-blue pull-right" style="margin-top:10px; margin-right:10px;"> Comments about this page?
           <i class="icon-comment icon-white"></i></button>
     <%- end -%>
-
-        <button id="myListButton" href="#cart_modal" data-toggle="modal" class="btn btn-blue pull-right" style="margin-top:10px; margin-right:10px;"> My List (<span class="listCount">1</span>)
-          <i class="icon-shopping-cart icon-white"></i></button>
   </div>
 </div>
 
