@@ -12,6 +12,7 @@
  *= require 'css/bootstrap'
  *= require 'css/facets.css'
  *= require 'tdl-metadata.css'
+ *= require 'permissions.css'
  *= require 'blacklight_advanced_search'
  *= require 'css/tdl-bootstrap-overrides'
  *= require 'bookbag/bookbag.css'
