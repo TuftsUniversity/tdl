@@ -20,21 +20,21 @@ feature 'Visitor can login with correct username and password and role and is ot
 
   scenario 'A user can successfully log out' do
     visit '/'
-    page.should have_link "Staff Login"
-    click_link 'Staff Login'
+    page.should have_link "Login"
+    click_link 'Login'
     page.should have_content "Tufts Username"
     fill_in 'user_username', :with=>'aa729'
     fill_in 'user_password', :with=>'smada'
     click_button 'Log In'
     page.should have_content "Signed in successfully."
-    click_link 'Log Out aa729'
+    click_link 'Log out aa729'
     page.should have_content "Signed out successfully."
   end
   
   scenario 'A Digital Repository Admin with valid role is rejected with bad password' do
     visit '/'
-    page.should have_link "Staff Login"
-    click_link 'Staff Login'
+    page.should have_link "Login"
+    click_link 'Login'
     page.should have_content "Tufts Username"
     fill_in 'user_username', :with=>'aa729'
     fill_in 'user_password', :with=>'password'
@@ -45,8 +45,8 @@ feature 'Visitor can login with correct username and password and role and is ot
   scenario 'A Digital Repository Admin with valid role sucessfully logs in with correct ldap password' do
 
     visit '/'
-    page.should have_link "Staff Login"
-    click_link 'Staff Login'
+    page.should have_link "Login"
+    click_link 'Login'
     page.should have_content "Tufts Username"
     fill_in 'user_username', :with=>'aa729'
     fill_in 'user_password', :with=>'smada'
@@ -56,8 +56,8 @@ feature 'Visitor can login with correct username and password and role and is ot
 
   scenario 'A Tufts user who is not a Digital Repository Admin is rejected with correct ldap password' do
     visit '/'
-    page.should have_link "Staff Login"
-    click_link 'Staff Login'
+    page.should have_link "Login"
+    click_link 'Login'
     page.should have_content "Tufts Username"
     fill_in 'user_username', :with=>'bb459'
     fill_in 'user_password', :with=>'niwdlab'
@@ -67,8 +67,8 @@ feature 'Visitor can login with correct username and password and role and is ot
 
   scenario 'A Tufts user who is not a Digital Repository Admin is rejected with correct ldap password' do
     visit '/'
-    page.should have_link "Staff Login"
-    click_link 'Staff Login'
+    page.should have_link "Login"
+    click_link 'Login'
     page.should have_content "Tufts Username"
     fill_in 'user_username', :with=>'bb459'
     fill_in 'user_password', :with=>'niwdlabNOT'
