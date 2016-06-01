@@ -37,8 +37,8 @@ feature 'Visitor goes directly to draft object in the TDL' do
 
   scenario 'A non-admin Tufts user navigates to a draft, is challenged for LDAP password, and can NOT retrieve draft object upon logging in' do
     visit '/'
-    page.should have_link "Staff Login"
-    click_link 'Staff Login'
+    page.should have_link "Login"
+    click_link 'Login'
     page.should have_content "Tufts Username"
     fill_in 'user_username', :with=>'cc414'
     fill_in 'user_password', :with=>'retneprac'
