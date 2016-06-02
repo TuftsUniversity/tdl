@@ -115,4 +115,9 @@ module ApplicationHelper
 
   end
 
+  def get_restriction_icon
+    unlocked_icon = '<i class="fa fa-lock  tufts-blue" aria-hidden="true"></i>'
+    return raw unlocked_icon if current_user.nil?
+    raw current_user.has_role?(:community_member) ? '<i class="fa fa-unlock tufts-blue" aria-hidden="true"></i>' : unlocked_icon
+  end
 end
