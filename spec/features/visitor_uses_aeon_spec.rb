@@ -9,7 +9,7 @@ feature 'Visitor goes to homepage' do
   end
   scenario 'clicks to bring up their empty list', :js => true do
        visit root_path
-       click_button 'myListButton'
+       click_link 'myListButton'
        page.should have_css("div#cart_modal", :visible => true)
        page.should have_text("Your List is empty!")
   end
@@ -18,7 +18,7 @@ feature 'Visitor goes to homepage' do
        visit '/catalog/tufts:UP022.001.001.00001.00005'
        page.should have_content "Illustration of the Festival at the Dedication of Tufts College on August 22, 1855" 
        click_link "Add to List" 
-       click_button 'myListButton'
+       click_link 'myListButton'
        page.should have_text "My List : 1 Item"
   end
 
@@ -26,7 +26,7 @@ feature 'Visitor goes to homepage' do
        visit '/catalog/tufts:UP022.001.001.00001.00005'
        page.should have_content "Illustration of the Festival at the Dedication of Tufts College on August 22, 1855" 
        click_link "Add to List" 
-       click_button 'myListButton'
+       click_link 'myListButton'
        page.should have_text "My List : 1 Item"
        click_button "Request Copies"
        page.should have_text "Reproduction Request"
@@ -36,7 +36,7 @@ feature 'Visitor goes to homepage' do
        visit '/catalog/tufts:UP022.001.001.00001.00005'
        page.should have_content "Illustration of the Festival at the Dedication of Tufts College on August 22, 1855" 
        click_link "Add to List" 
-       click_button 'myListButton'
+       click_link 'myListButton'
        page.should have_text "My List : 1 Item"
        click_button "Request in Reading Room"
        page.should have_text "Reading Room Request"
@@ -46,7 +46,7 @@ feature 'Visitor goes to homepage' do
        visit '/catalog/tufts:UP022.001.001.00001.00005'
        page.should have_content "Illustration of the Festival at the Dedication of Tufts College on August 22, 1855" 
        click_link "Add to List" 
-       click_button 'myListButton'
+       click_link 'myListButton'
        page.should have_text "My List : 1 Item"
        click_button "Save in TASCR"
        page.should have_text "Save in TASCR"
@@ -56,7 +56,7 @@ feature 'Visitor goes to homepage' do
        visit '/catalog/tufts:UP022.001.001.00001.00005'
        page.should have_content "Illustration of the Festival at the Dedication of Tufts College on August 22, 1855" 
        click_link "Add to List" 
-       click_button 'myListButton'
+       click_link 'myListButton'
        page.should have_text "My List : 1 Item"
        page.find_button("Remove all Items from List").trigger('click')
        page.should have_text "Your List is empty!"
