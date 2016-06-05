@@ -301,6 +301,26 @@ class CatalogController < ApplicationController
 
   private
 
+  def enforce_visibility_permissions
+    id = params[:id]
+
+    # if it doesn't require authentication no need to check further
+    return unless  @document_fedora.datastreams["DCA-ADMIN"].visibility.include? "authenticated"
+
+    unless id.nil?
+      # if not logged in force login
+      if current_user.nil?
+        authenticate_user!
+      end
+
+      # if you are login check to make sure you have the role community member otherwise redirect
+      if !current_user.nil? and !current_user.has_role? :community_member
+        flash[:notice] = 'This object is only available to members of the Tufts community.'
+        redirect_to(:action => 'index', :q => nil, :f => nil) and return false
+      end
+    end
+  end
+
   def enforce_permissions_on_drafts
     id = params[:id]
     unless id.nil?
@@ -340,6 +360,7 @@ class CatalogController < ApplicationController
     filter_non_dl_items
     filter_embargo_items
     enforce_permissions_on_drafts
+    enforce_visibility_permissions
   end
 
   # This filters out objects that you want to exclude from search results.  By default it only excludes FileAssets
