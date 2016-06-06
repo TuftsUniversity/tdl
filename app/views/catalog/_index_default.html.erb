@@ -3,7 +3,13 @@
   <td class="title_td">
     <span class="table_title">
     <% unless document[:title_tesim].nil? %>
-     <%= link_to document[:title_tesim][0], "/catalog/" + document[:id]  %>
+     <%= link_to "/catalog/" + document[:id], {} do %>
+
+       <%= document[:title_tesim][0] %>
+         <% if document[:visibility_ssi] == 'authenticated' %>
+           <%=get_restriction_icon %>
+         <% end %>
+     <% end %>
     <% end %>
     </span>
   </td>
