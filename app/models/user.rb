@@ -17,6 +17,8 @@ class User < ActiveRecord::Base
   #       :recoverable, :rememberable, :trackable, :validatable
   devise :ldap_authenticatable, :trackable
   devise :timeoutable, :timeout_in => 60.minutes
+  before_create :set_default_role
+
 
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :email, :password, :password_confirmation, :remember_me
@@ -45,6 +47,12 @@ class User < ActiveRecord::Base
     end
 
     return false
+  end
+
+  private
+
+  def set_default_role
+    self.roles= [Role.find_by_name('community_member')]
   end
 
 end
