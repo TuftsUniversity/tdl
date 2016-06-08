@@ -54,7 +54,7 @@ feature 'Visitor can login with correct username and password and role and is ot
     page.should have_content "Signed in successfully."
   end
 
-  scenario 'A Tufts user who is not a Digital Repository Admin is rejected with correct ldap password' do
+  scenario 'A Tufts user who is not a Digital Repository Admin is can login with a valid account' do
     visit '/'
     page.should have_link "Login"
     click_link 'Login'
@@ -62,8 +62,10 @@ feature 'Visitor can login with correct username and password and role and is ot
     fill_in 'user_username', :with=>'bb459'
     fill_in 'user_password', :with=>'niwdlab'
     click_button 'Log In'
-    page.should have_content "Invalid username or password."
+    page.should have_content "Signed in successfully."
   end
+
+  scenario 'A Tufts user is assinged the role community_member when logging in'
 
   scenario 'A Tufts user who is not a Digital Repository Admin is rejected with correct ldap password' do
     visit '/'
