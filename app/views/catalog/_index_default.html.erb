@@ -33,7 +33,7 @@
     <%#= valid_date.strftime("%b %d, %Y")  %>
     <%= valid_date_string  %>
   </td>
-  <% if (!document[:type_tesim].nil? && document[:type_tesim].first.downcase == 'image') || (!document[:type_tesim].nil? && document[:type_tesim].first.downcase == 'video') || (!document[:type_tesim].nil? && document[:type_tesim].first.downcase == 'video') || ((!document[:type_tesim].nil? && document[:type_tesim].first.downcase == 'text') && (!document[:format_tesim].nil? && document[:format_tesim].first.downcase[/image/])) || (!document[:active_fedora_model_ssi].nil? && document[:active_fedora_model_ssi] == 'TuftsImage') %>
+  <% if show_thumbnail? document %>
       <td class="thumbnail_td" align="center">
         <ul class="thumbnails">
           <li class="nothumbnailmargin">

@@ -120,4 +120,21 @@ module ApplicationHelper
     return raw unlocked_icon if current_user.nil?
     raw current_user.has_role?(:community_member) ? '<i class="fa fa-unlock tufts-blue" aria-hidden="true"></i>' : unlocked_icon
   end
+
+  def show_thumbnail? document
+    #guard for visibility restricted content
+    return false if document[:visibility_ssi] == 'authenticated' && (current_user.nil? || !current_user.has_role?(:community_member))
+
+    if (!document[:type_tesim].nil? && document[:type_tesim].first.downcase == 'image') || 
+       (!document[:type_tesim].nil? && document[:type_tesim].first.downcase == 'video') ||
+       (!document[:type_tesim].nil? && document[:type_tesim].first.downcase == 'video') || 
+       ((!document[:type_tesim].nil? && document[:type_tesim].first.downcase == 'text') && 
+       (!document[:format_tesim].nil? && document[:format_tesim].first.downcase[/image/])) || 
+       (!document[:active_fedora_model_ssi].nil? && document[:active_fedora_model_ssi] == 'TuftsImage')
+      return true
+    else 
+      return false
+    end
+   
+  end
 end
