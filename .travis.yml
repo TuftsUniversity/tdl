@@ -7,7 +7,7 @@ cache: bundler
 
 notifications:
   email:
-    - mike.korcynski@tufts.edu
+    - tdl-commiters@googlegroups.com
 
 before_script:
   - cp config/fedora.yml.sample config/fedora.yml
