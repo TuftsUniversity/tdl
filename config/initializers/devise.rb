@@ -247,6 +247,6 @@ Devise.setup do |config|
   # to create the user record before they will be allowed to login.  The
   # default value is false.  For other options see:
   # https://github.com/cschiewek/devise_ldap_authenticatable
-  config.ldap_create_user = true;
+  config.ldap_create_user = true
 
 end
