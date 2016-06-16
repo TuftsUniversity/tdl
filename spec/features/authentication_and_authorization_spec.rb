@@ -73,7 +73,6 @@ feature 'Visitor can login with correct username and password and role and is ot
     fill_in 'user_username', :with=>'dd945'
     fill_in 'user_password', :with=>'noswad'
     click_button 'Log In'
-    wait(3.seconds)
     user = User.find_by_user_key('dd945')
     user.has_role?(:community_member).should be_true
   end
