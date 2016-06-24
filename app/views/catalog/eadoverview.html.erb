@@ -31,27 +31,27 @@
       <div class="span3" id="floating_table_of_contents_column">
         <div class="EAD_TOC" id="floating_table_of_contents">
           <h6>On this page:</h6>
-          <ul class="nav nav-tabs nav-stacked" style="margin: 0px;">
+          <ul class="nav nav-tabs nav-stacked" style="margin: 0;">
             <li><a href="#overview">Overview</a></li>
-            <% if !contributors.empty? %>
+            <% unless contributors.empty? %>
                 <li><a href="#contributors">Contributors</a></li>
             <% end %>
-            <% if !contents.empty? %>
+            <% unless contents.empty? %>
                 <li><a href="#contents">Contents</a></li>
             <% end %>
-            <% if !serieses.empty? %>
+            <% unless serieses.empty? %>
                 <li><a href="#series_descriptions">Series Description</a></li>
             <% end %>
-            <% if !names_and_subjects.empty? %>
+            <% unless names_and_subjects.empty? %>
                 <li><a href="#names_and_subjects">Names and Subjects</a></li>
             <% end %>
-            <% if !related_material.empty? %>
+            <% unless related_material.empty? %>
                 <li><a href="#related_material">Related Material</a></li>
             <% end %>
-            <% if !access_and_use.empty? %>
+            <% unless access_and_use.empty? %>
                 <li><a href="#access_and_use">Access and Use</a></li>
             <% end %>
-            <% if !(processing_notes.empty? && acquisition_info.empty?) %>
+            <% unless processing_notes.empty? && acquisition_info.empty? %>
                 <li><a href="#administrative_notes">Administrative Notes</a></li>
             <% end %>
           </ul>
