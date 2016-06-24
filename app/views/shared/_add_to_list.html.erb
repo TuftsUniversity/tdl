@@ -22,7 +22,11 @@
      data-callnumber="<%= strip_tags(series_id.split('.').first) unless metadata[:sources].empty? %>"
    <% else %>
      data-itemvolume="<%= j @document_fedora.pid %>"
-     data-callnumber="<%= strip_tags(metadata[:sources].first) unless metadata[:sources].empty? %>"
+     <% if defined? unitid %>
+       data-callnumber="<%= strip_tags(unitid) %>"
+     <% else %>
+       data-callnumber="<%= strip_tags(metadata[:sources].first) unless metadata[:sources].empty? %>"
+     <% end %>
    <% end %>
    data-itemdate="<%= strip_tags(metadata[:dates].first) unless metadata[:dates].nil? %>">
   <i class="icon-plus-sign"/></i>&nbsp;Add to List

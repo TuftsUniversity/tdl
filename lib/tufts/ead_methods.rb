@@ -393,12 +393,13 @@ module Tufts
       scopecontent = nil
       unittitle = nil
       unitdate = nil
+      unitid = nil
       physdesc = ''
       title = ''
       paragraphs = []
       series_restrict = ''
 
-      if !series.nil?
+      unless series.nil?
         # find the pertinent child elements: did, scopecontent
         series.element_children.each do |element_child|
           if element_child.name == 'did'
@@ -411,7 +412,7 @@ module Tufts
         end
 
         # process the did element
-        if !did.nil?
+        unless did.nil?
           did.element_children.each do |did_child|
             if did_child.name == 'unittitle'
               unittitle = did_child.text
@@ -419,17 +420,20 @@ module Tufts
               unitdate = did_child.text
             elsif did_child.name == 'physdesc'
               physdesc = did_child.text
+            elsif did_child.name == 'unitid'
+              unitid = did_child.text
             end
           end
         end
 
-        # process the scopecontent element
+
+      # process the scopecontent element
         paragraphs = get_scopecontent_paragraphs(scopecontent)
 
         title = (unittitle.nil? ? '' : unittitle + (unitdate.nil? ? '' : ', ' + unitdate))
       end
 
-      return title, physdesc, paragraphs, series_restrict
+      return title, physdesc, paragraphs, series_restrict, unitid
     end
 
     def self.get_series_items(series)

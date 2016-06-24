@@ -1,7 +1,7 @@
 <%
    #retrieve items that can not be cached
    series, series_level = Tufts::EADMethods.get_series(@document_fedora, @item_id)
-   series_title, series_physdesc, series_scopecontents, series_restrict = Tufts::EADMethods.get_series_info(series)
+   series_title, series_physdesc, series_scopecontents, series_restrict, unitid = Tufts::EADMethods.get_series_info(series)
    # @collection_title and @series_full_title are also used in the _subnav.html.erb partial
    @collection_title = Tufts::EADMethods.title(@document_fedora)
    @series_full_title = "Series " + series_level + ": " + series_title
@@ -65,7 +65,7 @@
       <div class="span3 ">
         <% if series_items.empty? %>
             <div class="tooltip-demo well">
-              <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata, :series_title => series_title, :series_id => params[:item_id]} %>
+              <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata, :series_title => series_title, :unitid => unitid, :series_id => params[:item_id]} %>
               <p>Contact DCA to request Materials by adding to your list..</p>
             </div>
         <% end %>

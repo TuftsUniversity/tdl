@@ -208,7 +208,7 @@
         <% end %>
         <% if serieses.empty? %>
             <div class="tooltip-demo well">
-              <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata} %>
+              <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata, :unitid => unitid} %>
               <p>Contact DCA to request Materials by adding to your list..</p>
             </div>
         <% end %>
