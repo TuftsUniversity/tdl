@@ -11,6 +11,7 @@ module Tufts
       return "/catalog/ead/" + fedora_obj.id
     end
 
+
     def self.eadid(fedora_obj, datastream = "Archival.xml")
       result = ""
       url = ""
@@ -18,15 +19,14 @@ module Tufts
       eadid.element_children.each do |child|
         if child.name == "eadid"
           result << child.text
-          url = child.attribute('url')
+          url = child.attribute("url")
           url = url.text unless url.nil?
         end
       end
 
-
-
       return result, url
     end
+
 
     def self.title(fedora_obj, datastream = "Archival.xml", includeDate = true)
       result = ""
@@ -82,6 +82,7 @@ module Tufts
       return result
     end
 
+
     def self.unitdate(fedora_obj, datastream = "Archival.xml")
       result = ""
       fedora_obj.datastreams[datastream].find_by_terms_and_value(:archdesc).children.each do |element|
@@ -96,6 +97,7 @@ module Tufts
 
       return result
     end
+
 
     def self.unitid_and_author(fedora_obj, datastream = "Archival.xml")
       unitid = nil
@@ -185,7 +187,7 @@ module Tufts
     end
 
 
-    def self.get_serieses(fedora_obj, datastream = "Archival.xml")  # I got a D in speling once
+    def self.get_serieses(fedora_obj, datastream = "Archival.xml")
       return fedora_obj.datastreams[datastream].find_by_terms_and_value(:series)
     end
 
@@ -394,19 +396,19 @@ module Tufts
       unittitle = nil
       unitdate = nil
       unitid = nil
-      physdesc = ''
-      title = ''
+      physdesc = ""
+      title = ""
       paragraphs = []
-      series_restrict = ''
+      series_restrict = ""
 
       unless series.nil?
         # find the pertinent child elements: did, scopecontent
         series.element_children.each do |element_child|
-          if element_child.name == 'did'
+          if element_child.name == "did"
             did = element_child
-          elsif element_child.name == 'scopecontent'
+          elsif element_child.name == "scopecontent"
             scopecontent = element_child
-          elsif element_child.name == 'accessrestrict'
+          elsif element_child.name == "accessrestrict"
             series_restrict = element_child.text
           end
         end
@@ -414,13 +416,13 @@ module Tufts
         # process the did element
         unless did.nil?
           did.element_children.each do |did_child|
-            if did_child.name == 'unittitle'
+            if did_child.name == "unittitle"
               unittitle = did_child.text
-            elsif did_child.name == 'unitdate'
+            elsif did_child.name == "unitdate"
               unitdate = did_child.text
-            elsif did_child.name == 'physdesc'
+            elsif did_child.name == "physdesc"
               physdesc = did_child.text
-            elsif did_child.name == 'unitid'
+            elsif did_child.name == "unitid"
               unitid = did_child.text
             end
           end
@@ -430,7 +432,7 @@ module Tufts
       # process the scopecontent element
         paragraphs = get_scopecontent_paragraphs(scopecontent)
 
-        title = (unittitle.nil? ? '' : unittitle + (unitdate.nil? ? '' : ', ' + unitdate))
+        title = (unittitle.nil? ? "" : unittitle + (unitdate.nil? ? "" : ", " + unitdate))
       end
 
       return title, physdesc, paragraphs, series_restrict, unitid
