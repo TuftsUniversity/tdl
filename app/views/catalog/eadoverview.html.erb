@@ -4,16 +4,16 @@
 
 
     <%
-       title = raw Tufts::EADMethods.title(@document_fedora)
-       read_more_about = Tufts::EADMethods.read_more_about(@document_fedora)
-       contributors = Tufts::EADMethods.get_contributors(@document_fedora)
-       contents = Tufts::EADMethods.get_contents(@document_fedora)
-       serieses = Tufts::EADMethods.get_serieses(@document_fedora)
-       names_and_subjects = Tufts::EADMethods.get_names_and_subjects(@document_fedora)
-       related_material = Tufts::EADMethods.get_related_material(@document_fedora)
-       access_and_use = Tufts::EADMethods.get_access_and_use(@document_fedora)
-       processing_notes = Tufts::EADMethods.get_processing_notes(@document_fedora)
-       acquisition_info = Tufts::EADMethods.get_acquisition_info(@document_fedora)
+       title = raw Tufts::EADMethods.title(@document_ead)
+       read_more_about = Tufts::EADMethods.read_more_about(@document_ead)
+       contributors = Tufts::EADMethods.get_contributors(@document_ead)
+       contents = Tufts::EADMethods.get_contents(@document_ead)
+       serieses = Tufts::EADMethods.get_serieses(@document_ead)
+       names_and_subjects = Tufts::EADMethods.get_names_and_subjects(@document_ead)
+       related_material = Tufts::EADMethods.get_related_material(@document_ead)
+       access_and_use = Tufts::EADMethods.get_access_and_use(@document_ead)
+       processing_notes = Tufts::EADMethods.get_processing_notes(@document_ead)
+       acquisition_info = Tufts::EADMethods.get_acquisition_info(@document_ead)
        metadata = Tufts::ModelMethods.get_metadata(@document_fedora)
        @page_title = title + " - " + application_name
     %>
@@ -63,13 +63,13 @@
 
       <div class="span6" id="overview">
         <p>
-          <%= raw Tufts::EADMethods.physdesc(@document_fedora) %>
+          <%= raw Tufts::EADMethods.physdesc(@document_ead) %>
           <br>
-          <% unitid, author = Tufts::EADMethods.unitid_and_author(@document_fedora) %>
+          <% unitid, author = Tufts::EADMethods.unitid_and_author(@document_ead) %>
           Call Number: <%= raw unitid %>
         </p>
 
-        <p><%= raw Tufts::EADMethods.abstract(@document_fedora) %></p>
+        <p><%= raw Tufts::EADMethods.abstract(@document_ead) %></p>
 
         <% unless read_more_about.nil? %>
             <p>Read more about <%= raw read_more_about %></p>

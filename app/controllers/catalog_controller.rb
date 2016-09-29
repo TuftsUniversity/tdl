@@ -22,8 +22,14 @@ class CatalogController < ApplicationController
   # Sets @file_assets with file objects that are children of the loaded object
   def load_fedora_document
     @document_fedora = ActiveFedora::Base.find(params[:id], :cast=>true)
+
     unless @document_fedora.class.include?(Hydra::ModelMethods)
       @document_fedora.class.send :include, Hydra::ModelMethods
+    end
+
+    if @document_fedora.class.instance_of?(TuftsEAD.class)
+      @document_ead = @document_fedora.datastreams["Archival.xml"]
+      @document_ead.ng_xml.remove_namespaces!
     end
   end
 

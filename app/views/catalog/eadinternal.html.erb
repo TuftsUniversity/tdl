@@ -1,9 +1,9 @@
 <%
    #retrieve items that can not be cached
-   series, series_level = Tufts::EADMethods.get_series(@document_fedora, @item_id)
+   series, series_level = Tufts::EADMethods.get_series(@document_ead, @item_id)
    series_title, series_physdesc, series_scopecontents, series_restrict, unitid = Tufts::EADMethods.get_series_info(series)
    # @collection_title and @series_full_title are also used in the _subnav.html.erb partial
-   @collection_title = Tufts::EADMethods.title(@document_fedora)
+   @collection_title = Tufts::EADMethods.title(@document_ead)
    @series_full_title = "Series " + series_level + ": " + series_title
    @page_title = @series_full_title + " - " + application_name
 %>

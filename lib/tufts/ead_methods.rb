@@ -12,15 +12,17 @@ module Tufts
     end
 
 
-    def self.eadid(fedora_obj, datastream = "Archival.xml")
-      result = ""
-      url = ""
-      eadid = fedora_obj.datastreams[datastream].find_by_terms_and_value(:eadheader).first
-      eadid.element_children.each do |child|
-        if child.name == "eadid"
-          result << child.text
-          url = child.attribute("url")
-          url = url.text unless url.nil?
+    def self.eadid(ead)
+      result = "BOGUS CATALOG NUMBER"
+      url = "http://hdl.handle.net/BOGUS/HANDLE"
+      eadheader = ead.find_by_terms_and_value(:eadheader).first
+      unless eadheader.nil?
+        eadheader.element_children.each do |child|
+          if child.name == "eadid"
+            result << child.text
+            url = child.attribute("url")
+            url = url.text unless url.nil?
+          end
         end
       end
 
@@ -28,10 +30,10 @@ module Tufts
     end
 
 
-    def self.title(fedora_obj, datastream = "Archival.xml", includeDate = true)
+    def self.title(ead, includeDate = true)
       result = ""
-      unittitle = fedora_obj.datastreams[datastream].get_values(:unittitle).first
-      unitdate = fedora_obj.datastreams[datastream].get_values(:unitdate).first
+      unittitle = ead.get_values(:unittitle).first
+      unitdate = ead.get_values(:unitdate).first
 
       unless unittitle.nil?
         if (includeDate)
@@ -45,9 +47,9 @@ module Tufts
     end
 
 
-    def self.physdesc(fedora_obj, datastream = "Archival.xml")
+    def self.physdesc(ead)
       result = ""
-      physdescs = fedora_obj.datastreams[datastream].get_values(:physdesc).first
+      physdescs = ead.get_values(:physdesc).first
 
       if !physdescs.nil?
         result << physdescs.lstrip.rstrip
@@ -57,9 +59,9 @@ module Tufts
     end
 
 
-    def self.physdesc_split(fedora_obj, datastream = "Archival.xml")
+    def self.physdesc_split(ead)
       result = ""
-      physdescs = fedora_obj.datastreams[datastream].get_values(:physdesc).first
+      physdescs = ead.get_values(:physdesc).first
 
       if !physdescs.nil?
         physdescs.split(";").each do |physdesc|
@@ -71,21 +73,29 @@ module Tufts
     end
 
 
-    def self.abstract(fedora_obj, datastream = "Archival.xml")
+    def self.abstract(ead)
       result = ""
-      abstract = fedora_obj.datastreams[datastream].get_values(:abstract).first
+      abstract = ead.get_values(:abstract).first
 
-      if !abstract.nil?
+      unless abstract.nil?
         result << abstract
+      else
+        bioghistps = ead.find_by_terms_and_value(:bioghistp)
+
+        # Old EADs had the text in both the <abstract> and the <bioghist>;  new ASpace
+        # EADs have the text only in the <bioghist>
+        bioghistps.each do |bioghistp|
+          result += "<p>" + bioghistp.text + "</p>"
+        end
       end
 
       return result
     end
 
 
-    def self.unitdate(fedora_obj, datastream = "Archival.xml")
+    def self.unitdate(ead)
       result = ""
-      fedora_obj.datastreams[datastream].find_by_terms_and_value(:archdesc).children.each do |element|
+      ead.find_by_terms_and_value(:archdesc).children.each do |element|
         next unless element.name == "did"
         element.children.each do |child|
           childname = child.name
@@ -99,10 +109,10 @@ module Tufts
     end
 
 
-    def self.unitid_and_author(fedora_obj, datastream = "Archival.xml")
+    def self.unitid_and_author(ead)
       unitid = nil
       author = ""
-      fedora_obj.datastreams[datastream].find_by_terms_and_value(:archdesc).children.each do |element|
+      ead.find_by_terms_and_value(:archdesc).children.each do |element|
         next unless element.name == "did" || element.name == "origination"
         element.children.each do |child|
           childname = child.name
@@ -123,11 +133,11 @@ module Tufts
     end
 
 
-    def self.read_more_about(fedora_obj, datastream = "Archival.xml")
+    def self.read_more_about(ead)
       result = nil
-      persname = fedora_obj.datastreams[datastream].find_by_terms_and_value(:persname)
-      corpname = fedora_obj.datastreams[datastream].find_by_terms_and_value(:corpname)
-      famname = fedora_obj.datastreams[datastream].find_by_terms_and_value(:famname)
+      persname = ead.find_by_terms_and_value(:persname)
+      corpname = ead.find_by_terms_and_value(:corpname)
+      famname = ead.find_by_terms_and_value(:famname)
       name = nil
       rcr_url = nil
 
@@ -149,9 +159,9 @@ module Tufts
     end
 
 
-    def self.get_contributors(fedora_obj, datastream = "Archival.xml")
+    def self.get_contributors(ead)
       result = []
-      controlaccesses = fedora_obj.datastreams[datastream].find_by_terms_and_value(:controlaccess)
+      controlaccesses = ead.find_by_terms_and_value(:controlaccess)
 
       controlaccesses.each do |controlaccess|
         controlaccess.element_children.each do |element_child|
@@ -175,9 +185,9 @@ module Tufts
     end
 
 
-    def self.get_contents(fedora_obj, datastream = "Archival.xml")
+    def self.get_contents(ead)
       result = []
-      scopecontentps = fedora_obj.datastreams[datastream].find_by_terms_and_value(:scopecontentp)
+      scopecontentps = ead.find_by_terms_and_value(:scopecontentp)
 
       scopecontentps.each do |scopecontentp|
         result << scopecontentp.text
@@ -187,8 +197,14 @@ module Tufts
     end
 
 
-    def self.get_serieses(fedora_obj, datastream = "Archival.xml")
-      return fedora_obj.datastreams[datastream].find_by_terms_and_value(:series)
+    def self.get_serieses(ead)
+      serieses = ead.find_by_terms_and_value(:series)
+
+      unless serieses.empty?
+        return serieses
+      else
+        return ead.find_by_terms_and_value(:aspaceseries)
+      end
     end
 
 
@@ -204,7 +220,7 @@ module Tufts
           did = element_child
         elsif element_child.name == "scopecontent"
           scopecontent = element_child
-        elsif element_child.name == "c02"
+        elsif element_child.name == "c02" || element_child.name == "c"
           level = element_child.attribute("level")
           if !level.nil? && level.text == "subseries"
             c02s << element_child
@@ -264,9 +280,9 @@ module Tufts
     end
 
 
-    def self.get_names_and_subjects(fedora_obj, datastream = "Archival.xml")
+    def self.get_names_and_subjects(ead)
       result = []
-      controlaccesses = fedora_obj.datastreams[datastream].find_by_terms_and_value(:controlaccess)
+      controlaccesses = ead.find_by_terms_and_value(:controlaccess)
 
       controlaccesses.each do |controlaccess|
         controlaccess.element_children.each do |element_child|
@@ -289,10 +305,10 @@ module Tufts
     end
 
 
-    def self.get_related_material(fedora_obj, datastream = "Archival.xml")
+    def self.get_related_material(ead)
       result = []
-      separatedmaterials = fedora_obj.datastreams[datastream].find_by_terms_and_value(:separatedmaterial)
-      relatedmaterials = fedora_obj.datastreams[datastream].find_by_terms_and_value(:relatedmaterial)
+      separatedmaterials = ead.find_by_terms_and_value(:separatedmaterial)
+      relatedmaterials = ead.find_by_terms_and_value(:relatedmaterial)
 
       separatedmaterials.each do |separatedmaterial|
         result << separatedmaterial.text
@@ -306,11 +322,11 @@ module Tufts
     end
 
 
-    def self.get_access_and_use(fedora_obj, datastream = "Archival.xml")
+    def self.get_access_and_use(ead)
       result = []
-      accessrestrictps = fedora_obj.datastreams[datastream].find_by_terms_and_value(:accessrestrictp)
-      userestrictps = fedora_obj.datastreams[datastream].find_by_terms_and_value(:userestrictp)
-      preferciteps = fedora_obj.datastreams[datastream].find_by_terms_and_value(:prefercitep)
+      accessrestrictps = ead.find_by_terms_and_value(:accessrestrictp)
+      userestrictps = ead.find_by_terms_and_value(:userestrictp)
+      preferciteps = ead.find_by_terms_and_value(:prefercitep)
 
       accessrestrictps.each do |accessrestrictp|
         result << accessrestrictp.text
@@ -329,9 +345,9 @@ module Tufts
     end
 
 
-    def self.get_processing_notes(fedora_obj, datastream = "Archival.xml")
+    def self.get_processing_notes(ead)
       result = []
-      processinfos = fedora_obj.datastreams[datastream].find_by_terms_and_value(:processinfo)
+      processinfos = ead.find_by_terms_and_value(:processinfo)
 
       processinfos.each do |processinfo|
         result << processinfo.to_html
@@ -341,9 +357,9 @@ module Tufts
     end
 
 
-    def self.get_acquisition_info(fedora_obj, datastream = "Archival.xml")
+    def self.get_acquisition_info(ead)
       result = []
-      acqinfos = fedora_obj.datastreams[datastream].find_by_terms_and_value(:acqinfo)
+      acqinfos = ead.find_by_terms_and_value(:acqinfo)
 
       acqinfos.each do |acqinfo|
         result << acqinfo.text
@@ -353,11 +369,11 @@ module Tufts
     end
 
 
-    def self.get_series(fedora_obj, item_id, datastream = "Archival.xml")
+    def self.get_series(ead, item_id)
       series = nil
       series_level = 0
       subseries_level = 0
-      serieses = fedora_obj.datastreams[datastream].find_by_terms_and_value(:series)
+      serieses = get_serieses(ead)
 
       # look for a c01 whose id matches item_id
       serieses.each do |item|
@@ -369,7 +385,7 @@ module Tufts
         else
           # look for a c02 whose id matches item_id
           item.element_children.each do |element_child|
-            if element_child.name == "c02"
+            if element_child.name == "c02" || element_child.name == "c"
               if element_child.attribute("level").text == "subseries"
                 subseries_level += 1
 
@@ -446,7 +462,7 @@ module Tufts
 
         # The series could be a <c01 level="series"> with c02 children, or
         # it could be a <c02 level="subseries"> with c03 children.
-        if child_name == "c02" || child_name == "c03"
+        if child_name == "c02" || child_name == "c03" || child_name == "c"
           result << series_child
         end
       end
@@ -490,7 +506,7 @@ module Tufts
               item_child.name == "c05" || item_child.name == "c06" ||
               item_child.name == "c07" || item_child.name == "c08" ||
               item_child.name == "c09" || item_child.name == "c10" ||
-              item_child.name == "c11" || item_child.name == "c12"
+              item_child.name == "c11" || item_child.name == "c12" || item_child.name == "c"
           next_level_items << item_child
         end
       end
