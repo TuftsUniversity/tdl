@@ -29,7 +29,9 @@ class CatalogController < ApplicationController
 
     if @document_fedora.class.instance_of?(TuftsEAD.class)
       @document_ead = @document_fedora.datastreams["Archival.xml"]
-      @document_ead.ng_xml.remove_namespaces!
+      unless @document_ead.nil?
+        @document_ead.ng_xml.remove_namespaces!
+      end
     end
   end
 
