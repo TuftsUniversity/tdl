@@ -206,7 +206,7 @@ module Tufts
     def self.get_serieses(ead)
       serieses = ead.find_by_terms_and_value(:series)
 
-      unless serieses.empty?
+      unless serieses.nil? || serieses.empty?
         return serieses
       else
         return ead.find_by_terms_and_value(:aspaceseries)
