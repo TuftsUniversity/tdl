@@ -88,8 +88,10 @@ module Tufts
 
         # Old EADs had the text in both the <abstract> and the <bioghist>;  new ASpace
         # EADs have the text only in the <bioghist>
-        bioghistps.each do |bioghistp|
-          result += "<p>" + bioghistp.text + "</p>"
+        unless bioghistps.nil?
+          bioghistps.each do |bioghistp|
+            result += "<p>" + bioghistp.text + "</p>"
+          end
         end
       end
 
