@@ -556,8 +556,10 @@ module Tufts
             physloc_orig = did_child.text
           elsif did_child.name == "container"
             # ASpace puts the location in <container label=""> rather than <physloc>
-            physloc = did_child.attribute("label").text
-            physloc_orig = did_child.attribute("label").text
+            unless did_child.attribute("label").nil?
+              physloc = did_child.attribute("label").text
+              physloc_orig = did_child.attribute("label").text
+            end
           elsif did_child.name == "origination"
             did_child.children.each do |pers|
               if pers.name = "persname"
