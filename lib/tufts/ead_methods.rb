@@ -13,17 +13,21 @@ module Tufts
 
 
     def self.eadid(ead)
-      result = "BOGUS CATALOG NUMBER"
-      url = "http://hdl.handle.net/BOGUS/HANDLE"
+      result = ""
+      url = ""
       eadheader = ead.find_by_terms_and_value(:eadheader).first
       unless eadheader.nil?
         eadheader.element_children.each do |child|
           if child.name == "eadid"
-            result << child.text
+            result = child.text
             url = child.attribute("url")
             url = url.text unless url.nil?
           end
         end
+      else
+        # This must be an ArchivesSpace EAD;  eadid and url are in a different place.
+        result = "BOGUS CATALOG NUMBER"
+        url = "http://hdl.handle.net/BOGUS/HANDLE"
       end
 
       return result, url
@@ -280,6 +284,21 @@ module Tufts
     end
 
 
+    def self.get_paragraphs(element)
+      result = []
+
+      if !element.nil?
+        element.element_children.each do |element_child|
+          if element_child.name == "p"
+            result << element_child.text
+          end
+        end
+      end
+
+      return result
+    end
+
+
     def self.get_names_and_subjects(ead)
       result = []
       controlaccesses = ead.find_by_terms_and_value(:controlaccess)
@@ -425,7 +444,7 @@ module Tufts
           elsif element_child.name == "scopecontent"
             scopecontent = element_child
           elsif element_child.name == "accessrestrict"
-            series_restrict = element_child.text
+            series_restrict = get_paragraphs(element_child).join(" ")
           end
         end
 
@@ -482,6 +501,7 @@ module Tufts
       scopecontent = nil
       unittitle = nil
       unitdate = nil
+      aspace_unitid = nil
       physloc = nil
       physloc_orig = nil
       creator = ""
@@ -490,7 +510,7 @@ module Tufts
       access_restrict = nil
       available_online = false;
 
-      item_id = item.attribute("id").text()
+      item_id = item.attribute("id").text
       item_type = item.attribute("level")
 
       item.element_children.each do |item_child|
@@ -501,7 +521,7 @@ module Tufts
         elsif item_child.name == "scopecontent"
           scopecontent = item_child
         elsif item_child.name == "accessrestrict"
-          access_restrict = item_child.text
+          access_restrict = get_paragraphs(item_child).join(" ")
         elsif item_child.name == "c03" || item_child.name == "c04" ||
               item_child.name == "c05" || item_child.name == "c06" ||
               item_child.name == "c07" || item_child.name == "c08" ||
@@ -525,16 +545,21 @@ module Tufts
             end
           elsif did_child.name == "unitdate"
             unitdate = did_child.text
+          elsif did_child.name == "unitid"
+            aspace_unitid = did_child.text
           elsif did_child.name == "physloc"
             physloc = did_child.text
             physloc_orig = did_child.text
+          elsif did_child.name == "container"
+            # ASpace puts the location in <container label=""> rather than <physloc>
+            physloc = did_child.attribute("label").text
+            physloc_orig = did_child.attribute("label").text
           elsif did_child.name == "origination"
             did_child.children.each do |pers|
               if pers.name = "persname"
                 creator += pers.text.strip
               end
             end
-
           end
         end
       end
@@ -580,7 +605,7 @@ module Tufts
           values << "<br>"
         end
         labels << "Item ID:"
-        values << item_id.to_s
+        values << (!aspace_unitid.nil? ? aspace_unitid : item_id.to_s)
       end
 
       if !item_type.nil?
@@ -612,36 +637,16 @@ module Tufts
 
       paragraphs = get_scopecontent_paragraphs(scopecontent)
 
-      return unitdate, creator, physloc_orig, access_restrict, item_id, title, paragraphs, labels, values, page, thumbnail, available_online, next_level_items
+      return unitdate, creator, physloc_orig, access_restrict, item_id, aspace_unitid, title, paragraphs, labels, values, page, thumbnail, available_online, next_level_items
     end
 
 
     def self.get_series_access_and_use(series)
       result = []
-      access_restrict = nil
-      use_restrict = nil
 
       series.element_children.each do |series_child|
-        if series_child.name == "accessrestrict"
-          access_restrict = series_child
-        elsif series_child.name == "userestrict"
-          use_restrict = series_child
-        end
-      end
-
-      if !access_restrict.nil?
-        access_restrict.element_children.each do |access_child|
-          if access_child.name == "p"
-            result << access_child.text
-          end
-        end
-      end
-
-      if !use_restrict.nil?
-        use_restrict.element_children.each do |use_child|
-          if use_child.name == "p"
-            result << use_child.text
-          end
+        if series_child.name == "accessrestrict" || series_child.name == "userestrict"
+          result << get_paragraphs(series_child)
         end
       end
 

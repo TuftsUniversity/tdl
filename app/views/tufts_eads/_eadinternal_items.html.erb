@@ -3,7 +3,7 @@
       this_row_s = @row_count.to_s
       @row_count += 1
 
-      item_date, creator, physloc, access_restrict, item_id, item_title, item_paragraphs, item_labels, item_values, page, thumbnail, available_online, next_level_items = Tufts::EADMethods.get_series_item_info(series_item)
+      item_date, creator, physloc, access_restrict, item_id, aspace_unitid, item_title, item_paragraphs, item_labels, item_values, page, thumbnail, available_online, next_level_items = Tufts::EADMethods.get_series_item_info(series_item)
 #     item_title = "-" + indentation_level.to_s + "-" + (@row_count - 1).to_s + "- " + item_title # to show indentation level and row number for debugging
       is_top_level = indentation_level == 0
       is_folder = !next_level_items.nil? && !next_level_items.empty?
@@ -53,10 +53,16 @@
         access_restrict = access_restrict.strip unless access_restrict.nil?
 
         unitid, author = Tufts::EADMethods.unitid_and_author(@document_ead)
+
+        # ASpace puts the id that we want in the <c><did><unitid> instead of the <eadid> so if
+        # that is present it is the correct one to use.
+        unless aspace_unitid.nil?
+          unitid = aspace_unitid
+        end
 %>
         <td class="availableonline_td" align="center">
           <a class="list-add" data-pid="<%= j @document_fedora.pid %>"
-                              data-identifier="<%= j item_id.gsub(/[^0-9a-z ]/i, '') %>"
+                              data-identifier="<%= j (!aspace_unitid.nil? ? aspace_unitid : item_id).gsub(/[^0-9a-z ]/i, '') %>"
                               data-itemtitle="<%=strip_tags(Tufts::EADMethods.title(@document_ead, true)) %>"
                               data-site="DCA"
 
@@ -69,7 +75,7 @@
                               data-itemdate="<%=strip_tags(item_date) %>"
                               data-referencenumber="<%= strip_tags(eadid) %>"
                               data-callnumber="<%= strip_tags(unitid) %>"
-                              data-itemvolume="<%=strip_tags(item_id) %>" href="#">
+                              data-itemvolume="<%= strip_tags(!aspace_unitid.nil? ? aspace_unitid : item_id) %>" href="#">
             <i class="icon-plus-sign"/></i>&nbsp;Add to List</a>
         </td>
 <%
