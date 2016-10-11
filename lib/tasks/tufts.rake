@@ -32,6 +32,7 @@ namespace :tufts_dca do
       Rake::Task["tufts:fixtures:refresh"].invoke
       Rake::Task["jetty:config"].invoke
 #      Rake::Task['ci:setup:rspec'].invoke
+      Rake::Task["db:reset"].invoke
       Rake::Task["db:migrate"].invoke
       Rake::Task["db:seed"].invoke
       Rake::Task['spec'].invoke
