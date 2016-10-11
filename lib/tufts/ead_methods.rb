@@ -396,31 +396,33 @@ module Tufts
       subseries_level = 0
       serieses = get_serieses(ead)
 
-      # look for a c01 whose id matches item_id
-      serieses.each do |item|
-        series_level += 1
-        subseries_level = 0
+      unless serieses.nil?
+        # look for a c01 whose id matches item_id
+        serieses.each do |item|
+          series_level += 1
+          subseries_level = 0
 
-        if item.attribute("id").text == item_id
-          series = item
-        else
-          # look for a c02 whose id matches item_id
-          item.element_children.each do |element_child|
-            if element_child.name == "c02" || element_child.name == "c"
-              if element_child.attribute("level").text == "subseries"
-                subseries_level += 1
+          if item.attribute("id").text == item_id
+            series = item
+          else
+            # look for a c02 whose id matches item_id
+            item.element_children.each do |element_child|
+              if element_child.name == "c02" || element_child.name == "c"
+                if element_child.attribute("level").text == "subseries"
+                  subseries_level += 1
 
-                if element_child.attribute("id").text == item_id
-                  series = element_child
-                  break
+                  if element_child.attribute("id").text == item_id
+                    series = element_child
+                    break
+                  end
                 end
               end
             end
           end
-        end
 
-        if !series.nil?
-          break
+          if !series.nil?
+            break
+          end
         end
       end
 

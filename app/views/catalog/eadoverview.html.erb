@@ -39,7 +39,7 @@
             <% unless contents.empty? %>
                 <li><a href="#contents">Contents</a></li>
             <% end %>
-            <% unless serieses.empty? %>
+            <% unless serieses.nil? || serieses.empty? %>
                 <li><a href="#series_descriptions">Series Description</a></li>
             <% end %>
             <% unless names_and_subjects.empty? %>
@@ -93,7 +93,7 @@
                end
             %>
 
-        <% if !serieses.empty? %>
+        <% unless serieses.nil? || serieses.empty? %>
             <h4 id="series_descriptions">Series Description</h4>
             <ol>
               <%
@@ -206,7 +206,7 @@
                 been digitized.</p>
             </div>
         <% end %>
-        <% if serieses.empty? %>
+        <% if serieses.nil? || serieses.empty? %>
             <div class="tooltip-demo well">
               <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata, :unitid => unitid} %>
               <p>Contact DCA to request Materials by adding to your list..</p>
