@@ -53,10 +53,14 @@ module Tufts
 
     def self.physdesc(ead)
       result = ""
-      physdescs = ead.get_values(:physdesc).first
+      physdescs = ead.get_values(:physdesc)
 
-      if !physdescs.nil?
-        result << physdescs.lstrip.rstrip
+      physdescs.each do |physdesc|
+        if result.length > 0
+          result << ", "
+        end
+
+        result << physdesc.lstrip.rstrip
       end
 
       return result
@@ -65,11 +69,11 @@ module Tufts
 
     def self.physdesc_split(ead)
       result = ""
-      physdescs = ead.get_values(:physdesc).first
+      physdescs = ead.get_values(:physdesc)
 
-      if !physdescs.nil?
-        physdescs.split(";").each do |physdesc|
-          result << (result.empty? ? "" : "<br>") + physdesc.lstrip.rstrip
+      physdescs.each do |physdesc|
+        physdesc.split(";").each do |physdescpart|
+          result << (result.empty? ? "" : "<br>") + physdescpart.lstrip.rstrip
         end
       end
 
@@ -429,6 +433,7 @@ module Tufts
       return series, series_level.to_s + (subseries_level == 0 ? "" : ("." + subseries_level.to_s))
     end
 
+
     def self.get_series_info(series)
       did = nil
       scopecontent = nil
@@ -460,13 +465,15 @@ module Tufts
             elsif did_child.name == "unitdate"
               unitdate = did_child.text
             elsif did_child.name == "physdesc"
-              physdesc = did_child.text
+              if physdesc.length > 0
+                physdesc << ", "
+              end
+              physdesc << did_child.text
             elsif did_child.name == "unitid"
               unitid = did_child.text
             end
           end
         end
-
 
       # process the scopecontent element
         paragraphs = get_scopecontent_paragraphs(scopecontent)
@@ -476,6 +483,7 @@ module Tufts
 
       return title, physdesc, paragraphs, series_restrict, unitid
     end
+
 
     def self.get_series_items(series)
       result = []
