@@ -36,11 +36,15 @@
       # I have absolutely no idea why this is so.
 %>
 <%
-      item_paragraphs.each do |item_paragraph|
+     # When ASpace EADs started including these paragraphs, it was decided not to display them.
+     # "unless true" keeps them from displaying while retaining the code in case the decision is reversed.
+     unless true
+       item_paragraphs.each do |item_paragraph|
 %>
           <br><%= raw(item_paragraph) %>
 <%
-      end
+       end
+     end
 %>
         </td>
         <td class="smalltext locator_td"><%= raw(item_labels) %></td>
