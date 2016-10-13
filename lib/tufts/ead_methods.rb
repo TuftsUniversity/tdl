@@ -652,7 +652,7 @@ module Tufts
 
       series.element_children.each do |series_child|
         if series_child.name == "accessrestrict" || series_child.name == "userestrict"
-          result << get_paragraphs(series_child)
+          result = get_paragraphs(series_child)
         end
       end
 
