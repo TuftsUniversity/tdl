@@ -135,7 +135,6 @@ module Tufts
               end
             end
           end
-
         end
       end
 
@@ -513,7 +512,6 @@ module Tufts
       scopecontent = nil
       unittitle = nil
       unitdate = nil
-      aspace_unitid = nil
       physloc = nil
       physloc_orig = nil
       creator = ""
@@ -558,7 +556,8 @@ module Tufts
           elsif did_child.name == "unitdate"
             unitdate = did_child.text
           elsif did_child.name == "unitid"
-            aspace_unitid = did_child.text
+            # In ASpace EADs the item id is in <c><did><unitid>... instead the id attribute of the <c id=...>
+            item_id = did_child.text
           elsif did_child.name == "physloc"
             physloc = did_child.text
             physloc_orig = did_child.text
@@ -619,7 +618,7 @@ module Tufts
           values << "<br>"
         end
         labels << "Item ID:"
-        values << (!aspace_unitid.nil? ? aspace_unitid : item_id.to_s)
+        values << item_id.to_s
       end
 
       if !item_type.nil?
@@ -651,7 +650,7 @@ module Tufts
 
       paragraphs = get_scopecontent_paragraphs(scopecontent)
 
-      return unitdate, creator, physloc_orig, access_restrict, item_id, aspace_unitid, title, paragraphs, labels, values, page, thumbnail, available_online, next_level_items
+      return unitdate, creator, physloc_orig, access_restrict, item_id, title, paragraphs, labels, values, page, thumbnail, available_online, next_level_items
     end
 
 
