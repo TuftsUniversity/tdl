@@ -521,7 +521,7 @@ module Tufts
       available_online = false;
 
       item_id = item.attribute("id").text
-      item_type = item.attribute("level")
+      item_type = item.attribute("level").text
 
       item.element_children.each do |item_child|
         if item_child.name == "did"
@@ -577,6 +577,19 @@ module Tufts
         end
       end
 
+      if !physloc.nil?
+        # If the location is like: "Mixed Materials (39090015754001g)", remove all but "39090015754001g using regex match"
+        physloc_regex = /^(.*?\()?(.*?)(\))?$/
+
+        if physloc =~ physloc_regex
+          physloc = $2
+        end
+
+        if physloc_orig =~ physloc_regex
+          physloc_orig = $2
+        end
+      end
+
       if !daogrp.nil?
         daogrp.element_children.each do |daogrp_child|
           if daogrp_child.name == "daoloc"
@@ -627,7 +640,7 @@ module Tufts
           values << "<br>"
         end
         labels << "Type:"
-        values << item_type.to_s.capitalize
+        values << item_type.capitalize
       end
 
       if !access_restrict.nil?
