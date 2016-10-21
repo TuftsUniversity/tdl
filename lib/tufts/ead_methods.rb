@@ -627,16 +627,7 @@ module Tufts
           values << "<br>"
         end
         labels << "Type:"
-
-        item_type_text = item_type.to_s
-
-        if item_type_text == "item"
-          values << "Item"
-        elsif item_type_text == "file"
-          values << "Folder"
-        else
-          values << item_type_text
-        end
+        values << item_type.to_s.capitalize
       end
 
       if !access_restrict.nil?
