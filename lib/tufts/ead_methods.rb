@@ -371,10 +371,10 @@ module Tufts
 
     def self.get_processing_notes(ead)
       result = []
-      processinfos = ead.find_by_terms_and_value(:processinfo)
+      processinfops = ead.find_by_terms_and_value(:processinfop)
 
-      processinfos.each do |processinfo|
-        result << processinfo.to_html
+      processinfops.each do |processinfop|
+        result << processinfop.text
       end
 
       return result
@@ -383,10 +383,10 @@ module Tufts
 
     def self.get_acquisition_info(ead)
       result = []
-      acqinfos = ead.find_by_terms_and_value(:acqinfo)
+      acqinfops = ead.find_by_terms_and_value(:acqinfop)
 
-      acqinfos.each do |acqinfo|
-        result << acqinfo.text
+      acqinfops.each do |acqinfop|
+        result << acqinfop.text
       end
 
       return result

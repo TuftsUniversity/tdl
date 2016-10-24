@@ -4,8 +4,9 @@ gem 'rails', '3.2.16'
 
 gem 'hydra', '6.1.0'
 
-gem 'tuftsification-hydra', :git => 'https://github.com/TuftsUniversity/tuftsification-hydra', :tag => '1.2.2'
+gem 'tuftsification-hydra', :git => 'https://github.com/TuftsUniversity/tuftsification-hydra', :tag => '1.2.3'
 #gem 'tuftsification-hydra', :path => '/Users/mkorcy01/Documents/workspace/tuftsification-hydra'
+#gem 'tuftsification-hydra', :path => '../tuftsification-hydra'
 
 #gem 'solrizer', :path => '/home/hydradm/tdl_solrizer'
 #gem 'solrizer', :git => 'https://github.com/TuftsUniversity/tdl_solrizer'
@@ -50,6 +51,7 @@ group :development, :test do
    gem 'selenium-webdriver'
    gem 'rubocop', require: false
    gem 'rubocop-rspec', require: false
+   gem "byebug"
 end
 
 gem "unicode", :platforms => [:mri_18, :mri_19]
