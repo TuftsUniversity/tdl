@@ -24,10 +24,6 @@ module Tufts
             url = url.text unless url.nil?
           end
         end
-      else
-        # This must be an ArchivesSpace EAD;  eadid and url are in a different place.
-        result = "BOGUS CATALOG NUMBER"
-        url = "http://hdl.handle.net/BOGUS/HANDLE"
       end
 
       return result, url

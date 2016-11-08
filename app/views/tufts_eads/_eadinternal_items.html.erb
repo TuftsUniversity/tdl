@@ -1,4 +1,13 @@
 <%
+    eadid, url = Tufts::EADMethods.eadid(@document_ead)
+    unitid, author = Tufts::EADMethods.unitid_and_author(@document_ead)
+    ead_title = Tufts::EADMethods.title(@document_ead, true)
+    stripped_eadid = strip_tags(eadid)
+    stripped_url = strip_tags(url)
+    stripped_unitid = strip_tags(unitid)
+    stripped_author = strip_tags(author)
+    stripped_ead_title = strip_tags(ead_title)
+
     series_items.each do |series_item|
       this_row_s = @row_count.to_s
       @row_count += 1
@@ -52,27 +61,24 @@
 
 <%
       unless available_online
-        eadid, url = Tufts::EADMethods.eadid(@document_ead)
         access_restrict = series_restrict if access_restrict.nil?
         access_restrict = access_restrict.strip unless access_restrict.nil?
 
-        unitid, author = Tufts::EADMethods.unitid_and_author(@document_ead)
 %>
         <td class="availableonline_td" align="center">
           <a class="list-add" data-pid="<%= j @document_fedora.pid %>"
                               data-identifier="<%= j item_id.gsub(/[^0-9a-z ]/i, '') %>"
-                              data-itemtitle="<%=strip_tags(Tufts::EADMethods.title(@document_ead, true)) %>"
+                              data-itemtitle="<%=stripped_ead_title %>"
                               data-site="DCA"
-
                               data-itemsubtitle="<%= strip_tags(item_title) %>"
                               data-itemnumber="<%= strip_tags(physloc) %>"
                               data-iteminfo1="<%= strip_tags(access_restrict) %>"
-                              data-itemauthor="<%= strip_tags(author) %>"
+                              data-itemauthor="<%= stripped_author %>"
                               data-iteminfo2="<%= strip_tags(creator) %>"
-                              data-iteminfo3="<%= strip_tags(url) %>"
+                              data-iteminfo3="<%= stripped_url %>"
                               data-itemdate="<%=strip_tags(item_date) %>"
-                              data-referencenumber="<%= strip_tags(eadid) %>"
-                              data-callnumber="<%= strip_tags(unitid) %>"
+                              data-referencenumber="<%= stripped_eadid %>"
+                              data-callnumber="<%= stripped_unitid %>"
                               data-itemvolume="<%= strip_tags(item_id) %>" href="#">
             <i class="icon-plus-sign"/></i>&nbsp;Add to List</a>
         </td>
