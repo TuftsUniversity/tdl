@@ -327,15 +327,19 @@ module Tufts
 
     def self.get_related_material(ead)
       result = []
-      separatedmaterials = ead.find_by_terms_and_value(:separatedmaterial)
-      relatedmaterials = ead.find_by_terms_and_value(:relatedmaterial)
+      separatedmaterialps = ead.find_by_terms_and_value(:separatedmaterialp)
+      relatedmaterialps = ead.find_by_terms_and_value(:relatedmaterialp)
 
-      separatedmaterials.each do |separatedmaterial|
-        result << separatedmaterial.text
+      unless separatedmaterialps.nil?
+        separatedmaterialps.each do |separatedmaterialp|
+          result << separatedmaterialp.text
+        end
       end
 
-      relatedmaterials.each do |relatedmaterial|
-        result << relatedmaterial.text
+      unless relatedmaterialps.nil?
+        relatedmaterialps.each do |relatedmaterialp|
+          result << relatedmaterialp.text
+        end
       end
 
       return result
