@@ -12,8 +12,8 @@ GIT
 
 GIT
   remote: https://github.com/TuftsUniversity/tuftsification-hydra
-  revision: c95eb91596de517b931d81eec37d174a36af51a5
-  tag: 1.2.1
+  revision: 17134ea7f5348ca1590c8cb1cc2cd659e5087ab7
+  tag: 1.2.7
   specs:
     tuftsification-hydra (0.0.3)
       chronic
@@ -96,6 +96,7 @@ GEM
       sass (~> 3.2)
     bootstrap_forms (4.0.1)
     builder (3.0.4)
+    byebug (9.0.6)
     cancan (1.6.10)
     capybara (2.2.1)
       mime-types (>= 1.16)
@@ -205,7 +206,7 @@ GEM
       open4 (~> 1.0)
     launchy (2.4.2)
       addressable (~> 2.3)
-    libv8 (3.16.14.7)
+    libv8 (3.16.14.15)
     logger (1.2.8)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -404,6 +405,7 @@ DEPENDENCIES
   activerecord-mysql-adapter
   blacklight_advanced_search!
   bootstrap-sass
+  byebug
   capybara
   chronic
   ci_reporter
@@ -444,4 +446,4 @@ RUBY VERSION
    ruby 2.0.0p648
 
 BUNDLED WITH
-   1.12.5
+   1.13.3
