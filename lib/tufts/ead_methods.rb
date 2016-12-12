@@ -33,7 +33,16 @@ module Tufts
     def self.title(ead, includeDate = true)
       result = ""
       unittitle = ead.get_values(:unittitle).first
-      unitdate = ead.get_values(:unitdate).first
+      unitdate = nil
+
+      unitdates = ead.find_by_terms_and_value(:unitdate)
+      unitdates.each do |a_unitdate|
+        datetype = a_unitdate.attribute("type")
+        if !datetype.nil? && datetype.text == "inclusive"
+          unitdate = a_unitdate.text
+          break
+        end
+      end
 
       unless unittitle.nil?
         if (includeDate)
@@ -106,7 +115,10 @@ module Tufts
         element.children.each do |child|
           childname = child.name
           if childname == "unitdate"
-            return child.text
+            datetype = child.attribute("type")
+            if !datetype.nil? && datetype.text == "inclusive"
+              return child.text
+            end
           end
         end
       end
@@ -249,7 +261,10 @@ module Tufts
           if did_child.name == "unittitle"
             unittitle = did_child.text
           elsif did_child.name == "unitdate"
-            unitdate = did_child.text
+            datetype = did_child.attribute("type")
+            if !datetype.nil? && datetype.text == "inclusive"
+              unitdate = did_child.text
+            end
           end
         end
 
@@ -462,7 +477,10 @@ module Tufts
             if did_child.name == "unittitle"
               unittitle = did_child.text
             elsif did_child.name == "unitdate"
-              unitdate = did_child.text
+              datetype = did_child.attribute("type")
+              if !datetype.nil? && datetype.text == "inclusive"
+                unitdate = did_child.text
+              end
             elsif did_child.name == "physdesc"
               if physdesc.length > 0
                 physdesc << ", "
@@ -545,16 +563,21 @@ module Tufts
         did.element_children.each do |did_child|
           if did_child.name == "unittitle"
             unittitle = did_child.children.first.text
-
-            if did_child.children.size > 1
-              unittitle_child = did_child.children[1]
-
-              if unittitle_child.name == "unitdate"
-                unitdate = unittitle_child.text
+            did_child.children.each do |child|
+              childname = child.name
+              if childname == "unitdate"
+                datetype = child.attribute("type")
+                if !datetype.nil? && datetype.text == "inclusive"
+                  unitdate = child.text
+                  break
+                end
               end
             end
           elsif did_child.name == "unitdate"
-            unitdate = did_child.text
+            datetype = did_child.attribute("type")
+            if !datetype.nil? && datetype.text == "inclusive"
+              unitdate = did_child.text
+            end
           elsif did_child.name == "unitid"
             # In ASpace EADs the item id is in <c><did><unitid>... instead the id attribute of the <c id=...>
             item_id = did_child.text
