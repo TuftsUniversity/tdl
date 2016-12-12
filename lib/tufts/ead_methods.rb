@@ -366,18 +366,33 @@ module Tufts
       accessrestrictps = ead.find_by_terms_and_value(:accessrestrictp)
       userestrictps = ead.find_by_terms_and_value(:userestrictp)
       preferciteps = ead.find_by_terms_and_value(:prefercitep)
+      descgrpaccessrestrictps = ead.find_by_terms_and_value(:descgrpaccessrestrictp)
+      descgrpuserestrictps = ead.find_by_terms_and_value(:descgrpuserestrictp)
+      descgrppreferciteps = ead.find_by_terms_and_value(:descgrpprefercitep)
 
       accessrestrictps.each do |accessrestrictp|
         result << accessrestrictp.text
+      end
+
+      descgrpaccessrestrictps.each do |descgrpaccessrestrictp|
+        result << descgrpaccessrestrictp.text
       end
 
       userestrictps.each do |userestrictp|
         result << userestrictp.text
       end
 
-      # TBD -- do they want the prefercite?  It's not on the design drawings...
+      descgrpuserestrictps.each do |descgrpuserestrictp|
+        result << descgrpuserestrictp.text
+      end
+
+      # Prefercite doesn't appear in our EADs but someday it could.
       preferciteps.each do |prefercitep|
         result << "Preferred citation: " + prefercitep.text
+      end
+
+      descgrppreferciteps.each do |descgrpprefercitep|
+        result << "Preferred citation: " + descgrpprefercitep.text
       end
 
       return result
@@ -686,7 +701,7 @@ module Tufts
 
       series.element_children.each do |series_child|
         if series_child.name == "accessrestrict" || series_child.name == "userestrict"
-          result = get_paragraphs(series_child)
+          result << get_paragraphs(series_child).join("  ")
         end
       end
 
