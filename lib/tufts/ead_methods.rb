@@ -323,7 +323,8 @@ module Tufts
         controlaccess.element_children.each do |element_child|
           childname = element_child.name
 
-          if childname == "persname" || childname == "corpname" || childname == "subject" || childname == "geogname" || childname == "title" || childname == "genreform"
+          if childname == "persname" || childname == "corpname" || childname == "subject" || childname == "geogname" ||
+              childname == "title" || childname == "genreform" || childname == "famname"
             child_name = element_child.text
             child_id = element_child.attribute("id")
             child_url = (child_id.nil? ? nil : child_id.text)
@@ -705,7 +706,8 @@ module Tufts
 					series_child.element_children.each do |element_child|
 						childname = element_child.name
 
-						if childname == "persname" || childname == "corpname" || childname == "subject" || childname == "geogname" || childname == "title" || childname == "genreform"
+						if childname == "persname" || childname == "corpname" || childname == "subject" || childname == "geogname" ||
+						    childname == "title" || childname == "genreform" || childname == "famname"
 							child_name = element_child.text
 							child_id = element_child.attribute("id")
 							child_url = (child_id.nil? ? nil : child_id.text)
