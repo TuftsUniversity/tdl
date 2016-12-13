@@ -12,8 +12,8 @@ GIT
 
 GIT
   remote: https://github.com/TuftsUniversity/tuftsification-hydra
-  revision: 17134ea7f5348ca1590c8cb1cc2cd659e5087ab7
-  tag: 1.2.7
+  revision: 61acca1aba773c25787ce178ac51c0f85bac2e2f
+  tag: 1.2.8
   specs:
     tuftsification-hydra (0.0.3)
       chronic
@@ -183,7 +183,7 @@ GEM
       bootstrap_forms
       cancan
     i18n (0.6.9)
-    image_size (1.4.2)
+    image_size (1.5.0)
     is_it_working (1.0.10)
     jettywrapper (1.5.2)
       activesupport (>= 3.0.0)
@@ -441,9 +441,3 @@ DEPENDENCIES
   tuftsification-hydra!
   uglifier
   unicode
-
-RUBY VERSION
-   ruby 2.0.0p648
-
-BUNDLED WITH
-   1.13.3
