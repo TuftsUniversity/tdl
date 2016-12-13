@@ -16,6 +16,7 @@
     <%
 
        series_items = Tufts::EADMethods.get_series_items(series)
+       names_and_subjects = Tufts::EADMethods.get_series_names_and_subjects(series)
        series_access_and_use = Tufts::EADMethods.get_series_access_and_use(series)
        metadata = Tufts::ModelMethods.get_metadata(@document_fedora)
 
@@ -36,10 +37,13 @@
           <h6>On this page:</h6>
           <ul class="nav nav-tabs nav-stacked" style="margin: 0px;">
             <li><a href="#series_overview">Series Overview</a></li>
-            <% if !series_items.empty? %>
+            <% unless series_items.empty? %>
                 <li><a href="#detailed_contents_list">Detailed Contents List</a></li>
             <% end %>
-            <% if !series_access_and_use.empty? %>
+            <% unless names_and_subjects.empty? %>
+                <li><a href="#names_and_subjects">Names and Subjects</a></li>
+            <% end %>
+            <% unless series_access_and_use.empty? %>
                 <li><a href="#access_and_use">Access and Use</a></li>
             <% end %>
           </ul>
@@ -108,7 +112,17 @@
 
         </table>
 
-        <% if !series_access_and_use.empty? %>
+
+        <% unless names_and_subjects.empty? %>
+            <h4 id="names_and_subjects">Names and Subjects</h4>
+            <ul>
+              <% names_and_subjects.each do |list_item| %>
+                  <li><%= raw list_item %></li>
+              <% end %>
+            </ul>
+        <% end %>
+
+        <% unless series_access_and_use.empty? %>
             <h4 id="access_and_use">Access and Use</h4>
             <% series_access_and_use.each do |paragraph| %>
                 <p><%= raw paragraph %></p>

@@ -696,6 +696,34 @@ module Tufts
     end
 
 
+    def self.get_series_names_and_subjects(series)
+      result = []
+
+      series.element_children.each do |series_child|
+        if series_child.name == "controlaccess"
+
+					series_child.element_children.each do |element_child|
+						childname = element_child.name
+
+						if childname == "persname" || childname == "corpname" || childname == "subject" || childname == "geogname" || childname == "title" || childname == "genreform"
+							child_name = element_child.text
+							child_id = element_child.attribute("id")
+							child_url = (child_id.nil? ? nil : child_id.text)
+
+							if child_name.size > 0
+								ingested = !child_url.nil? && Tufts::PidMethods.ingested?(child_url)
+								result << (ingested ? "<a href=\"/catalog/" + child_url + "\">" : "") + child_name + (ingested ? "</a>" : "")
+							end
+						end
+					end
+
+        end
+      end
+
+      return result
+    end
+
+
     def self.get_series_access_and_use(series)
       result = []
 
