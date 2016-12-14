@@ -53,35 +53,37 @@
         </div>
       </div>
 
-      <div class="span6" id="series_overview">
-        <p>
-          This series is part of
-          <a href="<%= Tufts::EADMethods.collection_url(@document_fedora) %>"><%= @collection_title %></a>
-          <br>
-          <%= series_physdesc %>
-        </p>
+      <div class="span9">
+        <div class="row" id="overview_and_tooltip">
+          <div class="span6" id="series_overview">
+            <p>
+              This series is part of
+              <a href="<%= Tufts::EADMethods.collection_url(@document_fedora) %>"><%= @collection_title %></a>
+              <br>
+              <%= series_physdesc %>
+            </p>
 
-        <% series_scopecontents.each do |paragraph| %>
-            <p><%= raw paragraph %></p>
-        <% end %>
-      </div>
+            <% series_scopecontents.each do |paragraph| %>
+                <p><%= raw paragraph %></p>
+            <% end %>
+          </div>
 
-      <div class="span3 ">
-        <% if series_items.empty? %>
+          <div class="span3 ">
+            <% if series_items.empty? %>
+                <div class="tooltip-demo well">
+                  <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata, :series_title => series_title, :unitid => unitid, :series_id => params[:item_id]} %>
+                  <p>Contact DCA to request Materials by adding to your list..</p>
+                </div>
+            <% end %>
             <div class="tooltip-demo well">
-              <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata, :series_title => series_title, :unitid => unitid, :series_id => params[:item_id]} %>
-              <p>Contact DCA to request Materials by adding to your list..</p>
+              <a href="/catalog?f[collection_id_sim][]=<%= params[:id] %>">
+                <h5>View Online Materials <i class="icon-arrow-right margintoparrow"></i></h5></a>
+
+              <p>Use <strong>My List</strong> to request materials that are not online.</p>
             </div>
-        <% end %>
-        <div class="tooltip-demo well">
-          <a href="/catalog?f[collection_id_sim][]=<%= params[:id] %>">
-            <h5>View Online Materials <i class="icon-arrow-right margintoparrow"></i></h5></a>
-
-          <p>Use <strong>My List</strong> to request materials that are not online.</p>
+          </div>
         </div>
-      </div>
 
-      <div class="span9 offset3">
         <h4 id="detailed_contents_list"><b>Detailed Contents List</b></h4>
         <br>
         <table id="theTable" cellpadding="0" cellspacing="0" class="table" width="679px" style="border:0">
