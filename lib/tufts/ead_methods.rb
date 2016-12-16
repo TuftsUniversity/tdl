@@ -58,14 +58,16 @@ module Tufts
 
     def self.physdesc(ead)
       result = ""
-      physdescs = ead.get_values(:physdesc)
+      physdescs = ead.find_by_terms_and_value(:physdesc)
 
       physdescs.each do |physdesc|
-        if result.length > 0
-          result << ", "
+        physdesc.children.each do |child|
+          # <physdesc>'s text is a child;  also process text of any <extent> or other child elements
+          child_text = child.text.lstrip.rstrip;
+          unless child_text.length == 0
+            result << (result.length > 0 ? ", " : "") + child_text
+          end
         end
-
-        result << physdesc.lstrip.rstrip
       end
 
       return result
@@ -74,11 +76,20 @@ module Tufts
 
     def self.physdesc_split(ead)
       result = ""
-      physdescs = ead.get_values(:physdesc)
+      physdescs = ead.find_by_terms_and_value(:physdesc)
 
       physdescs.each do |physdesc|
-        physdesc.split(";").each do |physdescpart|
-          result << (result.empty? ? "" : "<br>") + physdescpart.lstrip.rstrip
+        physdesc.children.each do |child|
+          # <physdesc>'s text is a child;  also process text of any <extent> or other child elements
+          child_text = child.text.lstrip.rstrip;
+          unless child_text.length == 0
+            child_text.split(";").each do |child_text_part|   # also split on semi-colons
+              child_text_part_text = child_text_part.lstrip.rstrip
+              unless child_text_part_text.length == 0
+                result << (result.length > 0 ? "<br>" : "") + child_text_part_text
+              end
+            end
+          end
         end
       end
 
@@ -92,15 +103,19 @@ module Tufts
 
       unless abstract.nil?
         result << abstract
-      else
-        bioghistps = ead.find_by_terms_and_value(:bioghistp)
+      end
 
-        # Old EADs had the text in both the <abstract> and the <bioghist>;  new ASpace
-        # EADs have the text only in the <bioghist>
-        unless bioghistps.nil?
-          bioghistps.each do |bioghistp|
-            result += "<p>" + bioghistp.text + "</p>"
-          end
+      return result
+    end
+
+
+    def self.bioghist(ead)
+      result = ""
+      bioghistps = ead.find_by_terms_and_value(:bioghistp)
+
+      unless bioghistps.nil?
+        bioghistps.each do |bioghistp|
+          result += "<p>" + bioghistp.text + "</p>"
         end
       end
 
@@ -189,7 +204,7 @@ module Tufts
             child_id = element_child.attribute("id")
             child_url = (child_id.nil? ? nil : child_id.text)
 
-            if child_name.size > 0 && !child_url.nil?
+            if child_name.size > 0 && !child_url.nil?  # only display elements that exist in the DL, presumably as RCRs
               child_url = "tufts:" + child_url
               ingested = Tufts::PidMethods.ingested?(child_url)
               result << (ingested ? "<a href=\"/catalog/" + child_url + "\">" : "") + child_name + (ingested ? "</a>" : "")
@@ -498,10 +513,13 @@ module Tufts
                 unitdate = did_child.text
               end
             elsif did_child.name == "physdesc"
-              if physdesc.length > 0
-                physdesc << ", "
+              did_child.children.each do |physdesc_child|
+                # <physdesc>'s text is a child;  also process text of any <extent> or other child elements
+                physdesc_child_text = physdesc_child.text.lstrip.rstrip;
+                unless physdesc_child_text.length == 0
+                  physdesc << (physdesc.length > 0 ? ", " : "") + physdesc_child_text
+                end
               end
-              physdesc << did_child.text
             elsif did_child.name == "unitid"
               unitid = did_child.text
             end
@@ -703,22 +721,21 @@ module Tufts
       series.element_children.each do |series_child|
         if series_child.name == "controlaccess"
 
-					series_child.element_children.each do |element_child|
-						childname = element_child.name
+          series_child.element_children.each do |element_child|
+            childname = element_child.name
 
-						if childname == "persname" || childname == "corpname" || childname == "subject" || childname == "geogname" ||
-						    childname == "title" || childname == "genreform" || childname == "famname"
-							child_name = element_child.text
-							child_id = element_child.attribute("id")
-							child_url = (child_id.nil? ? nil : child_id.text)
+            if childname == "persname" || childname == "corpname" || childname == "subject" || childname == "geogname" ||
+                childname == "title" || childname == "genreform" || childname == "famname"
+              child_name = element_child.text
+              child_id = element_child.attribute("id")
+              child_url = (child_id.nil? ? nil : child_id.text)
 
-							if child_name.size > 0
-								ingested = !child_url.nil? && Tufts::PidMethods.ingested?(child_url)
-								result << (ingested ? "<a href=\"/catalog/" + child_url + "\">" : "") + child_name + (ingested ? "</a>" : "")
-							end
-						end
-					end
-
+              if child_name.size > 0
+                ingested = !child_url.nil? && Tufts::PidMethods.ingested?(child_url)
+                result << (ingested ? "<a href=\"/catalog/" + child_url + "\">" : "") + child_name + (ingested ? "</a>" : "")
+              end
+            end
+          end
         end
       end
 
