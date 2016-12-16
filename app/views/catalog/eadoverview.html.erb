@@ -103,7 +103,7 @@
                  while series_index < series_count
                    series_level = (series_index + 1).to_s
                    series_id, did, scopecontent, c02s = Tufts::EADMethods.get_series_elements(serieses[series_index])
-                   title = Tufts::EADMethods.get_series_title(did, ead_id, series_id, nil, c02s.empty?)
+                   title = Tufts::EADMethods.get_series_title(did, ead_id, series_id, nil, true)
                    paragraphs = Tufts::EADMethods.get_scopecontent_paragraphs(scopecontent)
               %>
                   <li>

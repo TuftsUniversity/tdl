@@ -264,7 +264,7 @@ module Tufts
     end
 
 
-    def self.get_series_title(did, ead_id, series_id, series_level, no_subseries)
+    def self.get_series_title(did, ead_id, series_id, series_level, with_link)
       result = ""
 
       # process the did element
@@ -285,7 +285,7 @@ module Tufts
 
         # This should be a link if there are no subseries elements (ie, <c02 level="subseries"> tags).
         if !unittitle.nil? && unittitle.size > 0
-          result << (series_level.nil? ? "" : series_level + ". ") + (no_subseries ? "<a href=\"/catalog/ead/" + ead_id + "/" + series_id + "\">" : "") + unittitle + (unitdate.nil? ? "" : ", " + unitdate) + (no_subseries ? "</a>" : "")
+          result << (series_level.nil? ? "" : series_level + ". ") + (with_link ? "<a href=\"/catalog/ead/" + ead_id + "/" + series_id + "\">" : "") + unittitle + (unitdate.nil? ? "" : ", " + unitdate) + (with_link ? "</a>" : "")
         end
       end
 
