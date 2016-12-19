@@ -63,7 +63,7 @@ module Tufts
       physdescs.each do |physdesc|
         physdesc.children.each do |child|
           # <physdesc>'s text is a child;  also process text of any <extent> or other child elements
-          child_text = child.text.lstrip.rstrip;
+          child_text = child.text.lstrip.rstrip
           unless child_text.length == 0
             result << (result.length > 0 ? ", " : "") + child_text
           end
@@ -81,7 +81,7 @@ module Tufts
       physdescs.each do |physdesc|
         physdesc.children.each do |child|
           # <physdesc>'s text is a child;  also process text of any <extent> or other child elements
-          child_text = child.text.lstrip.rstrip;
+          child_text = child.text.lstrip.rstrip
           unless child_text.length == 0
             child_text.split(";").each do |child_text_part|   # also split on semi-colons
               child_text_part_text = child_text_part.lstrip.rstrip
@@ -223,6 +223,12 @@ module Tufts
 
       scopecontentps.each do |scopecontentp|
         result << scopecontentp.text
+      end
+
+      langmaterials = ead.find_by_terms_and_value(:langmaterial)
+
+      langmaterials.each do |langmaterial|
+        result << langmaterial.text
       end
 
       return result
@@ -482,6 +488,7 @@ module Tufts
     def self.get_series_info(series)
       did = nil
       scopecontent = nil
+      langmaterial = nil
       unittitle = nil
       unitdate = nil
       unitid = nil
@@ -497,6 +504,8 @@ module Tufts
             did = element_child
           elsif element_child.name == "scopecontent"
             scopecontent = element_child
+          elsif element_child.name == "langmaterial"
+            langmaterial = element_child
           elsif element_child.name == "accessrestrict"
             series_restrict = get_paragraphs(element_child).join(" ")
           end
@@ -515,19 +524,25 @@ module Tufts
             elsif did_child.name == "physdesc"
               did_child.children.each do |physdesc_child|
                 # <physdesc>'s text is a child;  also process text of any <extent> or other child elements
-                physdesc_child_text = physdesc_child.text.lstrip.rstrip;
+                physdesc_child_text = physdesc_child.text.lstrip.rstrip
                 unless physdesc_child_text.length == 0
                   physdesc << (physdesc.length > 0 ? ", " : "") + physdesc_child_text
                 end
               end
             elsif did_child.name == "unitid"
               unitid = did_child.text
+            elsif did_child.name == "langmaterial"
+              langmaterial = did_child
             end
           end
         end
 
-      # process the scopecontent element
+        # process the scopecontent element
         paragraphs = get_scopecontent_paragraphs(scopecontent)
+
+        unless (langmaterial.nil?)
+          paragraphs << langmaterial.text
+        end
 
         title = (unittitle.nil? ? "" : unittitle + (unitdate.nil? ? "" : ", " + unitdate))
       end
@@ -570,7 +585,7 @@ module Tufts
       page = nil
       thumbnail = nil
       access_restrict = nil
-      available_online = false;
+      available_online = false
 
       item_id = item.attribute("id").text
       item_type = item.attribute("level").text
