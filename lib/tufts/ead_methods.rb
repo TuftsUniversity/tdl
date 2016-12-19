@@ -445,6 +445,18 @@ module Tufts
     end
 
 
+    def self.get_custodial_history(ead)
+      result = []
+      custodhistps = ead.find_by_terms_and_value(:custodhistp)
+
+      custodhistps.each do |custodhistp|
+        result << custodhistp.text
+      end
+
+      return result
+    end
+
+
     def self.get_series(ead, item_id)
       series = nil
       series_level = 0
