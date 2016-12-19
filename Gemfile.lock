@@ -12,8 +12,8 @@ GIT
 
 GIT
   remote: https://github.com/TuftsUniversity/tuftsification-hydra
-  revision: 61acca1aba773c25787ce178ac51c0f85bac2e2f
-  tag: 1.2.8
+  revision: 8be39cfa7a7ca7046b3b89b7ffe4a92266dbc1d8
+  tag: 1.2.9
   specs:
     tuftsification-hydra (0.0.3)
       chronic
