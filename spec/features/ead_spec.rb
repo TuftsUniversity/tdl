@@ -26,7 +26,7 @@ feature 'EAD' do
     visit catalog_path(@aspace_ead)
     click_link "View Finding Aid", :exact => false
     page.should have_text "Lorem Ipsum papers, 1897-1933"
-    page.should have_text "585 Cubic Feet 487 record cartons and 1 document case, 197 digital_objects, 95 audiovisual_media "
+    page.should have_text "585 Cubic Feet, 487 record cartons and 1 document case, 197 digital_objects, 95 audiovisual_media"
     page.should have_text "Diaries cover the years 1910-1933 with a suspicious gap in 1922."
     page.should have_text "Personal papers, 1900-1933"
     page.should have_text "Personal papers consist largely of correspondence and diaries."
