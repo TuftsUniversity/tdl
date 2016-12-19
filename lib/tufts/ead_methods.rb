@@ -231,6 +231,12 @@ module Tufts
         result << langmaterial.text
       end
 
+      arrangementps = ead.find_by_terms_and_value(:arrangementp)
+
+      arrangementps.each do |arrangementp|
+        result << arrangementp.text
+      end
+
       return result
     end
 
@@ -501,6 +507,7 @@ module Tufts
       did = nil
       scopecontent = nil
       langmaterial = nil
+      arrangement = nil
       unittitle = nil
       unitdate = nil
       unitid = nil
@@ -516,8 +523,8 @@ module Tufts
             did = element_child
           elsif element_child.name == "scopecontent"
             scopecontent = element_child
-          elsif element_child.name == "langmaterial"
-            langmaterial = element_child
+          elsif element_child.name == "arrangement"
+            arrangement = element_child
           elsif element_child.name == "accessrestrict"
             series_restrict = get_paragraphs(element_child).join(" ")
           end
@@ -554,6 +561,10 @@ module Tufts
 
         unless (langmaterial.nil?)
           paragraphs << langmaterial.text
+        end
+
+        unless (arrangement.nil?)
+          paragraphs << get_paragraphs(arrangement).join(" ")
         end
 
         title = (unittitle.nil? ? "" : unittitle + (unitdate.nil? ? "" : ", " + unitdate))
