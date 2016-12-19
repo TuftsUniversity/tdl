@@ -29,3 +29,6 @@ config/devise.yml
 config/fedora.yml
 config/solr.yml
 config/application.yml
+
+.DS_Store
+.byebug_history
