@@ -12,7 +12,7 @@
       this_row_s = @row_count.to_s
       @row_count += 1
 
-      item_date, creator, physloc, access_restrict, item_id, item_title, item_paragraphs, item_labels, item_values, page, thumbnail, available_online, next_level_items = Tufts::EADMethods.get_series_item_info(series_item)
+      item_date, creator, physloc, access_restrict, item_id, item_title, item_paragraphs, item_labels, item_values, page, thumbnail, available_online, next_level_items = Tufts::EADMethods.get_series_item_info(series_item, eadid)
 #     item_title = "-" + indentation_level.to_s + "-" + (@row_count - 1).to_s + "- " + item_title # to show indentation level and row number for debugging
       is_top_level = indentation_level == 0
       is_folder = !next_level_items.nil? && !next_level_items.empty?
@@ -26,7 +26,8 @@
         child_count = @row_count - next_row # total number of children/grandchildren/etc of this folder
         toggle_action = raw("javascript:toggleDisplay('#img" + this_row_s + "', " + next_row.to_s + ", " + last_row.to_s + ");")
         expand_collapse = "<img class=\"folderRowToggler\" onclick=\"" + toggle_action + "\" id=\"img" + this_row_s + "\" data-child-count=\"" + child_count.to_s + "\" src=\"/assets/img/button_collapse.png\" width=\"11\" height=\"11\" alt=\"collapse\" role=\"button\" tabindex=\"" + this_row_s + "\" onkeydown=\"if (event.keyCode==13 || event.keyCode==32) " + toggle_action + "\">"
-        item_title = "<span onclick=\"" + toggle_action + "\">" + item_title + "</span>"
+        # As of TDLR-667 the title is a link and shouldn't toggle folder
+#       item_title = "<span onclick=\"" + toggle_action + "\">" + item_title + "</span>"
       else
         expand_collapse = "&nbsp;"
       end

@@ -296,6 +296,7 @@ module Tufts
         end
 
         # This should be a link if there are no subseries elements (ie, <c02 level="subseries"> tags).
+        # As of TDLR-667 it will always be a link - the caller will pass true for the with_link parameter.
         if !unittitle.nil? && unittitle.size > 0
           result << (series_level.nil? ? "" : series_level + ". ") + (with_link ? "<a href=\"/catalog/ead/" + ead_id + "/" + series_id + "\">" : "") + unittitle + (unitdate.nil? ? "" : ", " + unitdate) + (with_link ? "</a>" : "")
         end
@@ -591,7 +592,7 @@ module Tufts
     end
 
 
-    def self.get_series_item_info(item)
+    def self.get_series_item_info(item, eadid)
       title = ""
       paragraphs = []
       labels = ""
@@ -611,6 +612,7 @@ module Tufts
       available_online = false
 
       item_id = item.attribute("id").text
+      item_url_id = item.attribute("id").text
       item_type = item.attribute("level").text
 
       item.element_children.each do |item_child|
@@ -651,7 +653,7 @@ module Tufts
               unitdate = did_child.text
             end
           elsif did_child.name == "unitid"
-            # In ASpace EADs the item id is in <c><did><unitid>... instead the id attribute of the <c id=...>
+            # In ASpace EADs the human-readable item id is in <c><did><unitid>... instead the id attribute of the <c id=...>
             item_id = did_child.text
           elsif did_child.name == "physloc"
             physloc = did_child.text
@@ -713,7 +715,15 @@ module Tufts
       end
 
       available_online = !page.nil? && !page.empty? && Tufts::PidMethods.ingested?(page)
-      title = (available_online ? "<a href=\"/catalog/" + page + "\">" : "") + (unittitle.nil? ? "" : unittitle) + (unitdate.nil? || (!unittitle.nil? && unittitle.end_with?(unitdate))? "" : " " + unitdate) + (available_online ? "</a>" : "")
+      item_url = nil
+
+      if available_online
+        item_url = "/catalog/" + page
+      elsif !next_level_items.empty?
+        item_url = "/catalog/ead/tufts:" + eadid + "/" + item_url_id
+      end
+
+      title = (item_url.nil? ? "" : "<a href=\"" + item_url + "\">") + (unittitle.nil? ? "" : unittitle) + (unitdate.nil? || (!unittitle.nil? && unittitle.end_with?(unitdate))? "" : " " + unitdate) + (item_url.nil? ? "" : "</a>")
 
       if !physloc.nil?
         labels = "Location:"
