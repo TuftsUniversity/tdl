@@ -257,6 +257,7 @@ module Tufts
       did = nil
       scopecontent = nil
       c02s = []
+      is_series = series.attribute("level").text == "series"
 
       # find the pertinent child elements: did, scopecontent and c02
       series.element_children.each do |element_child|
@@ -272,7 +273,7 @@ module Tufts
         end
       end
 
-      return series_id, did, scopecontent, c02s
+      return series_id, did, scopecontent, c02s, is_series
     end
 
 
@@ -296,7 +297,7 @@ module Tufts
         end
 
         # This should be a link if there are no subseries elements (ie, <c02 level="subseries"> tags).
-        # As of TDLR-667 it will always be a link - the caller will pass true for the with_link parameter.
+        # As of TDLR-667 all series titles will be links.  As of TDLR-664 with_link will be false for top-level items.
         if !unittitle.nil? && unittitle.size > 0
           result << (series_level.nil? ? "" : series_level + ". ") + (with_link ? "<a href=\"/catalog/ead/" + ead_id + "/" + series_id + "\">" : "") + unittitle + (unitdate.nil? ? "" : ", " + unitdate) + (with_link ? "</a>" : "")
         end
