@@ -12,7 +12,7 @@
       this_row_s = @row_count.to_s
       @row_count += 1
 
-      item_date, creator, physloc, access_restrict, item_id, item_title, item_paragraphs, item_labels, item_values, page, thumbnail, available_online, next_level_items = Tufts::EADMethods.get_series_item_info(series_item, eadid)
+      item_date, creator, physloc, access_restrict, item_id, item_title, item_paragraphs, item_labels, item_values, page, thumbnail, available_online, next_level_items = Tufts::EADMethods.get_series_item_info(series_item, @document_fedora.pid)
 #     item_title = "-" + indentation_level.to_s + "-" + (@row_count - 1).to_s + "- " + item_title # to show indentation level and row number for debugging
       is_top_level = indentation_level == 0
       is_folder = !next_level_items.nil? && !next_level_items.empty?

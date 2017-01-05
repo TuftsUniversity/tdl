@@ -593,7 +593,7 @@ module Tufts
     end
 
 
-    def self.get_series_item_info(item, eadid)
+    def self.get_series_item_info(item, pid)
       title = ""
       paragraphs = []
       labels = ""
@@ -721,7 +721,7 @@ module Tufts
       if available_online
         item_url = "/catalog/" + page
       elsif !next_level_items.empty?
-        item_url = "/catalog/ead/tufts:" + eadid + "/" + item_url_id
+        item_url = "/catalog/ead/" + pid + "/" + item_url_id
       end
 
       title = (item_url.nil? ? "" : "<a href=\"" + item_url + "\">") + (unittitle.nil? ? "" : unittitle) + (unitdate.nil? || (!unittitle.nil? && unittitle.end_with?(unitdate))? "" : " " + unitdate) + (item_url.nil? ? "" : "</a>")
