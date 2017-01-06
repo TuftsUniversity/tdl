@@ -121,7 +121,8 @@
                              subseries_index = 0
                              while subseries_index < subseries_count
                                subseries_level = (subseries_index + 1).to_s
-                               # note: ignore 4th return value from get_series_elements because it will always be nil (c02s don't have sub-c02s)
+                               # note: ignore 4th return value from get_series_elements because it will always be nil (c02s don't have sub-c02s).
+                               # New ASpace EADs might have <c> elements but this overview page only shows one level deep of subserieses.
                                subseries_id, did, scopecontent = Tufts::EADMethods.get_series_elements(c02s[subseries_index])
                                title = Tufts::EADMethods.get_series_title(did, ead_id, subseries_id, series_level + "." + subseries_level, true)
                                paragraphs = Tufts::EADMethods.get_scopecontent_paragraphs(scopecontent)

@@ -266,6 +266,12 @@ module Tufts
         elsif element_child.name == "scopecontent"
           scopecontent = element_child
         elsif element_child.name == "c02" || element_child.name == "c"
+          # This method is only called from the overview page, so the series parameter
+          # will be a c01 or c02 (or a c in the new ASpace EADs).  But the overview page
+          # only cares about c02s because it only shows first-level serieses and second-
+          # level sub-serieses.  For that reason it's never necessary to look for c03s here.
+          # ASpace EADs may have third-level <c> elements when this is called for second-
+          # level <c> tags and it's OK to return them because they'll be ignored.
           level = element_child.attribute("level")
           if !level.nil? && level.text == "subseries"
             c02s << element_child
@@ -297,7 +303,8 @@ module Tufts
         end
 
         # This should be a link if there are no subseries elements (ie, <c02 level="subseries"> tags).
-        # As of TDLR-667 all series titles will be links.  As of TDLR-664 with_link will be false for top-level items.
+        # As of TDLR-667 all series titles will be links.
+        # As of TDLR-664 with_link will be false for top-level elements which are leaf-level items.
         if !unittitle.nil? && unittitle.size > 0
           result << (series_level.nil? ? "" : series_level + ". ") + (with_link ? "<a href=\"/catalog/ead/" + ead_id + "/" + series_id + "\">" : "") + unittitle + (unitdate.nil? ? "" : ", " + unitdate) + (with_link ? "</a>" : "")
         end
@@ -496,7 +503,7 @@ module Tufts
           end
 
           if !series.nil?
-            break
+            break  # found it, stop looking
           end
         end
       end
@@ -720,7 +727,7 @@ module Tufts
 
       if available_online
         item_url = "/catalog/" + page
-      elsif !next_level_items.empty?
+      elsif item_type == "subseries"
         item_url = "/catalog/ead/" + pid + "/" + item_url_id
       end
 
