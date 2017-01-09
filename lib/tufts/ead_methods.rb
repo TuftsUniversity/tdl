@@ -184,7 +184,7 @@ module Tufts
       if !name.nil? && !rcr_url.nil?
         rcr_url = "tufts:" + rcr_url
         ingested = Tufts::PidMethods.ingested?(rcr_url)
-        result = (ingested ? "<a href=\"/catalog/" + rcr_url + "\">" : "") + name + (ingested ? "</a>" : "")
+        result = (ingested ? "<a href=\"/catalog/" + rcr_url + "\">" : "") + name + (ingested ? "</a>" : nil)
       end
 
       return result

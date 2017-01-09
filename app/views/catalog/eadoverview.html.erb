@@ -72,7 +72,7 @@
 
         <p><%= raw Tufts::EADMethods.bioghist(@document_ead) %></p>
 
-        <% unless read_more_about.empty? %>
+        <% unless read_more_about.nil? %>
             <p>Read more about <%= raw read_more_about %></p>
         <% end %>
 
