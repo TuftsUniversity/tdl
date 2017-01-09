@@ -363,7 +363,7 @@ module Tufts
               childname == "title" || childname == "genreform" || childname == "famname"
             child_name = element_child.text
             child_id = element_child.attribute("id")
-            child_url = (child_id.nil? ? nil : child_id.text)
+            child_url = (child_id.nil? ? nil : ("tufts:" + child_id.text))
 
             if child_name.size > 0
               ingested = !child_url.nil? && Tufts::PidMethods.ingested?(child_url)
