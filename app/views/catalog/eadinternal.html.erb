@@ -75,12 +75,14 @@
                   <p>Contact DCA to request Materials by adding to your list..</p>
                 </div>
             <% end %>
+            <% if collection_has_online_content(params[:id]) %>
             <div class="tooltip-demo well">
               <a href="/catalog?f[collection_id_sim][]=<%= params[:id] %>">
                 <h5>View Online Materials <i class="icon-arrow-right margintoparrow"></i></h5></a>
 
               <p>Use <strong>My List</strong> to request materials that are not online.</p>
             </div>
+            <% end %>
           </div>
         </div>
 
