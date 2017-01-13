@@ -193,6 +193,35 @@ module Tufts
     end
 
 
+    def self.get_langmaterial_and_arrangement(ead)
+      result = []
+      langmaterials = ead.find_by_terms_and_value(:langmaterial)
+
+      langmaterials.each do |langmaterial|
+        primary = false
+
+        langmaterial.element_children.each do |child|
+          if child.name == "language"
+            primary = true
+            break
+          end
+        end
+
+        unless primary
+          result << langmaterial.text
+        end
+      end
+
+      arrangementps = ead.find_by_terms_and_value(:arrangementp)
+
+      arrangementps.each do |arrangementp|
+        result << arrangementp.text
+      end
+
+      return result
+    end
+
+
     def self.get_contributors(ead)
       result = []
       controlaccesses = ead.find_by_terms_and_value(:controlaccess)
@@ -225,18 +254,6 @@ module Tufts
 
       scopecontentps.each do |scopecontentp|
         result << scopecontentp.text
-      end
-
-      langmaterials = ead.find_by_terms_and_value(:langmaterial)
-
-      langmaterials.each do |langmaterial|
-        result << langmaterial.text
-      end
-
-      arrangementps = ead.find_by_terms_and_value(:arrangementp)
-
-      arrangementps.each do |arrangementp|
-        result << arrangementp.text
       end
 
       return result
