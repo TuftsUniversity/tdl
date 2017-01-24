@@ -1,7 +1,8 @@
 <%
    #retrieve items that can not be cached
    series, series_level = Tufts::EADMethods.get_series(@document_ead, @item_id)
-   series_title, series_physdesc, series_scopecontents, series_restrict, unitid = Tufts::EADMethods.get_series_info(series)
+   series_title, series_physdesc, series_scopecontents, series_access_restrict, series_use_restrict, series_items, series_names_and_subjects, unitid = Tufts::EADMethods.get_series_info(series)
+   item_default_access_restrict = series_access_restrict.join("  ")  # expecting a string, not an array of paragraphs
    # @collection_title and @series_full_title are also used in the _subnav.html.erb partial
    @collection_title = Tufts::EADMethods.title(@document_ead)
    @series_full_title = "Series " + series_level + ": " + series_title
@@ -15,9 +16,6 @@
 
     <%
 
-       series_items = Tufts::EADMethods.get_series_items(series)
-       names_and_subjects = Tufts::EADMethods.get_series_names_and_subjects(series)
-       series_access_and_use = Tufts::EADMethods.get_series_access_and_use(series)
        metadata = Tufts::ModelMethods.get_metadata(@document_fedora)
 
     %>
@@ -40,10 +38,10 @@
             <% unless series_items.empty? %>
                 <li><a href="#detailed_contents_list">Detailed Contents List</a></li>
             <% end %>
-            <% unless names_and_subjects.empty? %>
+            <% unless series_names_and_subjects.empty? %>
                 <li><a href="#names_and_subjects">Names and Subjects</a></li>
             <% end %>
-            <% unless series_access_and_use.empty? %>
+            <% unless series_access_restrict.empty? && series_use_restrict.empty? %>
                 <li><a href="#access_and_use">Access and Use</a></li>
             <% end %>
           </ul>
@@ -113,28 +111,29 @@
              indentation_level = 0;
           %>
 
-          <%= render :partial => 'tufts_eads/eadinternal_items', :locals => {:series_restrict => series_restrict, :metadata => metadata, :series_items => series_items, :indentation_level => indentation_level} %>
+          <%= render :partial => 'tufts_eads/eadinternal_items', :locals => {:series_restrict => item_default_access_restrict, :metadata => metadata, :series_items => series_items, :indentation_level => indentation_level} %>
 
         </table>
         <% end %>
 
-        <% unless names_and_subjects.empty? %>
+        <% unless series_names_and_subjects.empty? %>
             <h4 id="names_and_subjects">Names and Subjects</h4>
             <ul>
-              <% names_and_subjects.each do |list_item| %>
+              <% series_names_and_subjects.each do |list_item| %>
                   <li><%= raw list_item %></li>
               <% end %>
             </ul>
         <% end %>
 
-        <% unless series_access_and_use.empty? %>
+        <% unless series_access_restrict.empty? && series_use_restrict.empty? %>
             <h4 id="access_and_use">Access and Use</h4>
-            <% series_access_and_use.each do |paragraph| %>
+            <% series_access_restrict.each do |paragraph| %>
                 <p><%= raw paragraph %></p>
-            <%
-               end
-               end
-            %>
+            <% end
+               series_use_restrict.each do |paragraph| %>
+                <p><%= raw paragraph %></p>
+            <% end %>
+        <% end %>
 
         <br>
       </div>

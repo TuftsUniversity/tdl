@@ -364,6 +364,10 @@ module Tufts
             result << element_child.text
           end
         end
+
+        if result.empty?  # No <p> was found, so use the full text of the element.
+          result << element.text
+        end
       end
 
       return result
@@ -542,19 +546,46 @@ module Tufts
       physdesc = ""
       title = ""
       paragraphs = []
-      series_restrict = ""
+      series_access_restrict = []
+      series_use_restrict = []
+      series_items = []
+      series_names_and_subjects = []
 
       unless series.nil?
-        # find the pertinent child elements: did, scopecontent
+        # find the pertinent child elements: did, scopecontent, etc
         series.element_children.each do |element_child|
-          if element_child.name == "did"
+          child_name = element_child.name
+          if child_name == "did"
             did = element_child
-          elsif element_child.name == "scopecontent"
+          elsif child_name == "scopecontent"
             scopecontent = element_child
-          elsif element_child.name == "arrangement"
+          elsif child_name == "arrangement"
             arrangement = element_child
-          elsif element_child.name == "accessrestrict"
-            series_restrict = get_paragraphs(element_child).join(" ")
+          elsif child_name == "accessrestrict"
+            series_access_restrict = get_paragraphs(element_child)
+          elsif child_name == "userestrict"
+            series_use_restrict = get_paragraphs(element_child)
+          elsif child_name == "c02" || child_name == "c03" || child_name == "c"
+            # The series could be a <c01 level="series"> with c02 children, or
+            # it could be a <c02 level="subseries"> with c03 children.
+            series_items << element_child
+          elsif child_name == "controlaccess"
+
+            element_child.element_children.each do |element_grandchild|
+              grandchildname = element_grandchild.name
+
+              if grandchildname == "persname" || grandchildname == "corpname" || grandchildname == "subject" || grandchildname == "geogname" ||
+                  grandchildname == "title" || grandchildname == "genreform" || grandchildname == "famname"
+                grandchild_text = element_grandchild.text
+                grandchild_id = element_grandchild.attribute("id")
+                grandchild_url = (grandchild_id.nil? ? nil : grandchild_id.text)
+
+                if grandchild_text.size > 0
+                  ingested = !grandchild_url.nil? && Tufts::PidMethods.ingested?(grandchild_url)
+                  series_names_and_subjects << (ingested ? "<a href=\"/catalog/" + grandchild_url + "\">" : "") + grandchild_text + (ingested ? "</a>" : "")
+                end
+              end
+            end
           end
         end
 
@@ -598,24 +629,7 @@ module Tufts
         title = (unittitle.nil? ? "" : unittitle + (unitdate.nil? ? "" : ", " + unitdate))
       end
 
-      return title, physdesc, paragraphs, series_restrict, unitid
-    end
-
-
-    def self.get_series_items(series)
-      result = []
-
-      series.element_children.each do |series_child|
-        child_name = series_child.name
-
-        # The series could be a <c01 level="series"> with c02 children, or
-        # it could be a <c02 level="subseries"> with c03 children.
-        if child_name == "c02" || child_name == "c03" || child_name == "c"
-          result << series_child
-        end
-      end
-
-      return result
+      return title, physdesc, paragraphs, series_access_restrict, series_use_restrict, series_items, series_names_and_subjects, unitid
     end
 
 
@@ -650,7 +664,7 @@ module Tufts
         elsif item_child.name == "scopecontent"
           scopecontent = item_child
         elsif item_child.name == "accessrestrict"
-          access_restrict = get_paragraphs(item_child).join(" ")
+          access_restrict = get_paragraphs(item_child).join("  ")  # expecting a string, not an array of paragraphs
         elsif item_child.name == "c03" || item_child.name == "c04" ||
               item_child.name == "c05" || item_child.name == "c06" ||
               item_child.name == "c07" || item_child.name == "c08" ||
@@ -787,47 +801,6 @@ module Tufts
       paragraphs = get_scopecontent_paragraphs(scopecontent)
 
       return unitdate, creator, physloc_orig, access_restrict, item_id, title, paragraphs, labels, values, page, thumbnail, available_online, next_level_items
-    end
-
-
-    def self.get_series_names_and_subjects(series)
-      result = []
-
-      series.element_children.each do |series_child|
-        if series_child.name == "controlaccess"
-
-          series_child.element_children.each do |element_child|
-            childname = element_child.name
-
-            if childname == "persname" || childname == "corpname" || childname == "subject" || childname == "geogname" ||
-                childname == "title" || childname == "genreform" || childname == "famname"
-              child_name = element_child.text
-              child_id = element_child.attribute("id")
-              child_url = (child_id.nil? ? nil : child_id.text)
-
-              if child_name.size > 0
-                ingested = !child_url.nil? && Tufts::PidMethods.ingested?(child_url)
-                result << (ingested ? "<a href=\"/catalog/" + child_url + "\">" : "") + child_name + (ingested ? "</a>" : "")
-              end
-            end
-          end
-        end
-      end
-
-      return result
-    end
-
-
-    def self.get_series_access_and_use(series)
-      result = []
-
-      series.element_children.each do |series_child|
-        if series_child.name == "accessrestrict" || series_child.name == "userestrict"
-          result << get_paragraphs(series_child).join("  ")
-        end
-      end
-
-      return result
     end
 
 
