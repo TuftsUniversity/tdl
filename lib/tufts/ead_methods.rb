@@ -193,7 +193,7 @@ module Tufts
     end
 
 
-    def self.get_langmaterial_and_arrangement(ead)
+    def self.get_langmaterial(ead)
       result = []
       langmaterials = ead.find_by_terms_and_value(:langmaterial)
 
@@ -211,6 +211,13 @@ module Tufts
           result << langmaterial.text
         end
       end
+
+      return result
+    end
+
+
+    def self.get_arrangement(ead)
+      result = []
 
       arrangementps = ead.find_by_terms_and_value(:arrangementp)
 

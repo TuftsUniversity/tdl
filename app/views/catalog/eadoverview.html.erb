@@ -8,7 +8,8 @@
        read_more_about = Tufts::EADMethods.read_more_about(@document_ead)
        contributors = Tufts::EADMethods.get_contributors(@document_ead)
        contents = Tufts::EADMethods.get_contents(@document_ead)
-       langmaterial_and_arrangement = Tufts::EADMethods.get_langmaterial_and_arrangement(@document_ead)
+       langmaterial = Tufts::EADMethods.get_langmaterial(@document_ead)
+       arrangement = Tufts::EADMethods.get_arrangement(@document_ead)
        serieses = Tufts::EADMethods.get_serieses(@document_ead)
        names_and_subjects = Tufts::EADMethods.get_names_and_subjects(@document_ead)
        related_material = Tufts::EADMethods.get_related_material(@document_ead)
@@ -77,14 +78,6 @@
             <p>Read more about <%= raw read_more_about %></p>
         <% end %>
 
-        <% if !langmaterial_and_arrangement.empty? %>
-            <% langmaterial_and_arrangement.each do |paragraph| %>
-                <p><%= raw paragraph %></p>
-            <%
-               end
-           end
-         %>
-
         <% if !contributors.empty? %>
             <h4 id="contributors">Contributors</h4>
             <ul>
@@ -102,6 +95,24 @@
                end
                end
             %>
+
+        <% unless langmaterial.empty? %>
+            <h5 class="EAD_H5">Language</h5>
+            <% langmaterial.each do |paragraph| %>
+                <p><%= raw paragraph %></p>
+            <%
+               end
+           end
+         %>
+
+        <% unless arrangement.empty? %>
+            <h5 class="EAD_H5">Arrangement</h5>
+            <% arrangement.each do |paragraph| %>
+                <p><%= raw paragraph %></p>
+            <%
+               end
+           end
+         %>
 
         <% unless serieses.nil? || serieses.empty? %>
             <h4 id="series_descriptions">Series Description</h4>
