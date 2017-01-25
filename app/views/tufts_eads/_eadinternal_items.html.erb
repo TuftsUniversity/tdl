@@ -35,27 +35,21 @@
       <tr<%= raw(is_top_level ? " class=\"topLevelRow\"" : "") %>>
         <td class="collapse_td"><%= raw(expand_collapse) %></td>
         <td<%= raw(row_class) %>><%= raw(item_title) %>
+        <span class="smalltext">
+        <br>
 <%
-      if is_folder
+        item_paragraphs.each do |item_paragraph|
+%>
+          <br><%= raw(item_paragraph) %>
+<%
+        end
+        if is_folder
 %>
           <br><span class="smalltext">There might be additional items in this folder.</span>
 <%
-      end
-      # NOTE - the following percent/right-angle-bracket and left-angle-bracket/percent should not be necessary, but they are!
-      # If you delete them this view partial will not compile;  you'll get an "unexpected kEND" syntax error on the previous line of code.
-      # I have absolutely no idea why this is so.
+        end
 %>
-<%
-     # When ASpace EADs started including these paragraphs, it was decided not to display them.
-     # "unless true" keeps them from displaying while retaining the code in case the decision is reversed.
-     unless true
-       item_paragraphs.each do |item_paragraph|
-%>
-          <br><span class="smalltext"><%= raw(item_paragraph) %></span>
-<%
-       end
-     end
-%>
+        </span>
         </td>
         <td class="smalltext locator_td"><%= raw(item_labels) %></td>
         <td class="smalltext id_td" align="left"><%= raw(item_values) %></td>
