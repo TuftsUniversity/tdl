@@ -101,8 +101,13 @@ module Tufts
       result = ""
       abstract = ead.get_values(:abstract).first
 
-      unless abstract.nil?
+      if !abstract.nil?
         result << abstract
+      else
+        bioghistps = ead.find_by_terms_and_value(:bioghistp)
+        unless bioghistps.nil? || bioghistps.empty?
+          result << bioghistps.first.text
+        end
       end
 
       return result
