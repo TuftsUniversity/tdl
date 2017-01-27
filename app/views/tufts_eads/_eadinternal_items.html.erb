@@ -1,6 +1,7 @@
 <%
     eadid, url = Tufts::EADMethods.eadid(@document_ead)
-    unitid, author = Tufts::EADMethods.unitid_and_author(@document_ead)
+    unitid = Tufts::EADMethods.unitid(@document_ead)
+    author = Tufts::EADMethods.author(@document_ead)
     ead_title = Tufts::EADMethods.title(@document_ead, true)
     stripped_eadid = strip_tags(eadid)
     stripped_url = strip_tags(url)
@@ -15,7 +16,7 @@
       item_date, creator, physloc, access_restrict, item_id, item_title, item_paragraphs, item_labels, item_values, page, thumbnail, available_online, next_level_items = Tufts::EADMethods.get_series_item_info(series_item, @document_fedora.pid)
 #     item_title = "-" + indentation_level.to_s + "-" + (@row_count - 1).to_s + "- " + item_title # to show indentation level and row number for debugging
       is_top_level = indentation_level == 0
-      is_folder = !next_level_items.nil? && !next_level_items.empty?
+      is_folder = !next_level_items.empty?
       # The classes .ead_folder_title and .ead_item_title exist so that styles could be added for them if it becomes necessary in the future.
       row_class = " class=\"" + (is_folder ? "ead_folder_title" : "ead_item_title") + " ead_indent" + indentation_level.to_s + "\""
 
@@ -56,8 +57,8 @@
 
 <%
       unless available_online
-        access_restrict = series_restrict if access_restrict.nil?
-        access_restrict = access_restrict.strip unless access_restrict.nil?
+        access_restrict = series_restrict if access_restrict.empty?
+        access_restrict = access_restrict.strip unless access_restrict.empty?
 
 %>
         <td class="availableonline_td" align="center">
@@ -79,7 +80,7 @@
         </td>
 <%
       else
-        if thumbnail.nil? || thumbnail.empty?
+        if thumbnail.empty?
 %>
         <td class="availableonline_td" align="center"><i class="icon-ok"></i></td>
 <%

@@ -5,6 +5,7 @@
 
     <%
        title = raw Tufts::EADMethods.title(@document_ead)
+       bioghist = Tufts::EADMethods.get_bioghist(@document_ead)
        read_more_about = Tufts::EADMethods.read_more_about(@document_ead)
        contributors = Tufts::EADMethods.get_contributors(@document_ead)
        contents = Tufts::EADMethods.get_contents(@document_ead)
@@ -13,6 +14,7 @@
        serieses = Tufts::EADMethods.get_serieses(@document_ead)
        names_and_subjects = Tufts::EADMethods.get_names_and_subjects(@document_ead)
        related_material = Tufts::EADMethods.get_related_material(@document_ead)
+       separated_material = Tufts::EADMethods.get_separated_material(@document_ead)
        access_and_use = Tufts::EADMethods.get_access_and_use(@document_ead)
        processing_notes = Tufts::EADMethods.get_processing_notes(@document_ead)
        acquisition_info = Tufts::EADMethods.get_acquisition_info(@document_ead)
@@ -36,19 +38,22 @@
           <h6>On this page:</h6>
           <ul class="nav nav-tabs nav-stacked" style="margin: 0;">
             <li><a href="#overview">Overview</a></li>
+            <% unless bioghist.empty? %>
+                <li><a href="#bioghist">Biography/History</a></li>
+            <% end %>
             <% unless contributors.empty? %>
                 <li><a href="#contributors">Contributors</a></li>
             <% end %>
             <% unless contents.empty? %>
                 <li><a href="#contents">Contents</a></li>
             <% end %>
-            <% unless serieses.nil? || serieses.empty? %>
+            <% unless serieses.empty? %>
                 <li><a href="#series_descriptions">Series Description</a></li>
             <% end %>
             <% unless names_and_subjects.empty? %>
                 <li><a href="#names_and_subjects">Names and Subjects</a></li>
             <% end %>
-            <% unless related_material.empty? %>
+            <% unless related_material.empty? && separated_material.empty? %>
                 <li><a href="#related_material">Related Material</a></li>
             <% end %>
             <% unless access_and_use.empty? %>
@@ -68,17 +73,24 @@
         <p>
           <%= raw Tufts::EADMethods.physdesc(@document_ead) %>
           <br>
-          <% unitid, author = Tufts::EADMethods.unitid_and_author(@document_ead) %>
+          <% unitid = Tufts::EADMethods.unitid(@document_ead) %>
           Call Number: <%= raw unitid %>
         </p>
 
-        <p><%= raw Tufts::EADMethods.bioghist(@document_ead) %></p>
+        <% unless bioghist.empty? %>
+            <h4 id="bioghist">Biography/History</h4>
+            <% bioghist.each do |paragraph| %>
+                <p><%= raw paragraph %></p>
+            <%
+               end
+           end
+        %>
 
-        <% unless read_more_about.nil? %>
+        <% unless read_more_about.empty? %>
             <p>Read more about <%= raw read_more_about %></p>
         <% end %>
 
-        <% if !contributors.empty? %>
+        <% unless contributors.empty? %>
             <h4 id="contributors">Contributors</h4>
             <ul>
               <% contributors.each do |list_item| %>
@@ -87,8 +99,8 @@
             </ul>
         <% end %>
 
-        <% if !contents.empty? %>
-            <h4 id="contents">Contents of the Collection </h4>
+        <% unless contents.empty? %>
+            <h4 id="contents">Contents of the Collection</h4>
             <% contents.each do |paragraph| %>
                 <p><%= raw paragraph %></p>
             <%
@@ -114,7 +126,7 @@
            end
          %>
 
-        <% unless serieses.nil? || serieses.empty? %>
+        <% unless serieses.empty? %>
             <h4 id="series_descriptions">Series Description</h4>
             <ol>
               <%
@@ -124,7 +136,7 @@
                  while series_index < series_count
                    series_level = (series_index + 1).to_s
                    series_id, did, scopecontent, c02s, is_series = Tufts::EADMethods.get_series_elements(serieses[series_index])
-                   title = Tufts::EADMethods.get_series_title(did, ead_id, series_id, nil, is_series)
+                   title = Tufts::EADMethods.get_series_title(did, ead_id, series_id, "", is_series)
                    paragraphs = Tufts::EADMethods.get_scopecontent_paragraphs(scopecontent)
               %>
                   <li>
@@ -141,7 +153,7 @@
                              subseries_index = 0
                              while subseries_index < subseries_count
                                subseries_level = (subseries_index + 1).to_s
-                               # note: ignore 4th return value from get_series_elements because it will always be nil (c02s don't have sub-c02s).
+                               # note: ignore 4th return value from get_series_elements because it will always be empty (c02s don't have sub-c02s).
                                # New ASpace EADs might have <c> elements but this overview page only shows one level deep of subserieses.
                                subseries_id, did, scopecontent = Tufts::EADMethods.get_series_elements(c02s[subseries_index])
                                title = Tufts::EADMethods.get_series_title(did, ead_id, subseries_id, series_level + "." + subseries_level, true)
@@ -167,7 +179,7 @@
             </ol>
         <% end %>
 
-        <% if !names_and_subjects.empty? %>
+        <% unless names_and_subjects.empty? %>
             <h4 id="names_and_subjects">Names and Subjects</h4>
             <ul>
               <% names_and_subjects.each do |list_item| %>
@@ -176,16 +188,19 @@
             </ul>
         <% end %>
 
-        <% if !related_material.empty? %>
+        <% unless (related_material.empty? && separated_material.empty?) %>
             <h4 id="related_material">Related Material</h4>
             <ul>
               <% related_material.each do |list_item| %>
                   <li><%= raw list_item %></li>
               <% end %>
+              <% separated_material.each do |list_item| %>
+                  <li><%= raw list_item %></li>
+              <% end %>
             </ul>
         <% end %>
 
-        <% if !access_and_use.empty? %>
+        <% unless access_and_use.empty? %>
             <h4 id="access_and_use">Access and Use</h4>
             <% access_and_use.each do |paragraph| %>
                 <p><%= raw paragraph %></p>
@@ -194,9 +209,9 @@
                end
             %>
 
-        <% if !(processing_notes.empty? && acquisition_info.empty? && custodial_history.empty?) %>
+        <% unless (processing_notes.empty? && acquisition_info.empty? && custodial_history.empty?) %>
             <h4 id="administrative_notes">Administrative Notes</h4>
-            <% if !processing_notes.empty? %>
+            <% unless processing_notes.empty? %>
                 <h5 class="EAD_H5">Processing Notes</h5>
                 <% processing_notes.each do |paragraph| %>
                     <p><%= raw paragraph %></p>
@@ -204,7 +219,7 @@
                    end
                    end
                 %>
-            <% if !acquisition_info.empty? %>
+            <% unless acquisition_info.empty? %>
                 <h5 class="EAD_H5">Acquisition Information</h5>
                 <% acquisition_info.each do |paragraph| %>
                     <p><%= raw paragraph %></p>
@@ -212,7 +227,7 @@
                    end
                    end
                 %>
-            <% if !custodial_history.empty? %>
+            <% unless custodial_history.empty? %>
                 <h5 class="EAD_H5">Custodial History</h5>
                 <% custodial_history.each do |paragraph| %>
                     <p><%= raw paragraph %></p>
@@ -236,7 +251,7 @@
                 been digitized.</p>
             </div>
         <% end %>
-        <% if serieses.nil? || serieses.empty? %>
+        <% if serieses.empty? %>
             <div class="tooltip-demo well">
               <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata, :unitid => unitid} %>
               <p>Contact DCA to request Materials by adding to your list..</p>
