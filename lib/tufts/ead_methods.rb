@@ -456,14 +456,10 @@ module Tufts
     end
 
 
-    def self.get_access_and_use(ead)
+    def self.get_access_restrictions(ead)
       result = []
       accessrestrictps = ead.find_by_terms_and_value(:accessrestrictp)
-      userestrictps = ead.find_by_terms_and_value(:userestrictp)
-      preferciteps = ead.find_by_terms_and_value(:prefercitep)
       descgrpaccessrestrictps = ead.find_by_terms_and_value(:descgrpaccessrestrictp)
-      descgrpuserestrictps = ead.find_by_terms_and_value(:descgrpuserestrictp)
-      descgrppreferciteps = ead.find_by_terms_and_value(:descgrpprefercitep)
 
       unless accessrestrictps.nil?
         accessrestrictps.each do |accessrestrictp|
@@ -477,6 +473,15 @@ module Tufts
         end
       end
 
+      return result
+    end
+
+
+    def self.get_use_restrictions(ead)
+      result = []
+      userestrictps = ead.find_by_terms_and_value(:userestrictp)
+      descgrpuserestrictps = ead.find_by_terms_and_value(:descgrpuserestrictp)
+
       unless userestrictps.nil?
         userestrictps.each do |userestrictp|
           result << userestrictp.text
@@ -489,16 +494,25 @@ module Tufts
         end
       end
 
+      return result
+    end
+
+
+    def self.get_preferred_citation(ead)
+      result = []
+      preferciteps = ead.find_by_terms_and_value(:prefercitep)
+      descgrppreferciteps = ead.find_by_terms_and_value(:descgrpprefercitep)
+
       # Prefercite doesn't appear in our EADs but someday it could.
       unless preferciteps.nil?
         preferciteps.each do |prefercitep|
-          result << "Preferred citation: " + prefercitep.text
+          result << prefercitep.text
         end
       end
 
       unless descgrppreferciteps.nil?
         descgrppreferciteps.each do |descgrpprefercitep|
-          result << "Preferred citation: " + descgrpprefercitep.text
+          result << descgrpprefercitep.text
         end
       end
 
