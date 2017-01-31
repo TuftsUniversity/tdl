@@ -167,6 +167,7 @@ module Tufts
 
 
     def self.read_more_about(ead)
+      # read_more_about ONLY returns <persname>, <corpname> or <famname> that have urls and which have been ingested.
       result = ""
       persname = ead.find_by_terms_and_value(:persname)
       corpname = ead.find_by_terms_and_value(:corpname)
@@ -195,6 +196,7 @@ module Tufts
 
 
     def self.creator(ead)
+      # creator returns <persname>, <corpname> or <famname>, with a link for ones that have urls and which have been ingested.
       result = ""
       persname = ead.find_by_terms_and_value(:persname)
       corpname = ead.find_by_terms_and_value(:corpname)
@@ -734,6 +736,7 @@ module Tufts
       values = ""
       next_level_items = []
       did = nil
+      dao = nil
       daogrp = nil
       scopecontent = nil
       unittitle = ""
@@ -807,6 +810,8 @@ module Tufts
                 creator << grandchild.text.strip
               end
             end
+          elsif childname == "dao"
+            dao = did_child
           end
         end
       end
@@ -848,6 +853,20 @@ module Tufts
               end
             end
           end
+        end
+      end
+
+      unless dao.nil?
+
+        dao_href = dao.attribute("href")
+        if !dao_href.nil? && dao_href.text.include?("darkarchive")
+					# In an ASpace EAD, an href="https://darkarchive.lib.tufts.edu/" attribute in the <dao> element
+					# means that this item is in the Dark Archive;  Set physloc to the DA message.
+					# Note that if the URL for DA ever changes, all the EADs would not necessarily have to change
+					# since the <dao> href value is never displayed or used as a link in TDL.
+					# Note that thumbnail and page are not set for ASpace EADs, so online items will not
+					# be links or have thumbnail images.  This will have to be fixed somehow.
+					physloc = "Dark Archive; <a href=""/contact"">contact DCA</a>"
         end
       end
 
