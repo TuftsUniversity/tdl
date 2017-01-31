@@ -28,19 +28,22 @@ module Tufts
 
 
     def self.title(ead, includeDate = true)
-      result = ""
+      full_title = ""
+      raw_title = ""
+      inclusive_date = ""
+      bulk_date = ""
       unittitles = ead.find_by_terms_and_value(:unittitle)
       unless unittitles.nil? || unittitles.empty?
-        unittitle = unittitles.first.text
+        raw_title = unittitles.first.text
         if (includeDate)
-          date = unitdate(ead)
-          result = unittitle + (date.empty? ? "" : ", " + date)
+          inclusive_date, bulk_date = unitdate(ead)
+          full_title = raw_title + (inclusive_date.empty? ? "" : ", " + inclusive_date)
         else
-          result = unittitle
+          full_title = raw_title
         end
       end
 
-      return result
+      return full_title, raw_title, inclusive_date, bulk_date
     end
 
 
@@ -121,19 +124,21 @@ module Tufts
 
 
     def self.unitdate(ead)
-      result = ""
+      inclusive = ""
+      bulk = ""
       unitdates = ead.find_by_terms_and_value(:unitdate)
       unless unitdates.nil?
         unitdates.each do |unitdate|
           datetype = unitdate.attribute("type")
           if !datetype.nil? && datetype.text == "inclusive"
-            result = unitdate.text
-            break
+            inclusive = unitdate.text
+          elsif !datetype.nil? && datetype.text == "bulk"
+            bulk = unitdate.text
           end
         end
       end
 
-      return result
+      return inclusive, bulk
     end
 
 
@@ -222,34 +227,6 @@ module Tufts
       unless arrangementps.nil?
         arrangementps.each do |arrangementp|
           result << arrangementp.text
-        end
-      end
-
-      return result
-    end
-
-
-    def self.get_contributors(ead)
-      result = []
-      controlaccesses = ead.find_by_terms_and_value(:controlaccess)
-
-      unless controlaccesses.nil?
-        controlaccesses.each do |controlaccess|
-          controlaccess.element_children.each do |element_child|
-            childname = element_child.name
-
-            if childname == "persname" || childname == "corpname" || childname == "subject" || childname == "geogname"
-              child_text = element_child.text
-              child_id = element_child.attribute("id")
-              child_url = (child_id.nil? ? "" : child_id.text)
-
-              unless child_text.empty? || child_url.empty?  # only display elements that exist in the DL, presumably as RCRs
-                child_url = "tufts:" + child_url
-                ingested = Tufts::PidMethods.ingested?(child_url)
-                result << (ingested ? "<a href=\"/catalog/" + child_url + "\">" : "") + child_text + (ingested ? "</a>" : "")
-              end
-            end
-          end
         end
       end
 

@@ -4,12 +4,11 @@
 
 
     <%
-       title = raw Tufts::EADMethods.title(@document_ead)
+       title, raw_title, inclusive_date, bulk_date = Tufts::EADMethods.title(@document_ead)
        unitid = Tufts::EADMethods.unitid(@document_ead)
        physdesc = Tufts::EADMethods.physdesc(@document_ead)
        bioghist = Tufts::EADMethods.get_bioghist(@document_ead)
        read_more_about = Tufts::EADMethods.read_more_about(@document_ead)
-       contributors = Tufts::EADMethods.get_contributors(@document_ead)
        contents = Tufts::EADMethods.get_contents(@document_ead)
        langmaterial = Tufts::EADMethods.get_langmaterial(@document_ead)
        arrangement = Tufts::EADMethods.get_arrangement(@document_ead)
@@ -60,9 +59,6 @@
             <% unless serieses.empty? %>
                 <li><a href="#series_descriptions">Series Description</a></li>
             <% end %>
-            <% unless contributors.empty? %>
-                <li><a href="#contributors">Contributors</a></li>
-            <% end %>
           </ul>
         </div>
         <div>  <!-- placeholder div to maintain containing column width when TOC becomes fixed -->
@@ -72,6 +68,12 @@
 
       <div class="span6" id="overview">
         <p>
+          Title: <%= raw_title %>
+          <br>
+          Dates: <%= inclusive_date %>
+          <br>
+          Bulk Dates: <%= bulk_date %>
+          <br>
           Call Number: <%= raw unitid %>
           <br>
           Size: <%= raw physdesc %>
@@ -254,15 +256,6 @@
                   </li>
               <% end %>
             </ol>
-        <% end %>
-
-        <% unless contributors.empty? %>
-            <h4 id="contributors" class="EAD_H4">Contributors</h4>
-            <ul>
-              <% contributors.each do |list_item| %>
-                  <li><%= raw list_item %></li>
-              <% end %>
-            </ul>
         <% end %>
 
         <br>
