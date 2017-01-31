@@ -7,6 +7,8 @@
        title, title_only, inclusive_date, bulk_date = Tufts::EADMethods.title(@document_ead)
        unitid = Tufts::EADMethods.unitid(@document_ead)
        physdesc = Tufts::EADMethods.physdesc(@document_ead)
+       creator = Tufts::EADMethods.creator(@document_ead)
+       repository = Tufts::EADMethods.repository(@document_ead)
        bioghist = Tufts::EADMethods.get_bioghist(@document_ead)
        read_more_about = Tufts::EADMethods.read_more_about(@document_ead)
        contents = Tufts::EADMethods.get_contents(@document_ead)
@@ -74,6 +76,8 @@
           <br>
           Bulk Dates: <%= raw bulk_date %>
           <br>
+          Creator: <%= raw creator %>
+          <br>
           Call Number: <%= raw unitid %>
           <br>
           Size: <%= raw physdesc %>
@@ -82,10 +86,10 @@
           Language(s):
             <% langmaterial.each do |language| %>
                 <%= raw language %>&nbsp;&nbsp;
-            <%
-               end
-             end
-          %>
+            <% end %>
+          <br>
+          <% end %>
+          Location: <%= raw repository %>
         </p>
 
         <% unless contents.empty? %>

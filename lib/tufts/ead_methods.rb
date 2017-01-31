@@ -194,6 +194,52 @@ module Tufts
     end
 
 
+    def self.creator(ead)
+      result = ""
+      persname = ead.find_by_terms_and_value(:persname)
+      corpname = ead.find_by_terms_and_value(:corpname)
+      famname = ead.find_by_terms_and_value(:famname)
+      name = ""
+      rcr_url = ""
+      ingested = false
+
+      if !persname.nil? && !persname.empty?
+        name, rcr_url = parse_origination(persname)
+      elsif !corpname.nil? && !corpname.empty?
+        name, rcr_url = parse_origination(corpname)
+      elsif !famname.nil? && !famname.empty?
+        name, rcr_url = parse_origination(famname)
+      end
+
+      unless name.empty?
+        unless rcr_url.empty?
+          rcr_url = "tufts:" + rcr_url
+          ingested = Tufts::PidMethods.ingested?(rcr_url)
+        end
+
+        if ingested
+          result = "<a href=\"/catalog/" + rcr_url + "\">" + name + "</a>"
+        else
+          result = name
+        end
+      end
+
+      return result
+    end
+
+
+    def self.repository(ead)
+      result = ""
+      repository = ead.find_by_terms_and_value(:repository)
+
+      unless repository.nil?
+        result = repository.text.strip
+      end
+
+     return result
+    end
+
+
     def self.get_langmaterial(ead)
       result = []
       langmaterials = ead.find_by_terms_and_value(:langmaterial)
