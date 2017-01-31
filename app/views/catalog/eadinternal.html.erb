@@ -4,7 +4,7 @@
    series_title, series_physdesc, series_scopecontents, series_langmaterial, series_arrangement, series_access_restrict, series_use_restrict, series_items, series_names_and_subjects, unitid = Tufts::EADMethods.get_series_info(series)
    item_default_access_restrict = series_access_restrict.join("  ")  # expecting a string, not an array of paragraphs
    # @collection_title and @series_full_title are also used in the _subnav.html.erb partial
-   @collection_title = Tufts::EADMethods.title(@document_ead)
+   @collection_title = Tufts::EADMethods.title(@document_ead).first
    @series_full_title = "Series " + series_level + ": " + series_title
    @page_title = @series_full_title + " - " + application_name
 %>

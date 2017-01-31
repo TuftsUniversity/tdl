@@ -2,7 +2,7 @@
     eadid, url = Tufts::EADMethods.eadid(@document_ead)
     unitid = Tufts::EADMethods.unitid(@document_ead)
     author = Tufts::EADMethods.author(@document_ead)
-    ead_title = Tufts::EADMethods.title(@document_ead, true)
+    ead_title = Tufts::EADMethods.title(@document_ead, true).first
     stripped_eadid = strip_tags(eadid)
     stripped_url = strip_tags(url)
     stripped_unitid = strip_tags(unitid)

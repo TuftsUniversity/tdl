@@ -4,7 +4,7 @@
 
 
     <%
-       title, raw_title, inclusive_date, bulk_date = Tufts::EADMethods.title(@document_ead)
+       title, title_only, inclusive_date, bulk_date = Tufts::EADMethods.title(@document_ead)
        unitid = Tufts::EADMethods.unitid(@document_ead)
        physdesc = Tufts::EADMethods.physdesc(@document_ead)
        bioghist = Tufts::EADMethods.get_bioghist(@document_ead)
@@ -68,11 +68,11 @@
 
       <div class="span6" id="overview">
         <p>
-          Title: <%= raw_title %>
+          Title: <%= raw title_only %>
           <br>
-          Dates: <%= inclusive_date %>
+          Dates: <%= raw inclusive_date %>
           <br>
-          Bulk Dates: <%= bulk_date %>
+          Bulk Dates: <%= raw bulk_date %>
           <br>
           Call Number: <%= raw unitid %>
           <br>
