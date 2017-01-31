@@ -26,8 +26,6 @@ feature 'EAD' do
     visit catalog_path(@aspace_ead)
 
     click_link "View Finding Aid", :exact => false
-    page.should have_text "FOOBAR"
-    page.should have_text "FOOBAR"
     page.should have_text "Lorem Ipsum papers, 1897-1933"
     page.should have_text "Title: Lorem Ipsum papers"
     page.should have_text "Dates: 1897-1933"
