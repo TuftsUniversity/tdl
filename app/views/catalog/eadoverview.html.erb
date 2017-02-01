@@ -5,25 +5,32 @@
 
     <%
        title, title_only, inclusive_date, bulk_date = Tufts::EADMethods.title(@document_ead)
+       creator = Tufts::EADMethods.creator(@document_ead)
        unitid = Tufts::EADMethods.unitid(@document_ead)
        physdesc = Tufts::EADMethods.physdesc(@document_ead)
-       creator = Tufts::EADMethods.creator(@document_ead)
+       langmaterial = Tufts::EADMethods.get_langmaterial(@document_ead)
        repository = Tufts::EADMethods.repository(@document_ead)
+       contents = Tufts::EADMethods.get_contents(@document_ead)
+       arrangement = Tufts::EADMethods.get_arrangement(@document_ead)
        bioghist = Tufts::EADMethods.get_bioghist(@document_ead)
        read_more_about = Tufts::EADMethods.read_more_about(@document_ead)
-       contents = Tufts::EADMethods.get_contents(@document_ead)
-       langmaterial = Tufts::EADMethods.get_langmaterial(@document_ead)
-       arrangement = Tufts::EADMethods.get_arrangement(@document_ead)
-       serieses = Tufts::EADMethods.get_serieses(@document_ead)
-       names_and_subjects = Tufts::EADMethods.get_names_and_subjects(@document_ead)
-       related_material = Tufts::EADMethods.get_related_material(@document_ead)
-       separated_material = Tufts::EADMethods.get_separated_material(@document_ead)
        access_restrictions = Tufts::EADMethods.get_access_restrictions(@document_ead)
        use_restrictions = Tufts::EADMethods.get_use_restrictions(@document_ead)
+       phystech = Tufts::EADMethods.get_phystech(@document_ead)
        preferred_citation = Tufts::EADMethods.get_preferred_citation(@document_ead)
        processing_notes = Tufts::EADMethods.get_processing_notes(@document_ead)
        acquisition_info = Tufts::EADMethods.get_acquisition_info(@document_ead)
        custodial_history = Tufts::EADMethods.get_custodial_history(@document_ead)
+       accruals = Tufts::EADMethods.get_accruals(@document_ead)
+       appraisal = Tufts::EADMethods.get_appraisal(@document_ead)
+       sponsor = Tufts::EADMethods.get_sponsor(@document_ead)
+       names_and_subjects = Tufts::EADMethods.get_names_and_subjects(@document_ead)
+       related_material = Tufts::EADMethods.get_related_material(@document_ead)
+       separated_material = Tufts::EADMethods.get_separated_material(@document_ead)
+       altformavail = Tufts::EADMethods.get_altformavail(@document_ead)
+       originalsloc = Tufts::EADMethods.get_originalsloc(@document_ead)
+       otherfindaid = Tufts::EADMethods.get_otherfindaid(@document_ead)
+       serieses = Tufts::EADMethods.get_serieses(@document_ead)
        metadata = Tufts::ModelMethods.get_metadata(@document_fedora)
        @page_title = title + " - " + application_name
     %>
@@ -49,13 +56,13 @@
             <% unless bioghist.empty? %>
                 <li><a href="#bioghist">Biography/History</a></li>
             <% end %>
-            <% unless access_restrictions.empty? && use_restrictions.empty? && preferred_citation.empty? %>
+            <% unless access_restrictions.empty? && use_restrictions.empty? && phystech.empty? && preferred_citation.empty? %>
                 <li><a href="#access_and_use">Access and Use</a></li>
             <% end %>
-            <% unless processing_notes.empty? && acquisition_info.empty? && custodial_history.empty?%>
+            <% unless processing_notes.empty? && acquisition_info.empty? && custodial_history.empty? && accruals.empty? && appraisal.empty? && sponsor.empty?%>
                 <li><a href="#collection_history">Collection History</a></li>
             <% end %>
-            <% unless names_and_subjects.empty? && related_material.empty? && separated_material.empty? %>
+            <% unless names_and_subjects.empty? && related_material.empty? && separated_material.empty? && altformavail.empty? && originalsloc.empty? && otherfindaid.empty? %>
                 <li><a href="#related_resources">Related Resources</a></li>
             <% end %>
             <% unless serieses.empty? %>
@@ -123,7 +130,7 @@
             <p>Read more about <%= raw read_more_about %></p>
         <% end %>
 
-        <% unless access_restrictions.empty? && use_restrictions.empty? && preferred_citation.empty? %>
+        <% unless access_restrictions.empty? && use_restrictions.empty? && phystech.empty? && preferred_citation.empty? %>
             <h4 id="access_and_use" class="EAD_H4">Access and Use</h4>
             <% unless access_restrictions.empty? %>
                 <h5 class="EAD_H5">Access Restrictions</h5>
@@ -151,7 +158,7 @@
            end
         %>
 
-        <% unless (processing_notes.empty? && acquisition_info.empty? && custodial_history.empty?) %>
+        <% unless (processing_notes.empty? && acquisition_info.empty? && custodial_history.empty? && accruals.empty? && appraisal.empty? && sponsor.empty?) %>
             <h4 id="collection_history" class="EAD_H4">Collection History</h4>
             <% unless processing_notes.empty? %>
                 <h5 class="EAD_H5">Processing Notes</h5>
@@ -176,10 +183,34 @@
                 <%
                    end
                end
-           end
-        %>
+            %>
+            <% unless accruals.empty? %>
+                <h5 class="EAD_H5">Accruals</h5>
+                <% accruals.each do |paragraph| %>
+                    <p><%= raw paragraph %></p>
+                <%
+                   end
+               end
+            %>
+            <% unless appraisal.empty? %>
+                <h5 class="EAD_H5">Appraisal</h5>
+                <% appraisal.each do |paragraph| %>
+                    <p><%= raw paragraph %></p>
+                <%
+                   end
+               end
+            %>
+            <% unless sponsor.empty? %>
+                <h5 class="EAD_H5">Sponsorship</h5>
+                <% sponsor.each do |paragraph| %>
+                    <p><%= raw paragraph %></p>
+                <%
+                   end
+               end
+            %>
+        <% end %>
 
-        <% unless (names_and_subjects.empty? && related_material.empty? && separated_material.empty?) %>
+        <% unless (names_and_subjects.empty? && related_material.empty? && separated_material.empty? && altformavail.empty? && originalsloc.empty? && otherfindaid.empty?) %>
             <h4  id="related_resources" class="EAD_H4">Related Resources</h4>
             <% unless names_and_subjects.empty? %>
             <h5 class="EAD_H5">Subjects and Genre Terms</h5>
@@ -203,6 +234,33 @@
             <h5 class="EAD_H5">Separated Material</h5>
             <ul>
               <% separated_material.each do |list_item| %>
+                  <li><%= raw list_item %></li>
+              <% end %>
+            </ul>
+            <% end %>
+
+            <% unless altformavail.empty? %>
+            <h5 class="EAD_H5">Alternate Formats</h5>
+            <ul>
+              <% altformavail.each do |list_item| %>
+                  <li><%= raw list_item %></li>
+              <% end %>
+            </ul>
+            <% end %>
+
+            <% unless originalsloc.empty? %>
+            <h5 class="EAD_H5">Location of Originals</h5>
+            <ul>
+              <% originalsloc.each do |list_item| %>
+                  <li><%= raw list_item %></li>
+              <% end %>
+            </ul>
+            <% end %>
+
+            <% unless otherfindaid.empty? %>
+            <h5 class="EAD_H5">Other Finding Aids</h5>
+            <ul>
+              <% otherfindaid.each do |list_item| %>
                   <li><%= raw list_item %></li>
               <% end %>
             </ul>

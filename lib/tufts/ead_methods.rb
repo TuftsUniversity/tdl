@@ -587,6 +587,103 @@ module Tufts
     end
 
 
+    def self.get_phystech(ead)
+      result = []
+      phystechps = ead.find_by_terms_and_value(:phystechp)
+
+      unless phystechps.nil?
+        phystechps.each do |phystechp|
+          result << phystechp.text
+        end
+      end
+
+      return result
+    end
+
+
+    def self.get_accruals(ead)
+      result = []
+      accrualsps = ead.find_by_terms_and_value(:accrualsp)
+
+      unless accrualsps.nil?
+        accrualsps.each do |accrualsp|
+          result << accrualsp.text
+        end
+      end
+
+      return result
+    end
+
+
+    def self.get_appraisal(ead)
+      result = []
+      appraisalps = ead.find_by_terms_and_value(:appraisalp)
+
+      unless appraisalps.nil?
+        appraisalps.each do |appraisalp|
+          result << appraisalp.text
+        end
+      end
+
+      return result
+    end
+
+
+    def self.get_altformavail(ead)
+      result = []
+      altformavailps = ead.find_by_terms_and_value(:altformavailp)
+
+      unless altformavailps.nil?
+        altformavailps.each do |altformavailp|
+          result << altformavailp.text
+        end
+      end
+
+      return result
+    end
+
+
+    def self.get_originalsloc(ead)
+      result = []
+      originalslocps = ead.find_by_terms_and_value(:originalslocp)
+
+      unless originalslocps.nil?
+        originalslocps.each do |originalslocp|
+          result << originalslocp.text
+        end
+      end
+
+      return result
+    end
+
+
+    def self.get_otherfindaid(ead)
+      result = []
+      otherfindaidps = ead.find_by_terms_and_value(:otherfindaidp)
+
+      unless otherfindaidps.nil?
+        otherfindaidps.each do |otherfindaidp|
+          result << otherfindaidp.text
+        end
+      end
+
+      return result
+    end
+
+
+    def self.get_sponsor(ead)
+      result = ""
+
+      sponsor = ead.find_by_terms_and_value(:sponsor)
+
+      unless sponsor.nil?
+        result = sponsor.text
+      end
+
+      return result
+    end
+
+
     def self.get_series(ead, item_id)
       series = nil
       series_level = 0
