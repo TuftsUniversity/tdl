@@ -590,10 +590,17 @@ module Tufts
     def self.get_phystech(ead)
       result = []
       phystechps = ead.find_by_terms_and_value(:phystechp)
+      descgrpphystechps = ead.find_by_terms_and_value(:descgrpphystechp)
 
       unless phystechps.nil?
         phystechps.each do |phystechp|
           result << phystechp.text
+        end
+      end
+
+      unless descgrpphystechps.nil?
+        descgrpphystechps.each do |descgrpphystechp|
+          result << descgrpphystechp.text
         end
       end
 

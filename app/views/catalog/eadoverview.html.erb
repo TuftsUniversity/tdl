@@ -237,29 +237,23 @@
 
             <% unless altformavail.empty? %>
             <h5 class="EAD_H5">Alternate Formats</h5>
-            <ul>
-              <% altformavail.each do |list_item| %>
-                  <li><%= raw list_item %></li>
+              <% altformavail.each do |paragraph| %>
+                <p><%= raw paragraph %></p>
               <% end %>
-            </ul>
             <% end %>
 
             <% unless originalsloc.empty? %>
             <h5 class="EAD_H5">Location of Originals</h5>
-            <ul>
-              <% originalsloc.each do |list_item| %>
-                  <li><%= raw list_item %></li>
+              <% originalsloc.each do |paragraph| %>
+                <p><%= raw paragraph %></p>
               <% end %>
-            </ul>
             <% end %>
 
             <% unless otherfindaid.empty? %>
             <h5 class="EAD_H5">Other Finding Aids</h5>
-            <ul>
-              <% otherfindaid.each do |list_item| %>
-                  <li><%= raw list_item %></li>
+              <% otherfindaid.each do |paragraph| %>
+                <p><%= raw paragraph %></p>
               <% end %>
-            </ul>
             <% end %>
         <% end %>
 
