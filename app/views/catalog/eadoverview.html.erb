@@ -148,6 +148,14 @@
                    end
                end
             %>
+            <% unless phystech.empty? %>
+                <h5 class="EAD_H5">Technical Requirements</h5>
+                <% phystech.each do |paragraph| %>
+                    <p><%= raw paragraph %></p>
+                <%
+                   end
+               end
+            %>
             <% unless preferred_citation.empty? %>
                 <h5 class="EAD_H5">Preferred Citation</h5>
                 <% preferred_citation.each do |paragraph| %>
