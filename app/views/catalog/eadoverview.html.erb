@@ -202,12 +202,8 @@
             %>
             <% unless sponsor.empty? %>
                 <h5 class="EAD_H5">Sponsorship</h5>
-                <% sponsor.each do |paragraph| %>
-                    <p><%= raw paragraph %></p>
-                <%
-                   end
-               end
-            %>
+                    <p><%= raw sponsor %></p>
+            <% end %>
         <% end %>
 
         <% unless (names_and_subjects.empty? && related_material.empty? && separated_material.empty? && altformavail.empty? && originalsloc.empty? && otherfindaid.empty?) %>
