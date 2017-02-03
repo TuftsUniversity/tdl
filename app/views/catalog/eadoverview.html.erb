@@ -23,10 +23,10 @@
        custodial_history = Tufts::EADMethods.get_custodial_history(@document_ead)
        accruals = Tufts::EADMethods.get_accruals(@document_ead)
        appraisal = Tufts::EADMethods.get_appraisal(@document_ead)
+       separated_material = Tufts::EADMethods.get_separated_material(@document_ead)
        sponsor = Tufts::EADMethods.get_sponsor(@document_ead)
        names_and_subjects = Tufts::EADMethods.get_names_and_subjects(@document_ead)
        related_material = Tufts::EADMethods.get_related_material(@document_ead)
-       separated_material = Tufts::EADMethods.get_separated_material(@document_ead)
        altformavail = Tufts::EADMethods.get_altformavail(@document_ead)
        originalsloc = Tufts::EADMethods.get_originalsloc(@document_ead)
        otherfindaid = Tufts::EADMethods.get_otherfindaid(@document_ead)
@@ -59,10 +59,10 @@
             <% unless access_restrictions.empty? && use_restrictions.empty? && phystech.empty? && preferred_citation.empty? %>
                 <li><a href="#access_and_use">Access and Use</a></li>
             <% end %>
-            <% unless processing_notes.empty? && acquisition_info.empty? && custodial_history.empty? && accruals.empty? && appraisal.empty? && sponsor.empty?%>
+            <% unless processing_notes.empty? && acquisition_info.empty? && custodial_history.empty? && accruals.empty? && appraisal.empty? && separated_material.empty? && sponsor.empty?%>
                 <li><a href="#collection_history">Collection History</a></li>
             <% end %>
-            <% unless names_and_subjects.empty? && related_material.empty? && separated_material.empty? && altformavail.empty? && originalsloc.empty? && otherfindaid.empty? %>
+            <% unless names_and_subjects.empty? && related_material.empty? && altformavail.empty? && originalsloc.empty? && otherfindaid.empty? %>
                 <li><a href="#related_resources">Related Resources</a></li>
             <% end %>
             <% unless serieses.empty? %>
@@ -76,27 +76,28 @@
       </div>
 
       <div class="span6" id="overview">
+        <h4 id="contents" class="EAD_H4">Overview</h4>
         <p>
-          Title: <%= raw title_only %>
+          <span class="EAD_LABEL">Title:</span> <%= raw title_only %>
           <br>
-          Dates: <%= raw inclusive_date %>
+          <span class="EAD_LABEL">Dates:</span> <%= raw inclusive_date %>
           <br>
-          Bulk Dates: <%= raw bulk_date %>
+          <span class="EAD_LABEL">Bulk Dates:</span> <%= raw bulk_date %>
           <br>
-          Creator: <%= raw creator %>
+          <span class="EAD_LABEL">Creator:</span> <%= raw creator %>
           <br>
-          Call Number: <%= raw unitid %>
+          <span class="EAD_LABEL">Call Number:</span> <%= raw unitid %>
           <br>
-          Size: <%= raw physdesc %>
+          <span class="EAD_LABEL">Size:</span> <%= raw physdesc %>
           <br>
           <% unless langmaterial.empty? %>
-          Language(s):
+          <span class="EAD_LABEL">Language(s):</span>
             <% langmaterial.each do |language| %>
                 <%= raw language %>&nbsp;&nbsp;
             <% end %>
           <br>
           <% end %>
-          Location: <%= raw repository %>
+          <span class="EAD_LABEL">Location:</span> <%= raw repository %>
         </p>
 
         <% unless contents.empty? %>
@@ -166,7 +167,7 @@
            end
         %>
 
-        <% unless (processing_notes.empty? && acquisition_info.empty? && custodial_history.empty? && accruals.empty? && appraisal.empty? && sponsor.empty?) %>
+        <% unless (processing_notes.empty? && acquisition_info.empty? && custodial_history.empty? && accruals.empty? && appraisal.empty? && separated_material.empty? && sponsor.empty?) %>
             <h4 id="collection_history" class="EAD_H4">Collection History</h4>
             <% unless processing_notes.empty? %>
                 <h5 class="EAD_H5">Processing Notes</h5>
@@ -208,13 +209,23 @@
                    end
                end
             %>
+
+            <% unless separated_material.empty? %>
+                <h5 class="EAD_H5">Separated Material</h5>
+                <% separated_material.each do |paragraph| %>
+                    <p><%= raw paragraph %></p>
+                <%
+                   end
+               end
+            %>
+
             <% unless sponsor.empty? %>
                 <h5 class="EAD_H5">Sponsorship</h5>
                     <p><%= raw sponsor %></p>
             <% end %>
         <% end %>
 
-        <% unless (names_and_subjects.empty? && related_material.empty? && separated_material.empty? && altformavail.empty? && originalsloc.empty? && otherfindaid.empty?) %>
+        <% unless (names_and_subjects.empty? && related_material.empty? && altformavail.empty? && originalsloc.empty? && otherfindaid.empty?) %>
             <h4  id="related_resources" class="EAD_H4">Related Resources</h4>
             <% unless names_and_subjects.empty? %>
             <h5 class="EAD_H5">Subjects and Genre Terms</h5>
@@ -229,15 +240,6 @@
             <h5 class="EAD_H5">Related Material</h5>
             <ul>
               <% related_material.each do |list_item| %>
-                  <li><%= raw list_item %></li>
-              <% end %>
-            </ul>
-            <% end %>
-
-            <% unless separated_material.empty? %>
-            <h5 class="EAD_H5">Separated Material</h5>
-            <ul>
-              <% separated_material.each do |list_item| %>
                   <li><%= raw list_item %></li>
               <% end %>
             </ul>

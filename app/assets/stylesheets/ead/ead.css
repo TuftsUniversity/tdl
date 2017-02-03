@@ -17,6 +17,10 @@
   font-weight: normal;
 }
 
+.EAD_LABEL {
+  font-weight: 500;
+}
+
 .table .ead_indent0 {
   padding-left: 1em;
 }
