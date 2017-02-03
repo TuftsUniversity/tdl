@@ -82,7 +82,7 @@ feature 'EAD' do
     page.should have_text "MS999.001.002.00001"
     page.should have_text "Item"
     page.should have_text "Open for research."
-    page.should have_text "Names and Subjects"
+    page.should have_text "Subjects and Genre Terms"
     page.should have_text "Access and Use"
     page.should have_text "Copyright has been retained by donor."
   end
