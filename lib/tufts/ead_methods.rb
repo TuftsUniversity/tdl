@@ -961,7 +961,6 @@ module Tufts
       end
 
       unless dao.nil?
-
         dao_href = dao.attribute("href")
         if !dao_href.nil? && dao_href.text.include?("darkarchive")
 					# In an ASpace EAD, an href="https://darkarchive.lib.tufts.edu/" attribute in the <dao> element

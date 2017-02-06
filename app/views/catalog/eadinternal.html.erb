@@ -35,14 +35,17 @@
           <h6>On this page:</h6>
           <ul class="nav nav-tabs nav-stacked" style="margin: 0px;">
             <li><a href="#series_overview">Series Overview</a></li>
-            <% unless series_items.empty? %>
-                <li><a href="#detailed_contents_list">Detailed Contents List</a></li>
+            <% unless series_scopecontents.empty? %>
+                <li><a href="#contents">Description</a></li>
             <% end %>
             <% unless series_access_restrict.empty? && series_use_restrict.empty? %>
                 <li><a href="#access_and_use">Access and Use</a></li>
             <% end %>
             <% unless series_names_and_subjects.empty? %>
                 <li><a href="#names_and_subjects">Subjects and Genre Terms</a></li>
+            <% end %>
+            <% unless series_items.empty? %>
+                <li><a href="#detailed_contents_list">Detailed Contents List</a></li>
             <% end %>
           </ul>
         </div>
@@ -58,21 +61,53 @@
               This series is part of
               <a href="<%= Tufts::EADMethods.collection_url(@document_fedora) %>"><%= @collection_title %></a>
             </p>
+
+            <h4 id="series_overview" class="EAD_H4">Overview</h4>
             <p>
-              <%= series_physdesc %>
+              <span class="EAD_LABEL">Size:</span> <%= series_physdesc %>
+
+              <% unless series_langmaterial.empty? %>
+              <span class="EAD_LABEL">Language(s):</span>
+                <% series_langmaterial.each do |language| %>
+                  <%= raw language %>&nbsp;&nbsp;
+                <% end %>
+                <br>
+              <% end %>
             </p>
 
-            <% series_langmaterial.each do |paragraph| %>
-                <p><%= raw paragraph %></p>
+            <% unless series_scopecontents.empty? %>
+              <h4 id="contents" class="EAD_H4">Description</h4>
+              <% series_scopecontents.each do |paragraph| %>
+                  <p><%= raw paragraph %></p>
+              <% end %>
             <% end %>
 
-            <% series_scopecontents.each do |paragraph| %>
-                <p><%= raw paragraph %></p>
+            <% unless series_arrangement.empty? %>
+              <h5 class="EAD_H5">Arrangement</h5>
+              <% series_arrangement.each do |paragraph| %>
+                  <p><%= raw paragraph %></p>
+              <% end %>
             <% end %>
 
-            <% series_arrangement.each do |paragraph| %>
-                <p><%= raw paragraph %></p>
+            <% unless series_access_restrict.empty? && series_use_restrict.empty? %>
+                <h4 id="access_and_use">Access and Use</h4>
+                <% series_access_restrict.each do |paragraph| %>
+                    <p><%= raw paragraph %></p>
+                <% end
+                   series_use_restrict.each do |paragraph| %>
+                     <p><%= raw paragraph %></p>
+                   <% end %>
             <% end %>
+
+            <% unless series_names_and_subjects.empty? %>
+                <h4 id="names_and_subjects">Subjects and Genre Terms</h4>
+                <ul>
+                  <% series_names_and_subjects.each do |list_item| %>
+                      <li><%= raw list_item %></li>
+                  <% end %>
+                </ul>
+            <% end %>
+
           </div>
 
           <div class="span3 ">
@@ -124,27 +159,6 @@
 
         </table>
         <% end %>
-
-        <% unless series_access_restrict.empty? && series_use_restrict.empty? %>
-            <h4 id="access_and_use">Access and Use</h4>
-            <% series_access_restrict.each do |paragraph| %>
-                <p><%= raw paragraph %></p>
-            <% end
-               series_use_restrict.each do |paragraph| %>
-                <p><%= raw paragraph %></p>
-            <% end %>
-        <% end %>
-
-        <% unless series_names_and_subjects.empty? %>
-            <h4 id="names_and_subjects">Subjects and Genre Terms</h4>
-            <ul>
-              <% series_names_and_subjects.each do |list_item| %>
-                  <li><%= raw list_item %></li>
-              <% end %>
-            </ul>
-        <% end %>
-
-        <br>
       </div>
     </div>
 <% end %>
