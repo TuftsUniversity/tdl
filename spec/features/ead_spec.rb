@@ -35,6 +35,7 @@ feature 'EAD' do
     page.should have_text "Size: 585 Cubic Feet, 487 record cartons and 1 document case, 197 Gigabytes, 95 Cassettes"
     page.should have_text "Language(s): Materials are in English, French, and Russian."
     page.should have_text "Location: Digital Collections and Archives"
+    page.should have_text "Permanent URL: http://hdl.handle.net/fake/false"
     page.should have_text "The Lorem Ipsum papers consist of his personal and professional papers."
     page.should have_text "Diaries cover the years 1910-1933 with a suspicious gap in 1922."
     page.should have_text "This collection is arranged in two series."

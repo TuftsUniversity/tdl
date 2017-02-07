@@ -230,19 +230,21 @@ module Tufts
     end
 
 
-    def self.repository(ead)
-      result = ""
-      repository = ead.find_by_terms_and_value(:repository)
+    def self.addresslines(ead)
+      result = []
+      addresslines = ead.find_by_terms_and_value(:addresslines)
 
-      unless repository.nil?
-        result = repository.text.strip
+      unless addresslines.nil?
+        addresslines.each do |addressline|
+          result << addressline.text
+        end
       end
 
      return result
     end
 
 
-    def self.get_langmaterial(ead)
+    def self.langmaterial(ead)
       result = []
       langmaterials = ead.find_by_terms_and_value(:langmaterial)
 
