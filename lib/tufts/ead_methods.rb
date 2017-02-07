@@ -749,20 +749,19 @@ module Tufts
     def self.get_series_info(series)
       did = nil
       scopecontent = nil
-      langmaterial = nil
-      arrangement = nil
       unittitle = ""
       unitdate = ""
       unitid = ""
       physdesc = ""
       title = ""
       paragraphs = []
+      series_items = []
       series_access_restrict = []
       series_use_restrict = []
-      series_items = []
       series_names_and_subjects = []
       series_langmaterial = []
       series_arrangement = []
+      series_acquisition_info = []
 
       unless series.nil?
         # find the pertinent child elements: did, scopecontent, etc
@@ -772,18 +771,19 @@ module Tufts
             did = element_child
           elsif childname == "scopecontent"
             scopecontent = element_child
-          elsif childname == "arrangement"
-            arrangement = element_child
           elsif childname == "accessrestrict"
             series_access_restrict = get_paragraphs(element_child)
           elsif childname == "userestrict"
             series_use_restrict = get_paragraphs(element_child)
+          elsif childname == "arrangement"
+            series_arrangement = get_paragraphs(element_child)
+          elsif childname == "acqinfo"
+            series_acquisition_info = get_paragraphs(element_child)
           elsif childname == "c02" || childname == "c03" || childname == "c"
             # The series could be a <c01 level="series"> with c02 children, or
             # it could be a <c02 level="subseries"> with c03 children.
             series_items << element_child
           elsif childname == "controlaccess"
-
             element_child.element_children.each do |element_grandchild|
               grandchildname = element_grandchild.name
 
@@ -824,7 +824,7 @@ module Tufts
             elsif childname == "unitid"
               unitid = did_child.text
             elsif childname == "langmaterial"
-              langmaterial = did_child
+              series_langmaterial = get_paragraphs(did_child)
             end
           end
         end
@@ -832,18 +832,10 @@ module Tufts
         # process the scopecontent element
         paragraphs = get_scopecontent_paragraphs(scopecontent)
 
-        unless (langmaterial.nil?)
-          series_langmaterial = get_paragraphs(langmaterial)
-        end
-
-        unless (arrangement.nil?)
-          series_arrangement = get_paragraphs(arrangement)
-        end
-
         title = (unittitle.empty? ? "" : unittitle + (unitdate.empty? ? "" : ", " + unitdate))
       end
 
-      return title, physdesc, paragraphs, series_langmaterial, series_arrangement, series_access_restrict, series_use_restrict, series_items, series_names_and_subjects, unitid
+      return title, physdesc, series_langmaterial, paragraphs, series_arrangement, series_access_restrict, series_use_restrict, series_acquisition_info, series_names_and_subjects, series_items, unitid
     end
 
 
