@@ -897,7 +897,7 @@ module Tufts
               unitdate = did_child.text
             end
           elsif childname == "unitid"
-            # In ASpace EADs the human-readable item id is in <c><did><unitid>... instead the id attribute of the <c id=...>
+            # In ASpace EADs the human-readable item id is in <c><did><unitid>... instead of the id attribute of the <c id=...>
             item_id = did_child.text
           elsif childname == "physloc"
             physloc = did_child.text
@@ -933,6 +933,7 @@ module Tufts
         end
       end
 
+      # CIDER EADs have a <daogrp> element.
       unless daogrp.nil?
         daogrp.element_children.each do |daogrp_child|
           if daogrp_child.name == "daoloc"
@@ -958,22 +959,33 @@ module Tufts
             end
           end
         end
+
+        available_online = !page.empty? && Tufts::PidMethods.ingested?(page)
       end
 
+      # ASpace EADs have a <dao> element.
       unless dao.nil?
         dao_href = dao.attribute("href")
         if !dao_href.nil? && dao_href.text.include?("darkarchive")
-					# In an ASpace EAD, an href="https://darkarchive.lib.tufts.edu/" attribute in the <dao> element
-					# means that this item is in the Dark Archive;  Set physloc to the DA message.
-					# Note that if the URL for DA ever changes, all the EADs would not necessarily have to change
-					# since the <dao> href value is never displayed or used as a link in TDL.
-					# Note that thumbnail and page are not set for ASpace EADs, so online items will not
-					# be links or have thumbnail images.  This will have to be fixed somehow.
-					physloc = "Dark Archive; <a href=""/contact"">contact DCA</a>"
+          # In an ASpace EAD, an href="https://darkarchive.lib.tufts.edu/" attribute in the <dao> element
+          # means that this item is in the Dark Archive;  Set physloc to the DA message.
+          # Note that if the URL for DA ever changes, all the EADs would not necessarily have to change
+          # since the <dao> href value is never displayed or used as a link in TDL.
+          physloc = "Dark Archive; <a href=""/contact"">contact DCA</a>"
+        else
+          # ASpace EADs lack the <daogrp><daoloc> page and thumbnail attributes, so compute them from item_id thusly:
+          page_pid = "tufts:" + item_id
+          begin
+            page_doc = ActiveFedora::Base.load_instance_from_solr(page_pid)
+            page = page_pid
+            available_online = true
+            if page_doc.datastreams.include?("Thumbnail.png")
+              thumbnail = page_pid
+            end
+          rescue
+          end
         end
       end
-
-      available_online = !page.empty? && Tufts::PidMethods.ingested?(page)
 
       if available_online
         item_url = "/catalog/" + page
