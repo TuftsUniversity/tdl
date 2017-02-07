@@ -71,7 +71,7 @@ feature 'EAD' do
 
     click_link "Diaries, 1910-1933", :exact => false
     page.should have_text "Diaries, 1910-1933"
-    page.should have_text "This series is part of Lorem Ipsum papers, 1897-1933"
+    page.should have_text "This series is part of Lorem Ipsum papers, 1897 -- 1933"
     page.should have_text "23 Volumes"
     page.should have_text "Diaries are mostly in Russian with some English."
     page.should have_text "Diaries are salacious and gossipy."
