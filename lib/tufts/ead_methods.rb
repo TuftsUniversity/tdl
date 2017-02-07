@@ -233,10 +233,24 @@ module Tufts
     def self.addresslines(ead)
       result = []
       addresslines = ead.find_by_terms_and_value(:addresslines)
-
       unless addresslines.nil?
         addresslines.each do |addressline|
-          result << addressline.text
+          text = addressline.text
+
+          # If the <addressline> has an <extptr href="..."> child, append the href.
+          children = addressline.element_children;
+
+          if !children.empty?
+            first_child = children.first
+            if first_child.name == "extptr"
+              href = first_child.attribute("href")
+              if !href.nil?
+                text += " " + href.text
+              end
+            end
+          end
+
+          result << text
         end
       end
 
@@ -271,7 +285,6 @@ module Tufts
 
     def self.get_arrangement(ead)
       result = []
-
       arrangementps = ead.find_by_terms_and_value(:arrangementp)
 
       unless arrangementps.nil?
@@ -300,7 +313,6 @@ module Tufts
 
     def self.get_serieses(ead)
       result = []
-
       serieses = ead.find_by_terms_and_value(:series)
 
       unless serieses.nil? || serieses.empty?

@@ -99,11 +99,11 @@
           <br>
           <% end %>
           <% unless addresslines.empty? %>
-          <span class="EAD_LABEL">Location(s):</span>
+          <span class="EAD_LABEL">Location:</span>
             <% addresslines.each do |addressline| %>
-                <%= raw addressline %>
-                <br>
+                <br>&nbsp;&nbsp;&nbsp;&nbsp;<%= raw addressline %>
             <% end %>
+          <br>
           <% end %>
           <span class="EAD_LABEL">Permanent URL:</span> <%= raw handle %>
         </p>
