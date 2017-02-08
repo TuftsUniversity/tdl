@@ -9,7 +9,7 @@
        unitid = Tufts::EADMethods.unitid(@document_ead)
        physdesc = Tufts::EADMethods.physdesc(@document_ead)
        langmaterial = Tufts::EADMethods.langmaterial(@document_ead)
-       addresslines = Tufts::EADMethods.addresslines(@document_ead)
+       location = Tufts::EADMethods.location(@document_ead)
        eadid, handle = Tufts::EADMethods.eadid(@document_ead)
        contents = Tufts::EADMethods.get_contents(@document_ead)
        arrangement = Tufts::EADMethods.get_arrangement(@document_ead)
@@ -98,14 +98,14 @@
             <% end %>
           <br>
           <% end %>
-          <% unless addresslines.empty? %>
+          <span class="EAD_LABEL">Permanent URL:</span> <%= raw handle %>
+          <br>
+          <% unless location.empty? %>
           <span class="EAD_LABEL">Location:</span>
-            <% addresslines.each do |addressline| %>
+            <% location.each do |addressline| %>
                 <br>&nbsp;&nbsp;&nbsp;&nbsp;<%= raw addressline %>
             <% end %>
-          <br>
           <% end %>
-          <span class="EAD_LABEL">Permanent URL:</span> <%= raw handle %>
         </p>
 
         <% unless contents.empty? %>

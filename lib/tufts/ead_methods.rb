@@ -230,27 +230,37 @@ module Tufts
     end
 
 
-    def self.addresslines(ead)
+    def self.location(ead)
       result = []
-      addresslines = ead.find_by_terms_and_value(:addresslines)
-      unless addresslines.nil?
-        addresslines.each do |addressline|
-          text = addressline.text
+      publicationstmt = ead.find_by_terms_and_value(:publicationstmt)
+      unless publicationstmt.nil?
+        publicationstmt.children.each do |element_child|
+          if element_child.name == "publisher"
+            result << element_child.text
+          elsif element_child.name == "address"
+            element_child.children.each do |addressline|
+              text = addressline.text
 
-          # If the <addressline> has an <extptr href="..."> child, append the href.
-          children = addressline.element_children;
-
-          if !children.empty?
-            first_child = children.first
-            if first_child.name == "extptr"
-              href = first_child.attribute("href")
-              if !href.nil?
-                text += " " + href.text
+              # Ignore physical <addressline> elements;  only the email address and URL are wanted.
+              if text.include?("@")
+                # email address
+                result << text
+              else
+                addressline_children = addressline.element_children;
+                unless addressline_children.empty?
+                  first_child = addressline_children.first
+                  if first_child.name == "extptr"
+                    href = first_child.attribute("href")
+                    unless href.nil?
+                      # URL
+                      href_text = href.text
+                      result << "<a href=""" + href_text + ">" + href_text + "</a>"
+                    end
+                  end
+                end
               end
             end
           end
-
-          result << text
         end
       end
 

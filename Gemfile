@@ -4,7 +4,7 @@ gem 'rails', '3.2.16'
 
 gem 'hydra', '6.1.0'
 
-gem 'tuftsification-hydra', :git => 'https://github.com/TuftsUniversity/tuftsification-hydra', :tag => '1.2.17'
+gem 'tuftsification-hydra', :git => 'https://github.com/TuftsUniversity/tuftsification-hydra', :tag => '1.2.18'
 #gem 'tuftsification-hydra', :path => '/Users/mkorcy01/Documents/workspace/tuftsification-hydra'
 #gem 'tuftsification-hydra', :path => '../tuftsification-hydra'
 
