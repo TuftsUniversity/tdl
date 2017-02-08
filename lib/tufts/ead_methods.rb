@@ -751,17 +751,30 @@ module Tufts
       scopecontent = nil
       unittitle = ""
       unitdate = ""
+      unitdate_bulk = ""
+      creator = ""
       unitid = ""
       physdesc = ""
       title = ""
       paragraphs = []
       series_items = []
-      series_access_restrict = []
-      series_use_restrict = []
-      series_names_and_subjects = []
       series_langmaterial = []
       series_arrangement = []
+      series_access_restrict = []
+      series_use_restrict = []
+      series_phystech = []
+      series_prefercite = []
+      series_processinfo = []
       series_acquisition_info = []
+      series_custodhist = []
+      series_accruals = []
+      series_appraisal = []
+      series_separated_material = []
+      series_names_and_subjects = []
+      series_related_material = []
+      series_alt_formats = []
+      series_originals_loc = []
+      series_other_finding_aids = []
 
       unless series.nil?
         # find the pertinent child elements: did, scopecontent, etc
@@ -775,10 +788,32 @@ module Tufts
             series_access_restrict = get_paragraphs(element_child)
           elsif childname == "userestrict"
             series_use_restrict = get_paragraphs(element_child)
+          elsif childname == "phystech"
+            series_phystech = get_paragraphs(element_child)
+          elsif childname == "prefercite"
+            series_prefercite = get_paragraphs(element_child)
           elsif childname == "arrangement"
             series_arrangement = get_paragraphs(element_child)
+          elsif childname == "processinfo"
+            series_processinfo = get_paragraphs(element_child)
           elsif childname == "acqinfo"
             series_acquisition_info = get_paragraphs(element_child)
+          elsif childname == "custodhist"
+            series_custodhist = get_paragraphs(element_child)
+          elsif childname == "accruals"
+            series_accruals = get_paragraphs(element_child)
+          elsif childname == "appraisal"
+            series_appraisal = get_paragraphs(element_child)
+          elsif childname == "separatedmaterial"
+            series_separated_material = get_paragraphs(element_child)
+          elsif childname == "relatedmaterial"
+            series_related_material = get_paragraphs(element_child)
+          elsif childname == "altformavail"
+            series_alt_formats = get_paragraphs(element_child)
+          elsif childname == "originalsloc"
+            series_originals_loc = get_paragraphs(element_child)
+          elsif childname == "otherfindaid"
+            series_other_finding_aids = get_paragraphs(element_child)
           elsif childname == "c02" || childname == "c03" || childname == "c"
             # The series could be a <c01 level="series"> with c02 children, or
             # it could be a <c02 level="subseries"> with c03 children.
@@ -810,8 +845,13 @@ module Tufts
               unittitle = did_child.text
             elsif childname == "unitdate"
               datetype = did_child.attribute("type")
-              if !datetype.nil? && datetype.text == "inclusive"
-                unitdate = did_child.text
+              unless datetype.nil?
+                datetype_text = datetype.text
+                if datetype_text == "inclusive"
+                  unitdate = did_child.text
+                elsif datetype_text == "bulk"
+                  unitdate_bulk = did_child.text
+                end
               end
             elsif childname == "physdesc"
               did_child.children.each do |physdesc_child|
@@ -825,6 +865,12 @@ module Tufts
               unitid = did_child.text
             elsif childname == "langmaterial"
               series_langmaterial = get_paragraphs(did_child)
+            elsif childname == "origination"
+              did_child.children.each do |grandchild|
+                if grandchild.name = "persname"
+                  creator << grandchild.text.strip
+                end
+              end
             end
           end
         end
@@ -835,7 +881,7 @@ module Tufts
         title = (unittitle.empty? ? "" : unittitle + (unitdate.empty? ? "" : ", " + unitdate))
       end
 
-      return title, physdesc, series_langmaterial, paragraphs, series_arrangement, series_access_restrict, series_use_restrict, series_acquisition_info, series_names_and_subjects, series_items, unitid
+      return title, unittitle, unitdate, unitdate_bulk, creator, physdesc, series_langmaterial, paragraphs, series_arrangement, series_access_restrict, series_use_restrict, series_phystech, series_prefercite, series_processinfo, series_acquisition_info, series_custodhist, series_accruals, series_appraisal, series_separated_material, series_names_and_subjects, series_related_material, series_alt_formats, series_originals_loc, series_other_finding_aids, series_items, unitid
     end
 
 
