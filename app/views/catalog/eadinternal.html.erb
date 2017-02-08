@@ -87,6 +87,10 @@
                 <span class="EAD_LABEL">Creator:</span> <%= creator %>
                 <br>
               <% end %>
+              <% unless unitid.empty? %>
+                <span class="EAD_LABEL">Call Number:</span> <%= unitid %>
+                <br>
+              <% end %>
               <% unless series_physdesc.empty? %>
                 <span class="EAD_LABEL">Size:</span> <%= series_physdesc %>
                 <br>
