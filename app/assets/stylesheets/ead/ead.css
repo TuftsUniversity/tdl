@@ -7,7 +7,7 @@
 /* EAD_H5 and EAD_H6 override styles set elsewhere to style the headers as desired for the EAD pages. */
 
 .EAD_H5 {
-  font-weight: 500;
+  font-weight: bold;
   color: #333333;
 }
 
@@ -18,7 +18,7 @@
 }
 
 .EAD_LABEL {
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .table .ead_indent0 {

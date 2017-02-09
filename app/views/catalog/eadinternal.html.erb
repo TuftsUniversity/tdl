@@ -119,7 +119,7 @@
             <% end %>
 
             <% unless series_access_restrict.empty? && series_use_restrict.empty? && series_phystech.empty? && series_prefercite.empty? %>
-                <h4 id="access_and_use">Access and Use</h4>
+                <h4 id="access_and_use" class="EAD_H4">Access and Use</h4>
                 <% unless series_access_restrict.empty? %>
                     <h5 class="EAD_H5">Access Restrictions</h5>
                     <% series_access_restrict.each do |paragraph| %>
@@ -147,7 +147,7 @@
             <% end %>
 
             <% unless series_processinfo.empty? && series_acquisition_info.empty? && series_custodhist.empty? && series_accruals.empty? && series_appraisal.empty? && series_separated_material.empty? %>
-                <h4 id="collection_history">Collection History</h4>
+                <h4 id="collection_history" class="EAD_H4">Collection History</h4>
                 <% unless series_processinfo.empty? %>
                     <h5 class="EAD_H5">Processing Notes</h5>
                       <% series_processinfo.each do |paragraph| %>
@@ -187,7 +187,7 @@
             <% end %>
 
             <% unless series_names_and_subjects.empty? && series_related_material.empty? && series_alt_formats.empty? && series_originals_loc.empty? && series_other_finding_aids.empty? %>
-                <h4 id="related_resources">Related Resources</h4>
+                <h4 id="related_resources" class="EAD_H4">Related Resources</h4>
                 <% unless series_names_and_subjects.empty? %>
                     <h5 class="EAD_H5">Subjects and Genre Terms</h5>
                     <ul>
@@ -245,7 +245,7 @@
         </div>
 
         <% unless series_items.empty? %>
-        <h4 id="detailed_contents_list"><b>Detailed Contents List</b></h4>
+        <h4 id="detailed_contents_list" class="EAD_H4"><b>Detailed Contents List</b></h4>
         <br>
         <table id="theTable" cellpadding="0" cellspacing="0" class="table" width="679px" style="border:0">
           <thead>
