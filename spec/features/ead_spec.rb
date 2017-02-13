@@ -85,7 +85,7 @@ feature 'EAD' do
     page.should have_text "Personal papers consist largely of correspondence and diaries."
     page.should have_text "This series is organized in two subseries."
     page.should have_text "Open for research."
-    page.should have_text "Copyright has been retained by donor."
+    page.should have_text "Copyright retained by donor."
     page.should have_text "This series has no technical requirements for access."
     page.should have_text "Personal papers, Lorem Ipsum papers, 1897-1933. Tufts University. Digital Collections and Archives. Medford, MA."
     page.should have_text "Evidence suggests that the original processor of this collection may have actually ingested the contents of an envelope marked \"Illegal Fungi,\" which we have been otherwise unable to locate."
