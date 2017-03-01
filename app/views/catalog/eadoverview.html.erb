@@ -79,27 +79,41 @@
       <div class="span6" id="overview">
         <h4 class="EAD_H4">Overview</h4>
         <p>
-          <span class="EAD_LABEL">Title:</span> <%= raw title_only %>
-          <br>
-          <span class="EAD_LABEL">Dates:</span> <%= raw inclusive_date %>
-          <br>
-          <span class="EAD_LABEL">Bulk Dates:</span> <%= raw bulk_date %>
-          <br>
-          <span class="EAD_LABEL">Creator:</span> <%= raw creator %>
-          <br>
-          <span class="EAD_LABEL">Call Number:</span> <%= raw unitid %>
-          <br>
-          <span class="EAD_LABEL">Size:</span> <%= raw physdesc %>
-          <br>
-          <% unless langmaterial.empty? %>
-          <span class="EAD_LABEL">Language(s):</span>
-            <% langmaterial.each do |language| %>
-                <%= raw language %>&nbsp;&nbsp;
-            <% end %>
-          <br>
+          <% unless title_only.empty? %>
+            <span class="EAD_LABEL">Title:</span> <%= raw title_only %>
+            <br>
           <% end %>
-          <span class="EAD_LABEL">Permanent URL:</span> <%= raw handle %>
-          <br>
+          <% unless inclusive_date.empty? %>
+            <span class="EAD_LABEL">Dates:</span> <%= raw inclusive_date %>
+            <br>
+          <% end %>
+          <% unless bulk_date.empty? %>
+            <span class="EAD_LABEL">Bulk Dates:</span> <%= raw bulk_date %>
+            <br>
+          <% end %>
+          <% unless creator.empty? %>
+            <span class="EAD_LABEL">Creator:</span> <%= raw creator %>
+            <br>
+          <% end %>
+          <% unless unitid.empty? %>
+            <span class="EAD_LABEL">Call Number:</span> <%= raw unitid %>
+            <br>
+          <% end %>
+          <% unless physdesc.empty? %>
+            <span class="EAD_LABEL">Size:</span> <%= raw physdesc %>
+            <br>
+          <% end %>
+          <% unless langmaterial.empty? %>
+            <span class="EAD_LABEL">Language(s):</span>
+            <% langmaterial.each do |language| %>
+              <%= raw language %>&nbsp;&nbsp;
+            <% end %>
+            <br>
+          <% end %>
+          <% unless handle.empty? %>
+            <span class="EAD_LABEL">Permanent URL:</span> <%= raw handle %>
+            <br>
+          <% end %>
           <% unless location.empty? %>
           <span class="EAD_LABEL">Location:</span>
             <% location.each do |addressline| %>
