@@ -2,6 +2,11 @@
    metadata = Tufts::ModelMethods.get_metadata(@document_fedora)
 %>
 <div class="span6 pull-right download_links">
-  <a href="/file_assets/<%= params[:id] %>"><i class="icon-film"/></i>&nbsp;Download Video File</a><% if !@document_fedora.datastreams["ARCHIVAL_XML"].dsLocation.nil? %>&nbsp;&nbsp;<a href="/file_assets/transcript/<%= params[:id] %>"><i class="icon-file"/></i>&nbsp;Download Transcript</a><% end %>
+  <% unless !@document_fedora.datastreams["DCA-ADMIN"].download.empty? && @document_fedora.datastreams["DCA-ADMIN"].download.first == "no-link" %>
+  <a href="/file_assets/<%= params[:id] %>"><i class="icon-film"/></i>&nbsp;Download Video File</a>
+  <% end %>
+  <% if !@document_fedora.datastreams["ARCHIVAL_XML"].dsLocation.nil? %>&nbsp;&nbsp;
+    <a href="/file_assets/transcript/<%= params[:id] %>"><i class="icon-file"/></i>&nbsp;Download Transcript</a>
+  <% end %>
   <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata} %>
 </div>
