@@ -1,5 +1,5 @@
 <%
-   #retrieve items that can not be cached
+   # retrieve items that can not be cached
    series, series_level = Tufts::EADMethods.get_series(@document_ead, @item_id)
    series_title, title_only, inclusive_date, bulk_date, creator, series_physdesc, series_langmaterial, series_scopecontents, series_arrangement,
      series_access_restrict, series_use_restrict, series_phystech, series_prefercite,
@@ -15,7 +15,6 @@
 <% javascript_includes << "ead.js" %>
 <% stylesheet_links << "ead/ead.css" %>
 <% cache (@document_fedora.pid + @item_id + @document_fedora.edited_at.to_s).strip do %>
-
 
 
     <%

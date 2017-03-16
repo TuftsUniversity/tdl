@@ -1,10 +1,14 @@
+<%
+   # retrieve items that can not be cached
+   title, title_only, inclusive_date, bulk_date = Tufts::EADMethods.title(@document_ead)
+   @page_title = title + " - " + application_name
+%>
+<% javascript_includes << "ead.js" %>
+<% stylesheet_links << "ead/ead.css" %>
 <% cache (@document_fedora.pid + @document_fedora.edited_at.to_s).strip do %>
-    <% javascript_includes << "ead.js" %>
-    <% stylesheet_links << "ead/ead.css" %>
 
 
     <%
-       title, title_only, inclusive_date, bulk_date = Tufts::EADMethods.title(@document_ead)
        creator = Tufts::EADMethods.creator(@document_ead)
        unitid = Tufts::EADMethods.unitid(@document_ead)
        physdesc = Tufts::EADMethods.physdesc(@document_ead)
@@ -33,7 +37,6 @@
        otherfindaid = Tufts::EADMethods.get_otherfindaid(@document_ead)
        serieses = Tufts::EADMethods.get_serieses(@document_ead)
        metadata = Tufts::ModelMethods.get_metadata(@document_fedora)
-       @page_title = title + " - " + application_name
     %>
 
 
