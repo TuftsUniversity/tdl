@@ -59,9 +59,11 @@ module TDL
     # Default SASS Configuration, check out https://github.com/rails/sass-rails for details
     config.assets.compress = !Rails.env.development?
 
-
-
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # Used in ead_methods.rb to add a link to <userestrict> elements.
+    config.use_restrict_text_match = 'Reproductions and Use'
+    config.use_restrict_text_replace = '<a href="https://sites.tufts.edu/dca/about-us/research-help/reproductions-and-use/">Reproductions and Use</a>'
   end
 end

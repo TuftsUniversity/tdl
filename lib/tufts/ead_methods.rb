@@ -533,13 +533,13 @@ module Tufts
 
       unless userestrictps.nil?
         userestrictps.each do |userestrictp|
-          result << userestrictp.text
+          result << userestrictp.text.sub(Rails.configuration.use_restrict_text_match, Rails.configuration.use_restrict_text_replace)
         end
       end
 
       unless descgrpuserestrictps.nil?
         descgrpuserestrictps.each do |descgrpuserestrictp|
-          result << descgrpuserestrictp.text
+          result << descgrpuserestrictp.text.sub(Rails.configuration.use_restrict_text_match, Rails.configuration.use_restrict_text_replace)
         end
       end
 
