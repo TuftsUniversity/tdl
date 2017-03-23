@@ -6,7 +6,6 @@
      series_processinfo, series_acquisition_info, series_custodhist, series_accruals, series_appraisal, series_separated_material, 
      series_names_and_subjects, series_related_material, series_alt_formats, series_originals_loc, series_other_finding_aids,
      series_items, unitid = Tufts::EADMethods.get_series_info(series)
-   item_default_access_restrict = series_access_restrict.join("  ")  # expecting a string, not an array of paragraphs
    # @collection_title and @series_full_title are also used in the _subnav.html.erb partial
    @collection_title = Tufts::EADMethods.title(@document_ead).first
    @series_full_title = "Series " + series_level + ": " + series_title
@@ -19,6 +18,7 @@
 
     <%
 
+       item_default_access_restrict = series_access_restrict.join("  ")  # expecting a string, not an array of paragraphs
        metadata = Tufts::ModelMethods.get_metadata(@document_fedora)
 
     %>
