@@ -246,7 +246,7 @@ module Tufts
                 # email address
                 result << text
               else
-                addressline_children = addressline.element_children;
+                addressline_children = addressline.element_children
                 unless addressline_children.empty?
                   first_child = addressline_children.first
                   if first_child.name == "extptr"
