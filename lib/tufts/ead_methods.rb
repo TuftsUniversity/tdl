@@ -914,6 +914,7 @@ module Tufts
       thumbnail = ""
       access_restrict = ""
       available_online = false
+      external_page = false
 
       item_id = item.attribute("id").text
       item_url_id = item.attribute("id").text
@@ -1034,6 +1035,10 @@ module Tufts
           # Note that if the URL for DA ever changes, all the EADs would not necessarily have to change
           # since the <dao> href value is never displayed or used as a link in TDL.
           physloc = "Dark Archive; <a href=""/contact"">contact DCA</a>"
+        elsif !dao_href.nil? && dao_href.text.include?("tufts.box.com")
+          page = dao_href.text
+          available_online = true
+          external_page = true
         else
           # ASpace EADs lack the <daogrp><daoloc> page and thumbnail attributes, so compute them from item_id thusly:
           page_pid = "tufts:" + item_id
@@ -1050,12 +1055,12 @@ module Tufts
       end
 
       if available_online
-        item_url = "/catalog/" + page
+        item_url = (external_page ? "" : "/catalog/") + page
       elsif item_type == "subseries"
         item_url = "/catalog/ead/" + pid + "/" + item_url_id
       end
 
-      title = (item_url.empty? ? "" : "<a href=\"" + item_url + "\">") + unittitle + (unitdate.empty? || (unittitle.end_with?(unitdate))? "" : " " + unitdate) + (item_url.empty? ? "" : "</a>")
+      title = (item_url.empty? ? "" : "<a href=\"" + item_url + "\"" + (external_page ? " target=\"_blank\"" : "") + ">") + unittitle + (unitdate.empty? || (unittitle.end_with?(unitdate))? "" : " " + unitdate) + (item_url.empty? ? "" : "</a>")
 
       unless physloc.empty?
         labels = "Location:"
