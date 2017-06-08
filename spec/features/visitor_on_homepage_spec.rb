@@ -31,7 +31,7 @@ feature 'Visitor goes to homepage' do
   scenario 'user clicks on Historical New England Medical Center Archives collection' do
       visit root_path
       click_link "Historical New England Medical Center Archives"
-      page.should have_content "As of July 2013, DCA is preserving the historical New England Medical Center (NEMC) Archives for the Tufts Medical Center located in Boston, MA"
+      page.should have_content "NEMC functioned as an umbrella organization for these medical institutions before they officially merged in 1965."
   end
 
   scenario 'user clicks on A New Nation Votes' do
