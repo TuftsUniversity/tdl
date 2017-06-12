@@ -758,6 +758,7 @@ module Tufts
 
     def self.get_series_info(series)
       did = nil
+      dao = nil
       scopecontent = nil
       unittitle = ""
       unitdate = ""
@@ -765,6 +766,8 @@ module Tufts
       creator = ""
       unitid = ""
       physdesc = ""
+      external_page = ""
+      external_page_title = ""
       title = ""
       paragraphs = []
       series_items = []
@@ -871,6 +874,8 @@ module Tufts
                   physdesc << (physdesc.empty? ? "" : ", ") + physdesc_child_text
                 end
               end
+            elsif childname == "dao"
+              dao = did_child
             elsif childname == "unitid"
               unitid = did_child.text
             elsif childname == "langmaterial"
@@ -885,13 +890,23 @@ module Tufts
           end
         end
 
+        # process the dao element
+        unless dao.nil?
+          dao_href = dao.attribute("href")
+          unless dao_href.nil?
+            external_page = dao_href.text
+            dao_title = dao.attribute("title")
+            external_page_title = (dao_title.nil? ? unittitle : dao_title.text)
+          end
+        end
+
         # process the scopecontent element
         paragraphs = get_scopecontent_paragraphs(scopecontent)
 
         title = (unittitle.empty? ? "" : unittitle + (unitdate.empty? ? "" : ", " + unitdate))
       end
 
-      return title, unittitle, unitdate, unitdate_bulk, creator, physdesc, series_langmaterial, paragraphs, series_arrangement, series_access_restrict, series_use_restrict, series_phystech, series_prefercite, series_processinfo, series_acquisition_info, series_custodhist, series_accruals, series_appraisal, series_separated_material, series_names_and_subjects, series_related_material, series_alt_formats, series_originals_loc, series_other_finding_aids, series_items, unitid
+      return title, unittitle, unitdate, unitdate_bulk, creator, physdesc, external_page, external_page_title, series_langmaterial, paragraphs, series_arrangement, series_access_restrict, series_use_restrict, series_phystech, series_prefercite, series_processinfo, series_acquisition_info, series_custodhist, series_accruals, series_appraisal, series_separated_material, series_names_and_subjects, series_related_material, series_alt_formats, series_originals_loc, series_other_finding_aids, series_items, unitid
     end
 
 
@@ -914,7 +929,8 @@ module Tufts
       thumbnail = ""
       access_restrict = ""
       available_online = false
-      external_page = false
+      external_page = ""
+      external_page_title = ""
 
       item_id = item.attribute("id").text
       item_url_id = item.attribute("id").text
@@ -1035,32 +1051,35 @@ module Tufts
           # Note that if the URL for DA ever changes, all the EADs would not necessarily have to change
           # since the <dao> href value is never displayed or used as a link in TDL.
           physloc = "Dark Archive; <a href=""/contact"">contact DCA</a>"
-        elsif !dao_href.nil? && dao_href.text.include?("tufts.box.com")
-          page = dao_href.text
-          available_online = true
-          external_page = true
         else
           # ASpace EADs lack the <daogrp><daoloc> page and thumbnail attributes, so compute them from item_id thusly:
           page_pid = "tufts:" + item_id
           begin
-            page_doc = ActiveFedora::Base.load_instance_from_solr(page_pid)
+            page_doc = ActiveFedora::Base.load_instance_from_solr(page_pid)  # will throw exception if not found
             page = page_pid
             available_online = true
             if page_doc.datastreams.include?("Thumbnail.png")
               thumbnail = page_pid
             end
           rescue
+            unless dao_href.nil?
+              # It's not in Solr, and it's not in darkarchive, so it must be a non-TDL link.
+              external_page = dao_href.text
+              available_online = true
+              dao_title = dao.attribute("title")
+              external_page_title = (dao_title.nil? ? unittitle : dao_title.text)
+            end
           end
         end
       end
 
-      if available_online
-        item_url = (external_page ? "" : "/catalog/") + page
+      if available_online && !page.empty?
+        item_url = "/catalog/" + page
       elsif item_type == "subseries"
         item_url = "/catalog/ead/" + pid + "/" + item_url_id
       end
 
-      title = (item_url.empty? ? "" : "<a href=\"" + item_url + "\"" + (external_page ? " target=\"_blank\"" : "") + ">") + unittitle + (unitdate.empty? || (unittitle.end_with?(unitdate))? "" : " " + unitdate) + (item_url.empty? ? "" : "</a>")
+      title = (item_url.empty? ? "" : "<a href=\"" + item_url + "\"" + ">") + unittitle + (unitdate.empty? || (unittitle.end_with?(unitdate))? "" : " " + unitdate) + (item_url.empty? ? "" : "</a>")
 
       unless physloc.empty?
         labels = "Location:"
@@ -1096,7 +1115,7 @@ module Tufts
 
       paragraphs = get_scopecontent_paragraphs(scopecontent)
 
-      return unitdate, creator, physloc_orig, access_restrict, item_id, title, paragraphs, labels, values, page, thumbnail, available_online, next_level_items
+      return unitdate, creator, physloc_orig, access_restrict, item_id, title, paragraphs, labels, values, page, thumbnail, available_online, external_page, external_page_title, next_level_items
     end
 
 
