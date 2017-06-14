@@ -1079,7 +1079,7 @@ module Tufts
         item_url = "/catalog/ead/" + pid + "/" + item_url_id
       end
 
-      title = (item_url.empty? ? "" : "<a href=\"" + item_url + "\"" + ">") + unittitle + (unitdate.empty? || (unittitle.end_with?(unitdate))? "" : " " + unitdate) + (item_url.empty? ? "" : "</a>")
+      title = (item_url.empty? ? "" : "<a href=\"" + item_url + "\">") + unittitle + (unitdate.empty? || (unittitle.end_with?(unitdate))? "" : " " + unitdate) + (item_url.empty? ? "" : "</a>")
 
       unless physloc.empty?
         labels = "Location:"
