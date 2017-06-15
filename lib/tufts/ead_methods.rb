@@ -860,7 +860,7 @@ module Tufts
               datetype = did_child.attribute("type")
               if datetype.nil? || datetype.text == "inclusive"
                 unitdate = did_child.text
-              elsif !datetype.nil && datetype.text == "bulk"
+              elsif !datetype.nil? && datetype.text == "bulk"
                 unitdate_bulk = did_child.text
               end
             elsif childname == "physdesc"
