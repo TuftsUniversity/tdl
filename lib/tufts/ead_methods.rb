@@ -30,20 +30,20 @@ module Tufts
     def self.title(ead, includeDate = true)
       full_title = ""
       raw_title = ""
-      inclusive_date = ""
+      date = ""
       bulk_date = ""
       unittitles = ead.find_by_terms_and_value(:unittitle)
       unless unittitles.nil? || unittitles.empty?
         raw_title = unittitles.first.text
         if (includeDate)
-          inclusive_date, bulk_date = unitdate(ead)
-          full_title = raw_title + (inclusive_date.empty? ? "" : ", " + inclusive_date)
+          date, bulk_date = unitdate(ead)
+          full_title = raw_title + (date.empty? ? "" : ", " + date)
         else
           full_title = raw_title
         end
       end
 
-      return full_title, raw_title, inclusive_date, bulk_date
+      return full_title, raw_title, date, bulk_date
     end
 
 
@@ -124,21 +124,21 @@ module Tufts
 
 
     def self.unitdate(ead)
-      inclusive = ""
-      bulk = ""
+      date = ""
+      bulk_date = ""
       unitdates = ead.find_by_terms_and_value(:unitdate)
       unless unitdates.nil?
         unitdates.each do |unitdate|
           datetype = unitdate.attribute("type")
-          if !datetype.nil? && datetype.text == "inclusive"
-            inclusive = unitdate.text
+          if datetype.nil? || datetype.text == "inclusive"
+            date = unitdate.text
           elsif !datetype.nil? && datetype.text == "bulk"
-            bulk = unitdate.text
+            bulk_date = unitdate.text
           end
         end
       end
 
-      return inclusive, bulk
+      return date, bulk_date
     end
 
 
@@ -385,7 +385,7 @@ module Tufts
             unittitle = did_child.text
           elsif childname == "unitdate"
             datetype = did_child.attribute("type")
-            if !datetype.nil? && datetype.text == "inclusive"
+            unless !datetype.nil? && datetype.text == "bulk"
               unitdate = did_child.text
             end
           end
@@ -858,13 +858,10 @@ module Tufts
               unittitle = did_child.text
             elsif childname == "unitdate"
               datetype = did_child.attribute("type")
-              unless datetype.nil?
-                datetype_text = datetype.text
-                if datetype_text == "inclusive"
-                  unitdate = did_child.text
-                elsif datetype_text == "bulk"
-                  unitdate_bulk = did_child.text
-                end
+              if datetype.nil? || datetype.text == "inclusive"
+                unitdate = did_child.text
+              elsif !datetype.nil && datetype.text == "bulk"
+                unitdate_bulk = did_child.text
               end
             elsif childname == "physdesc"
               did_child.children.each do |physdesc_child|
@@ -964,7 +961,7 @@ module Tufts
             did_child.children.each do |grandchild|
               if grandchild.name == "unitdate"
                 datetype = grandchild.attribute("type")
-                if !datetype.nil? && datetype.text == "inclusive"
+                unless !datetype.nil? && datetype.text == "bulk"
                   unitdate = grandchild.text
                   break
                 end
@@ -972,7 +969,7 @@ module Tufts
             end
           elsif childname == "unitdate"
             datetype = did_child.attribute("type")
-            if !datetype.nil? && datetype.text == "inclusive"
+            unless !datetype.nil? && datetype.text == "bulk"
               unitdate = did_child.text
             end
           elsif childname == "unitid"
