@@ -254,7 +254,7 @@ module Tufts
                     unless href.nil?
                       # URL
                       href_text = href.text
-                      result << "<a href=""" + href_text + ">" + href_text + "</a>"
+                      result << "<a href=""" + href_text + " target=\"blank\">" + href_text + "</a>"
                     end
                   end
                 end
@@ -436,6 +436,35 @@ module Tufts
       unless element.nil?
         element.element_children.each do |element_child|
           if element_child.name == "p"
+            result << element_child.text
+          end
+        end
+
+        if result.empty?  # No <p> was found, so use the full text of the element.
+          result << element.text
+        end
+      end
+
+      return result
+    end
+
+
+    def self.get_other_finding_aids_paragraphs(element)
+      result = []
+
+      unless element.nil?
+        element.element_children.each do |element_child|
+          if element_child.name == "p"
+            element_child.search(:extref).each do |extref|
+              extref.content = '<a href="' + extref.text + '" target="blank">' + extref.text + '</a>'
+            end
+            element_child.search(:extptr).each do |extptr|
+              extptr_href = extptr.attribute('href')
+              unless extptr_href.nil?
+                extptr_title = extptr.attribute('title')
+                extptr.content = '<a href="' + extptr_href.text + '" target="blank">' + (extptr_title.nil? ? extptr_href.text : extptr_title.text) + '</a>'
+              end
+            end
             result << element_child.text
           end
         end
@@ -758,7 +787,6 @@ module Tufts
 
     def self.get_series_info(series)
       did = nil
-      dao = nil
       scopecontent = nil
       unittitle = ""
       unitdate = ""
@@ -766,8 +794,6 @@ module Tufts
       creator = ""
       unitid = ""
       physdesc = ""
-      external_page = ""
-      external_page_title = ""
       title = ""
       paragraphs = []
       series_items = []
@@ -826,7 +852,7 @@ module Tufts
           elsif childname == "originalsloc"
             series_originals_loc = get_paragraphs(element_child)
           elsif childname == "otherfindaid"
-            series_other_finding_aids = get_paragraphs(element_child)
+            series_other_finding_aids = get_other_finding_aids_paragraphs(element_child)
           elsif childname == "c02" || childname == "c03" || childname == "c"
             # The series could be a <c01 level="series"> with c02 children, or
             # it could be a <c02 level="subseries"> with c03 children.
@@ -871,8 +897,6 @@ module Tufts
                   physdesc << (physdesc.empty? ? "" : ", ") + physdesc_child_text
                 end
               end
-            elsif childname == "dao"
-              dao = did_child
             elsif childname == "unitid"
               unitid = did_child.text
             elsif childname == "langmaterial"
@@ -887,23 +911,13 @@ module Tufts
           end
         end
 
-        # process the dao element
-        unless dao.nil?
-          dao_href = dao.attribute("href")
-          unless dao_href.nil?
-            external_page = dao_href.text
-            dao_title = dao.attribute("title")
-            external_page_title = (dao_title.nil? ? unittitle : dao_title.text)
-          end
-        end
-
         # process the scopecontent element
         paragraphs = get_scopecontent_paragraphs(scopecontent)
 
         title = (unittitle.empty? ? "" : unittitle + (unitdate.empty? ? "" : ", " + unitdate))
       end
 
-      return title, unittitle, unitdate, unitdate_bulk, creator, physdesc, external_page, external_page_title, series_langmaterial, paragraphs, series_arrangement, series_access_restrict, series_use_restrict, series_phystech, series_prefercite, series_processinfo, series_acquisition_info, series_custodhist, series_accruals, series_appraisal, series_separated_material, series_names_and_subjects, series_related_material, series_alt_formats, series_originals_loc, series_other_finding_aids, series_items, unitid
+      return title, unittitle, unitdate, unitdate_bulk, creator, physdesc, series_langmaterial, paragraphs, series_arrangement, series_access_restrict, series_use_restrict, series_phystech, series_prefercite, series_processinfo, series_acquisition_info, series_custodhist, series_accruals, series_appraisal, series_separated_material, series_names_and_subjects, series_related_material, series_alt_formats, series_originals_loc, series_other_finding_aids, series_items, unitid
     end
 
 
@@ -1070,13 +1084,17 @@ module Tufts
         end
       end
 
-      if available_online && !page.empty?
-        item_url = "/catalog/" + page
+      if available_online
+        if !page.empty?
+          item_url = "/catalog/" + page
+        elsif !external_page.empty?
+          item_url = external_page
+        end
       elsif item_type == "subseries"
         item_url = "/catalog/ead/" + pid + "/" + item_url_id
       end
 
-      title = (item_url.empty? ? "" : "<a href=\"" + item_url + "\">") + unittitle + (unitdate.empty? || (unittitle.end_with?(unitdate))? "" : " " + unitdate) + (item_url.empty? ? "" : "</a>")
+      title = (item_url.empty? ? "" : "<a href=\"" + item_url + "\"" + (external_page.empty? ? "" : " target=\"blank\"") + ">") + unittitle + (unitdate.empty? || (unittitle.end_with?(unitdate))? "" : " " + unitdate) + (item_url.empty? ? "" : "</a>")
 
       unless physloc.empty?
         labels = "Location:"
@@ -1112,7 +1130,7 @@ module Tufts
 
       paragraphs = get_scopecontent_paragraphs(scopecontent)
 
-      return unitdate, creator, physloc_orig, access_restrict, item_id, title, paragraphs, labels, values, page, thumbnail, available_online, external_page, external_page_title, next_level_items
+      return unitdate, creator, physloc_orig, access_restrict, item_id, title, paragraphs, labels, values, page, thumbnail, available_online, next_level_items
     end
 
 

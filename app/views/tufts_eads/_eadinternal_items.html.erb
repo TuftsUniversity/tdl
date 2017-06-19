@@ -13,7 +13,7 @@
       this_row_s = @row_count.to_s
       @row_count += 1
 
-      item_date, creator, physloc, access_restrict, item_id, item_title, item_paragraphs, item_labels, item_values, page, thumbnail, available_online, external_page, external_page_title, next_level_items = Tufts::EADMethods.get_series_item_info(series_item, @document_fedora.pid)
+      item_date, creator, physloc, access_restrict, item_id, item_title, item_paragraphs, item_labels, item_values, page, thumbnail, available_online, next_level_items = Tufts::EADMethods.get_series_item_info(series_item, @document_fedora.pid)
 #     item_title = "-" + indentation_level.to_s + "-" + (@row_count - 1).to_s + "- " + item_title # to show indentation level and row number for debugging
       is_top_level = indentation_level == 0
       is_folder = !next_level_items.empty?
@@ -36,14 +36,6 @@
       <tr<%= raw(is_top_level ? " class=\"topLevelRow\"" : "") %>>
         <td class="collapse_td"><%= raw(expand_collapse) %></td>
         <td<%= raw(row_class) %>><%= raw(item_title) %>
-<%
-        unless external_page.empty?
-%>
-        <br>
-        External Content: <a href="<%= external_page %>" target="_blank"><%= external_page_title %> </a>
-<%
-        end
-%>
         <span class="smalltext">
         <br>
 <%

@@ -1,7 +1,7 @@
 <%
    # retrieve items that can not be cached
    series, series_level = Tufts::EADMethods.get_series(@document_ead, @item_id)
-   series_title, title_only, inclusive_date, bulk_date, creator, series_physdesc, external_page, external_page_title, series_langmaterial, series_scopecontents, series_arrangement,
+   series_title, title_only, inclusive_date, bulk_date, creator, series_physdesc, series_langmaterial, series_scopecontents, series_arrangement,
      series_access_restrict, series_use_restrict, series_phystech, series_prefercite,
      series_processinfo, series_acquisition_info, series_custodhist, series_accruals, series_appraisal, series_separated_material, 
      series_names_and_subjects, series_related_material, series_alt_formats, series_originals_loc, series_other_finding_aids,
@@ -92,10 +92,6 @@
               <% end %>
               <% unless series_physdesc.empty? %>
                 <span class="EAD_LABEL">Size:</span> <%= series_physdesc %>
-                <br>
-              <% end %>
-              <% unless external_page.empty? %>
-                <span class="EAD_LABEL">External Content:</span> <a href="<%= external_page %>" target="_blank"><%= external_page_title %> </a>
                 <br>
               <% end %>
               <% unless series_langmaterial.empty? %>
