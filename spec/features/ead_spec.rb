@@ -106,5 +106,7 @@ feature 'EAD' do
     page.should have_text "Diaries 1910 -- 1933"
     page.should have_text "Diaries are salacious and gossipy."
     page.should have_text "MS999.001.002"
+    page.should have_text "There is also Lorem Ipsum material to be found online. Please visit https://somerandomwebsite.org/collections/LoremIpsum and/or The Lorem Ipsum Collection at someotherrandomwebsite.org."
+    page.should have_text "New Yorker Cartoons 1922-12-09 - 1927-03-09"
   end
 end
