@@ -35,5 +35,9 @@ class ApplicationController < ActionController::Base
     redirect_to root_path
   end
 
+  def robots
+    render 'sites/robots.txt.erb'
+  end
+
   protect_from_forgery
 end

@@ -4,6 +4,7 @@ TDL::Application.routes.draw do
   root :to => "catalog#index"
   match '/imageviewer/:id', :to => 'imageviewer#show', :constraints => {:id => /.*/}, :as =>'imageviewer'
   match '/bookreader/:id', :to => 'imageviewer#show_book', :constraints => {:id => /.*/}, :as =>'bookreader'
+  match '/robots.txt', :to => 'application#robots'
 
   #Blacklight.add_routes(self)
     resources :catalog, :only => [:show, :update], :constraints => { :id => ALLOW_DOTS, :format => false }
