@@ -20,6 +20,7 @@ gem "blacklight_advanced_search", :git => 'https://github.com/whumph/blacklight_
 gem 'chronic' # for lib/tufts/model_methods.rb
 gem 'titleize' # for lib/tufts/model_methods.rb
 gem 'settingslogic' # for settings
+gem 'sitemap_generator'
 
 # We will assume that you're using sqlite3 for testing/demo,
 # but in a production setup you probably want to use a real sql database like mysql or postgres
