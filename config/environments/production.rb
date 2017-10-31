@@ -15,7 +15,7 @@ TDL::Application.configure do
   config.assets.compress = true
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
-  config.assets.compile = false
+  config.assets.compile = true
 
   # Generate digests for assets URLs
   config.assets.digest = true
@@ -69,6 +69,7 @@ TDL::Application.configure do
     :port => 25
   }
   GA.tracker = "UA-38431398-1"
+  config.cache_store = :file_store, "/tdr/ase_data/tisch01/tdl_cache"
 
   # Enable/disable Dark Archive behavior
   config.dark_archive = false
