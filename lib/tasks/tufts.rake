@@ -1,7 +1,7 @@
 #require File.expand_path(File.dirname(__FILE__) + '/hydra_jetty.rb')
 require 'ci/reporter/rake/rspec'     # use this if you're using RSpec
 require 'ci/reporter/rake/cucumber'  # use this if you're using Cucumber
-
+require 'sitemap_generator/tasks'
 
 #if defined?(Rails) && (Rails.env == 'development')
 #  Rails.logger = Logger.new(STDOUT)
