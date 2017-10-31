@@ -62,6 +62,11 @@ module TDL
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
+    # sitemap generator
+    config.sitemap = {
+     :generate => true
+    }
+
     # Used in ead_methods.rb to add a link to <userestrict> elements.
     config.use_restrict_text_match = 'Reproductions and Use'
     config.use_restrict_text_replace = '<a href="https://sites.tufts.edu/dca/about-us/research-help/reproductions-and-use/">Reproductions and Use</a>'
