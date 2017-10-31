@@ -12,22 +12,16 @@ SitemapGenerator::Sitemap.create do
 
   # Add single record pages
   cursorMark = '*'
-  loop do
     response = Blacklight.solr.get('/solr/development/select', :params => { # you may need to change the request handler
-      'q'          => 'displays_ssi:dl', # all docs
+      'q'          => 'displays_ssim:dl OR displays_tesim:dl', # all docs
       'fl'         => 'id', # we only need the ids
       'fq'         => '-id:draft*', # optional filter query
       'cursorMark' => cursorMark, # we need to use the cursor mark to handle paging
-      'rows'       => ENV['BATCH_SIZE'] || 1000,
+      'rows'       => ENV['BATCH_SIZE'] || 100000,
       'sort'       => 'id asc'
     })
     
     response['response']['docs'].each do |doc|
       add "/catalog/#{doc['id']}", :changefreq => 'yearly', :priority => 0.9
     end
-
-    break if response['nextCursorMark'] == cursorMark # this means the result set is finished
-
-    cursorMark = response['nextCursorMark']
-  end
 end
