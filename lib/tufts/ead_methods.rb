@@ -1011,8 +1011,9 @@ module Tufts
       end
 
       unless physloc.empty?
-        # If the location is like: "Mixed Materials (39090015754001g)", remove all but "39090015754001g using regex match"
-        physloc_regex = /^(.*?\()?(.*?)(\))?$/
+        # If the location is like: "Mixed Materials (39090015754001g)" or "Mixed Materials [39090015754001g]",
+        # remove all but "39090015754001g using regex match"
+        physloc_regex = /^(.*?[\(\[])?(.*?)([\)\]])?$/
 
         if physloc =~ physloc_regex
           physloc = $2
