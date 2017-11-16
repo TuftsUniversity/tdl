@@ -112,6 +112,7 @@ feature 'EAD' do
     click_link "Correspondence 1900 -- 1933", :exact => false
     page.should have_text "Location:"
     page.should have_text "31236554645131"
+    page.should_not have_text "Text ("
 
     click_link "Lorem Ipsum papers, 1897 -- 1933", :exact => false
     click_link "View Finding Aid", :exact => false
@@ -119,5 +120,6 @@ feature 'EAD' do
     click_link "Diaries 1910 -- 1933", :exact => false
     page.should have_text "Location:"
     page.should have_text "3123064475432131"
+    page.should_not have_text "Books ["
   end
 end
