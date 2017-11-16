@@ -2,6 +2,7 @@ source 'http://rubygems.org'
 ruby '2.0.0'
 gem 'rails',  '~> 3.2.20'
 gem 'hydra', '6.1.0'
+gem 'rake', '< 11'
 
 gem 'tuftsification-hydra', :git => 'https://github.com/TuftsUniversity/tuftsification-hydra', :tag => '1.3.11'
 #gem 'tuftsification-hydra', :path => '/Users/mkorcy01/Documents/workspace/tuftsification-hydra'
