@@ -114,8 +114,8 @@ feature 'EAD' do
     page.should have_text "31236554645131"
 
     click_link "Lorem Ipsum papers, 1897 -- 1933", :exact => false
+    click_link "View Finding Aid", :exact => false
     click_link "Personal papers, 1900 -- 1933", :exact => false
-
     click_link "Diaries 1910 -- 1933", :exact => false
     page.should have_text "Location:"
     page.should have_text "3123064475432131"
