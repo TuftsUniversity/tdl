@@ -108,5 +108,15 @@ feature 'EAD' do
     page.should have_text "MS999.001.002"
     page.should have_text "There is also Lorem Ipsum material to be found online. Please visit https://somerandomwebsite.org/collections/LoremIpsum and/or The Lorem Ipsum Collection at someotherrandomwebsite.org."
     page.should have_text "New Yorker Cartoons 1922-12-09 - 1927-03-09"
+
+    click_link "Correspondence 1900 -- 1933", :exact => false
+    page.should have_text "Location:"
+    page.should have_text "31236554645131"
+
+    click_link "Lorem Ipsum papers, 1897 -- 1933", :exact => false
+
+    click_link "Diaries 1910 -- 1933", :exact => false
+    page.should have_text "Location:"
+    page.should have_text "3123064475432131"
   end
 end
