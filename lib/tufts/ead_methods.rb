@@ -935,6 +935,7 @@ module Tufts
       unitdate = ""
       physloc = ""
       physloc_orig = ""
+      physloc_unprocessed = ""
       creator = ""
       page = ""
       thumbnail = ""
@@ -1074,8 +1075,11 @@ module Tufts
               thumbnail = page_pid
             end
           rescue
-            unless dao_href.nil?
-              # It's not in Solr, and it's not in darkarchive, so it must be a non-TDL link.
+            if dao_href.nil?
+              # It's not in Solr, and it's not in darkarchive, and it has no href, so it must be unprocessed.
+              physloc_unprocessed = "DCA digital storage; <a href=""/contact"">contact DCA</a>"
+            else
+              # It's not in Solr, and it's not in darkarchive, but it has an href, so it must be a non-TDL link.
               external_page = dao_href.text
               available_online = true
               dao_title = dao.attribute("title")
@@ -1100,6 +1104,15 @@ module Tufts
       unless physloc.empty?
         labels = "Location:"
         values = physloc
+      end
+
+      unless physloc_unprocessed.empty?
+        unless labels.empty?
+          labels << "<br>"
+          values << "<br>"
+        end
+        labels << "Location:"
+        values << physloc_unprocessed
       end
 
       unless item_id.empty?
