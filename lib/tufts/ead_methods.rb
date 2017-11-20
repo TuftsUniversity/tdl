@@ -1063,7 +1063,7 @@ module Tufts
           # means that this item is in the Dark Archive;  Set physloc to the DA message.
           # Note that if the URL for DA ever changes, all the EADs would not necessarily have to change
           # since the <dao> href value is never displayed or used as a link in TDL.
-          physloc = "Dark Archive; <a href=""/contact"">contact DCA</a>"
+          physloc = "Dark Archive"
         else
           # ASpace EADs lack the <daogrp><daoloc> page and thumbnail attributes, so compute them from item_id thusly:
           page_pid = "tufts:" + item_id
@@ -1077,7 +1077,7 @@ module Tufts
           rescue
             if dao_href.nil?
               # It's not in Solr, and it's not in darkarchive, and it has no href, so it must be unprocessed.
-              physloc_unprocessed = "DCA digital storage; <a href=""/contact"">contact DCA</a>"
+              physloc_unprocessed = "DCA Digital Storage"
             else
               # It's not in Solr, and it's not in darkarchive, but it has an href, so it must be a non-TDL link.
               external_page = dao_href.text
