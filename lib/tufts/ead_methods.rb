@@ -1038,7 +1038,7 @@ module Tufts
               # leave page and thumbnail = "" so that values will not be returned for them
               # and so that the href will not be included in title.  Set physloc to the dark
               # archive message.
-              physloc = "Dark Archive; <a href=""/contact"">contact DCA</a>"
+              physloc = "Dark Archive"
             elsif !daoloc_label.nil? && !daoloc_href.nil?
               daoloc_label_text = daoloc_label.text
               daoloc_href_text = daoloc_href.text
