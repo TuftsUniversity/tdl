@@ -13,7 +13,7 @@
       this_row_s = @row_count.to_s
       @row_count += 1
 
-      item_date, creator, physloc, access_restrict, item_id, item_title, item_paragraphs, item_labels, item_values, page, thumbnail, available_online, next_level_items = Tufts::EADMethods.get_series_item_info(series_item, @document_fedora.pid)
+      item_date, creator, physloc, access_restrict, item_id, item_title, item_paragraphs, item_labels, item_values, page, thumbnail, available_online, can_request, next_level_items = Tufts::EADMethods.get_series_item_info(series_item, @document_fedora.pid)
 #     item_title = "-" + indentation_level.to_s + "-" + (@row_count - 1).to_s + "- " + item_title # to show indentation level and row number for debugging
       is_top_level = indentation_level == 0
       is_folder = !next_level_items.empty?
@@ -55,13 +55,13 @@
         <td class="smalltext locator_td"><%= raw(item_labels) %></td>
         <td class="smalltext id_td" align="left"><%= raw(item_values) %></td>
 
-<%
-      unless available_online
-        access_restrict = series_restrict if access_restrict.empty?
-        access_restrict = access_restrict.strip unless access_restrict.empty?
-
-%>
         <td class="availableonline_td" align="center">
+<%
+      if can_request
+        unless available_online
+          access_restrict = series_restrict if access_restrict.empty?
+          access_restrict = access_restrict.strip unless access_restrict.empty?
+%>
           <a class="list-add" data-pid="<%= j @document_fedora.pid %>"
                               data-identifier="<%= j item_id.gsub(/[^0-9a-z ]/i, '') %>"
                               data-itemtitle="<%=stripped_ead_title %>"
@@ -76,27 +76,27 @@
                               data-referencenumber="<%= stripped_eadid %>"
                               data-callnumber="<%= stripped_unitid %>"
                               data-itemvolume="<%= strip_tags(item_id) %>" href="#">
-            <i class="icon-plus-sign"/></i>&nbsp;Add to List</a>
-        </td>
-<%
-      else
-        if thumbnail.empty?
-%>
-        <td class="availableonline_td" align="center"><i class="icon-ok"></i></td>
+            <i class="icon-plus-sign"/></i>&nbsp;Add to List
+          </a>
 <%
         else
+          if thumbnail.empty?
 %>
-        <td class="thumbnail_td" align="center">
+          <i class="icon-ok"></i>
+<%
+          else
+%>
           <ul class="thumbnails">
             <li class="nothumbnailmargin">
               <a href="/catalog/<%= raw(page) %>" class="thumbnail"><img class="thumbnailwidth" src="/file_assets/thumb/<%= raw(thumbnail) %>"></a>
             </li>
           </ul>
-        </td>
 <%
+          end
         end
       end
 %>
+          </td>
       </tr>
 
 <%

@@ -941,6 +941,7 @@ module Tufts
       thumbnail = ""
       access_restrict = ""
       available_online = false
+      can_request = false
       external_page = ""
       external_page_title = ""
 
@@ -991,11 +992,13 @@ module Tufts
             # In ASpace EADs the human-readable item id is in <c><did><unitid>... instead of the id attribute of the <c id=...>
             item_id = did_child.text
           elsif childname == "physloc"
+            can_request = true
             physloc = did_child.text
             physloc_orig = did_child.text
           elsif childname == "container"
             # ASpace puts the location in <container label=""> rather than <physloc>
             unless did_child.attribute("label").nil?
+              can_request = true
               physloc = did_child.attribute("label").text
               physloc_orig = did_child.attribute("label").text
             end
@@ -1038,6 +1041,7 @@ module Tufts
               # leave page and thumbnail = "" so that values will not be returned for them
               # and so that the href will not be included in title.  Set physloc to the dark
               # archive message.
+              can_request = true
               physloc = "Dark Archive"
             elsif !daoloc_label.nil? && !daoloc_href.nil?
               daoloc_label_text = daoloc_label.text
@@ -1063,6 +1067,7 @@ module Tufts
           # means that this item is in the Dark Archive;  Set physloc to the DA message.
           # Note that if the URL for DA ever changes, all the EADs would not necessarily have to change
           # since the <dao> href value is never displayed or used as a link in TDL.
+          can_request = true
           physloc = "Dark Archive"
         else
           # ASpace EADs lack the <daogrp><daoloc> page and thumbnail attributes, so compute them from item_id thusly:
@@ -1077,6 +1082,7 @@ module Tufts
           rescue
             if dao_href.nil?
               # It's not in Solr, and it's not in darkarchive, and it has no href, so it must be unprocessed.
+              can_request = true
               physloc_unprocessed = "DCA Digital Storage"
             else
               # It's not in Solr, and it's not in darkarchive, but it has an href, so it must be a non-TDL link.
@@ -1144,7 +1150,7 @@ module Tufts
 
       paragraphs = get_scopecontent_paragraphs(scopecontent)
 
-      return unitdate, creator, physloc_orig, access_restrict, item_id, title, paragraphs, labels, values, page, thumbnail, available_online, next_level_items
+      return unitdate, creator, physloc_orig, access_restrict, item_id, title, paragraphs, labels, values, page, thumbnail, available_online, can_request, next_level_items
     end
 
 
