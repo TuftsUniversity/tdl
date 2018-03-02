@@ -746,42 +746,33 @@ module Tufts
 
     def self.get_series(ead, item_id)
       series = nil
-      series_level = 0
-      subseries_level = 0
-      serieses = get_serieses(ead)
+      series_level = ""
+      # The ead param is not a Nokogiri::XML::Element, so .ng_xml must be called.
+      nodes = ead.ng_xml.xpath("//c[@id='" + item_id + "']")
 
-      unless serieses.nil?
-        # look for a c01 whose id matches item_id
-        serieses.each do |item|
-          series_level += 1
-          subseries_level = 0
+      if nodes.size > 0
+        series = nodes[0]
 
-          if item.attribute("id").text == item_id
-            series = item
-          else
-            # look for a c02 whose id matches item_id
-            item.element_children.each do |element_child|
-              childname = element_child.name
-              if childname == "c02" || childname == "c"
-                if element_child.attribute("level").text == "subseries"
-                  subseries_level += 1
+        # Construct series_level out of the unitid which will be like "XX123.018.006.002"
+        nodes = series.xpath("//c[@id='" + item_id + "']/did/unitid")
 
-                  if element_child.attribute("id").text == item_id
-                    series = element_child
-                    break
-                  end
-                end
-              end
-            end
-          end
+        if nodes.size > 0
+          unitid = nodes[0].text
+          # Remove everything before the first period.
+          series_level_regex = /^[^\.]+(.+)$/
 
-          unless series.nil?
-            break  # found it, stop looking
+          if unitid =~ series_level_regex
+            series_level = $1
+            # Remove all leading zeros.
+            found = ""
+            found = series_level.sub!(/\.0+/, ".") until found.nil?
+            # Remove the leading period.
+            series_level.sub!(/^./, "")
           end
         end
       end
 
-      return series, series_level.to_s + (subseries_level == 0 ? "" : ("." + subseries_level.to_s))
+      return series, series_level
     end
 
 
