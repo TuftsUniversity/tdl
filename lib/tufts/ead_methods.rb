@@ -748,7 +748,9 @@ module Tufts
       series = nil
       series_level = ""
       # The ead param is not a Nokogiri::XML::Element, so .ng_xml must be called.
-      nodes = ead.ng_xml.xpath("//c[@id='" + item_id + "']")
+      # Find ASpace series tags like <c id="aspace_1ba86c68818ab59b72d6fd01b6c15017" ...>
+      # or CIDER series tags like <c01 id="MS001.001" ...>
+      nodes = ead.ng_xml.xpath("//*[@id='" + item_id + "']")
 
       if nodes.size > 0
         series = nodes[0]
@@ -757,18 +759,23 @@ module Tufts
         nodes = series.xpath("//c[@id='" + item_id + "']/did/unitid")
 
         if nodes.size > 0
+          # ASpace EADs have the unitid in a node like <did><unitid>MS001.001</unitid>...</did>
           unitid = nodes[0].text
-          # Remove everything before the first period.
-          series_level_regex = /^[^\.]+(.+)$/
+        else
+          # In CIDER EADs the item_id is the unitid.
+          unitid = item_id
+        end
 
-          if unitid =~ series_level_regex
-            series_level = $1
-            # Remove all leading zeros.
-            found = ""
-            found = series_level.sub!(/\.0+/, ".") until found.nil?
-            # Remove the leading period.
-            series_level.sub!(/^./, "")
-          end
+        # Remove everything before the first period.
+        series_level_regex = /^[^\.]+(.+)$/
+
+        if unitid =~ series_level_regex
+          series_level = $1
+          # Remove all leading zeros.
+          found = ""
+          found = series_level.sub!(/\.0+/, ".") until found.nil?
+          # Remove the leading period.
+          series_level.sub!(/^./, "")
         end
       end
 
