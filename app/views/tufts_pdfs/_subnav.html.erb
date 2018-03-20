@@ -2,6 +2,6 @@
    metadata = Tufts::ModelMethods.get_metadata(@document_fedora)
 %>
 <div class="span6 pull-right download_links">
-  <a href="/file_assets/<%= params[:id] %>"><i class="icon-file"/></i>&nbsp;Download PDF</a>
+  <a href="/file_assets/<%= params[:id] %>" onClick="ga('send', 'event', 'Attachment', 'Download', '<%= params[:id] %>');"><i class="icon-file"/></i>&nbsp;Download PDF</a>
   <%= render :partial => 'shared/add_to_list', :locals => {:metadata => metadata} %>
 </div>

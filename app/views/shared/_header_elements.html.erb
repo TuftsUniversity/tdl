@@ -5,7 +5,7 @@
     <%= raw creator %>
     <br>
 <% end %>
-<% unless metadata[:dates].nil? || metadata[:dates].empty? %>
+<% unless metadata[:dates].nil? || metadata[:dates].empty? || metadata[:is_parts_of].include?('Tufts University Permanent Collection') || metadata[:is_parts_of].include?('Tufts University Permanent Collection.') %>
     <% metadata[:dates].each do |date| %>
         <%= raw date %>
         <br>

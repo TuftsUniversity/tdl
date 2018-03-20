@@ -6,7 +6,7 @@
       <a href="<%= Tufts::EADMethods.collection_url(@document_fedora) %>"><i class="icon-arrow-left"></i>&nbsp;Collection Home</a>
     </div>
     <div class="span6 pull-right download_links" style="display: none;">    <!-- display: none; for now until pdfs become available -->
-      <a href="/file_assets/pdf/<%= params[:id] %>"><i class="icon-file"/></i>&nbsp;Download Collection Guide (PDF)</a>
+      <a href="/file_assets/pdf/<%= params[:id] %>" onClick="ga('send', 'event', 'Attachment', 'Download', '<%= params[:id] %>');"><i class="icon-file"/></i>&nbsp;Download Collection Guide (PDF)</a>
     </div>
   <% elsif "eadinternal" == @current_action %>
     <div class="span12" style="padding-top: 5px;">
@@ -22,14 +22,14 @@
         <a href="/catalog/<%= params[:id] %>"><i class="icon-arrow-left"></i>&nbsp;Back to Video Player</a>
       </div>
       <div class="span6 pull-right download_links">
-        <a href="/file_assets/<%= params[:id] %>"><i class="icon-film"/></i>&nbsp;Download Video File</a>&nbsp;&nbsp;<a href="/file_assets/transcript/<%= params[:id] %>"><i class="icon-file"/></i>&nbsp;Download Transcript</a>
+        <a href="/file_assets/<%= params[:id] %>" onClick="ga('send', 'event', 'Attachment', 'Download', '<%= params[:id] %>');"><i class="icon-film"/></i>&nbsp;Download Video File</a>&nbsp;&nbsp;<a href="/file_assets/transcript/<%= params[:id] %>"><i class="icon-file"/></i>&nbsp;Download Transcript</a>
       </div>
     <% else %>
       <div class="span6" style="padding-top: 5px;">
         <a href="/catalog/<%= params[:id] %>"><i class="icon-arrow-left"></i>&nbsp;Back to Audio Player</a>
       </div>
       <div class="span6 pull-right download_links">
-        <a href="/file_assets/<%= params[:id] %>"><i class="icon-headphones"/></i>&nbsp;Download Audio File</a>&nbsp;&nbsp;<a href="/file_assets/transcript/<%= params[:id] %>"><i class="icon-file"/></i>&nbsp;Download Transcript</a>
+        <a href="/file_assets/<%= params[:id] %>" onClick="ga('send', 'event', 'Attachment', 'Download', '<%= params[:id] %>');"><i class="icon-headphones"/></i>&nbsp;Download Audio File</a>&nbsp;&nbsp;<a href="/file_assets/transcript/<%= params[:id] %>"><i class="icon-file"/></i>&nbsp;Download Transcript</a>
       </div>
     <% end %>
   <% elsif "facet" == @current_action %>
