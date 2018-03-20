@@ -4,9 +4,9 @@ gem 'rails',  '~> 3.2.20'
 gem 'hydra', '6.1.0'
 gem 'rake', '< 11'
 
-gem 'tuftsification-hydra', :git => 'https://github.com/TuftsUniversity/tuftsification-hydra', :tag => '1.3.11'
+#gem 'tuftsification-hydra', :git => 'https://github.com/TuftsUniversity/tuftsification-hydra', :tag => '1.3.11'
 #gem 'tuftsification-hydra', :path => '/Users/mkorcy01/Documents/workspace/tuftsification-hydra'
-#gem 'tuftsification-hydra', :path => '../tuftsification-hydra'
+gem 'tuftsification-hydra', :path => '../tuftsification-hydra'
 
 #gem 'solrizer', :path => '/home/hydradm/tdl_solrizer'
 #gem 'solrizer', :git => 'https://github.com/TuftsUniversity/tdl_solrizer'
@@ -61,8 +61,7 @@ gem "devise-guests", "~> 0.3"
 gem "bootstrap-sass"
 gem 'mysql2', "~> 0.3.17"
 gem 'activerecord-mysql-adapter'
-gem 'google-analytics-rails'
-
+gem 'google-analytics-rails', '1.1.1'
 gem 'hydra-role-management', '0.1.0'
 gem 'devise_ldap_authenticatable', '0.8.1'
 gem "rails_admin"
