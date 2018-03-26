@@ -1,4 +1,16 @@
 GIT
+  remote: https://github.com/TuftsUniversity/tdl_solrizer.git
+  revision: 634febd2cd207826d2b4c32de1ab7f0846879c05
+  specs:
+    solrizer (3.1.1)
+      activesupport
+      daemons
+      mediashelf-loggable (~> 0.4.7)
+      nokogiri
+      stomp
+      xml-simple
+
+GIT
   remote: https://github.com/TuftsUniversity/tuftsification-hydra
   revision: d45c4f8f5f54788a015190ef72965ff6127f6b08
   tag: 1.13.15
@@ -17,17 +29,6 @@ GIT
     blacklight_advanced_search (2.1.1)
       blacklight (~> 4.0)
       parslet
-
-PATH
-  remote: ../tdl_solrizer
-  specs:
-    solrizer (3.1.1)
-      activesupport
-      daemons
-      mediashelf-loggable (~> 0.4.7)
-      nokogiri
-      stomp
-      xml-simple
 
 GEM
   remote: http://rubygems.org/
