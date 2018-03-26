@@ -4,7 +4,7 @@ gem 'rails',  '~> 3.2.20'
 gem 'hydra', '6.1.0'
 gem 'rake', '< 11'
 
-gem 'tuftsification-hydra', :git => 'https://github.com/TuftsUniversity/tuftsification-hydra', :tag => '1.13.14'
+gem 'tuftsification-hydra', :git => 'https://github.com/TuftsUniversity/tuftsification-hydra', :tag => '1.13.15'
 #gem 'tuftsification-hydra', :path => '/Users/mkorcy01/Documents/workspace/tuftsification-hydra'
 #gem 'tuftsification-hydra', :path => '../tuftsification-hydra'
 
@@ -12,7 +12,8 @@ gem 'tuftsification-hydra', :git => 'https://github.com/TuftsUniversity/tuftsifi
 #gem 'solrizer', :git => 'https://github.com/TuftsUniversity/tdl_solrizer'
 #gem 'solrizer', :path => '/home/hydradm/tdl_solrizer'
 #gem 'solrizer'
-gem 'solrizer', :git => 'https://github.com/TuftsUniversity/tdl_solrizer.git'
+#gem 'solrizer', :git => 'https://github.com/TuftsUniversity/tdl_solrizer.git'
+gem 'solrizer', :path => '/home/hydradm/tdl_solrizer'
 # Pointing at our fork of blacklight_advanced_search until 
 # https://github.com/projectblacklight/blacklight_advanced_search/pull/10 is merged
 
