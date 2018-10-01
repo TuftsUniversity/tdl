@@ -97,7 +97,8 @@ module ApplicationHelper
   end
 
   def show_elections_link(pid)
-    return "http://elections.lib.tufts.edu/catalog/" + pid
+    mapping = ElectionsPidMapping.where(f3_pid: pid)
+    return "http://elections.lib.tufts.edu/catalog/" + mapping.first.f4_id
   end
 
   def http_referer_uri
