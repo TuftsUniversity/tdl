@@ -12,8 +12,8 @@ GIT
 
 GIT
   remote: https://github.com/TuftsUniversity/tuftsification-hydra
-  revision: 11908895f7dbfbbe8b10b31f11fc0f5a9383d2de
-  tag: 1.13.14
+  revision: d45c4f8f5f54788a015190ef72965ff6127f6b08
+  tag: 1.13.15
   specs:
     tuftsification-hydra (0.0.3)
       chronic
@@ -119,7 +119,7 @@ GEM
       execjs
     coffee-script-source (1.7.0)
     concurrent-ruby (1.0.5)
-    daemons (1.2.5)
+    daemons (1.2.6)
     database_cleaner (1.5.0)
     deprecation (0.1.0)
       activesupport
